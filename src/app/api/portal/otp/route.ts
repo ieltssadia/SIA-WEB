@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { canonicalPhone } from "@/lib/phone";
+import { DEMO_OTP } from "@/lib/portal-server";
 
-const loginSchema = z.object({
+const otpSchema = z.object({
   phone: z
     .string()
     .trim()
@@ -13,8 +14,9 @@ const loginSchema = z.object({
 });
 
 /**
- * Student Portal login — matches the phone number the student enrolled with.
- * Demo-grade auth: returns the enrollment record; session lives client-side.
+ * Step 1 of portal login — request an OTP for the enrolled mobile number.
+ * Demo mode: the OTP is returned in the response and shown in the UI hint
+ * (a production build would deliver it via SMS gateway instead).
  */
 export async function POST(req: Request) {
   try {
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid request." }, { status: 400 });
     }
 
-    const parsed = loginSchema.safeParse(body);
+    const parsed = otpSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Please enter a valid phone number." },
@@ -50,16 +52,9 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json({
-      student: {
-        name: student.name,
-        phone: student.phone,
-        courseSlug: student.courseSlug,
-        batch: student.batch,
-      },
-    });
+    return NextResponse.json({ sent: true, devOtp: DEMO_OTP });
   } catch (error) {
-    console.error("[api/portal/login] Failed:", error);
+    console.error("[api/portal/otp] Failed:", error);
     return NextResponse.json(
       { error: "Something went wrong. Please try again in a moment." },
       { status: 500 }

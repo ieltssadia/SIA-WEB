@@ -3,12 +3,13 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, X } from "lucide-react";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { navLinks, promoBar, site } from "@/lib/site-data";
 import { useHashRoute } from "@/lib/router";
+import { usePortalStore } from "@/lib/portal-store";
 
 const emptySubscribe = () => () => {};
 
@@ -17,6 +18,10 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [promoClosed, setPromoClosed] = useState(false);
   const route = useHashRoute();
+  // Swaps the header CTA to "My Portal" once the persisted session restores
+  const portalStudent = usePortalStore((s) => s.student);
+  const hasHydrated = usePortalStore((s) => s.hasHydrated);
+  const portalAuthed = hasHydrated && !!portalStudent;
   // Hydration-safe "client only" flag (false during SSR, true on client)
   const mounted = useSyncExternalStore(
     emptySubscribe,
@@ -168,9 +173,13 @@ export function SiteHeader() {
               asChild
               className="hidden bg-gold-gradient font-semibold text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)] hover:opacity-90 sm:inline-flex"
             >
-              <a href="#/contact">
-                <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
-                Enroll Now
+              <a href={portalAuthed ? "#/portal" : "#/contact"}>
+                {portalAuthed ? (
+                  <LayoutDashboard className="mr-1 h-4 w-4" aria-hidden />
+                ) : (
+                  <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
+                )}
+                {portalAuthed ? "My Portal" : "Enroll Now"}
               </a>
             </Button>
 
@@ -211,9 +220,13 @@ export function SiteHeader() {
                   </nav>
                   <div className="mt-auto space-y-3 pb-2">
                     <Button asChild className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
-                      <a href="#/contact" onClick={() => setOpen(false)}>
-                        <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
-                        Enroll Now
+                      <a href={portalAuthed ? "#/portal" : "#/contact"} onClick={() => setOpen(false)}>
+                        {portalAuthed ? (
+                          <LayoutDashboard className="mr-1 h-4 w-4" aria-hidden />
+                        ) : (
+                          <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
+                        )}
+                        {portalAuthed ? "My Portal" : "Enroll Now"}
                       </a>
                     </Button>
                     <Button asChild variant="outline" className="w-full border-primary/25 hover:text-primary">

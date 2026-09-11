@@ -22,7 +22,7 @@ model Lead {
   @@index([status])
 }
 
-// Enrolled students — they log into the Student Portal (phone-based) to see
+// Enrolled students — they log into the Student Portal (phone + OTP) to see
 // the private class routine, class links and batch updates.
 model Student {
   id         String   @id @default(cuid())
@@ -30,6 +30,31 @@ model Student {
   phone      String   @unique // canonical BD mobile: 01XXXXXXXXX
   courseSlug String // matches courses[].slug in site-data.ts
   batch      String // e.g. "Batch 317"
+  targetBand String? // e.g. "7.5"
+  examDate   String? // ISO date — used for the exam countdown chip
+  progress   Int      @default(0) // course completion 0-100
+  attendance Int      @default(0) // attendance percentage 0-100
   status     String   @default("active") // active | paused | alumni
   createdAt  DateTime @default(now())
+
+  mockResults MockResult[]
+
+  @@index([courseSlug])
+}
+
+// Weekly mock test band scores shown in the portal "Mock Scores" section
+model MockResult {
+  id        String  @id @default(cuid())
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  label     String // e.g. "Mock Test 1"
+  date      String // display date e.g. "15 Aug"
+  listening Float
+  reading   Float
+  writing   Float
+  speaking  Float
+  overall   Float
+  createdAt DateTime @default(now())
+
+  @@index([studentId])
 }

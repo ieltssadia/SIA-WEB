@@ -566,6 +566,48 @@ export const upcomingBatches = [
   },
 ];
 
+/**
+ * Student Portal — batch notices shown in the portal "Notices" section.
+ * Latest first. (Static demo content — a production build would manage
+ * these from an admin panel.)
+ */
+export const portalNotices = [
+  {
+    date: "10 Sep",
+    tag: "Class Update",
+    title: "Sunday 10 AM class shifted to 11:00 AM",
+    body: "Batch 317-এর Sunday regular class আগামী সপ্তাহ থেকে সকাল ১১টায় হবে। Zoom লিংক WhatsApp গ্রুপে পাবেন।",
+  },
+  {
+    date: "08 Sep",
+    tag: "Mock Test",
+    title: "Weekly full mock — Thursday, 10:00 AM",
+    body: "প্রতি বৃহস্পতিবার ফুল-লেন্থ mock test (10 AM – 12 PM)। উপস্থিত থাকা আবশ্যক — band report ক্লাসেই আলোচনা করা হবে।",
+  },
+  {
+    date: "05 Sep",
+    tag: "Speaking Club",
+    title: "Saturday Speaking Club — সব ব্যাচের জন্য খোলা",
+    body: "প্রতি শনিবার বিকাল ৪টায় free speaking club-এ এখন সব ব্যাচের শিক্ষার্থী অংশ নিতে পারবে। Fluency বাড়াতে নিয়মিত জয়েন করুন।",
+  },
+  {
+    date: "01 Sep",
+    tag: "Notice",
+    title: "Course materials আপডেট হয়েছে",
+    body: "Writing Task 2 templates ও Speaking cue card bank-এর নতুন সংস্করণ My Course → Materials সেকশনে যোগ হয়েছে।",
+  },
+];
+
+/** Student Portal — downloadable class materials (demo library). */
+export const portalMaterials = [
+  { icon: "file-text", label: "Class Notes & Slide Deck", meta: "PDF · 4.2 MB" },
+  { icon: "headphones", label: "Listening Practice Pack 1–5", meta: "Audio · ZIP" },
+  { icon: "book-open", label: "Reading Passage Collection", meta: "PDF · 6.8 MB" },
+  { icon: "pen", label: "Writing Task 1 & 2 Templates", meta: "PDF · 1.1 MB" },
+  { icon: "mic", label: "Speaking Cue Card Bank", meta: "PDF · 2.3 MB" },
+  { icon: "clipboard-check", label: "Mock Test Question Bank", meta: "PDF · 3.0 MB" },
+];
+
 export const skills = [
   {
     icon: "headphones",
