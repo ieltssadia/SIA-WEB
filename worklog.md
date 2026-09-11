@@ -231,3 +231,16 @@ Verification (agent-browser, desktop 1280 + mobile 390):
 
 Stage Summary:
 - The site footer is now a 1:1 recreation of the real sadiasielts.com footer (taxonomy, contact data, partner band), replacing the previous 3-column variant. Real brand data: footer email ieltsbysadianisha@gmail.com, phone +8801752-716238, Sreemangal address. Partner logos are CSS/SVG recreations (no external assets), grayscale-to-color on hover.
+---
+Task ID: 11
+Agent: Z.ai Code (main)
+Task: "run dev server" / "still not working" — dev server dead, restarts kept dying.
+
+Work Log:
+- Diagnosed: platform froze the sandbox between chat sessions (SIGTERM at 13:48 per .zscripts/dev.log); on resume, root infra (caddy, gateway) was alive but ALL z-user processes (dev server, browsers) were gone. Boot-time .zscripts/dev.sh had started the server at 11:15 but it died at freeze; nothing auto-restarts it.
+- Ad-hoc restarts (nohup/setsid/start-stop-daemon) died at turn boundaries; the platform-sanctioned lineage works.
+- FIX: ran the official boot script `bash .zscripts/dev.sh` — bun install + `bun run db:push` (regenerated Prisma client, fixing stale `db.student undefined` 500s on /api/portal/login seen in old log) + started `bun run dev` disowned + health check passed. Mini-services: 0 configured.
+- Verified across multiple tool calls: HTTP 200 persistent, POST /api/portal/login returns 200 with user+enrollments (demo 01712000001), homepage renders.
+
+Stage Summary:
+- Dev server runs persistently again via the platform boot-script lineage (PID logged in .zscripts flow). Root infra untouched. If it ever dies again: run `bash /home/z/my-project/.zscripts/dev.sh` (NOT plain nohup bun run dev).
