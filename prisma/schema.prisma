@@ -22,24 +22,36 @@ model Lead {
   @@index([status])
 }
 
-// Enrolled students — they log into the Student Portal (phone + OTP) to see
-// the private class routine, class links and batch updates.
+// Student accounts — created when someone enrolls. They log into the private
+// Student Portal with phone + password (issued at enrollment time).
 model Student {
+  id           String       @id @default(cuid())
+  name         String
+  phone        String       @unique // canonical BD mobile: 01XXXXXXXXX
+  passwordHash String       // sha256("<phone>:<password>")
+  createdAt    DateTime     @default(now())
+
+  enrollments Enrollment[]
+  mockResults MockResult[]
+}
+
+// A paid course enrollment. The portal only shows content for courses the
+// student actually enrolled in — no enrollment = empty portal.
+model Enrollment {
   id         String   @id @default(cuid())
-  name       String
-  phone      String   @unique // canonical BD mobile: 01XXXXXXXXX
-  courseSlug String // matches courses[].slug in site-data.ts
-  batch      String // e.g. "Batch 317"
-  targetBand String? // e.g. "7.5"
-  examDate   String? // ISO date — used for the exam countdown chip
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courseSlug String   // matches courses[].slug in site-data.ts
+  batch      String   // e.g. "Batch 317"
+  targetBand String?  // e.g. "7.5"
+  examDate   String?  // ISO date — used for the exam countdown chip
   progress   Int      @default(0) // course completion 0-100
   attendance Int      @default(0) // attendance percentage 0-100
-  status     String   @default("active") // active | paused | alumni
+  status     String   @default("active") // active | paused | completed
   createdAt  DateTime @default(now())
 
-  mockResults MockResult[]
-
-  @@index([courseSlug])
+  @@unique([studentId, courseSlug])
+  @@index([studentId])
 }
 
 // Weekly mock test band scores shown in the portal "Mock Scores" section

@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Reveal } from "@/components/site/reveal";
-import type { PortalMock, PortalStudent } from "@/lib/portal-store";
+import type { PortalMock } from "@/lib/portal-store";
 
 const moduleMeta = [
   { key: "listening" as const, label: "Listening", icon: Headphones },
@@ -28,13 +28,13 @@ function bandBarColor(band: number): string {
 
 export function ScoresSection({
   mocks,
-  student,
+  targetBand,
 }: {
   mocks: PortalMock[];
-  student: PortalStudent;
+  targetBand: string | null;
 }) {
   const latest = mocks.length > 0 ? mocks[mocks.length - 1] : null;
-  const target = student.targetBand ? Number(student.targetBand) : null;
+  const target = targetBand ? Number(targetBand) : null;
   const toTarget =
     latest && target !== null && !Number.isNaN(target)
       ? Math.round((target - latest.overall) * 10) / 10
@@ -77,12 +77,12 @@ export function ScoresSection({
                     className="border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
                   >
                     <Trophy className="mr-1 h-3 w-3" aria-hidden />
-                    Target {student.targetBand} achieved!
+                    Target {targetBand} achieved!
                   </Badge>
                 ) : (
                   <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">
                     <Target className="mr-1 h-3 w-3" aria-hidden />
-                    {toTarget.toFixed(1)} band to go — target {student.targetBand}
+                    {toTarget.toFixed(1)} band to go — target {targetBand}
                   </Badge>
                 )
               ) : null}

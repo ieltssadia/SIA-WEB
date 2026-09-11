@@ -8,9 +8,9 @@ import {
   Clock,
   Flame,
   GraduationCap,
+  Target,
   TrendingUp,
   Trophy,
-  Target,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import { Reveal } from "@/components/site/reveal";
 import { ModeBadge } from "@/components/site/weekly-routine";
 import { courses, portalNotices } from "@/lib/site-data";
-import type { PortalMock, PortalStudent } from "@/lib/portal-store";
+import type { PortalEnrollment, PortalMock, PortalUser } from "@/lib/portal-store";
 import type { PortalSection } from "@/components/site/portal/portal-shell";
 import {
   classesThisWeek,
@@ -29,13 +29,19 @@ import {
   useMounted,
 } from "@/components/site/portal/portal-utils";
 
-function ExamChip({ student }: { student: PortalStudent }) {
+function ExamChip({
+  targetBand,
+  examDate,
+}: {
+  targetBand: string | null;
+  examDate: string | null;
+}) {
   const mounted = useMounted();
-  if (!student.examDate) {
-    return student.targetBand ? (
+  if (!examDate) {
+    return targetBand ? (
       <Badge variant="outline" className="border-primary/40 bg-primary/10 font-medium text-primary">
         <Target className="mr-1 h-3 w-3" aria-hidden />
-        Target band {student.targetBand}
+        Target band {targetBand}
       </Badge>
     ) : null;
   }
@@ -44,7 +50,7 @@ function ExamChip({ student }: { student: PortalStudent }) {
       <span className="inline-block h-5.5 w-28 animate-pulse rounded-full bg-primary/10" aria-hidden />
     );
   }
-  const days = daysUntil(student.examDate);
+  const days = daysUntil(examDate);
   if (days === null) return null;
   const label =
     days > 1
@@ -91,18 +97,18 @@ function StatCard({
   );
 }
 
-/** Continue-learning card — syllabus checklist driven by course progress. */
+/** Continue-learning card — syllabus checklist driven by the primary course's progress. */
 function ContinueLearning({
-  student,
+  enrollment,
   onNavigate,
 }: {
-  student: PortalStudent;
+  enrollment: PortalEnrollment;
   onNavigate: (s: PortalSection) => void;
 }) {
-  const course = courses.find((c) => c.slug === student.courseSlug);
+  const course = courses.find((c) => c.slug === enrollment.courseSlug);
   const syllabus = course?.syllabus ?? [];
   const doneCount = Math.min(
-    Math.floor((student.progress / 100) * syllabus.length),
+    Math.floor((enrollment.progress / 100) * syllabus.length),
     syllabus.length
   );
 
@@ -111,9 +117,10 @@ function ContinueLearning({
       <div className="flex items-center justify-between gap-3">
         <h3 className="font-display text-lg font-bold text-foreground">Continue Learning</h3>
         <Badge variant="outline" className="border-primary/40 bg-primary/10 font-semibold text-primary">
-          {student.progress}% done
+          {enrollment.progress}% done
         </Badge>
       </div>
+      <p className="mt-1 text-xs text-muted-foreground">{course?.title ?? enrollment.courseSlug}</p>
       <ol className="mt-4 flex-1 space-y-2.5">
         {syllabus.map((item, i) => {
           const done = i < doneCount;
@@ -174,17 +181,17 @@ function ContinueLearning({
 /** Latest mock result snapshot with improvement + target comparison. */
 function RecentMock({
   mocks,
-  student,
+  targetBand,
   onNavigate,
 }: {
   mocks: PortalMock[];
-  student: PortalStudent;
+  targetBand: string | null;
   onNavigate: (s: PortalSection) => void;
 }) {
   const latest = mocks.length > 0 ? mocks[mocks.length - 1] : null;
   const previous = mocks.length > 1 ? mocks[mocks.length - 2] : null;
   const delta = latest && previous ? Math.round((latest.overall - previous.overall) * 10) / 10 : null;
-  const target = student.targetBand ? Number(student.targetBand) : null;
+  const target = targetBand ? Number(targetBand) : null;
   const toTarget =
     latest && target !== null && !Number.isNaN(target)
       ? Math.round((target - latest.overall) * 10) / 10
@@ -230,7 +237,7 @@ function RecentMock({
                 ) : (
                   <Badge variant="outline" className="border-primary/40 bg-primary/10 text-xs text-primary">
                     <Target className="mr-1 h-3 w-3" aria-hidden />
-                    {toTarget.toFixed(1)} to target {student.targetBand}
+                    {toTarget.toFixed(1)} to target {targetBand}
                   </Badge>
                 )
               ) : null}
@@ -247,22 +254,27 @@ function RecentMock({
 }
 
 export function OverviewSection({
-  student,
+  user,
+  enrollments,
   mocks,
   onNavigate,
 }: {
-  student: PortalStudent;
+  user: PortalUser;
+  enrollments: PortalEnrollment[];
   mocks: PortalMock[];
   onNavigate: (s: PortalSection) => void;
 }) {
   const mounted = useMounted();
-  const course = courses.find((c) => c.slug === student.courseSlug);
-  const firstName = student.name.split(" ")[0];
+  const firstName = user.name.split(" ")[0];
+  // Primary = first active enrollment (fallback: first row)
+  const primary = enrollments.find((e) => e.status === "active") ?? enrollments[0];
+  const course = courses.find((c) => c.slug === primary.courseSlug);
+  const enrolledSlugs = enrollments.map((e) => e.courseSlug);
   const avg = mockAverage(mocks.map((m) => m.overall));
   const best = mocks.length > 0 ? Math.max(...mocks.map((m) => m.overall)) : null;
-  const weekly = classesThisWeek(student.courseSlug);
+  const weekly = classesThisWeek(enrolledSlugs);
   const next = mounted ? findNextClass(new Date()) : null;
-  const nextIsMine = next ? isMine(student.courseSlug)(next.row) : false;
+  const nextIsMine = next ? isMine(enrolledSlugs)(next.row) : false;
   const notices = portalNotices.slice(0, 2);
 
   return (
@@ -276,7 +288,7 @@ export function OverviewSection({
           />
           <div className="relative flex flex-wrap items-center gap-4">
             <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient font-display text-2xl font-bold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)]">
-              {student.name.charAt(0)}
+              {user.name.charAt(0)}
             </span>
             <div className="min-w-0">
               <p className="text-xs uppercase tracking-[0.25em] text-primary">Student Dashboard</p>
@@ -286,10 +298,17 @@ export function OverviewSection({
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="border-primary/40 bg-primary/10 font-medium text-primary">
                   <GraduationCap className="mr-1 h-3 w-3" aria-hidden />
-                  {student.batch}
+                  {primary.batch}
                 </Badge>
-                <span className="text-xs text-muted-foreground">{course?.title ?? student.courseSlug}</span>
-                <ExamChip student={student} />
+                <span className="text-xs text-muted-foreground">
+                  {course?.title ?? primary.courseSlug}
+                </span>
+                {enrollments.length > 1 ? (
+                  <Badge variant="outline" className="border-border text-muted-foreground">
+                    +{enrollments.length - 1} more course{enrollments.length > 2 ? "s" : ""}
+                  </Badge>
+                ) : null}
+                <ExamChip targetBand={primary.targetBand} examDate={primary.examDate} />
               </div>
             </div>
           </div>
@@ -301,9 +320,9 @@ export function OverviewSection({
         <Reveal y={10} delay={0.02}>
           <StatCard
             icon={TrendingUp}
-            label="Course Progress"
-            value={`${student.progress}%`}
-            bar={student.progress}
+            label={enrollments.length > 1 ? "Primary Course Progress" : "Course Progress"}
+            value={`${primary.progress}%`}
+            bar={primary.progress}
             sub={course ? `${course.lessons} lessons total` : undefined}
           />
         </Reveal>
@@ -311,9 +330,9 @@ export function OverviewSection({
           <StatCard
             icon={CalendarCheck2}
             label="Attendance"
-            value={`${student.attendance}%`}
-            bar={student.attendance}
-            sub={student.attendance >= 90 ? "Excellent!" : "Keep it up!"}
+            value={`${primary.attendance}%`}
+            bar={primary.attendance}
+            sub={primary.attendance >= 90 ? "Excellent!" : "Keep it up!"}
           />
         </Reveal>
         <Reveal y={10} delay={0.1}>
@@ -329,7 +348,11 @@ export function OverviewSection({
             icon={CalendarClock}
             label="Classes This Week"
             value={String(weekly)}
-            sub="incl. shared sessions"
+            sub={
+              enrollments.length > 1
+                ? `across ${enrollments.length} courses`
+                : "incl. shared sessions"
+            }
           />
         </Reveal>
       </div>
@@ -378,14 +401,14 @@ export function OverviewSection({
           </div>
         </Reveal>
         <Reveal y={12} delay={0.06}>
-          <ContinueLearning student={student} onNavigate={onNavigate} />
+          <ContinueLearning enrollment={primary} onNavigate={onNavigate} />
         </Reveal>
       </div>
 
       {/* Recent mock + notices preview */}
       <div className="grid gap-6 xl:grid-cols-2">
         <Reveal y={12} delay={0.02}>
-          <RecentMock mocks={mocks} student={student} onNavigate={onNavigate} />
+          <RecentMock mocks={mocks} targetBand={primary.targetBand} onNavigate={onNavigate} />
         </Reveal>
         <Reveal y={12} delay={0.06}>
           <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-6">

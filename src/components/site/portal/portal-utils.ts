@@ -35,9 +35,9 @@ export function toMinutes(time: string): number {
 /** Shared sessions (speaking club, mock tests, free classes) belong to everyone. */
 export const isShared = (row: RoutineClass) => /all|everyone/i.test(row.batch);
 
-/** A row belongs to the student's course, or is a shared session. */
-export const isMine = (courseSlug: string) => (row: RoutineClass) =>
-  row.courseSlug === courseSlug || isShared(row);
+/** A row belongs to one of the student's enrolled courses, or is shared. */
+export const isMine = (courseSlugs: string[]) => (row: RoutineClass) =>
+  courseSlugs.includes(row.courseSlug) || isShared(row);
 
 /** The student's / everyone's next upcoming class from the weekly routine. */
 export function findNextClass(now: Date): { row: RoutineClass; label: string } | null {
@@ -60,8 +60,8 @@ export function findNextClass(now: Date): { row: RoutineClass; label: string } |
 }
 
 /** Number of the student's sessions in the running weekly routine. */
-export function classesThisWeek(courseSlug: string): number {
-  return classRoutine.filter(isMine(courseSlug)).length;
+export function classesThisWeek(courseSlugs: string[]): number {
+  return classRoutine.filter(isMine(courseSlugs)).length;
 }
 
 /** Whole days until the given ISO date (null-safe). */

@@ -14,8 +14,11 @@ import { usePortalStore } from "@/lib/portal-store";
  */
 export function RoutineBanner() {
   const today = useToday();
-  const student = usePortalStore((s) => s.student);
+  const user = usePortalStore((s) => s.user);
+  const enrollments = usePortalStore((s) => s.enrollments);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
+  // Schedule content is for logged-in students WITH an enrollment only
+  const enrolled = hasHydrated && !!user && enrollments.length > 0;
   const rows = todaysClasses(today).slice(0, 4);
   const isOff = today === "Friday";
 
@@ -58,7 +61,7 @@ export function RoutineBanner() {
             >
               <a href="#/portal">
                 <LogIn className="mr-2 h-4 w-4" aria-hidden />
-                {hasHydrated && student ? "Open Student Portal" : "Student Portal Login"}
+                {hasHydrated && user ? "Open Student Portal" : "Student Portal Login"}
               </a>
             </Button>
             <Button
@@ -78,13 +81,13 @@ export function RoutineBanner() {
             <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] px-6 py-4">
               <p className="flex items-center gap-2 font-display text-base font-bold text-foreground">
                 <Clock className="h-4.5 w-4.5 text-primary" aria-hidden />
-                {hasHydrated && student
+                {enrolled
                   ? today
                     ? `Today · ${today}`
                     : "This Week"
                   : "Class Routine — Members Only"}
               </p>
-              {hasHydrated && student ? (
+              {enrolled ? (
                 <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
@@ -99,7 +102,7 @@ export function RoutineBanner() {
               )}
             </div>
             <CardContent className="space-y-3 p-6">
-              {hasHydrated && student ? (
+              {enrolled ? (
                 today && isOff ? (
                   <div className="rounded-xl border border-dashed border-primary/25 px-4 py-8 text-center">
                     <p className="font-semibold text-foreground">Friday — Weekly Off</p>

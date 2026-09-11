@@ -388,9 +388,11 @@ function WelcomeStrip({ name, batch }: { name: string; batch: string }) {
 }
 
 export function RoutinePage() {
-  const student = usePortalStore((s) => s.student);
+  const user = usePortalStore((s) => s.user);
+  const enrollments = usePortalStore((s) => s.enrollments);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
-  const isLoggedIn = hasHydrated && !!student;
+  // Full schedule = logged in AND enrolled (course কিনলে দেখা যাবে)
+  const isEnrolled = hasHydrated && !!user && enrollments.length > 0;
 
   return (
     <>
@@ -406,9 +408,12 @@ export function RoutinePage() {
 
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          {isLoggedIn && student ? (
+          {isEnrolled && user ? (
             <>
-              <WelcomeStrip name={student.name} batch={student.batch} />
+              <WelcomeStrip
+                name={user.name}
+                batch={enrollments[0]?.batch ?? "Enrolled"}
+              />
               <div className="mt-8">
                 <TodayBanner />
               </div>

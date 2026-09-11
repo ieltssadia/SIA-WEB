@@ -7,6 +7,7 @@ import {
   PortalShell,
   type PortalSection,
 } from "@/components/site/portal/portal-shell";
+import { EmptyPortal } from "@/components/site/portal/portal-empty";
 import { OverviewSection } from "@/components/site/portal/overview";
 import { RoutineSection } from "@/components/site/portal/routine-section";
 import { CourseSection } from "@/components/site/portal/course-section";
@@ -15,41 +16,48 @@ import { NoticesSection } from "@/components/site/portal/notices-section";
 import { usePortalStore } from "@/lib/portal-store";
 
 /**
- * Student Portal — 10MS-style learning dashboard.
- * Guest → OTP login; enrolled → app shell (Overview / Routine / Course /
- * Scores / Notices) backed by the Student + MockResult tables.
+ * Student Portal — private learning dashboard for enrolled students.
+ * Guest → phone + password login. Logged in with enrollments → app shell
+ * (Overview / Routine / Course / Scores / Notices). Logged in WITHOUT any
+ * enrollment → empty portal (nothing to show until they join a batch).
  */
 export function PortalPage() {
-  const student = usePortalStore((s) => s.student);
+  const user = usePortalStore((s) => s.user);
+  const enrollments = usePortalStore((s) => s.enrollments);
   const mocks = usePortalStore((s) => s.mocks);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
   const setSession = usePortalStore((s) => s.setSession);
+  const logout = usePortalStore((s) => s.logout);
   const [section, setSection] = useState<PortalSection>("overview");
 
   // Refresh fresh data from the server once per visit (best effort)
   useEffect(() => {
-    const phone = usePortalStore.getState().student?.phone;
+    const phone = usePortalStore.getState().user?.phone;
     if (!phone) return;
     let cancelled = false;
     fetch(`/api/portal/data?phone=${encodeURIComponent(phone)}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (!cancelled && data?.student) {
-          setSession(data.student, data.mocks ?? []);
+      .then(async (r) => (r.ok ? { ok: true, data: await r.json().catch(() => null) } : { ok: false, data: null }))
+      .then(({ ok, data }) => {
+        if (cancelled) return;
+        if (ok && data?.user) {
+          setSession(data.user, data.enrollments ?? [], data.mocks ?? []);
+        } else if (!ok) {
+          // Account no longer exists — force re-login
+          logout();
         }
       })
       .catch(() => {});
     return () => {
       cancelled = true;
     };
-  }, [setSession]);
+  }, [setSession, logout]);
 
   // Fresh section per session — logging in/out or switching accounts should
   // always land on the Overview dashboard (render-time state adjustment)
-  const studentPhone = student?.phone ?? null;
-  const [prevPhone, setPrevPhone] = useState(studentPhone);
-  if (prevPhone !== studentPhone) {
-    setPrevPhone(studentPhone);
+  const userPhone = user?.phone ?? null;
+  const [prevPhone, setPrevPhone] = useState(userPhone);
+  if (prevPhone !== userPhone) {
+    setPrevPhone(userPhone);
     setSection("overview");
   }
 
@@ -78,7 +86,7 @@ export function PortalPage() {
     );
   }
 
-  if (!student) {
+  if (!user) {
     return (
       <>
         <PageHeader
@@ -88,21 +96,46 @@ export function PortalPage() {
               Student <span className="text-gold-gradient">Portal</span>
             </>
           }
-          subtitle="ভর্তিকৃত শিক্ষার্থীদের জন্য প্রাইভেট লার্নিং পোর্টাল — রুটিন, প্রোগ্রেস, mock scores ও batch update এক জায়গায়।"
+          subtitle="শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য প্রাইভেট পোর্টাল — ভর্তির সময় দেওয়া মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগ ইন করুন।"
         />
         <PortalLogin />
       </>
     );
   }
 
+  // Logged in but not enrolled in any course — the portal stays empty
+  if (enrollments.length === 0) {
+    return <EmptyPortal user={user} />;
+  }
+
+  const primary = enrollments.find((e) => e.status === "active") ?? enrollments[0];
+  const batchLabel =
+    enrollments.length > 1
+      ? `${primary.batch} +${enrollments.length - 1}`
+      : primary.batch;
+
   return (
-    <PortalShell student={student} section={section} onSectionChange={handleSectionChange}>
+    <PortalShell
+      user={user}
+      batchLabel={batchLabel}
+      section={section}
+      onSectionChange={handleSectionChange}
+    >
       {section === "overview" ? (
-        <OverviewSection student={student} mocks={mocks} onNavigate={handleSectionChange} />
+        <OverviewSection
+          user={user}
+          enrollments={enrollments}
+          mocks={mocks}
+          onNavigate={handleSectionChange}
+        />
       ) : null}
-      {section === "routine" ? <RoutineSection courseSlug={student.courseSlug} /> : null}
-      {section === "course" ? <CourseSection student={student} /> : null}
-      {section === "scores" ? <ScoresSection mocks={mocks} student={student} /> : null}
+      {section === "routine" ? (
+        <RoutineSection courseSlugs={enrollments.map((e) => e.courseSlug)} />
+      ) : null}
+      {section === "course" ? <CourseSection enrollments={enrollments} /> : null}
+      {section === "scores" ? (
+        <ScoresSection mocks={mocks} targetBand={primary.targetBand} />
+      ) : null}
       {section === "notices" ? <NoticesSection /> : null}
     </PortalShell>
   );

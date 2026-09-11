@@ -19,9 +19,9 @@ export function SiteHeader() {
   const [promoClosed, setPromoClosed] = useState(false);
   const route = useHashRoute();
   // Swaps the header CTA to "My Portal" once the persisted session restores
-  const portalStudent = usePortalStore((s) => s.student);
+  const portalUser = usePortalStore((s) => s.user);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
-  const portalAuthed = hasHydrated && !!portalStudent;
+  const portalAuthed = hasHydrated && !!portalUser;
   // Hydration-safe "client only" flag (false during SSR, true on client)
   const mounted = useSyncExternalStore(
     emptySubscribe,

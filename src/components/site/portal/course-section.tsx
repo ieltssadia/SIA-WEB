@@ -18,10 +18,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import { Reveal } from "@/components/site/reveal";
 import { courses, portalMaterials, site } from "@/lib/site-data";
-import type { PortalStudent } from "@/lib/portal-store";
+import type { PortalEnrollment } from "@/lib/portal-store";
 
 const materialIcons: Record<string, LucideIcon> = {
   "file-text": FileText,
@@ -32,14 +31,15 @@ const materialIcons: Record<string, LucideIcon> = {
   "clipboard-check": ClipboardCheck,
 };
 
-export function CourseSection({ student }: { student: PortalStudent }) {
-  const course = courses.find((c) => c.slug === student.courseSlug);
+/** One enrolled course card — hero, progress, outline and materials. */
+function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
+  const course = courses.find((c) => c.slug === enrollment.courseSlug);
   const syllabus = course?.syllabus ?? [];
   const doneCount = Math.min(
-    Math.floor((student.progress / 100) * syllabus.length),
+    Math.floor((enrollment.progress / 100) * syllabus.length),
     syllabus.length
   );
-  const lessonsDone = course ? Math.round((student.progress / 100) * course.lessons) : 0;
+  const lessonsDone = course ? Math.round((enrollment.progress / 100) * course.lessons) : 0;
 
   return (
     <div className="space-y-6">
@@ -59,7 +59,7 @@ export function CourseSection({ student }: { student: PortalStudent }) {
                 <div className="min-w-0">
                   <p className="text-xs uppercase tracking-[0.25em] text-primary">My Course</p>
                   <h1 className="mt-1 font-display text-xl font-bold leading-tight text-foreground md:text-2xl">
-                    {course?.title ?? student.courseSlug}
+                    {course?.title ?? enrollment.courseSlug}
                   </h1>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {course?.titleBn ?? "আপনার ভর্তি হওয়া কোর্স"}
@@ -71,7 +71,7 @@ export function CourseSection({ student }: { student: PortalStudent }) {
                 variant="outline"
                 className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
               >
-                <a href={`#/courses/${student.courseSlug}`}>
+                <a href={`#/courses/${enrollment.courseSlug}`}>
                   Course details
                   <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
                 </a>
@@ -80,7 +80,7 @@ export function CourseSection({ student }: { student: PortalStudent }) {
 
             <div className="mt-5 flex flex-wrap gap-2">
               <Badge variant="outline" className="border-primary/40 bg-primary/10 font-medium text-primary">
-                {student.batch}
+                {enrollment.batch}
               </Badge>
               {course ? (
                 <>
@@ -110,9 +110,9 @@ export function CourseSection({ student }: { student: PortalStudent }) {
             <div className="mt-5">
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium text-foreground">Course progress</span>
-                <span className="font-display font-bold text-gold-gradient">{student.progress}%</span>
+                <span className="font-display font-bold text-gold-gradient">{enrollment.progress}%</span>
               </div>
-              <Progress value={student.progress} className="mt-2 h-2.5" />
+              <Progress value={enrollment.progress} className="mt-2 h-2.5" />
               <p className="mt-2 text-xs text-muted-foreground">
                 {lessonsDone} of {course?.lessons ?? "—"} lessons completed · keep going!
               </p>
@@ -179,7 +179,7 @@ export function CourseSection({ student }: { student: PortalStudent }) {
               {portalMaterials.map(({ icon, label, meta }) => {
                 const Icon = materialIcons[icon] ?? FileText;
                 const waText = encodeURIComponent(
-                  `Assalamu Alaikum! I need the "${label}" material (${student.batch}).`
+                  `Assalamu Alaikum! I need the "${label}" material (${enrollment.batch}).`
                 );
                 return (
                   <a
@@ -204,8 +204,17 @@ export function CourseSection({ student }: { student: PortalStudent }) {
           </div>
         </Reveal>
       </div>
+    </div>
+  );
+}
 
-      <Separator className="bg-primary/10" />
+/** All of the student's enrolled courses — content only for what they paid for. */
+export function CourseSection({ enrollments }: { enrollments: PortalEnrollment[] }) {
+  return (
+    <div className="space-y-6">
+      {enrollments.map((e) => (
+        <EnrolledCourseCard key={e.id} enrollment={e} />
+      ))}
     </div>
   );
 }

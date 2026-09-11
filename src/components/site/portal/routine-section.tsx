@@ -12,10 +12,10 @@ import {
 
 /**
  * Portal weekly routine — day tabs with "My Classes / Full Routine" toggle.
- * Gold rows = the student's batch; shared sessions (speaking club, mock,
- * free classes) always count as mine.
+ * Gold rows = the student's enrolled batches; shared sessions (speaking club,
+ * mock, free classes) always count as mine.
  */
-export function RoutineSection({ courseSlug }: { courseSlug: string }) {
+export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
   const today = useToday();
   const [day, setDay] = useState<WeekDay | null>(null);
   const [mineOnly, setMineOnly] = useState(true);
@@ -23,7 +23,7 @@ export function RoutineSection({ courseSlug }: { courseSlug: string }) {
   const activeDay: WeekDay =
     day ?? ((weekDays as readonly string[]).includes(today) ? (today as WeekDay) : "Saturday");
 
-  const mine = isMine(courseSlug);
+  const mine = isMine(courseSlugs);
   const allRows = classRoutine.filter((r) => r.day === activeDay);
   const visibleRows = mineOnly ? allRows.filter(mine) : allRows;
 

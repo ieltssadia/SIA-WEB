@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { usePortalStore, type PortalStudent } from "@/lib/portal-store";
+import { usePortalStore, type PortalUser } from "@/lib/portal-store";
 
 export type PortalSection = "overview" | "routine" | "course" | "scores" | "notices";
 
@@ -29,18 +29,21 @@ const navItems: { id: PortalSection; label: string; short: string; icon: LucideI
  * desktop → sidebar navigation, mobile → compact top bar + bottom tab bar.
  */
 export function PortalShell({
-  student,
+  user,
+  batchLabel,
   section,
   onSectionChange,
   children,
 }: {
-  student: PortalStudent;
+  user: PortalUser;
+  /** Primary batch label shown under the user's name. */
+  batchLabel: string;
   section: PortalSection;
   onSectionChange: (section: PortalSection) => void;
   children: ReactNode;
 }) {
   const logout = usePortalStore((s) => s.logout);
-  const firstName = student.name.split(" ")[0];
+  const firstName = user.name.split(" ")[0];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 md:py-8 lg:px-8">
@@ -78,11 +81,11 @@ export function PortalShell({
             <div className="mt-4 rounded-2xl border border-primary/15 bg-[#101014] p-3.5">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-gradient font-display text-base font-bold text-[#16120a]">
-                  {student.name.charAt(0)}
+                  {user.name.charAt(0)}
                 </span>
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-foreground">{firstName}</p>
-                  <p className="truncate text-xs text-muted-foreground">{student.batch}</p>
+                  <p className="truncate text-xs text-muted-foreground">{batchLabel}</p>
                 </div>
               </div>
               <Button
@@ -103,12 +106,12 @@ export function PortalShell({
           <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3 lg:hidden">
             <div className="flex min-w-0 items-center gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold-gradient font-display text-sm font-bold text-[#16120a]">
-                {student.name.charAt(0)}
+                {user.name.charAt(0)}
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-foreground">My Portal</p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {firstName} · {student.batch}
+                  {firstName} · {batchLabel}
                 </p>
               </div>
             </div>

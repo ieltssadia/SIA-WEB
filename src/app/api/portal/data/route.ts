@@ -10,7 +10,7 @@ const dataSchema = z.object({
 /**
  * Refresh the portal payload for the logged-in student (called with the
  * phone stored in the client session). Demo-grade: a production build would
- * resolve the student from an httpOnly session cookie instead.
+ * resolve the account from an httpOnly session cookie instead.
  */
 export async function GET(req: Request) {
   try {

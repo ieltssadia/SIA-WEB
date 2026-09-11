@@ -127,3 +127,34 @@ Work Log:
 Stage Summary:
 - Student Portal is now a full 10MS-style learning platform: OTP login (phone → 6-digit code), app shell with sidebar/bottom-tab navigation, Overview dashboard (progress, attendance, mock average, weekly classes, exam countdown, next class, continue-learning checklist), My Routine, My Course (progress + syllabus + materials via WhatsApp), Mock Scores (band breakdown + trend + history table from new MockResult table), and batch Notices — all backed by SQLite (Student + MockResult), seeded with 5 realistic demo students
 - Routine stays enrolled-only across the public site; portal is the single private surface
+
+---
+Task ID: 7
+Agent: Z.ai Code (main)
+Task: Real login system for the portal (phone + password, private) with per-enrollment content — enrolled → course stuffs, no enrollment → empty portal (user: "add login system not a publicly shown portal wtf / course jara nibe oder login korte hobe ... na kinle empty thakbe")
+
+Work Log:
+- prisma/schema.prisma reworked: Student is now a pure account (name, phone unique, passwordHash sha256("<phone>:<password>"), createdAt); new Enrollment table (studentId FK cascade, courseSlug, batch, targetBand, examDate, progress, attendance, status active|paused|completed, @@unique([studentId, courseSlug])) — multi-course enrollments per account; MockResult unchanged. db:push --force-reset (demo data reseeded)
+- prisma/seed.ts rewritten: 6 accounts with password "sadia123" — Anika (TWO enrollments: Batch 317 + Crash 318-C, multi-course demo), Fariha (319), Milon (One-to-One), Emran (Crash 318-C), Eva (320) + NEW Rakib Hasan (01712000006) with ZERO enrollments for the empty-portal state; 13 mock results; full deleteMany+create reseed
+- src/lib/portal-server.ts: hashPassword/verifyPassword (sha256 + timingSafeEqual), getPortalPayload → { user: {name, phone}, enrollments: [...], mocks: [...] } — accounts without enrollments log in fine
+- API: new POST /api/portal/login (zod phone+password; 400 invalid, 404 no account, 401 wrong password bilingual, 200 payload); /api/portal/data refresh returns new shape + 401 if account gone; deleted /api/portal/otp + /api/portal/verify (demo OTP flow removed — real credentials now)
+- portal-store.ts v2: user: PortalUser | null, enrollments: PortalEnrollment[], mocks, hasHydrated; setSession(user, enrollments, mocks); isEnrolled() helper (user && enrollments.length > 0); version bump discards old sessions
+- portal-utils.ts: isMine(courseSlugs: string[]) + classesThisWeek(slugs[]) — routine "mine" filter is now the union of enrolled courses
+- portal-login.tsx rewritten: single-step phone (+880 prefix) + password with show/hide toggle, inline error from API (wrong password vs no account), collapsible "Demo accounts (for testing)" box with tap-to-fill + password hint; benefits panel copy now says password issued at enrollment
+- NEW portal-empty.tsx EmptyPortal: account band (avatar, name, "Account active · phone" chip, logout) + dashed empty state ("You haven't enrolled in any course yet" + Bengali explainer + Explore Courses/Call CTAs) + popular course cards + support strip — rendered when logged in with zero enrollments
+- portal-shell.tsx: takes user + batchLabel ("Batch 317 +1" when multi); overview.tsx: primary = first active enrollment, welcome band shows all batches + "+N more course", stats use primary (progress/attendance) + union weekly classes ("across 2 courses"); continue-learning pinned to primary course
+- routine-section.tsx (courseSlugs), course-section.tsx (maps ALL enrollments → full hero/outline/materials card each), scores-section.tsx (targetBand prop), portal-page.tsx: guest → login, user+0 enrollments → EmptyPortal, else shell; refresh effect logs out on 401
+- Gating tightened to ENROLLED-only: routine-banner + routine-page (isEnrolled = user && enrollments.length>0), course-detail CourseRoutineGate checks enrollment for THAT course (logged-in non-enrollee sees "You are not enrolled in this course"), site-header My Portal CTA on any login
+- Fixes: same-document hash `open` in agent-browser doesn't reload (localStorage.clear alone left in-memory store) — reload needed for clean auth tests; two `wait --text` timeouts were such artifacts, not bugs
+
+Verification (agent-browser + curl, desktop 1280 + mobile 390):
+- API matrix: valid enrolled → 200 w/ enrollments; Rakib → 200 w/ empty arrays; wrong password → 401; unknown → 404; missing password → 400; data endpoint refresh + 401 path
+- Login page renders phone+password; wrong password → bilingual inline error; Anika login → dashboard (Batch 317 +1, exam in 38 days, 68%/92%, avg 7.5 best 8.0, 12 classes/week "across 2 courses", routine tabs Sat2 Sun2 Mon2 Tue1 Wed3 Thu2 Fri0 = 2-course union, My Course renders BOTH course cards, mock 8.0 + Target achieved)
+- Rakib login → EMPTY portal only (no routine/stats/courses; account-active chip, Explore Courses, popular suggestions); routine page stays locked for him (blurred aria-hidden preview intact, free classes + batches public); course page shows "You are not enrolled in this course"
+- Emran: his crash-course routine table visible; basic-to-ielts page locked for him; home banner unlocks only when enrolled; session persists across reload; logout → login + header flips My Portal→Enroll Now
+- Mobile 390: portal shell + 5-tab bottom nav, no horizontal scroll, no floating-CTA overlap; Scores/Notices sections OK
+- lint clean; zero page errors/console errors after fresh reload; dev.log clean; HTTP 200
+
+Stage Summary:
+- Portal is now a real members-only system: phone + password (issued at enrollment) replaces the public demo OTP; only paid enrollments unlock course content (routine, materials, scores, notices); a logged-in account without enrollment sees a deliberate empty portal with enroll CTAs
+- Multi-enrollment supported end-to-end (schema → API → dashboard/routine/course sections); demo logins: 01712000001–00006 / sadia123 (00006 = empty portal)

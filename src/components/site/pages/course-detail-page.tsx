@@ -40,12 +40,15 @@ function formatStudents(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k+` : `${n}`;
 }
 
-/** Routine table for enrolled students; a locked teaser for everyone else. */
+/** Routine table for students enrolled in THIS course; a locked teaser otherwise. */
 function CourseRoutineGate({ courseSlug }: { courseSlug: string }) {
-  const student = usePortalStore((s) => s.student);
+  const user = usePortalStore((s) => s.user);
+  const enrollments = usePortalStore((s) => s.enrollments);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
 
-  if (hasHydrated && student) {
+  const enrolledHere = hasHydrated && !!user && enrollments.some((e) => e.courseSlug === courseSlug);
+
+  if (enrolledHere) {
     return (
       <div>
         <CourseRoutineTable courseSlug={courseSlug} />
@@ -62,8 +65,16 @@ function CourseRoutineGate({ courseSlug }: { courseSlug: string }) {
 
   return (
     <LockedRoutineCard
-      title="Routine is for enrolled students"
-      desc="এই কোর্সের দিন-ভিত্তিক পুরো রুটিন (প্রতিটি ক্লাসের টপিক, সময় ও Zoom লিংক) Student Portal-এ দেখা যায় — ভর্তির সময় দেওয়া মোবাইল নম্বর দিয়ে লগ ইন করুন।"
+      title={
+        hasHydrated && user
+          ? "You are not enrolled in this course"
+          : "Routine is for enrolled students"
+      }
+      desc={
+        hasHydrated && user
+          ? "আপনার account-এ এই কোর্সের enrollment নেই — ভর্তি হলেই এখানে পুরো দিন-ভিত্তিক রুটিন (টপিক, সময় ও Zoom লিংক) দেখা যাবে।"
+          : "এই কোর্সের দিন-ভিত্তিক পুরো রুটিন (প্রতিটি ক্লাসের টপিক, সময় ও Zoom লিংক) Student Portal-এ দেখা যায় — ভর্তির সময় দেওয়া মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগ ইন করুন।"
+      }
     />
   );
 }
