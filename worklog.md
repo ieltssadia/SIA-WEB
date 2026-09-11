@@ -258,3 +258,19 @@ Work Log:
 
 Stage Summary:
 - Brand fonts now fully local (Urbanist body · Bricolage Grotesque headings · Hind Siliguri Bengali · Atma Bengali display accent). Header never wraps: full nav ≥1280, hamburger below, phone ≥1536.
+---
+Task ID: 13
+Agent: Z.ai Code (main)
+Task: User: "color fix of the logo of british council it stays black and white when hover" (screenshot: real site shows BC logo in purple) + "make the section moving side by side not hardcoded" (partner strip should be a moving marquee).
+
+Work Log:
+- Sampled the real-site screenshot: British Council brand purple ≈ #1B035B (dominant pixel cluster #180058). Old SVG was hardcoded gray (#8A8D8F dots / #575A5C text) so hover-grayscale-lift revealed nothing → "stays black and white".
+- partner-strip.tsx rewritten as a data-driven marquee: PARTNERS array (id/name/logo nodes) drives everything — sr-only list, aria-hidden duplicate copy, loop width. Two identical <ul> copies in a w-max track; CSS @keyframes partner-marquee translates -50% for a seamless infinite side-by-side glide (26s, tunable via --marquee-duration inline var).
+- globals.css: .partner-marquee (edge fade via mask-image), .partner-marquee-track (animation + will-change), hover-pause on the band, prefers-reduced-motion pause. Logo reveal (opacity .8→1, grayscale(1)→0) written as PLAIN CSS `:hover/:focus-within/:active` — Tailwind v4 wraps hover: variants in @media (hover:hover) which some environments report as none; plain CSS guarantees the purple reveal everywhere.
+- British Council logo now uses true purple #1B035B (dots + wordmark) so hovering reveals brand color like the real site; idp pinwheel/red IELTS also reveal.
+- Debug finding: Turbopack watcher missed globals.css edits (2-8ms "compiles" served stale CSS lacking new rules); fixed by restarting via `bash .zscripts/dev.sh` (old server held :3000 → killed first, EADDRINUSE resolved).
+- Bonus fix found during mobile verify: pre-existing 32px horizontal page overflow (decorative absolute glows) — fixed with overflow-x: clip on html/body (no scroll container → sticky header unaffected). scrollWidth 390=390 now.
+- Verification (agent-browser): marquee transform −420→−450px/s desktop & −210→−237 mobile (moving ✓); hover pauses track ✓; BC hover → grayscale(0), opacity 1, circle fill rgb(27,3,91), 1,544 purple pixels in screenshot ✓; idp hover reveals color ✓; nav single-line at 1280/1440/1600 (no overlap regression) ✓; mobile 390 no x-overflow + sticky header ✓; all 9 routes fresh-loaded with 0 console errors (earlier hydration warning + "1 Issue" badge were transient Fast-Refresh artifacts from mid-session HMR, not reproducible after reload); lint clean; dev.log clean.
+
+Stage Summary:
+- Partner strip is now an infinite side-by-side marquee driven by the PARTNERS array (add a logo = edit one array), with edge fade, hover pause, reduced-motion support. British Council logo reveals true brand purple #1B035B on hover (plain-CSS reveal works on all devices). Pre-existing mobile horizontal overflow eliminated.

@@ -121,11 +121,16 @@
   }
   html {
     scroll-behavior: smooth;
+    /* Kill stray horizontal page-pan from decorative absolutely-positioned
+       glows — `clip` (unlike `hidden`) creates no scroll container, so the
+       sticky header keeps working. */
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-urbanist), var(--font-hind-siliguri),
       ui-sans-serif, system-ui, sans-serif;
+    overflow-x: clip;
   }
   ::selection {
     background: rgba(212, 175, 55, 0.35);
@@ -147,6 +152,70 @@
 
 @utility bg-radial-glow {
   background: radial-gradient(closest-side, rgba(212, 175, 55, 0.16), transparent);
+}
+
+/* Partner marquee — continuous side-by-side scroll.
+   The track holds two identical copies of the partner list, so
+   translateX(-50%) loops seamlessly. Pauses on hover + reduced motion. */
+@keyframes partner-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.partner-marquee {
+  --marquee-duration: 28s;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.partner-marquee-track {
+  animation: partner-marquee var(--marquee-duration) linear infinite;
+  will-change: transform;
+}
+
+/* Logo items — grayscale until hovered. Plain CSS (not Tailwind hover:
+   variants, which are gated behind @media (hover: hover)) so the brand
+   colors — including British Council purple — always reveal on hover. */
+.partner-marquee li {
+  opacity: 0.8;
+  filter: grayscale(1);
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease;
+  cursor: default;
+}
+
+.partner-marquee li:hover,
+.partner-marquee li:focus-within,
+.partner-marquee li:active {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.partner-marquee:hover .partner-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 /* Premium thin gold scrollbar */
