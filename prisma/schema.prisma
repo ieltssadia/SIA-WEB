@@ -70,3 +70,47 @@ model MockResult {
 
   @@index([studentId])
 }
+
+// Book Shop orders placed through the website checkout. Prices/totals are
+// recomputed server-side from the site-data catalog (never trusted from the
+// client). paymentMethod records the chosen channel — manual send-money
+// (bKash/Nagad) and Cash on Delivery today; an online payment gateway can
+// later flip paymentStatus to "paid" via webhook without schema changes.
+model Order {
+  id            String      @id @default(cuid())
+  orderNo       String      @unique // "SIE-250604-8412" — shown to the buyer
+  name          String
+  phone         String // canonical BD mobile: 01XXXXXXXXX
+  email         String?
+  zone          String // pickup | sreemangal | inside-dhaka | outside-dhaka
+  address       String? // required for courier zones
+  note          String?
+  subtotal      Int // BDT
+  deliveryFee   Int // BDT
+  total         Int // BDT
+  paymentMethod String // bKash | Nagad | Cash on Delivery
+  transactionId String? // manual send-money TrxID (optional at order time)
+  paymentStatus String      @default("pending") // pending | verified | paid | failed
+  status        String      @default("placed") // placed | confirmed | shipped | delivered | cancelled
+  createdAt     DateTime    @default(now())
+  items         OrderItem[]
+
+  @@index([phone])
+  @@index([createdAt])
+  @@index([status])
+}
+
+// Line items of an Order — unit price captured at purchase time.
+model OrderItem {
+  id        String @id @default(cuid())
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String
+  kind      String // "book" (courses enroll via /api/portal/enroll instead)
+  slug      String
+  title     String
+  price     Int // unit price BDT
+  quantity  Int
+  lineTotal Int
+
+  @@index([orderId])
+}

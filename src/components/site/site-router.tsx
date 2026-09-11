@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useSyncExternalStore } from "react";
 import { routeSegments, useHashRoute } from "@/lib/router";
+import { useCartStore } from "@/lib/cart-store";
+import { usePortalStore } from "@/lib/portal-store";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { PartnerStrip } from "@/components/site/partner-strip";
@@ -47,6 +49,13 @@ export function SiteRouter() {
   const rawHash = useRawHash();
   const segments = routeSegments(route);
   const query = useHashQuery();
+
+  // Restore persisted stores AFTER mount (skipHydration) — restoring during
+  // the first client render races React hydration and causes mismatches.
+  useEffect(() => {
+    usePortalStore.persist.rehydrate();
+    useCartStore.persist.rehydrate();
+  }, []);
 
   // Scroll management: legacy anchors scroll to their section, pages go to top
   useEffect(() => {

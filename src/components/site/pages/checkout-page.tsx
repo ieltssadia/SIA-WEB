@@ -33,6 +33,8 @@ import { PageHeader } from "@/components/site/page-header";
 import { Reveal } from "@/components/site/reveal";
 import { site, courses, upcomingBatches, type Course } from "@/lib/site-data";
 import { usePortalStore } from "@/lib/portal-store";
+import { useCartStore } from "@/lib/cart-store";
+import { CartCheckout } from "@/components/site/cart-checkout";
 
 /* ------------------------------------------------------------------ */
 /* Payment methods — 10MS-style branded options                        */
@@ -614,6 +616,9 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
   const user = usePortalStore((s) => s.user);
   const enrollments = usePortalStore((s) => s.enrollments);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
+  const cartItems = useCartStore((s) => s.items);
+  const cartLastOrder = useCartStore((s) => s.lastOrder);
+  const cartHydrated = useCartStore((s) => s.hasHydrated);
 
   const [courseSlug, setCourseSlug] = useState(initialCourse);
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -644,28 +649,61 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
   const course = courses.find((c) => c.slug === courseSlug) ?? null;
   const alreadyEnrolled = !!(course && user && enrollments.some((e) => e.courseSlug === course.slug));
 
-  /* --- No course chosen → picker --- */
+  /* --- No course chosen → cart checkout (+ course picker when cart is empty) --- */
   if (!course) {
+    const cartHasItems = cartHydrated && cartItems.length > 0;
+    const showReceipt = cartHydrated && !cartHasItems && !!cartLastOrder;
     return (
       <>
         <PageHeader
-          eyebrow="Admission · Checkout"
+          eyebrow={cartHasItems || showReceipt ? "Book Shop · Checkout" : "Admission · Checkout"}
           title={
-            <>
-              Choose a <span className="text-gold-gradient">course</span>
-            </>
+            cartHasItems ? (
+              <>
+                Review &amp; <span className="text-gold-gradient">place your order</span>
+              </>
+            ) : showReceipt ? (
+              <>
+                Your recent <span className="text-gold-gradient">order</span>
+              </>
+            ) : (
+              <>
+                Choose a <span className="text-gold-gradient">course</span>
+              </>
+            )
           }
-          subtitle="যে কোর্সে ভর্তি হতে চান বেছে নিন — payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
+          subtitle={
+            cartHasItems
+              ? "ডেলিভারি ডিটেইলস দিন, পেমেন্ট বেছে নিন — অর্ডার কনফার্ম করতে ২৪ ঘণ্টার মধ্যে আমরা কল দেব।"
+              : showReceipt
+                ? "আপনার সর্বশেষ অর্ডারের রসিদ — পেমেন্ট ও ডেলিভারি তথ্য একসাথে।"
+                : "যে কোর্সে ভর্তি হতে চান বেছে নিন — payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
+          }
         />
         <section className="py-10 md:py-14">
           <div className="mx-auto max-w-7xl px-4 lg:px-8">
-            {hasHydrated && user && enrollments.length > 0 ? (
-              <p className="mb-6 flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
-                <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
-                আপনার পোর্টালে {enrollments.length}টি কোর্স আছে — নতুন কোর্স যোগ করতে পারেন।
-              </p>
+            <CartCheckout />
+
+            {/* Course picker stays reachable when the cart is empty */}
+            {cartHydrated && !cartHasItems && !cartLastOrder ? (
+              <div className="mt-14">
+                <div className="mb-6 text-center">
+                  <p className="font-display text-xl font-bold text-foreground md:text-2xl">
+                    অথবা কোর্সে <span className="text-gold-gradient">ভর্তি হতে চান?</span>
+                  </p>
+                  <p className="mt-1.5 text-sm text-muted-foreground">
+                    Live classes, materials ও mock tests — ভর্তির পর সব Student Portal-এ।
+                  </p>
+                </div>
+                {hasHydrated && user && enrollments.length > 0 ? (
+                  <p className="mx-auto mb-6 flex max-w-xl items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
+                    <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
+                    আপনার পোর্টালে {enrollments.length}টি কোর্স আছে — নতুন কোর্স যোগ করতে পারেন।
+                  </p>
+                ) : null}
+                <CoursePicker />
+              </div>
             ) : null}
-            <CoursePicker />
           </div>
         </section>
       </>

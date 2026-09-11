@@ -16,6 +16,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +28,7 @@ import {
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal } from "@/components/site/reveal";
 import { bookCategories, books, site, type Book } from "@/lib/site-data";
+import { useCartStore } from "@/lib/cart-store";
 
 function taka(n: number) {
   return `৳${n.toLocaleString("en-US")}`;
@@ -70,7 +73,33 @@ function BookCover({ book, className }: { book: Book; className?: string }) {
   );
 }
 
+/** Adds a book to the cart + confirmation toast with a checkout shortcut. */
+function useAddToCart() {
+  const add = useCartStore((s) => s.add);
+  const { toast } = useToast();
+  return (b: Book) => {
+    add({
+      slug: b.slug,
+      title: b.title,
+      titleBn: b.titleBn,
+      price: b.price,
+      oldPrice: b.oldPrice,
+      cover: b.cover,
+    });
+    toast({
+      title: "কার্টে যোগ হয়েছে ✓",
+      description: b.title,
+      action: (
+        <ToastAction asChild altText="Go to checkout">
+          <a href="#/checkout">Checkout</a>
+        </ToastAction>
+      ),
+    });
+  };
+}
+
 function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => void }) {
+  const addToCart = useAddToCart();
   const discount = book.oldPrice
     ? Math.round(((book.oldPrice - book.price) / book.oldPrice) * 100)
     : 0;
@@ -79,7 +108,14 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
     <Card className="group flex h-full flex-col overflow-hidden border-border bg-card transition-colors hover:border-primary/40">
       <CardContent className="flex flex-1 flex-col p-4">
         <div className="relative">
-          <BookCover book={book} className="aspect-[3/4] w-full transition-transform duration-300 group-hover:scale-[1.02]" />
+          <button
+            type="button"
+            onClick={() => onDetails(book)}
+            aria-label={`View details of ${book.title}`}
+            className="block w-full cursor-pointer text-left"
+          >
+            <BookCover book={book} className="aspect-[3/4] w-full transition-transform duration-300 group-hover:scale-[1.02]" />
+          </button>
           {book.tag ? (
             <Badge className="absolute -right-1.5 -top-1.5 border-transparent bg-gold-gradient text-[10px] font-bold text-[#16120a] shadow">
               {book.tag}
@@ -93,7 +129,13 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
         </div>
 
         <h3 className="mt-4 font-display text-sm font-bold leading-snug text-foreground line-clamp-2">
-          {book.title}
+          <button
+            type="button"
+            onClick={() => onDetails(book)}
+            className="cursor-pointer text-left transition-colors hover:text-primary"
+          >
+            {book.title}
+          </button>
         </h3>
         <p className="mt-1 text-xs text-muted-foreground">
           {book.titleBn} · {book.pages} pages
@@ -117,13 +159,22 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
 
         <div className="mt-auto flex gap-2 pt-4">
           <Button
-            asChild
             size="sm"
             className="flex-1 bg-gold-gradient text-[12px] font-bold text-[#16120a] hover:opacity-90"
+            onClick={() => addToCart(book)}
+          >
+            <ShoppingBag className="mr-1.5 h-3.5 w-3.5" aria-hidden />
+            Add to Cart
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            aria-label={`Order ${book.title} on WhatsApp`}
+            className="border-primary/25 px-2.5 hover:border-primary/60 hover:text-primary"
+            asChild
           >
             <a href={waLink(book)} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-1 h-3.5 w-3.5" aria-hidden />
-              Order
+              <MessageCircle className="h-3.5 w-3.5" aria-hidden />
             </a>
           </Button>
           <Button
@@ -143,6 +194,7 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
 export function ShopPage() {
   const [category, setCategory] = useState<string>("all");
   const [selected, setSelected] = useState<Book | null>(null);
+  const addToCart = useAddToCart();
 
   const filtered = useMemo(
     () => (category === "all" ? books : books.filter((b) => b.category === category)),
@@ -158,7 +210,7 @@ export function ShopPage() {
             IELTS Study <span className="text-gold-gradient">Books &amp; Materials</span>
           </>
         }
-        subtitle="Sadia Rahman-এর লেখা proven preparation books — বাংলা ব্যাখ্যাসহ। Order via WhatsApp, pick up from campus or get delivery."
+        subtitle="Sadia Rahman-এর proven preparation books — বাংলা ব্যাখ্যাসহ। Order online — সারাদেশে cash on delivery, অথবা ক্যাম্পাস থেকে সংগ্রহ করুন।"
         crumbs={[{ label: "Shop" }]}
       />
 
@@ -229,13 +281,22 @@ export function ShopPage() {
                   </p>
                 </div>
                 <Button
-                  asChild
                   size="lg"
                   className="shrink-0 bg-gold-gradient font-bold text-[#16120a] hover:opacity-90"
+                  onClick={() => addToCart(books[books.length - 1])}
+                >
+                  <ShoppingBag className="mr-1.5 h-4 w-4" aria-hidden />
+                  Add Bundle to Cart
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="shrink-0 border-primary/30 font-semibold hover:border-primary/60 hover:text-primary"
                 >
                   <a href={waLink(books[books.length - 1])} target="_blank" rel="noopener noreferrer">
-                    <ShoppingBag className="mr-1.5 h-4 w-4" aria-hidden />
-                    Order Bundle
+                    <MessageCircle className="mr-1.5 h-4 w-4" aria-hidden />
+                    WhatsApp
                   </a>
                 </Button>
               </div>
@@ -355,12 +416,22 @@ export function ShopPage() {
                 </ul>
                 <div className="mt-5 flex gap-2">
                   <Button
-                    asChild
                     className="flex-1 bg-gold-gradient font-bold text-[#16120a] hover:opacity-90"
+                    onClick={() => {
+                      addToCart(selected);
+                      setSelected(null);
+                    }}
                   >
-                    <a href={waLink(selected)} target="_blank" rel="noopener noreferrer">
-                      <MessageCircle className="mr-1.5 h-4 w-4" aria-hidden />
-                      Order on WhatsApp
+                    <ShoppingBag className="mr-1.5 h-4 w-4" aria-hidden />
+                    Add to Cart
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-primary/30 hover:border-primary/60 hover:text-primary"
+                  >
+                    <a href={waLink(selected)} target="_blank" rel="noopener noreferrer" aria-label="Order on WhatsApp">
+                      <MessageCircle className="h-4 w-4" aria-hidden />
                     </a>
                   </Button>
                   <Button

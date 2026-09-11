@@ -3,31 +3,37 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, X } from "lucide-react";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { navLinks, promoBar, site } from "@/lib/site-data";
 import { useHashRoute } from "@/lib/router";
 import { usePortalStore } from "@/lib/portal-store";
+import { cartCount, useCartStore } from "@/lib/cart-store";
+import { CartSheet } from "@/components/site/cart-sheet";
 
 const emptySubscribe = () => () => {};
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [promoClosed, setPromoClosed] = useState(false);
   const route = useHashRoute();
   // Swaps the header CTA to "My Portal" once the persisted session restores
   const portalUser = usePortalStore((s) => s.user);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
   const portalAuthed = hasHydrated && !!portalUser;
+  // Cart badge — count only after mount so SSR/client markup matches
+  const cartItems = useCartStore((s) => s.items);
   // Hydration-safe "client only" flag (false during SSR, true on client)
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false
   );
+  const bagCount = mounted ? cartCount(cartItems) : 0;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -162,6 +168,26 @@ export function SiteHeader() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            {/* Cart — opens the slide-over bag */}
+            <CartSheet
+              open={cartOpen}
+              onOpenChange={setCartOpen}
+              trigger={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label={`Open cart${bagCount ? ` — ${bagCount} item${bagCount > 1 ? "s" : ""}` : ""}`}
+                  className="relative border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+                >
+                  <ShoppingBag className="h-4.5 w-4.5" aria-hidden />
+                  {bagCount > 0 ? (
+                    <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-gradient px-1 text-[10px] font-bold text-[#16120a] shadow">
+                      {bagCount > 9 ? "9+" : bagCount}
+                    </span>
+                  ) : null}
+                </Button>
+              }
+            />
             <a
               href={site.phoneHref}
               className="hidden items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-accent 2xl:flex"

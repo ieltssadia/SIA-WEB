@@ -90,6 +90,9 @@ export const usePortalStore = create<PortalState>()(
         mocks: state.mocks,
         token: state.token,
       }),
+      // SSR safety: restore via an explicit mount-effect rehydrate()
+      // (SiteRouter) instead of racing React hydration.
+      skipHydration: true,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },

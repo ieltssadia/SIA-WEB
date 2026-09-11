@@ -287,3 +287,33 @@ Work Log:
 
 Stage Summary:
 - Marquee is truly endless (0 gap at any viewport width), partner trust band is a homepage-exclusive section above the footer, navbar is clean standard edtech (7 items, routine only via footer). Sticky-footer layout preserved sitewide via single mt-auto wrapper in SiteRouter.
+---
+Task ID: 15
+Agent: Z.ai Code (main)
+Task: "make checkout pages people can buy it from website real payment gateway add korbo pore" — real, working purchase flow (cart → checkout → order in DB), manual payment channels now, online gateway pluggable later.
+
+Work Log:
+- Prisma schema: added Order (orderNo unique "SIE-YYMMDD-XXXX", contact, zone, address, subtotal/deliveryFee/total, paymentMethod, transactionId, paymentStatus pending→verified/paid, status placed→shipped/delivered) + OrderItem (kind/slug/title/price/quantity/lineTotal, cascade delete) → db:push OK.
+- NEW src/lib/delivery.ts (client+server shared): 4 zones — Campus Pickup ৳0, Sreemangal home ৳0, Inside Dhaka courier ৳70, Outside Dhaka ৳130; FREE_COURIER_THRESHOLD ৳2,000 (deliveryFeeFor waives courier fee above it); PAYMENT_RECEIVER 01752716238.
+- NEW src/app/api/orders: POST validates (zod: name/BD phone canonicalized/zone/address-for-courier), prices from the books catalog server-side ONLY (client sends {slug,quantity} → tamper-proof totals), creates orderNo with unique-retry, returns full order. GET ?orderNo&phone = privacy-checked order tracking (gateway callback can reuse it).
+- NEW src/lib/cart-store.ts: zustand+persist cart (books; courses keep the portal enroll flow) — add/remove/setQuantity/clear + lastOrder receipt snapshot; header badge helpers cartCount/cartSubtotal.
+- NEW src/components/site/cart-sheet.tsx: slide-over bag from the header — covers, qty steppers, remove, free-courier progress bar, subtotal, checkout CTA, empty state.
+- site-header.tsx: gold cart button + count badge (hydration-safe via mounted flag) before Log in.
+- shop-page.tsx: "Add to Cart" is now the primary action on every card (cover & title open Details), WhatsApp demoted to icon button; Details dialog + Bundle banner got Add-to-Cart; shared useAddToCart() fires a toast with a Checkout shortcut; subtitle now says "order online, COD all over Bangladesh".
+- NEW src/components/site/checkout-steps.tsx: generalized 3-step indicator (labels param) shared by both checkouts.
+- NEW src/components/site/cart-checkout.tsx: Details (name/phone/email/zone Select/address textarea for courier/note, portal prefill) → Payment (bKash & Nagad Send-Money with numbered instructions + optional TrxID, Cash on Delivery, and a disabled "Card / Online Payment — Coming Soon" slot reserved for the future gateway) → POST /api/orders → receipt (order no + copy, per-method payment instructions, items recap, totals, support CTA, "Start a new order"). Receipt survives reload via lastOrder snapshot. Summary sidebar: editable lines, live delivery fee, free-courier nudge, trust list. Empty cart keeps the old behavior: course picker shown below ("অথবা কোর্সে ভর্তি হতে চান?").
+- checkout-page.tsx: no-?course= mode now renders CartCheckout (flow/receipt/empty) and only shows the picker when the cart is empty; header title/eyebrow switch per state (incl. receipt subtitle fix).
+- HYDRATION BUG FOUND & FIXED: zustand persist restored localStorage before React hydration → "tree hydrated but attributes didn't match" when cart had items. Fix: skipHydration: true on BOTH cart & portal stores + explicit usePortalStore/useCartStore.persist.rehydrate() in a SiteRouter mount effect. Cart badge/session now restore after mount with zero mismatches.
+- Copy polish: COD wording zone-aware (pickup vs home vs courier), Bangla-first microcopy throughout.
+
+Verification (agent-browser desktop 1280 + mobile 390):
+- Golden path: shop → Add to Cart ×2 → badge "2" → cart sheet qty+ → Checkout → Details form (zone switch → ৳130 fee + address field appears; empty address rejected with Bangla error) → Payment (bKash selected, TrxID filled) → Place Order ৳1,480 → "Order placed!" + SIE-260911-1366 + Copy + bKash instruction with Reference/TrxID → cart cleared (badge empty).
+- DB check: order rows correct — 450×3=1350+130=1480 (bKash/outside-dhaka), 450+0 COD sreemangal (mobile) — server-side pricing confirmed.
+- Mobile: full COD order placed (SIE-260911-6547), scrollWidth 390=390, sheet/form/receipt all clean.
+- Reload → receipt persists ("Your recent order"); Start-a-new-order → empty cart + course picker; GET tracking 200, wrong phone → 404; bad phone/unknown book → 400 with clean Bangla messages.
+- Course checkout regression: #/checkout?course=… still shows enrollment flow (account step intact).
+- Portal regression: signup + session persists across reload with the new skipHydration flow.
+- Route sweep (11 routes incl. course detail): 0 page errors, 0 console messages after clear; footer gap 0 on checkout; lint clean; dev.log clean.
+
+Stage Summary:
+- The website now sells for real: books go cart → checkout → a persisted, trackable Order with manual bKash/Nagad/COD settlement (the standard BD flow), and a reserved "Coming Soon" card slot where the online gateway (bKash PGW/SSLCommerz) can be dropped in later — order.paymentStatus is already webhook-ready. Courses keep their account→portal enrollment checkout. Persist stores are now hydration-safe sitewide.
