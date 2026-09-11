@@ -66,7 +66,7 @@ export function Hero() {
               size="lg"
               className="bg-gold-gradient text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)] hover:opacity-90"
             >
-              <a href="#enroll">
+              <a href="#/contact">
                 <GraduationCap className="mr-1.5 h-5 w-5" aria-hidden />
                 Enroll Now
               </a>
@@ -77,7 +77,7 @@ export function Hero() {
               variant="outline"
               className="border-primary/30 bg-transparent text-base font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
             >
-              <a href="#courses">Explore Courses</a>
+              <a href="#/courses">Explore Courses</a>
             </Button>
           </motion.div>
 

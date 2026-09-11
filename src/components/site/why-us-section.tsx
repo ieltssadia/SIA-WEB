@@ -86,7 +86,7 @@ export function WhyUsSection() {
                 variant="outline"
                 className="border-primary/30 bg-transparent hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
               >
-                <a href="#enroll">
+                <a href="#/contact">
                   Start Your Journey
                   <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
                 </a>

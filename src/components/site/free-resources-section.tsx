@@ -18,7 +18,7 @@ export function FreeResourcesSection() {
 
   function handleFreeCta(href: string) {
     // Preselect the free course when heading to the enroll form
-    if (href === "#enroll") setCourse("free-course");
+    if (href === "#/contact") setCourse("free-course");
   }
 
   return (
@@ -97,7 +97,7 @@ export function FreeResourcesSection() {
                 asChild
                 className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
               >
-                <a href="#courses">See All Courses</a>
+                <a href="#/courses">See All Courses</a>
               </Button>
               <Button
                 asChild

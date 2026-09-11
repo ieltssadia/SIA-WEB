@@ -89,7 +89,7 @@ export function InstructorSection() {
                   size="lg"
                   className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
                 >
-                  <a href="#enroll">
+                  <a href="#/contact">
                     <Sparkles className="mr-1.5 h-4.5 w-4.5" aria-hidden />
                     Enroll with Sadia
                   </a>
@@ -100,7 +100,7 @@ export function InstructorSection() {
                   variant="outline"
                   className="border-primary/30 bg-transparent hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
                 >
-                  <a href="#courses">View Courses</a>
+                  <a href="#/courses">View Courses</a>
                 </Button>
               </div>
             </Reveal>

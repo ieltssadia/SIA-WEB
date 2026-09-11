@@ -45,3 +45,23 @@ Work Log:
 Stage Summary:
 - Site now mirrors 10MS feature set: promo bar, categorized course catalog with ratings/enrolled/next-batch, course detail modals, free resources funnel, floating WhatsApp/call CTA, payment trust strip
 - All new interactions browser-verified on desktop + 390px mobile; lead flow re-verified end-to-end
+
+---
+Task ID: 3
+Agent: Z.ai Code (main)
+Task: Convert single-page site into multipage architecture (user request: "make it multipage")
+
+Work Log:
+- Constraint: sandbox preview only serves "/", so implemented hash-based multipage router (real path routes not servable here); pages behave like real routes — browser back/forward works, deep links load cold, links shareable
+- New src/lib/router.ts: useHashRoute (useSyncExternalStore, hydration-safe: SSR "/", re-syncs post-mount), navigate(), routeSegments(); legacy "#section" anchors normalized to home + smooth-scroll
+- New src/components/site/page-header.tsx: inner-page hero with breadcrumb (Home / Courses / title), eyebrow, serif title, gold glows
+- site-router.tsx (client shell): route switch — "/" Home, "/courses", "/courses/[slug]", "/about", "/tips", "/stories", "/contact"; scroll restoration effect on rawHash (legacy anchors scrollIntoView with retry, page changes scroll to top instant); unknown course slug → friendly not-found page
+- pages/: home-page (Hero, Stats, CoursesSection featured=3 + View All, FreeResources, Skills, Stories carousel, FAQ, new CTA banner), courses-page (PageHeader + full grid + tabs), course-detail-page (breadcrumb header, meta strip, About/What You Get/numbered Course Outline, instructor mini card, sticky price sidebar with facts + Enroll/WhatsApp CTAs + related courses), about-page (Instructor + WhyUs + Stats), tips-page, stories-page (grid of all stories + FB CTA banner), contact-page (PageHeader + EnrollSection)
+- courses-section.tsx: removed Dialog; CourseCard links to "#/courses/[slug]" (title + details link); Enroll buttons → "#/contact" with setCourse preselect; added featured prop (home variant); exported courseIconMap
+- Rewired all links: navLinks (Home/Courses/About/Free Tips/Stories/Contact), promoBar → #/contact, hero CTAs, free-resources CTAs + data hrefs, instructor/why-us section CTAs, footer columns (course links → detail pages, FAQs kept as legacy #faq anchor); header logo → #/
+- site-header: active-route highlighting (aria-current="page", gold bg) via useHashRoute; Enroll buttons → #/contact
+- Verification (agent-browser): home featured=3; /#/courses shows all 6 + For Beginners tab filters to 2; course card → detail page renders (breadcrumb, outline, sticky price card, related); detail Enroll link → #/contact preselects course; About/Tips/Stories/Contact pages all render; footer FAQs from Stories page → home + scrolled to FAQ (scrollY 4517); browser back/forward across hash routes works; cold deep-link load to #/about works; contact form submit → "Request received!" + POST 201; mobile 390px: menu lists pages, navigation works, cards stack; zero console errors; lint clean; final HTTP 200
+
+Stage Summary:
+- Site is now truly multipage: 7 routed pages + dynamic course detail pages, all under the sandbox-visible "/" via hash routing
+- Upgrading to real App Router paths later = replace hash links with paths + move page components into app/ segments (components already page-shaped)

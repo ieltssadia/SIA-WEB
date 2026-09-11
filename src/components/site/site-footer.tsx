@@ -9,26 +9,27 @@ const columns = [
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "#instructor" },
-      { label: "Success Stories", href: "#stories" },
+      { label: "About Us", href: "#/about" },
+      { label: "Success Stories", href: "#/stories" },
       { label: "FAQs", href: "#faq" },
-      { label: "Contact", href: "#enroll" },
+      { label: "Contact", href: "#/contact" },
     ],
   },
   {
     title: "Courses",
     links: [
-      { label: "Basic to IELTS", href: "#courses" },
-      { label: "Pre-IELTS Course", href: "#courses" },
-      { label: "Crash Course", href: "#courses" },
-      { label: "Free Course", href: "#courses" },
+      { label: "All Courses", href: "#/courses" },
+      { label: "Basic to IELTS", href: "#/courses/basic-to-ielts-in-batch" },
+      { label: "Pre-IELTS Course", href: "#/courses/pre-ielts" },
+      { label: "Crash Course", href: "#/courses/ielts-crash-course" },
+      { label: "Free Course", href: "#/courses/free-course" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Free Tips & Tricks", href: "#tips" },
-      { label: "Why Choose Us", href: "#why-us" },
+      { label: "Free Tips & Tricks", href: "#/tips" },
+      { label: "Free Classes", href: "#/tips" },
       { label: "Our Facebook Page", href: site.facebook, external: true },
       { label: "Official Website", href: site.website, external: true },
     ],

@@ -21,19 +21,19 @@ export const site = {
 };
 
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Courses", href: "#courses" },
-  { label: "Why Us", href: "#why-us" },
-  { label: "Free Tips", href: "#tips" },
-  { label: "Success Stories", href: "#stories" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Home", href: "#/" },
+  { label: "Courses", href: "#/courses" },
+  { label: "About", href: "#/about" },
+  { label: "Free Tips", href: "#/tips" },
+  { label: "Success Stories", href: "#/stories" },
+  { label: "Contact", href: "#/contact" },
 ];
 
 /** Dismissible promo strip above the nav — 10MS-style announcement bar. */
 export const promoBar = {
   message: "🎉 নতুন ব্যাচে ভর্তি চলছে! Admission offer — up to 33% off on all courses",
   ctaLabel: "Enroll Now",
-  ctaHref: "#enroll",
+  ctaHref: "#/contact",
 };
 
 export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];
@@ -264,7 +264,7 @@ export const freeResources = [
     title: "Free Mock Test",
     desc: "ফুল-লেন্থ IELTS Mock Test ফ্রি! আপনার বর্তমান ব্যান্ড স্কোর জানতে ফ্রি অ্যাসেসমেন্টে রেজিস্টার করুন।",
     cta: "Book Free Mock Test",
-    href: "#enroll",
+    href: "#/contact",
     external: false,
   },
   {
@@ -272,7 +272,7 @@ export const freeResources = [
     title: "Free Tips & Tricks",
     desc: "প্রতিটি প্রশ্ন টাইপের জন্য প্রমাণিত শর্টকাট — Reading, Listening, Writing ও Speaking টিপস পড়ুন।",
     cta: "Read the Tips",
-    href: "#tips",
+    href: "#/tips",
     external: false,
   },
 ];
