@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Enrollment / inquiry leads submitted from the website
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  course    String?
+  message   String?
+  status    String   @default("new") // new | contacted | enrolled | closed
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}

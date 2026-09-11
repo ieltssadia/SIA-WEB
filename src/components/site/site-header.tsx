@@ -1,0 +1,191 @@
+"use client";
+
+import { useEffect, useState, useSyncExternalStore } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
+import { navLinks, site } from "@/lib/site-data";
+
+const emptySubscribe = () => () => {};
+
+export function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  // Hydration-safe "client only" flag (false during SSR, true on client)
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    const raf = requestAnimationFrame(onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    <header className="sticky top-0 z-50">
+      {/* Top contact strip */}
+      <div className="hidden border-b border-primary/10 bg-[#070708] md:block">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs text-muted-foreground lg:px-8">
+          <div className="flex items-center gap-5">
+            <a
+              href={site.phoneHref}
+              className="flex items-center gap-1.5 transition-colors hover:text-primary"
+            >
+              <Phone className="h-3 w-3 text-primary" aria-hidden />
+              {site.phone}
+            </a>
+            <a
+              href={`mailto:${site.email}`}
+              className="flex items-center gap-1.5 transition-colors hover:text-primary"
+            >
+              <Mail className="h-3 w-3 text-primary" aria-hidden />
+              {site.email}
+            </a>
+          </div>
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-3 w-3 text-primary" aria-hidden />
+              {site.addressShort}
+            </span>
+            <a
+              href={site.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Sadia's IELTS on Facebook"
+              className="transition-colors hover:text-primary"
+            >
+              <Facebook className="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main nav */}
+      <div
+        className={`border-b transition-all duration-300 ${
+          scrolled
+            ? "border-primary/15 bg-background/90 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+            : "border-transparent bg-background/70 backdrop-blur-md"
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 lg:px-8">
+          {/* Logo */}
+          <Link href="#home" className="flex min-w-0 items-center gap-3" aria-label="Sadia's IELTS — Home">
+            <Image
+              src="/sadia-logo.png"
+              alt="Sadia's IELTS logo"
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-full ring-1 ring-primary/30"
+              priority
+            />
+            <span className="min-w-0">
+              <span className="block truncate font-display text-lg font-bold leading-tight tracking-wide">
+                Sadia&apos;s <span className="text-gold-gradient">IELTS</span>
+              </span>
+              <span className="hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:block">
+                Unlock Your Future
+              </span>
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-primary"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <a
+              href={site.phoneHref}
+              className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-accent xl:flex"
+            >
+              <Phone className="h-4 w-4" aria-hidden />
+              {site.phone}
+            </a>
+            <Button
+              asChild
+              className="hidden bg-gold-gradient font-semibold text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)] hover:opacity-90 sm:inline-flex"
+            >
+              <a href="#enroll">
+                <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
+                Enroll Now
+              </a>
+            </Button>
+
+            {/* Mobile menu — Sheet rendered after mount to avoid Radix useId hydration mismatch */}
+            {mounted ? (
+              <Sheet open={open} onOpenChange={setOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+              <SheetContent
+                  side="right"
+                  className="flex w-[280px] flex-col border-l border-primary/15 bg-[#101014]"
+                >
+                  <SheetTitle className="flex items-center gap-2 font-display text-lg font-bold">
+                    <Image
+                      src="/sadia-logo.png"
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="h-8 w-8 rounded-full ring-1 ring-primary/30"
+                    />
+                    Sadia&apos;s <span className="text-gold-gradient">IELTS</span>
+                  </SheetTitle>
+                  <Separator className="bg-primary/10" />
+                  <nav aria-label="Mobile navigation" className="mt-2 flex flex-col gap-1">
+                    {navLinks.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground/85 transition-colors hover:bg-accent hover:text-primary"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </nav>
+                  <div className="mt-auto space-y-3 pb-2">
+                    <Button asChild className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+                      <a href="#enroll" onClick={() => setOpen(false)}>
+                        <GraduationCap className="mr-1 h-4 w-4" aria-hidden />
+                        Enroll Now
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full border-primary/25 hover:text-primary">
+                      <a href={site.phoneHref}>
+                        <Phone className="mr-1 h-4 w-4" aria-hidden />
+                        {site.phone}
+                      </a>
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
