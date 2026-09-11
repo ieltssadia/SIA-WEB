@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Facebook, Mail, MapPin, Phone } from "lucide-react";
+import { BadgeCheck, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { site } from "@/lib/site-data";
+import { paymentMethods, site } from "@/lib/site-data";
 
 const columns = [
   {
@@ -139,7 +139,27 @@ export function SiteFooter() {
         </div>
 
         <Separator className="my-8 bg-primary/10" />
-        <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground sm:flex-row">
+
+        {/* Payment methods — 10MS style trust strip */}
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <BadgeCheck className="h-4 w-4 text-primary" aria-hidden />
+            Easy Payment Via
+          </p>
+          <ul className="flex flex-wrap items-center justify-center gap-2" aria-label="Accepted payment methods">
+            {paymentMethods.map((method) => (
+              <li
+                key={method}
+                className="rounded-lg border border-primary/20 bg-card px-3 py-1.5 text-xs font-semibold text-foreground/85"
+              >
+                {method}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <Separator className="my-8 bg-primary/10" />
+        <div className="flex flex-col items-center justify-between gap-3 px-0 text-xs text-muted-foreground sm:flex-row sm:px-28 lg:px-36">
           <p>© {new Date().getFullYear()} Sadia&apos;s IELTS. All Rights Reserved.</p>
           <p className="flex items-center gap-4">
             <span className="transition-colors hover:text-primary">Privacy</span>

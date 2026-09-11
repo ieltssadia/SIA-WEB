@@ -10,6 +10,7 @@ export const site = {
   phone: "+880 1752-716238",
   phoneHref: "tel:+8801752716238",
   phone2: "+880 1746-466653",
+  whatsapp: "https://wa.me/8801752716238?text=Assalamu%20Alaikum!%20I%20want%20to%20know%20about%20IELTS%20courses.",
   email: "support@sadiasielts.com",
   email2: "ieltsbysadianisha@gmail.com",
   address:
@@ -27,6 +28,15 @@ export const navLinks = [
   { label: "Success Stories", href: "#stories" },
   { label: "FAQ", href: "#faq" },
 ];
+
+/** Dismissible promo strip above the nav — 10MS-style announcement bar. */
+export const promoBar = {
+  message: "🎉 নতুন ব্যাচে ভর্তি চলছে! Admission offer — up to 33% off on all courses",
+  ctaLabel: "Enroll Now",
+  ctaHref: "#enroll",
+};
+
+export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];
 
 export const stats = [
   { value: 9, suffix: "+", label: "Years of Experience" },
@@ -47,7 +57,20 @@ export type Course = {
   tag: string;
   icon: string; // key used by the courses section
   features: string[];
+  category: "complete" | "beginner" | "exam";
+  rating: number;
+  students: number;
+  nextBatch: string;
+  mode: string;
+  syllabus: string[];
 };
+
+export const courseCategories = [
+  { value: "all", label: "All Courses" },
+  { value: "complete", label: "Complete Preparation" },
+  { value: "beginner", label: "For Beginners" },
+  { value: "exam", label: "Exam Boosters" },
+] as const;
 
 export const courses: Course[] = [
   {
@@ -67,6 +90,19 @@ export const courses: Course[] = [
       "Free Study Materials",
       "Speaking Club Access",
     ],
+    category: "complete",
+    rating: 4.9,
+    students: 2140,
+    nextBatch: "Every Sunday",
+    mode: "Online + Offline",
+    syllabus: [
+      "Foundation: Grammar & Vocabulary (4 weeks)",
+      "Listening: Accents, note-taking & practice tests",
+      "Reading: Skimming, scanning & all question types",
+      "Writing: Task 1 graphs to Band 7+ essays",
+      "Speaking: Daily clubs, interviews & fluency drills",
+      "Final week: Full mock tests with band reports",
+    ],
   },
   {
     slug: "basic-to-ielts-private-batch",
@@ -84,6 +120,17 @@ export const courses: Course[] = [
       "Personal Attention",
       "Weekly Mock Tests",
       "Free Study Materials",
+    ],
+    category: "complete",
+    rating: 4.9,
+    students: 1120,
+    nextBatch: "Every Sunday",
+    mode: "Online + Offline",
+    syllabus: [
+      "Foundation: Grammar & Vocabulary (4 weeks)",
+      "All 4 modules with individual feedback",
+      "Weekly progress tracking & parent report",
+      "Final week: Full mock tests with band reports",
     ],
   },
   {
@@ -103,6 +150,17 @@ export const courses: Course[] = [
       "Direct Mentor Access",
       "Unlimited Speaking Practice",
     ],
+    category: "complete",
+    rating: 5.0,
+    students: 640,
+    nextBatch: "Any day you start",
+    mode: "Online + Offline",
+    syllabus: [
+      "Level assessment & custom study plan",
+      "All 4 modules at your own pace",
+      "Unlimited one-to-one speaking practice",
+      "Direct WhatsApp access to your mentor",
+    ],
   },
   {
     slug: "pre-ielts",
@@ -121,6 +179,17 @@ export const courses: Course[] = [
       "Basic Writing Skills",
       "Daily Practice Sheets",
     ],
+    category: "beginner",
+    rating: 4.8,
+    students: 1280,
+    nextBatch: "1st of every month",
+    mode: "Online + Offline",
+    syllabus: [
+      "English grammar from absolute basics",
+      "Everyday & academic vocabulary building",
+      "Sentence structure & paragraph writing",
+      "Intro to the IELTS exam format",
+    ],
   },
   {
     slug: "ielts-crash-course",
@@ -137,6 +206,17 @@ export const courses: Course[] = [
       "Intensive Mock Tests",
       "Time Management Skills",
       "Band Booster Sessions",
+    ],
+    category: "exam",
+    rating: 4.9,
+    students: 803,
+    nextBatch: "Every Monday",
+    mode: "Online + Offline",
+    syllabus: [
+      "Week 1: All 4 module strategies & shortcuts",
+      "Week 2: Question-type tricks (Reading & Listening)",
+      "Week 3: Essay templates & speaking fluency",
+      "Week 4: 4 full mock tests with band reports",
     ],
   },
   {
@@ -155,6 +235,45 @@ export const courses: Course[] = [
       "Weekly Tips & Tricks",
       "Community Support",
     ],
+    category: "beginner",
+    rating: 4.8,
+    students: 3560,
+    nextBatch: "Start instantly",
+    mode: "Online",
+    syllabus: [
+      "10 premium video lessons",
+      "Downloadable practice materials",
+      "Weekly IELTS tips & tricks",
+      "Facebook learners community access",
+    ],
+  },
+];
+
+/** 10MS-style free resources — free classes are a core part of the brand funnel. */
+export const freeResources = [
+  {
+    icon: "video",
+    title: "Free Video Lessons",
+    desc: "IELTS মডিউল-ভিত্তিক ফ্রি ভিডিও ক্লাস — Facebook পেজে নিয়মিত আপলোড হয়। আজই দেখা শুরু করুন।",
+    cta: "Watch on Facebook",
+    href: site.facebook,
+    external: true,
+  },
+  {
+    icon: "clipboard",
+    title: "Free Mock Test",
+    desc: "ফুল-লেন্থ IELTS Mock Test ফ্রি! আপনার বর্তমান ব্যান্ড স্কোর জানতে ফ্রি অ্যাসেসমেন্টে রেজিস্টার করুন।",
+    cta: "Book Free Mock Test",
+    href: "#enroll",
+    external: false,
+  },
+  {
+    icon: "lightbulb",
+    title: "Free Tips & Tricks",
+    desc: "প্রতিটি প্রশ্ন টাইপের জন্য প্রমাণিত শর্টকাট — Reading, Listening, Writing ও Speaking টিপস পড়ুন।",
+    cta: "Read the Tips",
+    href: "#tips",
+    external: false,
   },
 ];
 

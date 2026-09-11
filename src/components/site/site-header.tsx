@@ -3,17 +3,18 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap } from "lucide-react";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { navLinks, site } from "@/lib/site-data";
+import { navLinks, promoBar, site } from "@/lib/site-data";
 
 const emptySubscribe = () => () => {};
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [promoClosed, setPromoClosed] = useState(false);
   // Hydration-safe "client only" flag (false during SSR, true on client)
   const mounted = useSyncExternalStore(
     emptySubscribe,
@@ -33,8 +34,39 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top contact strip */}
-      <div className="hidden border-b border-primary/10 bg-[#070708] md:block">
+      {/* Promo announcement bar — 10MS style, dismissible, collapses on scroll */}
+      {!promoClosed ? (
+        <div
+          className={`relative overflow-hidden bg-gold-gradient text-[#16120a] transition-all duration-300 ${
+            scrolled ? "max-h-0" : "max-h-12"
+          }`}
+        >
+          <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-10 py-2 text-center text-xs font-semibold lg:px-8">
+            <p className="truncate">{promoBar.message}</p>
+            <a
+              href={promoBar.ctaHref}
+              className="hidden shrink-0 rounded-full bg-[#16120a] px-3 py-1 text-[11px] font-bold text-primary transition-opacity hover:opacity-85 sm:inline-block"
+            >
+              {promoBar.ctaLabel}
+            </a>
+          </div>
+          <button
+            type="button"
+            onClick={() => setPromoClosed(true)}
+            aria-label="Dismiss announcement"
+            className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full transition-colors hover:bg-black/10"
+          >
+            <X className="h-3.5 w-3.5" aria-hidden />
+          </button>
+        </div>
+      ) : null}
+
+      {/* Top contact strip — collapses on scroll to keep the sticky nav compact */}
+      <div
+        className={`hidden overflow-hidden border-b border-primary/10 bg-[#070708] transition-all duration-300 md:block ${
+          scrolled ? "max-h-0" : "max-h-12"
+        }`}
+      >
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs text-muted-foreground lg:px-8">
           <div className="flex items-center gap-5">
             <a
