@@ -27,7 +27,6 @@ import {
   site,
   upcomingBatches,
 } from "@/lib/site-data";
-import { useEnrollStore } from "@/lib/enroll-store";
 import { usePortalStore } from "@/lib/portal-store";
 
 const emptySubscribe = () => () => {};
@@ -193,8 +192,6 @@ function FreeLiveClasses() {
 
 /** 10MS "choose your batch" admission board. */
 function UpcomingBatchesBoard() {
-  const setCourse = useEnrollStore((s) => s.setCourse);
-
   return (
     <section className="border-t border-primary/10 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -265,8 +262,7 @@ function UpcomingBatchesBoard() {
                             className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
                           >
                             <a
-                              href="#/contact"
-                              onClick={() => setCourse(b.courseSlug)}
+                              href={`#/checkout?course=${b.courseSlug}`}
                               aria-label={`Enroll in ${b.course}, ${b.batch}`}
                             >
                               <GraduationCap className="mr-1 h-3.5 w-3.5" aria-hidden />
@@ -330,7 +326,7 @@ function RoutineCta() {
                   size="lg"
                   className="bg-gold-gradient text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)] hover:opacity-90"
                 >
-                  <a href="#/contact">
+                  <a href="#/checkout">
                     <GraduationCap className="mr-1.5 h-5 w-5" aria-hidden />
                     Enroll Now
                   </a>

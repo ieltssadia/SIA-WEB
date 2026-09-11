@@ -88,9 +88,9 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
               size="lg"
               className="bg-gold-gradient font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
             >
-              <a href="#/courses">
+              <a href="#/checkout">
                 <GraduationCap className="mr-2 h-4.5 w-4.5" aria-hidden />
-                Explore Courses
+                Enroll in a Course
               </a>
             </Button>
             <Button
@@ -118,7 +118,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
             {popular.map((c) => (
               <a
                 key={c.slug}
-                href={`#/courses/${c.slug}`}
+                href={`#/checkout?course=${c.slug}`}
                 className="group rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40"
               >
                 <div className="flex items-center justify-between gap-2">

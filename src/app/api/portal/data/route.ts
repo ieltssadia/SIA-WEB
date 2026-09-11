@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { canonicalPhone } from "@/lib/phone";
-import { getPortalPayload } from "@/lib/portal-server";
+import { getPortalPayload, issueToken } from "@/lib/portal-server";
 
 const dataSchema = z.object({
   phone: z.string().trim().min(6).max(20),
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Session expired — please log in again." }, { status: 401 });
     }
 
-    return NextResponse.json(payload);
+    return NextResponse.json({ ...payload, token: issueToken(phone) });
   } catch (error) {
     console.error("[api/portal/data] Failed:", error);
     return NextResponse.json(

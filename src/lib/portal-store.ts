@@ -35,12 +35,15 @@ type PortalState = {
   /** Paid course enrollments — the portal only shows content for these. */
   enrollments: PortalEnrollment[];
   mocks: PortalMock[];
+  /** HMAC session token — authorizes checkout enrollment calls. */
+  token: string | null;
   /** True once the persisted session has been restored on the client. */
   hasHydrated: boolean;
   setSession: (
     user: PortalUser,
     enrollments: PortalEnrollment[],
-    mocks: PortalMock[]
+    mocks: PortalMock[],
+    token?: string | null
   ) => void;
   setMocks: (mocks: PortalMock[]) => void;
   logout: () => void;
@@ -61,23 +64,31 @@ export const usePortalStore = create<PortalState>()(
       user: null,
       enrollments: [],
       mocks: [],
+      token: null,
       hasHydrated: false,
-      setSession: (user, enrollments, mocks) =>
-        set({ user, enrollments, mocks }),
+      setSession: (user, enrollments, mocks, token) =>
+        set((state) => ({
+          user,
+          enrollments,
+          mocks,
+          token: token === undefined ? state.token : token,
+        })),
       setMocks: (mocks) => set({ mocks }),
-      logout: () => set({ user: null, enrollments: [], mocks: [] }),
+      logout: () =>
+        set({ user: null, enrollments: [], mocks: [], token: null }),
       setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
-      // v2 = password login + multi-course enrollments; bumps discard
-      // pre-v2 sessions (single-course OTP shape)
-      version: 2,
+      // v3 = adds session token (checkout enrollment); bumps discard
+      // pre-v3 sessions
+      version: 3,
       name: "sadias-ielts-portal",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         enrollments: state.enrollments,
         mocks: state.mocks,
+        token: state.token,
       }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

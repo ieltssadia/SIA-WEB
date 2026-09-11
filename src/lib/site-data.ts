@@ -28,14 +28,13 @@ export const navLinks = [
   { label: "Free Tips", href: "#/tips" },
   { label: "Stories", href: "#/stories" },
   { label: "Contact", href: "#/contact" },
-  { label: "Portal", href: "#/portal" },
 ];
 
 /** Dismissible promo strip above the nav — 10MS-style announcement bar. */
 export const promoBar = {
   message: "🎉 নতুন ব্যাচে ভর্তি চলছে! Admission offer — up to 33% off on all courses",
   ctaLabel: "Enroll Now",
-  ctaHref: "#/contact",
+  ctaHref: "#/checkout",
 };
 
 export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];

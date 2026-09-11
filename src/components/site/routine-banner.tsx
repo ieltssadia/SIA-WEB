@@ -163,7 +163,7 @@ export function RoutineBanner() {
                   </Button>
                   <p className="text-center text-xs text-muted-foreground">
                     Not enrolled?{" "}
-                    <a href="#/contact" className="font-semibold text-primary hover:underline">
+                    <a href="#/checkout" className="font-semibold text-primary hover:underline">
                       Enroll now
                     </a>{" "}
                     — or join the{" "}

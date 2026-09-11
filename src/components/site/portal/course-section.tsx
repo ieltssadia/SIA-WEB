@@ -13,6 +13,7 @@ import {
   Layers,
   Mic,
   PenLine,
+  Plus,
   type LucideIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +43,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
   const lessonsDone = course ? Math.round((enrollment.progress / 100) * course.lessons) : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" id={`course-${enrollment.id}`}>
       {/* Course hero */}
       <Reveal y={12}>
         <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6 md:p-8">
@@ -212,9 +213,42 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
 export function CourseSection({ enrollments }: { enrollments: PortalEnrollment[] }) {
   return (
     <div className="space-y-6">
+      {/* Quick jump between enrolled courses (multi-enrollment accounts) */}
+      {enrollments.length > 1 ? (
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card p-3">
+          <p className="px-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            My Courses ({enrollments.length})
+          </p>
+          {enrollments.map((e) => {
+            const c = courses.find((x) => x.slug === e.courseSlug);
+            return (
+              <a
+                key={e.id}
+                href={`#course-${e.id}`}
+                className="rounded-full border border-border bg-[#101014] px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {c?.title ?? e.courseSlug} · {e.batch}
+              </a>
+            );
+          })}
+        </div>
+      ) : null}
+
       {enrollments.map((e) => (
         <EnrolledCourseCard key={e.id} enrollment={e} />
       ))}
+
+      {/* Enroll in another course — 10MS "add course" card */}
+      <a
+        href="#/checkout"
+        className="flex items-center justify-center gap-2 rounded-3xl border border-dashed border-primary/30 bg-card/40 p-6 text-sm font-semibold text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+      >
+        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/40 text-primary">
+          <Plus className="h-4 w-4" aria-hidden />
+        </span>
+        Enroll in another course — নতুন কোর্স যোগ করুন
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </a>
     </div>
   );
 }

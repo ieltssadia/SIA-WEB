@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { canonicalPhone } from "@/lib/phone";
-import { getPortalPayload, verifyPassword } from "@/lib/portal-server";
+import {
+  getPortalPayload,
+  issueToken,
+  verifyPassword,
+} from "@/lib/portal-server";
 import { db } from "@/lib/db";
 
 const loginSchema = z.object({
@@ -68,7 +72,7 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json(payload);
+    return NextResponse.json({ ...payload, token: issueToken(phone) });
   } catch (error) {
     console.error("[api/portal/login] Failed:", error);
     return NextResponse.json(

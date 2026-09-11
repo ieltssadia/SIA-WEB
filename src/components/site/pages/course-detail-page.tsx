@@ -24,7 +24,6 @@ import { CourseCard, courseIconMap } from "@/components/site/courses-section";
 import { CourseRoutineTable } from "@/components/site/weekly-routine";
 import { LockedRoutineCard } from "@/components/site/locked-routine";
 import { courses, site, type Course } from "@/lib/site-data";
-import { useEnrollStore } from "@/lib/enroll-store";
 import { usePortalStore } from "@/lib/portal-store";
 
 function formatBDT(n: number) {
@@ -105,7 +104,6 @@ function CourseNotFound() {
 }
 
 export function CourseDetailPage({ slug }: { slug: string }) {
-  const setCourse = useEnrollStore((s) => s.setCourse);
   const course = courses.find((c) => c.slug === slug);
 
   if (!course) return <CourseNotFound />;
@@ -120,10 +118,6 @@ export function CourseDetailPage({ slug }: { slug: string }) {
     ? sameCategory
     : courses.filter((c) => c.slug !== course.slug)
   ).slice(0, 3);
-
-  const onEnrollClick = () => {
-    setCourse(course.price === null || course.price === 0 ? "not-sure" : course.slug);
-  };
 
   return (
     <>
@@ -357,7 +351,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                         asChild
                         className="w-full bg-gold-gradient py-6 text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
                       >
-                        <a href="#/contact" onClick={onEnrollClick}>
+                        <a href={`#/checkout?course=${course.slug}`}>
                           <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
                           Enroll Now
                         </a>

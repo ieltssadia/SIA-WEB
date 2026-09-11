@@ -40,7 +40,7 @@ export function PortalPage() {
       .then(({ ok, data }) => {
         if (cancelled) return;
         if (ok && data?.user) {
-          setSession(data.user, data.enrollments ?? [], data.mocks ?? []);
+          setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token);
         } else if (!ok) {
           // Account no longer exists — force re-login
           logout();

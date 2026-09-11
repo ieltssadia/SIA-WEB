@@ -35,7 +35,7 @@ export function LockedRoutineCard({ title, desc }: { title: string; desc: string
           variant="outline"
           className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
         >
-          <Link href="#/contact">
+          <Link href="#/checkout">
             <GraduationCap className="mr-1.5 h-4 w-4" aria-hidden />
             Enroll Now
           </Link>
@@ -92,7 +92,7 @@ export function LockedRoutineSection() {
               variant="outline"
               className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
             >
-              <Link href="#/contact">
+              <Link href="#/checkout">
                 Not enrolled? Enroll Now
                 <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
               </Link>

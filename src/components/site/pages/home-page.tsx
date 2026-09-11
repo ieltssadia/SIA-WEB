@@ -41,7 +41,7 @@ function HomeCta() {
                   size="lg"
                   className="bg-gold-gradient text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)] hover:opacity-90"
                 >
-                  <a href="#/contact">
+                  <a href="#/checkout">
                     <GraduationCap className="mr-1.5 h-5 w-5" aria-hidden />
                     Enroll Now
                   </a>

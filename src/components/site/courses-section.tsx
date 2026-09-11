@@ -21,7 +21,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { courseCategories, courses, site, type Course } from "@/lib/site-data";
-import { useEnrollStore } from "@/lib/enroll-store";
 
 export const courseIconMap: Record<string, React.ElementType> = {
   users: Users,
@@ -56,12 +55,7 @@ function Stars({ rating }: { rating: number }) {
 
 export function CourseCard({ course, index }: { course: Course; index: number }) {
   const Icon = courseIconMap[course.icon] ?? BookOpen;
-  const setCourse = useEnrollStore((s) => s.setCourse);
   const discount = course.price ? discountPct(course.price, course.oldPrice) : null;
-
-  const onEnrollClick = () => {
-    setCourse(course.price === null || course.price === 0 ? "not-sure" : course.slug);
-  };
 
   return (
     <Reveal delay={(index % 3) * 0.08} className="h-full">
@@ -189,7 +183,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                   Call to Enroll
                 </a>
               ) : (
-                <a href="#/contact" onClick={onEnrollClick}>
+                <a href={`#/checkout?course=${course.slug}`}>
                   Enroll
                 </a>
               )}

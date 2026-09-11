@@ -15,6 +15,8 @@ import { TipsPage } from "@/components/site/pages/tips-page";
 import { StoriesPage } from "@/components/site/pages/stories-page";
 import { ContactPage } from "@/components/site/pages/contact-page";
 import { PortalPage } from "@/components/site/pages/portal-page";
+import { CheckoutPage } from "@/components/site/pages/checkout-page";
+import { useHashQuery } from "@/lib/router";
 
 function subscribe(callback: () => void) {
   window.addEventListener("hashchange", callback);
@@ -42,6 +44,7 @@ export function SiteRouter() {
   const route = useHashRoute();
   const rawHash = useRawHash();
   const segments = routeSegments(route);
+  const query = useHashQuery();
 
   // Scroll management: legacy anchors scroll to their section, pages go to top
   useEffect(() => {
@@ -79,6 +82,8 @@ export function SiteRouter() {
     page = <ContactPage />;
   } else if (segments[0] === "portal") {
     page = <PortalPage />;
+  } else if (segments[0] === "checkout") {
+    page = <CheckoutPage initialCourse={query.get("course")} />;
   } else {
     page = <HomePage />;
   }

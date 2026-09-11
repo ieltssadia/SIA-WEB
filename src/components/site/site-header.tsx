@@ -3,7 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, X } from "lucide-react";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -169,11 +169,23 @@ export function SiteHeader() {
               <Phone className="h-4 w-4" aria-hidden />
               {site.phone}
             </a>
+            {!portalAuthed ? (
+              <Button
+                asChild
+                variant="outline"
+                className="hidden border-primary/30 font-semibold text-primary hover:bg-primary/10 hover:text-primary sm:inline-flex"
+              >
+                <a href="#/portal">
+                  <LogIn className="mr-1 h-4 w-4" aria-hidden />
+                  Log in
+                </a>
+              </Button>
+            ) : null}
             <Button
               asChild
               className="hidden bg-gold-gradient font-semibold text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)] hover:opacity-90 sm:inline-flex"
             >
-              <a href={portalAuthed ? "#/portal" : "#/contact"}>
+              <a href={portalAuthed ? "#/portal" : "#/checkout"}>
                 {portalAuthed ? (
                   <LayoutDashboard className="mr-1 h-4 w-4" aria-hidden />
                 ) : (
@@ -220,7 +232,7 @@ export function SiteHeader() {
                   </nav>
                   <div className="mt-auto space-y-3 pb-2">
                     <Button asChild className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
-                      <a href={portalAuthed ? "#/portal" : "#/contact"} onClick={() => setOpen(false)}>
+                      <a href={portalAuthed ? "#/portal" : "#/checkout"} onClick={() => setOpen(false)}>
                         {portalAuthed ? (
                           <LayoutDashboard className="mr-1 h-4 w-4" aria-hidden />
                         ) : (
@@ -229,6 +241,14 @@ export function SiteHeader() {
                         {portalAuthed ? "My Portal" : "Enroll Now"}
                       </a>
                     </Button>
+                    {!portalAuthed ? (
+                      <Button asChild variant="outline" className="w-full border-primary/25 font-semibold hover:text-primary">
+                        <a href="#/portal" onClick={() => setOpen(false)}>
+                          <LogIn className="mr-1 h-4 w-4" aria-hidden />
+                          Student Login
+                        </a>
+                      </Button>
+                    ) : null}
                     <Button asChild variant="outline" className="w-full border-primary/25 hover:text-primary">
                       <a href={site.phoneHref}>
                         <Phone className="mr-1 h-4 w-4" aria-hidden />
