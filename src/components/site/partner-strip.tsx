@@ -113,6 +113,11 @@ const PARTNERS: Partner[] = [
 
 /* --------------------------------- marquee -------------------------------- */
 
+/* Each half of the track repeats the partner set this many times so one half
+   is always wider than the viewport (~3.2k px) — the loop stays truly endless
+   with zero empty gap, even on ultrawide screens. */
+const LOOP_REPEATS = 4;
+
 export function PartnerStrip() {
   return (
     <section
@@ -132,18 +137,24 @@ export function PartnerStrip() {
         style={{ "--marquee-duration": "26s" } as CSSProperties}
       >
         <div className="partner-marquee-track flex w-max items-center">
-          {/* Two identical copies → translateX(-50%) loops seamlessly */}
+          {/* Two identical halves → translateX(-50%) loops seamlessly, 0 gap */}
           {[0, 1].map((copy) => (
             <ul
               key={copy}
               aria-hidden={copy === 1}
               className="flex items-center gap-16 pr-16 sm:gap-24 sm:pr-24"
             >
-              {PARTNERS.map((partner) => (
-                <li key={partner.id} title={partner.name} className="partner-logo">
-                  {partner.logo}
-                </li>
-              ))}
+              {Array.from({ length: LOOP_REPEATS }, (_, set) =>
+                PARTNERS.map((partner) => (
+                  <li
+                    key={`${set}-${partner.id}`}
+                    title={partner.name}
+                    className="partner-logo"
+                  >
+                    {partner.logo}
+                  </li>
+                ))
+              )}
             </ul>
           ))}
         </div>

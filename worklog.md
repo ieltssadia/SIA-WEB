@@ -274,3 +274,16 @@ Work Log:
 
 Stage Summary:
 - Partner strip is now an infinite side-by-side marquee driven by the PARTNERS array (add a logo = edit one array), with edge fade, hover pause, reduced-motion support. British Council logo reveals true brand purple #1B035B on hover (plain-CSS reveal works on all devices). Pre-existing mobile horizontal overflow eliminated.
+---
+Task ID: 14
+Agent: Z.ai Code (main)
+Task: User: "egula shob page e na homepage e diba shudhu" (partner strip homepage-only) + "keep it endless... ekta jay tarpor gap create hoy endless deo 0 gap" (marquee showed an empty gap) + "routine keno navbar e thakbe" (remove Class Routine from nav) + "make everything classy standard edtech website".
+
+Work Log:
+- Root cause of the gap: each marquee half was one partner set (~800px) — narrower than wide viewports, so after -50% translation a large empty band appeared. Fix: LOOP_REPEATS=4 → each half now 4 sets (~2,975px, 12 logos), covering 1920 and even 2560 ultrawide with zero gap. Verified: half width 2975 ≥ viewport 1920; screenshot shows logos edge-to-edge, longest whitespace run only 338px (normal inter-logo spacing vs ~950px void before).
+- Homepage-only placement: PartnerStrip removed from SiteFooter; SiteRouter now renders it inside a single <div className="mt-auto"> wrapper above <SiteFooter /> only when segments.length === 0 (home). Footer dropped its own mt-auto (avoids double margin-auto splitting free space → gap between strip and footer).
+- Nav cleanup: removed "Class Routine" from navLinks (now 7 items: Home, Courses, About, Free Tips, Stories, Shop, Contact). Routine page stays reachable via footer "Events" links — standard edtech nav, no internal tooling exposed.
+- Verified (agent-browser): strip=true ONLY on #/, false on courses/routine/shop/stories/about/tips/contact/checkout/portal (all 0 console errors); sticky footer — scrolled to doc end on #/checkout: footer bottom = viewport bottom, noGapBelowFooter=true; mobile 390: half 2591 ≥ 390, no x-overflow, strip above footer; nav single-line at 1920 (7 items + phone at 2xl). lint clean; dev.log clean.
+
+Stage Summary:
+- Marquee is truly endless (0 gap at any viewport width), partner trust band is a homepage-exclusive section above the footer, navbar is clean standard edtech (7 items, routine only via footer). Sticky-footer layout preserved sitewide via single mt-auto wrapper in SiteRouter.

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { PartnerStrip } from "@/components/site/partner-strip";
 import { site } from "@/lib/site-data";
 
 /**
@@ -73,9 +72,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
 
 export function SiteFooter() {
   return (
-    <div className="mt-auto">
-      <PartnerStrip />
-      <footer className="border-t border-primary/10 bg-[#070708]">
+    <footer className="border-t border-primary/10 bg-[#070708]">
         <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.15fr_1fr]">
             {/* Brand + contact — like the real site footer */}
@@ -166,6 +163,5 @@ export function SiteFooter() {
           </div>
         </div>
       </footer>
-    </div>
   );
 }

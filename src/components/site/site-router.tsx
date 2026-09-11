@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 import { routeSegments, useHashRoute } from "@/lib/router";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
+import { PartnerStrip } from "@/components/site/partner-strip";
 import { FloatingCta } from "@/components/site/floating-cta";
 import { HomePage } from "@/components/site/pages/home-page";
 import { CoursesPage } from "@/components/site/pages/courses-page";
@@ -95,7 +96,11 @@ export function SiteRouter() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">{page}</main>
-      <SiteFooter />
+      {/* Partner trust band is a homepage-only section, pinned above the footer */}
+      <div className="mt-auto">
+        {segments.length === 0 && <PartnerStrip />}
+        <SiteFooter />
+      </div>
       <FloatingCta />
     </div>
   );
