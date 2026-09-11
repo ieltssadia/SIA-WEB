@@ -8,6 +8,7 @@ import {
   Clock,
   GraduationCap,
   Info,
+  LogIn,
   MonitorSmartphone,
   Phone,
   Radio,
@@ -19,6 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { ModeBadge, WeeklyRoutine, useToday, todaysClasses } from "@/components/site/weekly-routine";
+import { LockedRoutineSection } from "@/components/site/locked-routine";
 import {
   freeLiveClasses,
   routineNote,
@@ -26,6 +28,7 @@ import {
   upcomingBatches,
 } from "@/lib/site-data";
 import { useEnrollStore } from "@/lib/enroll-store";
+import { usePortalStore } from "@/lib/portal-store";
 
 const emptySubscribe = () => () => {};
 
@@ -352,7 +355,43 @@ function RoutineCta() {
   );
 }
 
+/** Gold strip shown to logged-in students above the full routine. */
+function WelcomeStrip({ name, batch }: { name: string; batch: string }) {
+  return (
+    <Reveal y={12}>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-[#1d1808] to-[#141419] px-5 py-4">
+        <p className="flex items-center gap-2.5 text-sm text-foreground">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-gradient font-display text-sm font-bold text-[#16120a]">
+            {name.charAt(0)}
+          </span>
+          <span>
+            Welcome back, <span className="font-semibold">{name}</span>!
+            <span className="ml-2 rounded-full bg-primary/15 px-2 py-0.5 text-xs font-semibold text-primary">
+              {batch}
+            </span>
+          </span>
+        </p>
+        <Button
+          asChild
+          size="sm"
+          variant="outline"
+          className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+        >
+          <a href="#/portal">
+            <LogIn className="mr-1.5 h-3.5 w-3.5" aria-hidden />
+            Open Full Portal
+          </a>
+        </Button>
+      </div>
+    </Reveal>
+  );
+}
+
 export function RoutinePage() {
+  const student = usePortalStore((s) => s.student);
+  const hasHydrated = usePortalStore((s) => s.hasHydrated);
+  const isLoggedIn = hasHydrated && !!student;
+
   return (
     <>
       <PageHeader
@@ -362,46 +401,54 @@ export function RoutinePage() {
             Weekly <span className="text-gold-gradient">Class Routine</span>
           </>
         }
-        subtitle="সাপ্তাহিক অনলাইন ও অফলাইন ক্লাস রুটিন — কোন দিন, কোন সময়ে, কোন ব্যাচের কী ক্লাস। আপনার ব্যাচের ক্লাসগুলো মিস করবেন না!"
+        subtitle="সাপ্তাহিক ক্লাস রুটিন শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য। Student Portal-এ লগ ইন করে আপনার ব্যাচের পুরো রুটিন, Zoom লিংক ও আপডেট দেখুন।"
       />
 
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <TodayBanner />
+          {isLoggedIn && student ? (
+            <>
+              <WelcomeStrip name={student.name} batch={student.batch} />
+              <div className="mt-8">
+                <TodayBanner />
+              </div>
+              <div className="mt-14">
+                <SectionHeading
+                  eyebrow="Sat – Thu"
+                  title={
+                    <>
+                      This Week&apos;s <span className="text-gold-gradient">Schedule</span>
+                    </>
+                  }
+                  subtitle="দিন সিলেক্ট করে দেখুন সেদিনের পুরো রুটিন। সব সময় বাংলাদেশ সময় অনুযায়ী।"
+                />
+                <WeeklyRoutine />
+              </div>
 
-          <div className="mt-14">
-            <SectionHeading
-              eyebrow="Sat – Thu"
-              title={
-                <>
-                  This Week&apos;s <span className="text-gold-gradient">Schedule</span>
-                </>
-              }
-              subtitle="দিন সিলেক্ট করে দেখুন সেদিনের পুরো রুটিন। সব সময় বাংলাদেশ সময় অনুযায়ী।"
-            />
-            <WeeklyRoutine />
-          </div>
-
-          {/* Legend */}
-          <Reveal delay={0.1}>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-2xl border border-border bg-card px-6 py-4 text-xs text-muted-foreground">
-              <span className="font-semibold uppercase tracking-wider text-foreground/70">
-                Class modes:
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden /> Online Live — Zoom
-                ক্লাস
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-primary" aria-hidden /> Campus — ক্যাম্পাসে
-                (Chowmuhona)
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-muted-foreground" aria-hidden /> Hybrid — দুটোই
-                সুবিধামতো
-              </span>
-            </div>
-          </Reveal>
+              {/* Legend */}
+              <Reveal delay={0.1}>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-2xl border border-border bg-card px-6 py-4 text-xs text-muted-foreground">
+                  <span className="font-semibold uppercase tracking-wider text-foreground/70">
+                    Class modes:
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden />{" "}
+                    Online Live — Zoom ক্লাস
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-primary" aria-hidden /> Campus —{" "}
+                    ক্যাম্পাসে (Chowmuhona)
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground" aria-hidden />{" "}
+                    Hybrid — দুটোই সুবিধামতো
+                  </span>
+                </div>
+              </Reveal>
+            </>
+          ) : (
+            <LockedRoutineSection />
+          )}
         </div>
       </section>
 

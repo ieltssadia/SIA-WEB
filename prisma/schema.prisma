@@ -21,3 +21,15 @@ model Lead {
   @@index([createdAt])
   @@index([status])
 }
+
+// Enrolled students — they log into the Student Portal (phone-based) to see
+// the private class routine, class links and batch updates.
+model Student {
+  id         String   @id @default(cuid())
+  name       String
+  phone      String   @unique // canonical BD mobile: 01XXXXXXXXX
+  courseSlug String // matches courses[].slug in site-data.ts
+  batch      String // e.g. "Batch 317"
+  status     String   @default("active") // active | paused | alumni
+  createdAt  DateTime @default(now())
+}

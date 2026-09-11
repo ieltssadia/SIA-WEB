@@ -78,27 +78,43 @@ function courseTitle(slug: string): string {
   return courses.find((c) => c.slug === slug)?.title ?? "Sadia's IELTS";
 }
 
-function RoutineRows({ rows, compact = false }: { rows: RoutineClass[]; compact?: boolean }) {
+function RoutineRows({
+  rows,
+  isMine,
+}: {
+  rows: RoutineClass[];
+  isMine?: (row: RoutineClass) => boolean;
+}) {
   return (
     <TableBody>
       {rows.map((row) => {
         const isFree = row.type === "Free Live Class" || row.type === "Speaking Club";
+        const mine = isMine?.(row) ?? false;
         return (
           <TableRow
             key={`${row.day}-${row.start}-${row.topic}`}
-            className={isFree ? "border-primary/10 bg-emerald-500/[0.04]" : undefined}
+            className={
+              mine
+                ? "border-l-2 border-l-primary bg-primary/[0.06]"
+                : isFree
+                  ? "border-primary/10 bg-emerald-500/[0.04]"
+                  : undefined
+            }
           >
             <TableCell className="whitespace-nowrap align-top">
               <p className="font-semibold text-foreground">{row.start}</p>
               <p className="text-xs text-muted-foreground">– {row.end}</p>
             </TableCell>
             <TableCell className="min-w-44 align-top">
-              <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
                 {row.batch}
+                {mine ? (
+                  <span className="rounded-full bg-gold-gradient px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-[#16120a]">
+                    My batch
+                  </span>
+                ) : null}
               </p>
-              {!compact ? (
-                <p className="mt-0.5 text-xs text-muted-foreground">{courseTitle(row.courseSlug)}</p>
-              ) : null}
+              <p className="mt-0.5 text-xs text-muted-foreground">{courseTitle(row.courseSlug)}</p>
             </TableCell>
             <TableCell className="align-top font-medium text-foreground/90">{row.topic}</TableCell>
             <TableCell className="align-top">
@@ -114,7 +130,13 @@ function RoutineRows({ rows, compact = false }: { rows: RoutineClass[]; compact?
   );
 }
 
-function RoutineTable({ rows }: { rows: RoutineClass[] }) {
+export function RoutineTable({
+  rows,
+  isMine,
+}: {
+  rows: RoutineClass[];
+  isMine?: (row: RoutineClass) => boolean;
+}) {
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
       <Table>
@@ -137,7 +159,7 @@ function RoutineTable({ rows }: { rows: RoutineClass[] }) {
             </TableHead>
           </TableRow>
         </TableHeader>
-        <RoutineRows rows={rows} />
+        <RoutineRows rows={rows} isMine={isMine} />
       </Table>
     </div>
   );

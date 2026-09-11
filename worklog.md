@@ -84,3 +84,25 @@ Work Log:
 Stage Summary:
 - Site now has a full 10MS-style Online Class Routine system: /routine page (today banner + interactive weekly table + free live classes + upcoming batches admission board), home routine banner, per-course weekly schedules, nav/footer wiring
 - Batch numbers continue from the 316+ completed batches (317–321); all schedule data lives in site-data.ts for easy client updates
+
+---
+Task ID: 5
+Agent: Z.ai Code (main)
+Task: Make class routine private (enrolled-only) + build Student Portal (user: "routine is showed when someone enrolled not publicly and there should be portal for enrolled students")
+
+Work Log:
+- prisma/schema.prisma: added Student model (name, phone unique canonical 01XXXXXXXXX, courseSlug, batch, status default active); db:push OK; prisma/seed.ts (bun-run) upserts 5 demo students (01712000001 Anika/In Batch 317, 0002 Fariha/Private 319, 0003 Milon/One-to-One, 0004 Emran/Crash 318-C, 0005 Eva/Pre-IELTS 320)
+- src/lib/phone.ts: canonicalPhone() normalizes +880/880/01/10-digit inputs
+- POST /api/portal/login: zod-validates phone, canonicalizes, db.student.findUnique, 404 with bilingual "no active enrollment" message, 200 returns {name, phone, courseSlug, batch} (demo-grade phone-login auth; no OTP)
+- src/lib/portal-store.ts: zustand + persist(localStorage "sadias-ielts-portal"), student + hasHydrated flag (onRehydrateStorage) so components gate rendering against SSR mismatch
+- weekly-routine.tsx: exported RoutineTable + added isMine(row) prop — matching rows get gold left border + "My batch" chip (shared rows batch/Everyone count as mine)
+- New pages/portal-page.tsx: LoginCard (benefits panel + phone form + inline error alert + 5 tap-to-fill demo chips + enroll CTA); Dashboard (greeting band with avatar initial/batch badge/logout, NextClassCard computing next upcoming class client-side from classRoutine with "Your schedule"/"Other batch" badge, PortalRoutine with My Classes|Full Routine toggle + day tabs showing filtered counts + RoutineTable isMine highlight + flexible-course empty states, sidebar: CourseCard w/ scheduleNote, SupportCard (WhatsApp group/call/Facebook/tips), FreeClassesCard); !hasHydrated renders skeleton; PortalPage = student ? Dashboard : login
+- New locked-routine.tsx: LockedRoutineSection (routine page: real Saturday table blurred+aria-hidden under a lock overlay panel with Open Student Portal/Enroll CTAs + "free classes are public" note) and LockedRoutineCard (compact teaser for course pages/home)
+- Gating: routine-page shows WelcomeStrip + TodayBanner + WeeklyRoutine + legend only when logged in, else LockedRoutineSection (FreeLiveClasses/UpcomingBatches/CTA stay public); routine-banner (home) shows today's classes when logged in else locked teaser card + Portal CTAs + updated copy bullet; course-detail CourseRoutineGate shows per-course table only when logged in else LockedRoutineCard (scheduleNote one-liner stays public)
+- navLinks: added "Portal" (#/portal), renamed "Success Stories"→"Stories" for desktop nav width; footer Company column gained "Student Portal"; router gained portal branch
+- Fixes during verification: (1) JSX parse error in course-detail (unclosed {" "}) — lint caught, server 500; (2) stale Prisma client in running dev server → db.student undefined 500 → restarted dev server; (3) stale Turbopack .next cache served old router (portal rendered RoutinePage) → rm -rf .next + restart; (4) ReferenceError classRoutine not imported in portal-page → crash on Dashboard render, caught via Next dev overlay shadowRoot, added import
+- Verification (agent-browser, fresh session): API tests (valid/+880 format/unknown/invalid → 200/200/404/400); routine page logged out = locked w/ blurred preview, schedule hidden, free classes + batches still public; portal login page renders w/ demo chips; wrong number → bilingual inline error; login as Anika → dashboard (greeting, Batch 317, next class "Tomorrow" w/ Your schedule badge, My Classes counts Sat2 Sun2..., Sat rows w/ My batch chips incl shared Speaking Club, Full Routine toggle shows Batch 319 rows); login as Emran → crash course data + "Other batch" badge; login as Milon → flexible note + shared-only counts; logout → login page + storage cleared; persistence (reload keeps session); routine/home/course pages flip locked↔unlocked with session; mobile 390px portal layout OK; final fresh-session error count 0; lint clean; health 200
+
+Stage Summary:
+- Class routine is now members-only: public /routine shows a locked preview; full schedule, today banner and per-course topic tables render only for logged-in enrolled students
+- Student Portal (#/portal): phone-based login against the Student table (SQLite), persisted session, dashboard with next-class card, My Classes/Full Routine weekly schedule, course info, support quick links and free-class reminders; logout + demo numbers seeded for testing

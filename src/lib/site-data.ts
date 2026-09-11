@@ -26,8 +26,9 @@ export const navLinks = [
   { label: "Class Routine", href: "#/routine" },
   { label: "About", href: "#/about" },
   { label: "Free Tips", href: "#/tips" },
-  { label: "Success Stories", href: "#/stories" },
+  { label: "Stories", href: "#/stories" },
   { label: "Contact", href: "#/contact" },
+  { label: "Portal", href: "#/portal" },
 ];
 
 /** Dismissible promo strip above the nav — 10MS-style announcement bar. */

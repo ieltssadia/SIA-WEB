@@ -22,8 +22,10 @@ import { PageHeader } from "@/components/site/page-header";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { CourseCard, courseIconMap } from "@/components/site/courses-section";
 import { CourseRoutineTable } from "@/components/site/weekly-routine";
+import { LockedRoutineCard } from "@/components/site/locked-routine";
 import { courses, site, type Course } from "@/lib/site-data";
 import { useEnrollStore } from "@/lib/enroll-store";
+import { usePortalStore } from "@/lib/portal-store";
 
 function formatBDT(n: number) {
   return `৳${n.toLocaleString("en-US")}`;
@@ -36,6 +38,34 @@ function discountPct(price: number, oldPrice?: number) {
 
 function formatStudents(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k+` : `${n}`;
+}
+
+/** Routine table for enrolled students; a locked teaser for everyone else. */
+function CourseRoutineGate({ courseSlug }: { courseSlug: string }) {
+  const student = usePortalStore((s) => s.student);
+  const hasHydrated = usePortalStore((s) => s.hasHydrated);
+
+  if (hasHydrated && student) {
+    return (
+      <div>
+        <CourseRoutineTable courseSlug={courseSlug} />
+        <p className="mt-4 text-xs text-muted-foreground">
+          Zoom লিংক ও নোটিশ পেতে আপনার{" "}
+          <a href="#/portal" className="font-semibold text-primary hover:underline">
+            Student Portal
+          </a>{" "}
+          ভিজিট করুন বা batch WhatsApp গ্রুপে থাকুন।
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <LockedRoutineCard
+      title="Routine is for enrolled students"
+      desc="এই কোর্সের দিন-ভিত্তিক পুরো রুটিন (প্রতিটি ক্লাসের টপিক, সময় ও Zoom লিংক) Student Portal-এ দেখা যায় — ভর্তির সময় দেওয়া মোবাইল নম্বর দিয়ে লগ ইন করুন।"
+    />
+  );
 }
 
 function CourseNotFound() {
@@ -178,7 +208,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                 </ol>
               </Reveal>
 
-              {/* Weekly class routine */}
+              {/* Weekly class routine — members only */}
               <Reveal delay={0.11}>
                 <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
                   Weekly Class Routine
@@ -188,17 +218,8 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                   {course.scheduleNote} · সব সময় বাংলাদেশ সময় (GMT+6)
                 </p>
                 <div className="mt-4">
-                  <CourseRoutineTable courseSlug={course.slug} />
+                  <CourseRoutineGate courseSlug={course.slug} />
                 </div>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Full weekly schedule (all batches &amp; free live classes):{" "}
-                  <a
-                    href="#/routine"
-                    className="font-semibold text-primary transition-colors hover:underline"
-                  >
-                    View the complete class routine →
-                  </a>
-                </p>
               </Reveal>
 
               {/* Instructor mini */}

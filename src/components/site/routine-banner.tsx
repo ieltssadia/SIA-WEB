@@ -1,17 +1,21 @@
 "use client";
 
-import { CalendarRange, Clock, MonitorSmartphone, Radio } from "lucide-react";
+import { CalendarRange, Clock, LockKeyhole, LogIn, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal } from "@/components/site/reveal";
 import { ModeBadge, useToday, todaysClasses } from "@/components/site/weekly-routine";
+import { usePortalStore } from "@/lib/portal-store";
 
 /**
- * Compact "online class routine" promo for the home page — shows today's
- * live classes (client-only) with a link to the full routine page.
+ * Compact "online class routine" promo for the home page. The schedule itself
+ * is members-only: logged-in students see today's classes, everyone else
+ * sees a locked teaser linking to the Student Portal.
  */
 export function RoutineBanner() {
   const today = useToday();
+  const student = usePortalStore((s) => s.student);
+  const hasHydrated = usePortalStore((s) => s.hasHydrated);
   const rows = todaysClasses(today).slice(0, 4);
   const isOff = today === "Friday";
 
@@ -41,6 +45,10 @@ export function RoutineBanner() {
               <Radio className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               Free Speaking Club every Saturday, 4:00 PM
             </li>
+            <li className="flex items-center gap-2.5">
+              <LockKeyhole className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              ভর্তি হলেই Student Portal-এ পাবেন আপনার ব্যাচের পুরো রুটিন ও Zoom লিংক
+            </li>
           </ul>
           <div className="mt-7 flex flex-wrap gap-3">
             <Button
@@ -48,7 +56,10 @@ export function RoutineBanner() {
               size="lg"
               className="bg-gold-gradient font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
             >
-              <a href="#/routine">View Full Routine</a>
+              <a href="#/portal">
+                <LogIn className="mr-2 h-4 w-4" aria-hidden />
+                {hasHydrated && student ? "Open Student Portal" : "Student Portal Login"}
+              </a>
             </Button>
             <Button
               asChild
@@ -56,77 +67,109 @@ export function RoutineBanner() {
               variant="outline"
               className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
             >
-              <a
-                href="https://www.facebook.com/Sadiasielts"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Radio className="mr-2 h-4 w-4" aria-hidden />
-                Join Free Live Class
-              </a>
+              <a href="#/routine">Routine &amp; Free Classes</a>
             </Button>
           </div>
         </Reveal>
 
-        {/* Today's classes card */}
+        {/* Right card: today's classes for logged-in students, locked teaser otherwise */}
         <Reveal delay={0.1}>
           <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
             <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] px-6 py-4">
               <p className="flex items-center gap-2 font-display text-base font-bold text-foreground">
                 <Clock className="h-4.5 w-4.5 text-primary" aria-hidden />
-                {today ? `Today · ${today}` : "This Week"}
+                {hasHydrated && student
+                  ? today
+                    ? `Today · ${today}`
+                    : "This Week"
+                  : "Class Routine — Members Only"}
               </p>
-              <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              {hasHydrated && student ? (
+                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  </span>
+                  Live Classes
                 </span>
-                Live Classes
-              </span>
+              ) : (
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gold-gradient">
+                  <LockKeyhole className="h-3.5 w-3.5 text-[#16120a]" aria-hidden />
+                </span>
+              )}
             </div>
             <CardContent className="space-y-3 p-6">
-              {today && isOff ? (
-                <div className="rounded-xl border border-dashed border-primary/25 px-4 py-8 text-center">
-                  <p className="font-semibold text-foreground">Friday — Weekly Off</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    শুক্রবার ছুটি। কাল সকাল ১০টায় ক্লাস শুরু হবে।
-                  </p>
-                </div>
-              ) : today && rows.length > 0 ? (
-                <>
-                  {rows.map((row) => (
-                    <div
-                      key={`${row.day}-${row.start}-${row.topic}`}
-                      className="flex items-start gap-3 rounded-xl border border-border bg-[#101014] p-3.5"
+              {hasHydrated && student ? (
+                today && isOff ? (
+                  <div className="rounded-xl border border-dashed border-primary/25 px-4 py-8 text-center">
+                    <p className="font-semibold text-foreground">Friday — Weekly Off</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      শুক্রবার ছুটি। কাল সকাল ১০টায় ক্লাস শুরু হবে।
+                    </p>
+                  </div>
+                ) : today && rows.length > 0 ? (
+                  <>
+                    {rows.map((row) => (
+                      <div
+                        key={`${row.day}-${row.start}-${row.topic}`}
+                        className="flex items-start gap-3 rounded-xl border border-border bg-[#101014] p-3.5"
+                      >
+                        <div className="w-24 shrink-0">
+                          <p className="text-sm font-semibold text-foreground">{row.start}</p>
+                          <p className="text-xs text-muted-foreground">– {row.end}</p>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                            {row.batch}
+                          </p>
+                          <p className="truncate text-sm text-foreground/90">{row.topic}</p>
+                        </div>
+                        <ModeBadge mode={row.mode} />
+                      </div>
+                    ))}
+                    <a
+                      href="#/portal"
+                      className="block pt-1 text-center text-xs font-semibold text-primary transition-colors hover:underline"
                     >
-                      <div className="w-24 shrink-0">
-                        <p className="text-sm font-semibold text-foreground">{row.start}</p>
-                        <p className="text-xs text-muted-foreground">– {row.end}</p>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-                          {row.batch}
-                        </p>
-                        <p className="truncate text-sm text-foreground/90">{row.topic}</p>
-                      </div>
-                      <ModeBadge mode={row.mode} />
-                    </div>
-                  ))}
-                  <a
-                    href="#/routine"
-                    className="block pt-1 text-center text-xs font-semibold text-primary transition-colors hover:underline"
-                  >
-                    See the full weekly routine →
-                  </a>
-                </>
+                      Open your full portal →
+                    </a>
+                  </>
+                ) : (
+                  <div className="rounded-xl border border-border bg-[#101014] px-4 py-8 text-center">
+                    <Clock className="mx-auto h-6 w-6 text-primary" aria-hidden />
+                    <p className="mt-2 font-semibold text-foreground">Classes run Sat – Thu</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Morning 10:00 AM to evening 9:00 PM (GMT+6)
+                    </p>
+                  </div>
+                )
               ) : (
-                <div className="rounded-xl border border-border bg-[#101014] px-4 py-8 text-center">
-                  <MonitorSmartphone className="mx-auto h-6 w-6 text-primary" aria-hidden />
-                  <p className="mt-2 font-semibold text-foreground">Classes run Sat – Thu</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Morning 10:00 AM to evening 9:00 PM (GMT+6)
+                <>
+                  <p className="rounded-xl border border-dashed border-primary/25 bg-[#101014] px-4 py-5 text-center text-sm leading-relaxed text-muted-foreground">
+                    সম্পূর্ণ রুটিন, ব্যাচের ক্লাস ও Zoom লিংক শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য —
+                    enrolled নম্বর দিয়ে পোর্টালে লগ ইন করুন।
                   </p>
-                </div>
+                  <Button
+                    asChild
+                    className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                  >
+                    <a href="#/portal">
+                      <LogIn className="mr-1.5 h-4 w-4" aria-hidden />
+                      Log in to Student Portal
+                    </a>
+                  </Button>
+                  <p className="text-center text-xs text-muted-foreground">
+                    Not enrolled?{" "}
+                    <a href="#/contact" className="font-semibold text-primary hover:underline">
+                      Enroll now
+                    </a>{" "}
+                    — or join the{" "}
+                    <a href="#/routine" className="font-semibold text-primary hover:underline">
+                      free live classes
+                    </a>
+                    .
+                  </p>
+                </>
               )}
             </CardContent>
           </Card>

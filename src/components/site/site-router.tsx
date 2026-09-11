@@ -14,6 +14,7 @@ import { AboutPage } from "@/components/site/pages/about-page";
 import { TipsPage } from "@/components/site/pages/tips-page";
 import { StoriesPage } from "@/components/site/pages/stories-page";
 import { ContactPage } from "@/components/site/pages/contact-page";
+import { PortalPage } from "@/components/site/pages/portal-page";
 
 function subscribe(callback: () => void) {
   window.addEventListener("hashchange", callback);
@@ -76,6 +77,8 @@ export function SiteRouter() {
     page = <StoriesPage />;
   } else if (segments[0] === "contact") {
     page = <ContactPage />;
+  } else if (segments[0] === "portal") {
+    page = <PortalPage />;
   } else {
     page = <HomePage />;
   }
