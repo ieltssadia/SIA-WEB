@@ -244,3 +244,17 @@ Work Log:
 
 Stage Summary:
 - Dev server runs persistently again via the platform boot-script lineage (PID logged in .zscripts flow). Root infra untouched. If it ever dies again: run `bash /home/z/my-project/.zscripts/dev.sh` (NOT plain nohup bun run dev).
+---
+Task ID: 12
+Agent: Z.ai Code (main)
+Task: User: "make sub nav things are overlapping" (screenshot: header nav items wrapped/overlapped — Class Routine, Free Tips, phone on 2 lines) + "use fonts from the zip file" (Atma, Bricolage Grotesque, Hind Siliguri, Urbanist).
+
+Work Log:
+- Uploaded zip unpacked to public/fonts/: Bricolage Grotesque static 400–800, Urbanist variable wght, Hind Siliguri 400–700, Atma 400–700.
+- layout.tsx: replaced all next/font/google (Geist/Geist Mono/Playfair/Noto Bengali) with next/font/local loading the 4 brand fonts (vars --font-urbanist/--font-bricolage/--font-hind-siliguri/--font-atma). Removes Google Fonts network dependency entirely.
+- globals.css: --font-sans: urbanist + hind-siliguri fallback; --font-display: bricolage + atma fallback; --font-bengali: hind-siliguri; --font-mono: system stack; body font-family updated to match.
+- site-header.tsx overlap fixes: nav breakpoint lg→xl (full 8-link menu only ≥1280px), links whitespace-nowrap + px-2.5 (2xl:px-3), gap-0.5, hamburger trigger xl:hidden, nav phone number → 2xl:flex + whitespace-nowrap.
+- Verified (agent-browser): 1900px — nav single row (h=36), phone nowrap, computed fonts urbanist/bricolage applied; 1280px — nav fits, no x-overflow; 1100px — nav hidden, hamburger visible; 390px — compact header + sheet menu; Bengali renders in Hind Siliguri. Console/page errors: 0. lint clean.
+
+Stage Summary:
+- Brand fonts now fully local (Urbanist body · Bricolage Grotesque headings · Hind Siliguri Bengali · Atma Bengali display accent). Header never wraps: full nav ≥1280, hamburger below, phone ≥1536.

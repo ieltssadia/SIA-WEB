@@ -1,33 +1,55 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Playfair_Display,
-  Noto_Sans_Bengali,
-} from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+/* Local brand fonts (from the client's font pack — no external fetching):
+   Urbanist → Latin body/UI · Bricolage Grotesque → display/headings
+   Hind Siliguri → Bengali body · Atma → Bengali display accent  */
+const urbanist = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Urbanist-VariableFont_wght.ttf",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-urbanist",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const bricolage = localFont({
+  src: [
+    { path: "../../public/fonts/BricolageGrotesque-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/BricolageGrotesque-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/BricolageGrotesque-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/BricolageGrotesque-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../../public/fonts/BricolageGrotesque-ExtraBold.ttf", weight: "800", style: "normal" },
+  ],
+  variable: "--font-bricolage",
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+const hindSiliguri = localFont({
+  src: [
+    { path: "../../public/fonts/HindSiliguri-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/HindSiliguri-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/HindSiliguri-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/HindSiliguri-Bold.ttf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-hind-siliguri",
+  display: "swap",
 });
 
-const notoBengali = Noto_Sans_Bengali({
-  variable: "--font-noto-bengali",
-  subsets: ["bengali"],
-  weight: ["400", "500", "600", "700"],
+const atma = localFont({
+  src: [
+    { path: "../../public/fonts/Atma-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Atma-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/Atma-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/Atma-Bold.ttf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-atma",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -64,7 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${notoBengali.variable} antialiased bg-background text-foreground`}
+        className={`${urbanist.variable} ${bricolage.variable} ${hindSiliguri.variable} ${atma.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

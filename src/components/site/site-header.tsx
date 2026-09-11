@@ -138,8 +138,8 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
+          {/* Desktop nav — full menu only when there's room (≥1280px) so labels never wrap */}
+          <nav aria-label="Main navigation" className="hidden items-center gap-0.5 xl:flex">
             {navLinks.map((link) => {
               const target = link.href.replace(/^#/, "") || "/";
               const active = route === target;
@@ -148,7 +148,7 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium transition-colors 2xl:px-3 ${
                     active
                       ? "bg-primary/10 text-primary"
                       : "text-foreground/80 hover:bg-accent hover:text-primary"
@@ -164,7 +164,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <a
               href={site.phoneHref}
-              className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-accent xl:flex"
+              className="hidden items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-accent 2xl:flex"
             >
               <Phone className="h-4 w-4" aria-hidden />
               {site.phone}
@@ -199,7 +199,7 @@ export function SiteHeader() {
             {mounted ? (
               <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
+                  <Button variant="outline" size="icon" className="xl:hidden" aria-label="Open menu">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
