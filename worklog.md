@@ -65,3 +65,22 @@ Work Log:
 Stage Summary:
 - Site is now truly multipage: 7 routed pages + dynamic course detail pages, all under the sandbox-visible "/" via hash routing
 - Upgrading to real App Router paths later = replace hash links with paths + move page components into app/ segments (components already page-shaped)
+
+---
+Task ID: 4
+Agent: Z.ai Code (main)
+Task: Add 10MS-style Online Class Routine feature (user: "make it like 10 ms online class routine etc etc")
+
+Work Log:
+- site-data.ts: added weekDays (Sat–Fri, Bangladesh week), RoutineClass type (day/start/end/courseSlug/batch/topic/mode/type), classRoutine array with 16 realistic weekly slots (Batch 317 In-Batch daily 10 AM hybrid, Private Batch 319 Sun/Tue 5 PM, Pre-IELTS 320 Mon/Wed 4 PM, Crash Course 318-C Mon/Wed 6 PM online, Thursday full mock + review, Saturday free speaking club, Sunday/Wednesday 8 PM free Facebook live classes, Friday off); added routineNote, freeLiveClasses (3 funnel sessions), upcomingBatches (Batch 318/319/320-C/321 with starts/time/seats-left/mode); added scheduleNote to Course type + all 6 courses; navLinks gained "Class Routine" (#/routine)
+- New weekly-routine.tsx: hydration-safe useToday() via useSyncExternalStore (SSR ""); ModeBadge (Online Live=emerald, Campus=gold, Hybrid=neutral); WeeklyRoutine = 7 day pills with class counts + today dot, auto-selects visitor's current day, shadcn Table (Time/Batch/Course/Topic/Mode/Type), Friday renders "Weekly Off" empty state, free classes rows highlighted green; CourseRoutineTable = per-course rows sorted by weekday for course pages (returns null for flexible courses)
+- New pages/routine-page.tsx: PageHeader, gold TodayBanner (today badge + long date + today's class cards + Friday off message + WhatsApp-group note), This Week's Schedule (WeeklyRoutine), mode legend strip, FreeLiveClasses (3 cards: schedule/platform/host/CTA — Facebook external + free mock register → #/contact), UpcomingBatchesBoard (10MS choose-your-batch table: course link, batch badge, starts, time, seats w/ amber <6 warning, gold Enroll button with Zustand setCourse preselect), routineNote info card, closing CTA
+- New routine-banner.tsx (home): 2-col section — copy + bullets + View Full Routine / Join Free Live Class CTAs; right card shows "Today · {day}" with live-pulse indicator and today's classes (Friday off state), inserted between FreeResources and Skills on home
+- course-detail-page.tsx: new "Weekly Class Routine" section after Course Outline — scheduleNote line + CourseRoutineTable + link to full routine
+- site-router.tsx: added "#/routine" route; site-footer.tsx: Resources column now links "Class Routine" + "Free Live Classes" → #/routine
+- Verification (agent-browser, desktop + 390px mobile): home banner shows "Today · Friday" off-state (sandbox date = Friday); #/routine renders header/today banner/legend/free-classes/batches/notice; 7 tabs with counts (Sat2 Sun3 Mon3 Tue2 Wed4 Thu2 Fri0); Fri auto-selected today; Sun table shows 3 rows w/ badges, free-class row highlighted; Mon tab switches; mobile table scrollable (scrollWidth 739 vs 356); mobile menu lists Class Routine; footer link navigates; batch Enroll → #/contact combobox preselected "Basic to IELTS — In Batch"; course page routine table (7 rows) + one-to-one flexible note w/o table; form submit → POST /api/leads 201 + Prisma INSERT; all 6 routes render; zero console errors on fresh load (stale Radix Dialog warning traced to old console buffer — no Dialog in codebase anymore); lint clean; HTTP 200
+- Note: mobile Sheet stuck-open during testing was an artifact of switching viewport 390→1280 with menu open; Close button works normally
+
+Stage Summary:
+- Site now has a full 10MS-style Online Class Routine system: /routine page (today banner + interactive weekly table + free live classes + upcoming batches admission board), home routine banner, per-course weekly schedules, nav/footer wiring
+- Batch numbers continue from the 316+ completed batches (317–321); all schedule data lives in site-data.ts for easy client updates

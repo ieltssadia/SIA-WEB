@@ -6,6 +6,7 @@ import { Hero } from "@/components/site/hero";
 import { StatsStrip } from "@/components/site/stats-strip";
 import { CoursesSection } from "@/components/site/courses-section";
 import { FreeResourcesSection } from "@/components/site/free-resources-section";
+import { RoutineBanner } from "@/components/site/routine-banner";
 import { SkillsSection } from "@/components/site/skills-section";
 import { StoriesSection } from "@/components/site/stories-section";
 import { FaqSection } from "@/components/site/faq-section";
@@ -72,6 +73,7 @@ export function HomePage() {
       <StatsStrip />
       <CoursesSection featured />
       <FreeResourcesSection />
+      <RoutineBanner />
       <SkillsSection />
       <StoriesSection />
       <FaqSection />

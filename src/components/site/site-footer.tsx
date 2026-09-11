@@ -28,8 +28,9 @@ const columns = [
   {
     title: "Resources",
     links: [
+      { label: "Class Routine", href: "#/routine" },
+      { label: "Free Live Classes", href: "#/routine" },
       { label: "Free Tips & Tricks", href: "#/tips" },
-      { label: "Free Classes", href: "#/tips" },
       { label: "Our Facebook Page", href: site.facebook, external: true },
       { label: "Official Website", href: site.website, external: true },
     ],

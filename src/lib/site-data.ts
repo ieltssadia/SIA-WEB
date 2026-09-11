@@ -23,6 +23,7 @@ export const site = {
 export const navLinks = [
   { label: "Home", href: "#/" },
   { label: "Courses", href: "#/courses" },
+  { label: "Class Routine", href: "#/routine" },
   { label: "About", href: "#/about" },
   { label: "Free Tips", href: "#/tips" },
   { label: "Success Stories", href: "#/stories" },
@@ -63,6 +64,8 @@ export type Course = {
   nextBatch: string;
   mode: string;
   syllabus: string[];
+  /** One-line weekly schedule summary shown on the course page. */
+  scheduleNote: string;
 };
 
 export const courseCategories = [
@@ -95,6 +98,7 @@ export const courses: Course[] = [
     students: 2140,
     nextBatch: "Every Sunday",
     mode: "Online + Offline",
+    scheduleNote: "Sat – Thu · 10:00 AM – 11:30 AM + Thursday Weekly Mock",
     syllabus: [
       "Foundation: Grammar & Vocabulary (4 weeks)",
       "Listening: Accents, note-taking & practice tests",
@@ -126,6 +130,7 @@ export const courses: Course[] = [
     students: 1120,
     nextBatch: "Every Sunday",
     mode: "Online + Offline",
+    scheduleNote: "Sun & Tue · 5:00 PM – 6:30 PM + Thursday Weekly Mock",
     syllabus: [
       "Foundation: Grammar & Vocabulary (4 weeks)",
       "All 4 modules with individual feedback",
@@ -155,6 +160,7 @@ export const courses: Course[] = [
     students: 640,
     nextBatch: "Any day you start",
     mode: "Online + Offline",
+    scheduleNote: "Flexible — class times are fixed with your mentor at admission",
     syllabus: [
       "Level assessment & custom study plan",
       "All 4 modules at your own pace",
@@ -184,6 +190,7 @@ export const courses: Course[] = [
     students: 1280,
     nextBatch: "1st of every month",
     mode: "Online + Offline",
+    scheduleNote: "Mon & Wed · 4:00 PM – 5:30 PM",
     syllabus: [
       "English grammar from absolute basics",
       "Everyday & academic vocabulary building",
@@ -212,6 +219,7 @@ export const courses: Course[] = [
     students: 803,
     nextBatch: "Every Monday",
     mode: "Online + Offline",
+    scheduleNote: "Mon & Wed · 6:00 PM – 7:30 PM + Thursday Mock Review",
     syllabus: [
       "Week 1: All 4 module strategies & shortcuts",
       "Week 2: Question-type tricks (Reading & Listening)",
@@ -240,6 +248,7 @@ export const courses: Course[] = [
     students: 3560,
     nextBatch: "Start instantly",
     mode: "Online",
+    scheduleNote: "Self-paced — learn anytime + join the weekly free live classes",
     syllabus: [
       "10 premium video lessons",
       "Downloadable practice materials",
@@ -274,6 +283,285 @@ export const freeResources = [
     cta: "Read the Tips",
     href: "#/tips",
     external: false,
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Online Class Routine — 10MS-style weekly schedule                   */
+/* ------------------------------------------------------------------ */
+
+export const weekDays = [
+  "Saturday",
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+] as const;
+
+export type WeekDay = (typeof weekDays)[number];
+
+export type RoutineClass = {
+  day: WeekDay;
+  start: string;
+  end: string;
+  courseSlug: string;
+  /** Batch label, e.g. "Batch 317" or "All Students". */
+  batch: string;
+  topic: string;
+  mode: "Online Live" | "Campus" | "Hybrid";
+  type: "Regular Class" | "Speaking Club" | "Mock Test" | "Free Live Class" | "Feedback Session";
+};
+
+/**
+ * The running weekly schedule (Asia/Dhaka time). Batch numbers continue from
+ * the 316+ batches already completed.
+ */
+export const classRoutine: RoutineClass[] = [
+  // Saturday
+  {
+    day: "Saturday",
+    start: "10:00 AM",
+    end: "11:30 AM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "Batch 317",
+    topic: "Writing Task 1 — Graphs & Charts",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Saturday",
+    start: "4:00 PM",
+    end: "5:00 PM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "All Students",
+    topic: "Free Speaking Club",
+    mode: "Online Live",
+    type: "Speaking Club",
+  },
+  // Sunday
+  {
+    day: "Sunday",
+    start: "10:00 AM",
+    end: "11:30 AM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "Batch 317",
+    topic: "Listening — Accents & Note-taking",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Sunday",
+    start: "5:00 PM",
+    end: "6:30 PM",
+    courseSlug: "basic-to-ielts-private-batch",
+    batch: "Batch 319",
+    topic: "Grammar Boost + Individual Feedback",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Sunday",
+    start: "8:00 PM",
+    end: "9:00 PM",
+    courseSlug: "free-course",
+    batch: "Everyone",
+    topic: "Free Live Class — Reading Tricks",
+    mode: "Online Live",
+    type: "Free Live Class",
+  },
+  // Monday
+  {
+    day: "Monday",
+    start: "10:00 AM",
+    end: "11:30 AM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "Batch 317",
+    topic: "Reading — Skimming & Scanning",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Monday",
+    start: "4:00 PM",
+    end: "5:30 PM",
+    courseSlug: "pre-ielts",
+    batch: "Batch 320",
+    topic: "Basic Grammar — Tenses Made Easy",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Monday",
+    start: "6:00 PM",
+    end: "7:30 PM",
+    courseSlug: "ielts-crash-course",
+    batch: "Batch 318-C",
+    topic: "Module Strategies & Shortcuts",
+    mode: "Online Live",
+    type: "Regular Class",
+  },
+  // Tuesday
+  {
+    day: "Tuesday",
+    start: "10:00 AM",
+    end: "11:30 AM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "Batch 317",
+    topic: "Speaking — Cue Cards & Fluency",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Tuesday",
+    start: "5:00 PM",
+    end: "6:30 PM",
+    courseSlug: "basic-to-ielts-private-batch",
+    batch: "Batch 319",
+    topic: "Writing Task 2 Workshop",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  // Wednesday
+  {
+    day: "Wednesday",
+    start: "10:00 AM",
+    end: "11:30 AM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "Batch 317",
+    topic: "Writing Task 2 — Band 7+ Essays",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Wednesday",
+    start: "4:00 PM",
+    end: "5:30 PM",
+    courseSlug: "pre-ielts",
+    batch: "Batch 320",
+    topic: "Vocabulary Builder",
+    mode: "Hybrid",
+    type: "Regular Class",
+  },
+  {
+    day: "Wednesday",
+    start: "6:00 PM",
+    end: "7:30 PM",
+    courseSlug: "ielts-crash-course",
+    batch: "Batch 318-C",
+    topic: "Question-type Tricks — Reading & Listening",
+    mode: "Online Live",
+    type: "Regular Class",
+  },
+  {
+    day: "Wednesday",
+    start: "8:00 PM",
+    end: "9:00 PM",
+    courseSlug: "free-course",
+    batch: "Everyone",
+    topic: "Free Live Class — Essay Checking Live",
+    mode: "Online Live",
+    type: "Free Live Class",
+  },
+  // Thursday
+  {
+    day: "Thursday",
+    start: "10:00 AM",
+    end: "12:00 PM",
+    courseSlug: "basic-to-ielts-in-batch",
+    batch: "All Batches",
+    topic: "Weekly Full Mock Test",
+    mode: "Hybrid",
+    type: "Mock Test",
+  },
+  {
+    day: "Thursday",
+    start: "4:00 PM",
+    end: "5:30 PM",
+    courseSlug: "ielts-crash-course",
+    batch: "Batch 318-C",
+    topic: "Mock Review & Band Report",
+    mode: "Online Live",
+    type: "Feedback Session",
+  },
+  // Friday — weekly off
+];
+
+export const routineNote = {
+  title: "Routine পরিবর্তন হতে পারে",
+  message:
+    "Ramadan, সরকারি ছুটি বা বিশেষ অনুষ্ঠানের কারণে class time পরিবর্তন হলে আপনার WhatsApp গ্রুপে জানিয়ে দেওয়া হয়। Zoom/Facebook লিংক সবসময় গ্রুপে পাবেন।",
+};
+
+/** 10MS-style free live classes funnel — open to everyone, no enrollment needed. */
+export const freeLiveClasses = [
+  {
+    title: "Free Live Class — IELTS Reading Tricks",
+    when: "Every Sunday, 8:00 PM",
+    platform: "Facebook Live",
+    host: "Sadia Rahman",
+    ctaLabel: "Watch on Facebook",
+    href: site.facebook,
+    external: true,
+  },
+  {
+    title: "Free Live Class — Essay Checking Live",
+    when: "Every Wednesday, 8:00 PM",
+    platform: "Facebook Live",
+    host: "Sadia Rahman",
+    ctaLabel: "Watch on Facebook",
+    href: site.facebook,
+    external: true,
+  },
+  {
+    title: "Free Full Mock Test + Band Assessment",
+    when: "Every Thursday, 10:00 AM",
+    platform: "Zoom — register first",
+    host: "Sadia's IELTS Team",
+    ctaLabel: "Register Free",
+    href: "#/contact",
+    external: false,
+  },
+];
+
+/** 10MS "choose your batch" board — next admission batches per course. */
+export const upcomingBatches = [
+  {
+    courseSlug: "basic-to-ielts-in-batch",
+    course: "Basic to IELTS — In Batch",
+    batch: "Batch 318",
+    starts: "Every Sunday",
+    time: "10:00 AM – 11:30 AM",
+    seats: "12 seats left",
+    mode: "Online + Offline",
+  },
+  {
+    courseSlug: "basic-to-ielts-private-batch",
+    course: "Basic to IELTS — Private Batch",
+    batch: "Batch 319",
+    starts: "Every Sunday",
+    time: "5:00 PM – 6:30 PM",
+    seats: "4 seats left",
+    mode: "Online + Offline",
+  },
+  {
+    courseSlug: "ielts-crash-course",
+    course: "IELTS Crash Course",
+    batch: "Batch 320-C",
+    starts: "Every Monday",
+    time: "6:00 PM – 7:30 PM",
+    seats: "8 seats left",
+    mode: "Online",
+  },
+  {
+    courseSlug: "pre-ielts",
+    course: "Basic IELTS / Pre-IELTS",
+    batch: "Batch 321",
+    starts: "1st of every month",
+    time: "4:00 PM – 5:30 PM",
+    seats: "15 seats left",
+    mode: "Online + Offline",
   },
 ];
 

@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { CourseCard, courseIconMap } from "@/components/site/courses-section";
+import { CourseRoutineTable } from "@/components/site/weekly-routine";
 import { courses, site, type Course } from "@/lib/site-data";
 import { useEnrollStore } from "@/lib/enroll-store";
 
@@ -175,6 +176,29 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                     </li>
                   ))}
                 </ol>
+              </Reveal>
+
+              {/* Weekly class routine */}
+              <Reveal delay={0.11}>
+                <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
+                  Weekly Class Routine
+                </h2>
+                <p className="mt-3 flex items-start gap-2 text-sm text-muted-foreground">
+                  <CalendarClock className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  {course.scheduleNote} · সব সময় বাংলাদেশ সময় (GMT+6)
+                </p>
+                <div className="mt-4">
+                  <CourseRoutineTable courseSlug={course.slug} />
+                </div>
+                <p className="mt-4 text-xs text-muted-foreground">
+                  Full weekly schedule (all batches &amp; free live classes):{" "}
+                  <a
+                    href="#/routine"
+                    className="font-semibold text-primary transition-colors hover:underline"
+                  >
+                    View the complete class routine →
+                  </a>
+                </p>
               </Reveal>
 
               {/* Instructor mini */}

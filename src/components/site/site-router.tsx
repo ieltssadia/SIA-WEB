@@ -9,6 +9,7 @@ import { FloatingCta } from "@/components/site/floating-cta";
 import { HomePage } from "@/components/site/pages/home-page";
 import { CoursesPage } from "@/components/site/pages/courses-page";
 import { CourseDetailPage } from "@/components/site/pages/course-detail-page";
+import { RoutinePage } from "@/components/site/pages/routine-page";
 import { AboutPage } from "@/components/site/pages/about-page";
 import { TipsPage } from "@/components/site/pages/tips-page";
 import { StoriesPage } from "@/components/site/pages/stories-page";
@@ -65,6 +66,8 @@ export function SiteRouter() {
     page = <CourseDetailPage slug={segments[1]} />;
   } else if (segments[0] === "courses") {
     page = <CoursesPage />;
+  } else if (segments[0] === "routine") {
+    page = <RoutinePage />;
   } else if (segments[0] === "about") {
     page = <AboutPage />;
   } else if (segments[0] === "tips") {
