@@ -50,7 +50,9 @@ export function StoriesPage() {
                         <p className="truncate text-sm font-semibold text-foreground">
                           {story.name}
                         </p>
-                        <p className="truncate text-xs text-muted-foreground">{story.course}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                          {story.course} · {story.date}
+                        </p>
                       </div>
                       <Badge className="ml-auto shrink-0 border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
                         <Trophy className="mr-1 h-3 w-3" aria-hidden />

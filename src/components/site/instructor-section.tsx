@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { BadgeCheck, GraduationCap, Sparkles, Users } from "lucide-react";
+import { BadgeCheck, GraduationCap, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 
 const credentials = [
-  { icon: BadgeCheck, label: "Certified IELTS Trainer" },
-  { icon: GraduationCap, label: "9+ Years Teaching Experience" },
-  { icon: Users, label: "5,983+ Students Mentored" },
+  { icon: BadgeCheck, label: "Cambridge & IDP Certified Trainer" },
+  { icon: GraduationCap, label: "TKT & TTT Certified" },
+  { icon: Sparkles, label: "Personal Band 8.5 · 9.0 in Reading & Listening" },
 ];
 
 export function InstructorSection() {
@@ -55,10 +55,11 @@ export function InstructorSection() {
                 Learn from the <span className="text-gold-gradient italic">Best in Sylhet</span>
               </h2>
               <p className="mt-5 leading-relaxed text-muted-foreground">
-                Sadia Rahman has dedicated <span className="text-foreground">9+ years</span> to
-                helping students in Sreemangal and beyond transform their English — taking
-                learners from complete basics to Band 7+ results. Over{" "}
-                <span className="text-foreground">316 completed batches</span>, she has built a
+                <span className="text-foreground">Sadia Rahman</span> — Cambridge, IDP &amp; TKT
+                Certified IELTS Trainer — achieved an impressive{" "}
+                <span className="text-foreground">Band 8.5 herself, with a perfect 9.0 in Reading
+                and Listening</span>. Over <span className="text-foreground">9+ years</span> and{" "}
+                <span className="text-foreground">316 completed batches</span> she has built a
                 teaching system that blends proven exam strategies with genuine personal care
                 for every student.
               </p>

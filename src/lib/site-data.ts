@@ -27,6 +27,7 @@ export const navLinks = [
   { label: "About", href: "#/about" },
   { label: "Free Tips", href: "#/tips" },
   { label: "Stories", href: "#/stories" },
+  { label: "Shop", href: "#/shop" },
   { label: "Contact", href: "#/contact" },
 ];
 
@@ -681,41 +682,219 @@ export const tips = [
   },
 ];
 
+/**
+ * Real success stories from sadiasielts.com result posts (May–June 2025).
+ * Band scores are the published "IELTS Overall Band Score" values.
+ */
 export const stories = [
   {
-    name: "Anika Tasnim",
+    name: "Mithila Akter",
     band: "Band 8.0",
+    score: 8.0,
     course: "Basic to IELTS — In Batch",
+    date: "30 May 2025",
     quote:
-      "The regular mock tests and speaking practice completely changed my confidence. I never imagined scoring Band 8!",
+      "আমার জীবনের সেরা সিদ্ধান্ত ছিল Sadia's IELTS-এ ভর্তি হওয়া। Your commitment and consistent effort have led to this amazing achievement — this is what my teacher told me, and it's true!",
+  },
+  {
+    name: "Anika Tasnim",
+    band: "Band 7.5",
+    score: 7.5,
+    course: "Basic to IELTS — Private Batch",
+    date: "30 May 2025",
+    quote:
+      "Sadia apa's Reading short tricks saved me so much time in the exam. The personal feedback on every writing was priceless — Band 7.5 became possible.",
+  },
+  {
+    name: "Raihan Ahmed (Emon)",
+    band: "Band 7.5",
+    score: 7.5,
+    course: "IELTS Crash Course",
+    date: "06 Jun 2025",
+    quote:
+      "The weekly mock tests and speaking club completely changed my confidence. I never imagined Band 7.5 on my first attempt!",
   },
   {
     name: "Fariha Islam",
-    band: "Band 7.5",
-    course: "Basic to IELTS — Private Batch",
+    band: "Band 7.0",
+    score: 7.0,
+    course: "Basic to IELTS — In Batch",
+    date: "30 May 2025",
     quote:
-      "Sadia apa's tricks for Reading saved me so much time in the exam. The personal feedback on writing was priceless.",
-  },
-  {
-    name: "Milon Mahmud",
-    band: "Band 7.5",
-    course: "Basic to IELTS — One to One",
-    quote:
-      "One-to-one classes fit perfectly around my job. Flexible timing and a mentor who truly cares about your result.",
+      "From basic grammar to Band 7 — the journey was structured step by step. ব্যাচের সবাই একসাথে এগিয়ে যাওয়ায় motivation কখনো কমেনি।",
   },
   {
     name: "Mahmuda Akter Eva",
     band: "Band 7.0",
+    score: 7.0,
     course: "Basic to IELTS — In Batch",
+    date: "06 Jun 2025",
     quote:
-      "From basic grammar to Band 7 — the journey was structured step by step. Best decision of my life!",
+      "One-to-one feedback on my essays fixed mistakes I never knew I made. We are proud to be a part of your journey — and I am proud to be their student.",
   },
   {
     name: "Emran Ahmed",
-    band: "Band 7.0",
+    band: "Band 6.0",
+    score: 6.0,
     course: "IELTS Crash Course",
+    date: "30 May 2025",
     quote:
-      "I had only one month before my exam. The crash course strategies helped me hit my target score on the first attempt.",
+      "I had only one month before my exam. The crash course strategies and time-management tricks helped me hit my target on the first attempt.",
+  },
+  {
+    name: "Milon Mahmud",
+    band: "Band 6.0",
+    score: 6.0,
+    course: "Basic to IELTS — One to One",
+    date: "30 May 2025",
+    quote:
+      "One-to-one classes fit perfectly around my job. Flexible timing and a mentor who truly cares about your result.",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Book Shop — IELTS study materials & guides (sadiasielts.com/shop)   */
+/* ------------------------------------------------------------------ */
+
+export const bookCategories = [
+  { value: "all", label: "All Books" },
+  { value: "reading", label: "Reading" },
+  { value: "writing", label: "Writing" },
+  { value: "speaking", label: "Speaking" },
+  { value: "listening", label: "Listening" },
+  { value: "vocabulary", label: "Vocabulary" },
+  { value: "mock", label: "Mock Tests" },
+] as const;
+
+export type Book = {
+  slug: string;
+  title: string;
+  titleBn: string;
+  author: string;
+  desc: string;
+  price: number;
+  oldPrice?: number;
+  category: (typeof bookCategories)[number]["value"];
+  cover: string; // path under /public
+  tag?: string;
+  pages: number;
+  highlights: string[];
+};
+
+export const books: Book[] = [
+  {
+    slug: "reading-short-tricks",
+    title: "IELTS Reading — Top 10 Short Tricks",
+    titleBn: "আইইএলটিস রিডিং — টপ ১০ শর্ট ট্রিকস",
+    author: "Sadia Rahman",
+    desc:
+      "List of Headings, MCQ, Short Answer — প্রতিটি question type-এর জন্য প্রমাণিত shortcut ও time-management কৌশল, বাংলা ব্যাখ্যাসহ।",
+    price: 450,
+    oldPrice: 600,
+    category: "reading",
+    cover: "/images/books/reading-tricks.png",
+    tag: "Bestseller",
+    pages: 96,
+    highlights: ["All 14 question types covered", "Bengali explanations", "60+ solved examples"],
+  },
+  {
+    slug: "writing-task-2-handbook",
+    title: "IELTS Writing Task 2 — Band 7+ Handbook",
+    titleBn: "রাইটিং টাস্ক ২ — ব্যান্ড ৭+ হ্যান্ডবুক",
+    author: "Sadia Rahman",
+    desc:
+      "Essay structure, idea generation থেকে Band 7+ linking words — ready-made templates ও 40+ checked model essays সহ।",
+    price: 550,
+    oldPrice: 700,
+    category: "writing",
+    cover: "/images/books/writing-handbook.png",
+    tag: "Top Rated",
+    pages: 120,
+    highlights: ["25 essay templates", "40+ model answers", "Common mistake list"],
+  },
+  {
+    slug: "speaking-cue-card-bank",
+    title: "IELTS Speaking — Cue Card Bank & Fluency Guide",
+    titleBn: "স্পিকিং — কিউ কার্ড ব্যাংক ও ফ্লুয়েন্সি গাইড",
+    author: "Sadia Rahman",
+    desc:
+      "Latest cue card bank (Part 1–3), sample answers ও fluency drills — follow-up questions এর সহজ উত্তর কৌশলসহ।",
+    price: 400,
+    category: "speaking",
+    cover: "/images/books/speaking-bank.png",
+    pages: 88,
+    highlights: ["150+ cue cards", "Part 1–3 samples", "Fluency drill plan"],
+  },
+  {
+    slug: "vocabulary-builder",
+    title: "IELTS Vocabulary Builder — 3000+ Academic Words",
+    titleBn: "ভোকাবুলারি বিল্ডার — ৩০০০+ একাডেমিক শব্দ",
+    author: "Sadia Rahman",
+    desc:
+      "Topic-wise academic word list, synonym banks ও collocations — Writing ও Speaking-এ band বাড়ানোর সবচেয়ে কার্যকর অস্ত্র।",
+    price: 500,
+    oldPrice: 650,
+    category: "vocabulary",
+    cover: "/images/books/vocabulary.png",
+    pages: 140,
+    highlights: ["3000+ words", "Topic-wise synonym bank", "Collocation lists"],
+  },
+  {
+    slug: "listening-workbook",
+    title: "IELTS Listening — Accent & Note-taking Workbook",
+    titleBn: "লিসেনিং — অ্যাকসেন্ট ও নোট-টেকিং ওয়ার্কবুক",
+    author: "Sadia Rahman",
+    desc:
+      "British/Australian accent training, spelling traps ও map-labelling practice — প্রতিটি section-এর জন্য step-by-step strategy।",
+    price: 450,
+    category: "listening",
+    cover: "/images/books/listening.png",
+    pages: 104,
+    highlights: ["Accent training audio list", "Map & diagram practice", "Spelling trap guide"],
+  },
+  {
+    slug: "grammar-foundation",
+    title: "Basic Grammar Foundation — Pre-IELTS Starter",
+    titleBn: "বেসিক গ্রামার ফাউন্ডেশন — প্রি-আইইএলটিস",
+    author: "Sadia Rahman",
+    desc:
+      "একদম শূন্য থেকে English grammar — tense, sentence structure ও daily practice sheets, IELTS-এর আগে ভিত মজবুত করার জন্য।",
+    price: 350,
+    category: "vocabulary",
+    cover: "/images/books/grammar.png",
+    tag: "Beginner",
+    pages: 76,
+    highlights: ["Tense made easy", "Daily practice sheets", "Bengali instruction"],
+  },
+  {
+    slug: "mock-test-pack",
+    title: "IELTS Mock Test Pack — 10 Full Tests",
+    titleBn: "মক টেস্ট প্যাক — ১০টি ফুল টেস্ট",
+    author: "Sadia's IELTS Team",
+    desc:
+      "10 full-length mock tests with answer keys ও self-band-assessment guide — পরীক্ষার হলের অভ্যাস বাড়িতেই।",
+    price: 600,
+    oldPrice: 800,
+    category: "mock",
+    cover: "/images/books/mock-pack.png",
+    tag: "Sale",
+    pages: 180,
+    highlights: ["10 full tests", "Answer keys + explanations", "Band assessment sheet"],
+  },
+  {
+    slug: "complete-bundle",
+    title: "Complete IELTS Bundle — All 5 Books + Mock Pack",
+    titleBn: "কমপ্লিট আইইএলটিস বান্ডেল — সব বই একসাথে",
+    author: "Sadia Rahman",
+    desc:
+      "Reading, Writing, Speaking, Listening, Vocabulary + Mock Pack — সম্পূর্ণ প্রস্তুতি এক প্যাকেজে। বান্ডেলে সবচেয়ে বেশি সাশ্রয়!",
+    price: 2200,
+    oldPrice: 3300,
+    category: "mock",
+    cover: "/images/books/bundle.png",
+    tag: "Save ৳1,100",
+    pages: 720,
+    highlights: ["All 6 books together", "Free delivery in Sreemangal", "Best value pack"],
   },
 ];
 

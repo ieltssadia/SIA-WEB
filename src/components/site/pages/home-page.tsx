@@ -1,7 +1,10 @@
 "use client";
 
-import { GraduationCap, Phone } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, GraduationCap, Phone } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Hero } from "@/components/site/hero";
 import { StatsStrip } from "@/components/site/stats-strip";
 import { CoursesSection } from "@/components/site/courses-section";
@@ -10,8 +13,75 @@ import { RoutineBanner } from "@/components/site/routine-banner";
 import { SkillsSection } from "@/components/site/skills-section";
 import { StoriesSection } from "@/components/site/stories-section";
 import { FaqSection } from "@/components/site/faq-section";
-import { Reveal } from "@/components/site/reveal";
-import { site } from "@/lib/site-data";
+import { Reveal, SectionHeading } from "@/components/site/reveal";
+import { books, site } from "@/lib/site-data";
+
+function BookShopTeaser() {
+  const featured = books.slice(0, 4);
+  return (
+    <section className="border-y border-primary/10 bg-[#0d0d10] py-16 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <SectionHeading
+          eyebrow="Book Shop"
+          title={
+            <>
+              IELTS Books by <span className="text-gold-gradient">Sadia Rahman</span>
+            </>
+          }
+          subtitle="Classroom-tested study materials — বাংলা ব্যাখ্যাসহ। Order via WhatsApp, delivery all over Bangladesh."
+        />
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6">
+          {featured.map((book, i) => (
+            <Reveal key={book.slug} delay={i * 0.07}>
+              <a href="#/shop" className="group block" aria-label={`Shop page — ${book.title}`}>
+                <Card className="overflow-hidden border-border bg-card transition-colors group-hover:border-primary/40">
+                  <CardContent className="p-3">
+                    <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-primary/20 bg-[#0b0b0e]">
+                      <Image
+                        src={book.cover}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                        className="object-cover opacity-90"
+                      />
+                      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                      {book.tag ? (
+                        <Badge className="absolute right-1.5 top-1.5 border-transparent bg-gold-gradient text-[9px] font-bold text-[#16120a]">
+                          {book.tag}
+                        </Badge>
+                      ) : null}
+                      <div className="absolute inset-x-0 bottom-0 p-3">
+                        <p className="font-display text-xs font-bold leading-snug text-foreground line-clamp-2">
+                          {book.title}
+                        </p>
+                        <p className="mt-1 text-[11px] font-bold text-primary">৳{book.price.toLocaleString("en-US")}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.2}>
+          <div className="mt-8 text-center">
+            <Button
+              asChild
+              variant="outline"
+              className="border-primary/30 font-semibold hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+            >
+              <a href="#/shop">
+                <BookOpen className="mr-1.5 h-4 w-4" aria-hidden />
+                Visit the Book Shop
+                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+              </a>
+            </Button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
 function HomeCta() {
   return (
@@ -76,6 +146,7 @@ export function HomePage() {
       <RoutineBanner />
       <SkillsSection />
       <StoriesSection />
+      <BookShopTeaser />
       <FaqSection />
       <HomeCta />
     </>

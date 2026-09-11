@@ -13,6 +13,7 @@ import { RoutinePage } from "@/components/site/pages/routine-page";
 import { AboutPage } from "@/components/site/pages/about-page";
 import { TipsPage } from "@/components/site/pages/tips-page";
 import { StoriesPage } from "@/components/site/pages/stories-page";
+import { ShopPage } from "@/components/site/pages/shop-page";
 import { ContactPage } from "@/components/site/pages/contact-page";
 import { PortalPage } from "@/components/site/pages/portal-page";
 import { CheckoutPage } from "@/components/site/pages/checkout-page";
@@ -78,6 +79,8 @@ export function SiteRouter() {
     page = <TipsPage />;
   } else if (segments[0] === "stories") {
     page = <StoriesPage />;
+  } else if (segments[0] === "shop") {
+    page = <ShopPage />;
   } else if (segments[0] === "contact") {
     page = <ContactPage />;
   } else if (segments[0] === "portal") {

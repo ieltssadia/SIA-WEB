@@ -60,7 +60,7 @@ export function StoriesSection() {
                             {story.name}
                           </p>
                           <p className="truncate text-xs text-muted-foreground">
-                            {story.course}
+                            {story.course} · {story.date}
                           </p>
                         </div>
                         <Badge className="ml-auto shrink-0 border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
