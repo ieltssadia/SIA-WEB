@@ -211,3 +211,23 @@ Verification (agent-browser, desktop 1280 + mobile 390):
 
 Stage Summary:
 - Site content now matches the real sadiasielts.com: authentic success stories with published band scores and dates, real trainer credentials, and a full Book Shop (#/shop) with 8 branded IELTS books, WhatsApp ordering, bundle offer and home-page teaser — closing the content gap the user pointed out.
+---
+Task ID: 10
+Agent: Z.ai Code (main)
+Task: User posted a screenshot of the real sadiasielts.com/contact footer ("this") — replicate the real footer (Company/Links/Courses/Recommend) and the partner logos strip (Sadia's IELTS × IDP IELTS × British Council) above the footer.
+
+Work Log:
+- Scraped sadiasielts.com /courses/ and /become-a-teacher/ to capture the exact real footer taxonomy and course categories (Basic To IELTS, IELTS Without Basic, Crash Course, IELTS Single Module, Free Course, General Training — 17 courses total) and the real Become-a-Teacher page.
+- NEW src/components/site/partner-strip.tsx: white trust band above the footer with three logos — Sadia's IELTS (logo image + wordmark), idp | IELTS™ (inline SVG pinwheel flower in orange/green/blue + red IELTS™), British Council (2×2 dot SVG + stacked wordmark). Grayscale → color on hover, sr-friendly aria-label, responsive (stacked column on mobile, justify-between on desktop).
+- site-footer.tsx rebuilt to mirror the real footer: 5-column grid — brand column (logo + contact list with gold icons: +8801752-716238, "Sreemangal, Moulvi Bazar District, Sylhet Division, Bangladesh, 3210", ieltsbysadianisha@gmail.com) + Company (About→#/about, Blog→#/tips, Contact→#/contact, Become a Teacher→wa.me instructor deep link) / Links (Courses, Events→#/routine, Gallery→FB, FAQs→#faq) / Courses (Basic To IELTS→in-batch, IELTS Without Basic→#/courses, Crash Course, Free Course) / Recommend (Shop, Success Story, Events, Partnership→#/contact). Copyright bar: © year + Privacy/Terms/Sitemap. Payment-methods strip removed from footer (checkout page still owns payment info via paymentMethods).
+- Sticky-footer fix: SiteFooter now returns a single <div className="mt-auto"> wrapping PartnerStrip + footer so short pages keep both pinned to the viewport bottom with no gap.
+
+Verification (agent-browser, desktop 1280 + mobile 390):
+- Desktop footer visually matches the real screenshot: white partner band (3 grayscale logos) + dark 4-column footer + contact block + copyright row.
+- Mobile 390: strip stacks centered; footer single-column; no horizontal scroll.
+- Short page (#/checkout @ 2400px viewport): pageH=viewH=2400, footer bottom gap = 0 → strip+footer stick together at bottom.
+- Footer links: Success Story→#/stories ✓, IELTS Without Basic→#/courses ✓, Become a Teacher opens wa.me with instructor message in new tab ✓.
+- All 10 routes (#/ /courses /routine /about /tips /stories /shop /contact /portal /checkout) render footer+strip; page errors: 0; console clean; lint clean; HTTP 200.
+
+Stage Summary:
+- The site footer is now a 1:1 recreation of the real sadiasielts.com footer (taxonomy, contact data, partner band), replacing the previous 3-column variant. Real brand data: footer email ieltsbysadianisha@gmail.com, phone +8801752-716238, Sreemangal address. Partner logos are CSS/SVG recreations (no external assets), grayscale-to-color on hover.
