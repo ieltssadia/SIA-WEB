@@ -100,6 +100,22 @@ model Order {
   @@index([status])
 }
 
+// Public course-completion certificates. Holders (or employers) verify them
+// from the website's "Verify Certificate" page (10MS /certificate pattern) by
+// entering the human-readable certificate ID.
+model Certificate {
+  id       String @id // human ID, e.g. "SIE-CERT-2417"
+  name     String
+  course   String
+  batch    String
+  band     String // overall band score, e.g. "8.0"
+  issued   String // display date, e.g. "30 May 2025"
+  studentId String? // optional link to the portal Student account
+  createdAt DateTime @default(now())
+
+  @@index([name])
+}
+
 // Line items of an Order — unit price captured at purchase time.
 model OrderItem {
   id        String @id @default(cuid())

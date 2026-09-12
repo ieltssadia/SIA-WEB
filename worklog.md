@@ -317,3 +317,77 @@ Verification (agent-browser desktop 1280 + mobile 390):
 
 Stage Summary:
 - The website now sells for real: books go cart → checkout → a persisted, trackable Order with manual bKash/Nagad/COD settlement (the standard BD flow), and a reserved "Coming Soon" card slot where the online gateway (bKash PGW/SSLCommerz) can be dropped in later — order.paymentStatus is already webhook-ready. Courses keep their account→portal enrollment checkout. Persist stores are now hydration-safe sitewide.
+---
+Task ID: 3-b
+Agent: sub-agent 3-b (Certificate verify page + API)
+Task: Build the 10MS-style public "Certificate Verification" feature — GET /api/certificates/verify + #/verify page + footer link.
+
+Work Log:
+- Read worklog (tasks 14-15) + inspected prisma schema (Certificate model), src/lib/db.ts, site-data.ts (certificateSeeds ×6), site-router.tsx, site-footer.tsx, page-header.tsx, leads route for style; confirmed 6 seed rows live in SQLite (SIE-CERT-2417…2388) and logo asset is /sadia-logo.png (public root, not /images/).
+- NEW src/app/api/certificates/verify/route.ts: GET ?id= → normalize (trim→uppercase→split /[\s-]+/→join "-", so "sie cert 2417"/"sie--cert---2417" both resolve); empty → 400 Bangla+English error; findUnique on exact ID, then "SIE-CERT-<id>" fallback when the entry lacks the SIE- prefix ("2411" works); hit → 200 {ok:true,cert:{id,name,course,batch,band,issued}} (studentId/createdAt never exposed); miss → 404 with the spec error string; try/catch → 500; follows leads/route.ts NextResponse style.
+- NEW src/components/site/pages/verify-page.tsx ("use client"): PageHeader (eyebrow "Certificate Verification", gold title span, Bangla subtitle, crumb Verify); centered max-w-2xl; Card form — Label htmlFor, mono uppercase Input (placeholder SIE-CERT-2417), gold SearchCheck submit, Loader2+disabled while loading, Enter submits via form onSubmit; aria-live="polite" region renders either a destructive Alert (API error + mono hint "ID গুলো এই ফরম্যাটে: SIE-CERT-2417") or the premium certificate card: outer border-2 border-primary/40 + inner border-primary/20 double frame on gold-gradient dark, 56px rounded-full next/image logo, gold "Sadia's IELTS" wordmark, "Certificate of Achievement" eyebrow + Award icon, mono ID line, font-display text-3xl recipient, "has successfully completed", course + batch, gold Badge "Overall Band {band}" + outline "Issued {issued}", green verified strip (bg-emerald-500/10 border-emerald-500/30 text-emerald-300) with BadgeCheck "✓ Verified — এই সার্টিফিকেটটি আমাদের রেকর্ডে সঠিক পাওয়া গেছে" + "Verified on {en-GB date}" + Copy ID button (clipboard, Check icon for 2s, timer cleaned up on unmount); "Try a demo ID" chips from certificateSeeds fill the input and auto-verify; hydration-safe (date/result only render post-fetch).
+- site-router.tsx: imported VerifyPage, added segments[0]==="verify" branch before the final else (checkout-style).
+- site-footer.tsx: appended { label: "Verify Certificate", href: "#/verify" } to the "Links" column (now 5 links, nothing else restructured).
+
+Verification:
+- API live tests against running dev server: "sie cert 2417" → 200 Mithila Akter 8.0; "2411" → 200 via prefix fallback; "sie--cert---2402" → 200 Anika Tasnim; "SIE-CERT-9999" → 404 exact spec message; blank id → 400; dev.log clean, no compile errors.
+- bun run lint → clean. Dev server NOT restarted; no schema/seed changes.
+
+Stage Summary:
+- Anyone can now verify a Sadia's IELTS certificate at #/verify (footer "Verify Certificate" link): tolerant ID input → premium gold certificate card with recipient, course/batch, band badge, issued date and a green verified strip + copyable ID, all backed by a normalized, non-leaking GET /api/certificates/verify over the seeded Certificate table.
+---
+Task ID: 3-a
+Agent: Z.ai Code (sub agent 3-a)
+Task: 10MS conversion patterns on course cards + course detail page (urgency, savings, countdown, what's-inside, reviews, FAQ)
+
+Work Log:
+- Read worklog + site-data (Course.seatsLeft/seatsTotal/accessPeriod now set for all 6 courses), offer.ts (hydration-safe useOfferCountdown/compactCountdown), courses-section.tsx, course-detail-page.tsx
+- courses-section.tsx (CourseCard): added emerald "-{pct}%" pill at gradient-header top-right (icon square kept, row shifted down via pt-5 only when discount present so no overlap); price line now "-33% admission offer · Save ৳4,000" (absolute savings = oldPrice - price, text-emerald-400); rebuilt "Next batch" box into a status panel: pulsing green dot + "ভর্তি চলমান" chip ("ফ্রি — এখনই শুরু করুন" for the free course), seats row with 2px gold progress bar (filled = 1 - seatsLeft/seatsTotal) + "মাত্র N সিট বাকি!" (red, ≤5) or "N seats left" (muted); ARIA progressbar; stars/features/CTA/meta untouched
+- course-detail-page.tsx: sticky enroll card got (a) "ভর্তি চলমান" live chip at header top (emerald, pulsing dot), (b) 10MS countdown row "অফার শেষ হতে বাকি: 18d 17h 25m · offer ends 30 Sept" (Timer icon, gold, rendered via OfferCountdownRow that returns null until countdown.ready → hydration-safe, only mounted when price && oldPrice), (c) batch seats block "Batch 318 — 5/30 seats left" (batch label from upcomingBatches by courseSlug, fallback "This batch") + h-1.5 gold fill bar + red "মাত্র N সিট বাকি!" when ≤5, (d) "Course access" fact row (InfinityIcon) showing course.accessPeriod
+- course-detail-page.tsx: NEW "এই কোর্সে যা যা থাকছে" section between About and What You Get — courseIncludes(course) helper returns 6 items (Video live/video lessons free-aware, FileText lecture sheets, ClipboardCheck weekly mock, BookOpen materials, Gift hardcopy book for category "complete" else Mic speaking club, Award certificate) in a 1/2/3-col grid with gold-tinted icon squares
+- course-detail-page.tsx: NEW "What Our Students Say" after routine, before instructor — reviews = stories matching course.title, padded from other stories to 3 when <2; card = ReviewStars 5-star row (4.9), gold band badge, full quote, name + date
+- course-detail-page.tsx: NEW "Frequently Asked Questions" after instructor card — shadcn Accordion (single, collapsible) with payment FAQ {ভর্তি ও পেমেন্ট কীভাবে করব?} first + global faqs; text-sm font-medium triggers
+- Verified in browser (1280 + 390): 6 cards show correct %/savings/status/seats (crash course no pill, free chip correct); detail pages for in-batch/one-to-one/free all correct (countdown hidden when no discount, seats hidden on free, "This batch" fallback, free → Video Lessons/Self-paced/Speaking Club); pill-vs-icon overlap measured & fixed (top-1.5→top-1 + pt-4→pt-5, gap now 4px); no horizontal overflow at 390 (scrollWidth=390); 0 page errors, 0 hydration warnings on fresh loads of /, /courses, 2 detail pages; routine gate, related courses, meta strip untouched
+- bunx tsc --noEmit: 0 errors in both edited files (repo-wide output shows only pre-existing errors in examples/, skills/, stats-strip.tsx); bun run lint: PASS, 0 errors 0 warnings
+
+Stage Summary:
+- Course cards and course detail pages now carry the 10MS conversion stack: % discount pill + absolute "Save ৳" savings, live "ভর্তি চলমান" chips, seats-left urgency with gold fill bars, evergreen offer countdown ("অফার শেষ হতে বাকি"), "এই কোর্সে যা যা থাকছে" stat grid, real-student reviews, and an enrollment/payment FAQ — all hydration-safe, lint-clean, and confined to the two permitted files
+---
+Task ID: 3-c
+Agent: Z.ai Code (sub agent 3-c, completed by main)
+Task: 10MS-style header search palette (⌘K) + promo bar offer countdown
+
+Work Log:
+- CREATED src/components/site/search-dialog.tsx: Dialog+Command (shouldFilter=false) palette — manual case-insensitive filter over courses (title/titleBn/tag → #/courses/slug with price chip ৳/Free/Call), books (→ #/shop), tips (→ #/tips); empty state = "জনপ্রিয় সার্চ" (popularSearches set query) + Quick Links (courses/shop/tips/portal/verify/contact); CommandEmpty → WhatsApp CTA; global ⌘K/Ctrl+K toggle, query auto-clears on every close path; dark #101014 surface, gold data-[selected] highlights, kbd hints footer; sr-only DialogTitle/Description for Radix a11y.
+- EDITED src/components/site/site-header.tsx: Search icon button (outline, gold, aria-label "Search (Ctrl+K)") added before cart; SearchDialog rendered client-only (mounted guard); promo announcement bar now shows "অফার শেষ হতে বাকি {compactCountdown} · {endsOn}" chip (Timer icon, hidden on xs, renders only when countdown ready → hydration-safe) before the Enroll CTA.
+
+Stage Summary:
+- Header now has 10MS's two signature widgets: a real search palette (courses/books/tips + popular searches) and a live evergreen offer countdown in the gold announcement bar. Import verified (navigate in router), lint clean. Worklog note completed by main agent after the subagent hit its turn limit post-implementation.
+---
+Task ID: 3-d
+Agent: Z.ai Code (main)
+Task: 10MS "how classes work" homepage section + checkout offer countdown banner
+
+Work Log:
+- CREATED src/components/site/how-it-works-section.tsx — 4-step learning loop (ভর্তি ও পেমেন্ট → লাইভ ক্লাসে জয়েন → প্র্যাকটিস ও এক্সাম → সার্টিফিকেট ও সাফল্য) with gold icon squares, oversized numbered ghost digits, connector line on lg, per-step feature chips (Zoom live / Campus hybrid / Recorded archive / Weekly full mock / Leaderboard / Verifiable certificate) and a proof strip with learners stat + "Choose Your Course" CTA — mirrors 10MS's live-Zoom + archive + exams + certificate loop as its own homepage section.
+- home-page.tsx: HowItWorksSection inserted after CoursesSection (before FreeResources).
+- checkout-page.tsx: OfferCountdownBanner (hydration-safe, role="status") added at the top of the course PaymentStep — "Admission offer শেষ হতে বাকি: {compactCountdown} — এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।"; Timer icon import added.
+
+Stage Summary:
+- Homepage now explains the 10MS-style class mechanics between course grid and free resources; checkout payment step carries the evergreen urgency timer matching the header/course pages. Lint clean.
+---
+Task ID: 16
+Agent: Z.ai Code (main)
+Task: "Make it like 10 Minute School" — deep research + implement 10MS's signature edtech features
+
+Work Log:
+- Deep research via subagent (web-search/web-reader; 10MS Cloudflare-blocked → used search snippets, App Store listing, Wikipedia, press, affiliate mirrors): documented batch/cycle model, discount framing, countdowns, checkout/payment (bKash-first, phone-first auth, hotline), free-layer funnel, certificate verification, app learning loop, 20 ranked replicable ideas.
+- Data layer: NEW src/lib/offer.ts (evergreen month-end offer deadline in Asia/Dhaka, 36h rollover, hydration-safe useOfferCountdown + compactCountdown); site-data.ts — Course gained seatsLeft/seatsTotal/accessPeriod (values for all 6 courses), popularSearches, certificateSeeds (6); prisma Certificate model pushed + seeded (6 rows).
+- Task 3-a (subagent): CourseCard — emerald -% pill, "-33% offer · Save ৳4,000" absolute savings, ভর্তি চলমান pulse chip, gold seats-fill bar + red "মাত্র N সিট বাকি!" (≤5); course-detail — sticky card got live chip + countdown ("অফার শেষ হতে বাকি: 18d… · ends 30 Sept") + "Batch 318 — 5/30 seats left" progress + Course access row (accessPeriod), NEW "এই কোর্সে যা যা থাকছে" 6-item stat grid (courseIncludes: videos/sheets/mocks/materials/free hardcopy for complete/Speaking Club/certificate), NEW What Our Students Say (stories-matched reviews, band badges), NEW FAQ accordion (payment question first).
+- Task 3-b (subagent): GET /api/certificates/verify (ID normalization "sie cert 2417"→SIE-CERT-2417, prefix fallback, 200/404/400/500), #/verify page (gold double-border certificate card, green verified strip, Copy ID, demo chips auto-verify, aria-live), router branch, footer "Verify Certificate" link.
+- Task 3-c (subagent, logged by main): ⌘K SearchDialog (manual filter courses/books/tips + price chips + tags, জনপ্রিয় সার্চ group, quick links, WhatsApp empty-state, kbd hints) + header Search button + promo bar live countdown chip.
+- Task 3-d (main): HowItWorksSection (ভর্তি→লাইভ ক্লাস→প্র্যাকটিস ও এক্সাম→সার্টিফিকেট loop with chips: Zoom live/Campus hybrid/Recorded archive/Weekly mock/Band report/Leaderboard/Certificate) on homepage after courses; OfferCountdownBanner on course-checkout payment step.
+- Verification (agent-browser 1280 + 390): promo countdown ticking (18d 17h 0xm · 30 Sept); search palette opens via ⌘K, "mock" filters book results with ৳ prices; course detail shows chip+countdown+seats+includes+reviews+FAQ; enrollment golden path re-verified (account → batch → bKash+TrxID → "Enrollment confirmed!"); certificate verify: demo chip → premium verified card (Mithila Akter Band 8.0), SIE-CERT-9999 → 404 destructive alert (API normalize + fallback confirmed via curl); free course variant correct (100% Free, আজীবন অ্যাক্সেস, no countdown/seats); cart→checkout regression clean (badge, order summary, portal prefill); marquee animating, 24 logos, 5949px track, homepage-only; 12-route sweep 0 page/console errors; mobile 390 no overflow, footer natural; dev.log clean; lint 0/0.
+
+Stage Summary:
+- The site now mirrors 10MS's core conversion & trust stack end to end: evergreen offer countdowns (promo bar, course cards, detail cards, checkout), batch-seats urgency with ভর্তি চলমান status, absolute-savings pricing, full 10MS course-page anatomy (what's inside / reviews / FAQ / access duration), a "how classes work" learning-loop section, ⌘K search with popular searches, and a public certificate verification page backed by a seeded DB table — all hydration-safe, lint-clean, and verified in the browser on desktop + mobile.

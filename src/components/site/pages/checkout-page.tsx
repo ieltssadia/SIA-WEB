@@ -17,6 +17,7 @@ import {
   LogIn,
   ShieldCheck,
   Smartphone,
+  Timer,
   UserPlus,
   Wallet,
   type LucideIcon,
@@ -32,6 +33,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal } from "@/components/site/reveal";
 import { site, courses, upcomingBatches, type Course } from "@/lib/site-data";
+import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 import { usePortalStore } from "@/lib/portal-store";
 import { useCartStore } from "@/lib/cart-store";
 import { CartCheckout } from "@/components/site/cart-checkout";
@@ -336,6 +338,24 @@ function ErrorNote({ text }: { text: string }) {
 /* Payment step                                                        */
 /* ------------------------------------------------------------------ */
 
+function OfferCountdownBanner() {
+  const countdown = useOfferCountdown();
+  const left = compactCountdown(countdown);
+  if (!left) return null; // hydration-safe: nothing before mount
+  return (
+    <div
+      className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-gradient-to-r from-[#33290f] via-[#1d1808] to-[#33290f] px-4 py-3 text-center"
+      role="status"
+    >
+      <Timer className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+      <p className="text-sm text-foreground/90">
+        <span className="font-semibold text-primary">Admission offer শেষ হতে বাকি: {left}</span>{" "}
+        <span className="text-muted-foreground">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
+      </p>
+    </div>
+  );
+}
+
 function PaymentStep({
   course,
   onEnrolled,
@@ -413,6 +433,7 @@ function PaymentStep({
 
   return (
     <div className="space-y-6">
+      <OfferCountdownBanner />
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Choose your batch</h2>
         <RadioGroup value={batch} onValueChange={setBatch} className="mt-3 space-y-2">

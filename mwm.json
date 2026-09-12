@@ -1,0 +1,83 @@
+{
+  "code": 200,
+  "data": {
+    "description": "Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.",
+    "external": {
+      "apple-touch-icon": {
+        "https://mwm.ai/apple-touch-icon.png": {
+          "sizes": "180x180"
+        }
+      },
+      "dns-prefetch": {
+        "https://api.mwm.ai/": {},
+        "https://fastly.mwm-storage.mwmcdn.com/": {},
+        "https://flagcdn.com/": {},
+        "https://prod.spark-api.mwm-publishing-platform.mwmwebapis.com/": {},
+        "https://www.googletagmanager.com/": {}
+      },
+      "icon": {
+        "https://mwm.ai/favicon-32x32.png": {
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      },
+      "modulepreload": {
+        "https://mwm.ai/xx/Bk7tdOuM.js": {
+          "as": "script",
+          "crossorigin": ""
+        }
+      },
+      "preconnect": {
+        "https://api.mwm.ai/": {},
+        "https://fastly.mwm-storage.mwmcdn.com/": {
+          "crossorigin": ""
+        },
+        "https://www.googletagmanager.com/": {}
+      },
+      "preload": {
+        "https://mwm.ai/fonts/inter-latin.woff2": {
+          "as": "font",
+          "crossorigin": "anonymous",
+          "type": "font/woff2"
+        },
+        "https://mwm.ai/xx/builds/meta/641a7f3d-ebe1-4572-b9ac-1cf0858b9f4c.json": {
+          "as": "fetch",
+          "crossorigin": "anonymous",
+          "fetchpriority": "low"
+        }
+      }
+    },
+    "html": "<html class=\"dark-mode\" lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content\"><script type=\"importmap\">{\"imports\":{\"#entry\":\"/xx/Bk7tdOuM.js\"}}</script><title>Error 404 - Page Not Found</title><link rel=\"preconnect\" href=\"https://api.mwm.ai\"><link rel=\"preconnect\" href=\"https://www.googletagmanager.com\"><link rel=\"preconnect\" href=\"https://fastly.mwm-storage.mwmcdn.com\" crossorigin=\"\"><style>@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/inter-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/inter-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}</style><style>.error-page[data-v-c0a1650d]{align-items:center;background:#08090a;color:#fff;display:flex;font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;justify-content:center;margin:0;min-height:100vh;padding:24px}.error-content[data-v-c0a1650d]{max-width:480px;text-align:center}.error-code[data-v-c0a1650d]{background:linear-gradient(267deg,#ff63d6 8%,#ff0771 24%,#ff5301 66%);-webkit-background-clip:text;font-size:120px;font-weight:800;line-height:1;margin-bottom:24px;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.04em}.error-title[data-v-c0a1650d]{color:#fff;font-size:28px;font-weight:700;line-height:1.2;margin:0 0 16px}.error-description[data-v-c0a1650d]{color:#fff9;font-size:16px;line-height:1.5;margin:0 0 32px}.error-button[data-v-c0a1650d]{align-items:center;background:#fff;border:none;border-radius:9999px;color:#08090a;cursor:pointer;display:inline-flex;font-family:inherit;font-size:14px;font-weight:600;gap:8px;padding:12px 24px;transition:opacity .2s ease,transform .2s ease}.error-button[data-v-c0a1650d]:hover{opacity:.9;transform:translateY(-1px)}@media(max-width:480px){.error-code[data-v-c0a1650d]{font-size:88px}.error-title[data-v-c0a1650d]{font-size:22px}.error-description[data-v-c0a1650d]{font-size:14px}}</style><link rel=\"preload\" href=\"/fonts/inter-latin.woff2\" as=\"font\" type=\"font/woff2\" crossorigin=\"anonymous\"><link rel=\"modulepreload\" as=\"script\" crossorigin=\"\" href=\"/xx/Bk7tdOuM.js\"><link rel=\"preload\" as=\"fetch\" fetchpriority=\"low\" crossorigin=\"anonymous\" href=\"/xx/builds/meta/641a7f3d-ebe1-4572-b9ac-1cf0858b9f4c.json\"><link rel=\"dns-prefetch\" href=\"https://api.mwm.ai\"><link rel=\"dns-prefetch\" href=\"https://www.googletagmanager.com\"><link rel=\"dns-prefetch\" href=\"https://fastly.mwm-storage.mwmcdn.com\"><link rel=\"dns-prefetch\" href=\"https://flagcdn.com\"><link rel=\"dns-prefetch\" href=\"https://prod.spark-api.mwm-publishing-platform.mwmwebapis.com\"><meta name=\"robots\" content=\"noindex, nofollow\"><meta name=\"theme-color\" content=\"#0D0D0D\"><meta name=\"description\" content=\"Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.\"><meta property=\"og:type\" content=\"website\"><meta property=\"og:title\" content=\"MWM - Build, run, and scale your mobile app\"><meta property=\"og:description\" content=\"Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.\"><meta property=\"og:image\" content=\"https://mwm.ai/en/static/preview_mwm.png\"><meta property=\"og:site_name\" content=\"MWM\"><meta name=\"twitter:title\" content=\"MWM - Build, run, and scale your mobile app\"><meta name=\"twitter:description\" content=\"Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.\"><meta name=\"twitter:image\" content=\"https://mwm.ai/en/static/preview_mwm.png\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:domain\" content=\"mwm.ai\"><link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon-32x32.png\"><link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\"><script type=\"module\" src=\"/xx/Bk7tdOuM.js\" crossorigin=\"\"></script></head><body class=\"bg-black\"><div id=\"__nuxt\"><div class=\"error-page\" data-v-c0a1650d=\"\"><div class=\"error-content\" data-v-c0a1650d=\"\"><div class=\"error-code\" data-v-c0a1650d=\"\">404</div><h1 class=\"error-title\" data-v-c0a1650d=\"\">Page Not Found</h1><p class=\"error-description\" data-v-c0a1650d=\"\">The page you are looking for does not exist or has been moved.</p><button class=\"error-button\" data-v-c0a1650d=\"\"><svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" data-v-c0a1650d=\"\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10 19l-7-7m0 0l7-7m-7 7h18\" data-v-c0a1650d=\"\"></path></svg> Back to Home</button></div></div></div><div id=\"teleports\"></div><script type=\"application/json\" data-nuxt-data=\"nuxt-app\" data-ssr=\"true\" id=\"__NUXT_DATA__\">[[\"ShallowReactive\",1],{\"error\":2,\"data\":7,\"state\":9,\"once\":11,\"_errors\":12,\"serverRendered\":14,\"path\":4},[\"null\",\"error\",3,\"url\",4,\"statusCode\",5,\"statusMessage\",6,\"message\",6],\"true\",\"/apps/com.a10minuteschool.tenminuteschool\",404,\"Not Found\",[\"ShallowReactive\",8],{},[\"Reactive\",10],{},[\"Set\"],[\"ShallowReactive\",13],{},true]</script><script>window.__NUXT__={};window.__NUXT__.config={public:{seoApiBaseUrl:\"https://api.mwm.ai\",webVitalsCollectorUrl:\"https://vitals-prod-europe-west2-193339518418.europe-west2.run.app\",gtag:{enabled:true,initMode:\"manual\",id:\"G-LQYMR2172T\",initCommands:[[\"consent\",\"default\",{ad_storage:\"denied\",analytics_storage:\"denied\",ad_user_data:\"denied\",ad_personalization:\"denied\"}]],config:{anonymize_ip:true,send_page_view:true},tags:[],loadingStrategy:\"defer\",url:\"https://www.googletagmanager.com/gtag/js\"},mdc:{components:{prose:true,map:{},customElements:[]},headings:{anchorLinks:{h1:false,h2:true,h3:true,h4:true,h5:false,h6:false}},highlight:{noApiRoute:true,highlighter:\"shiki\",theme:{default:\"github-light\",dark:\"github-dark\"},shikiEngine:\"oniguruma\",langs:[\"js\",\"jsx\",\"json\",\"ts\",\"tsx\",\"vue\",\"css\",\"html\",\"bash\",\"md\",\"mdc\",\"yaml\"]}},content:{wsUrl:\"\"}},app:{baseURL:\"/\",buildId:\"641a7f3d-ebe1-4572-b9ac-1cf0858b9f4c\",buildAssetsDir:\"/xx/\",cdnURL:\"\"}}</script></body></html>",
+    "httpStatus": 404,
+    "httpStatusText": "",
+    "metadata": {
+      "description": "Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.",
+      "lang": "en",
+      "og:description": "Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.",
+      "og:image": "https://mwm.ai/en/static/preview_mwm.png",
+      "og:site_name": "MWM",
+      "og:title": "MWM - Build, run, and scale your mobile app",
+      "og:type": "website",
+      "robots": "noindex, nofollow",
+      "theme-color": "#0D0D0D",
+      "twitter:card": "summary_large_image",
+      "twitter:description": "Build native mobile apps with MWM AI, operate them with MWM Console, and scale them globally with MWM Publishing. One platform for the AI app era.",
+      "twitter:domain": "mwm.ai",
+      "twitter:image": "https://mwm.ai/en/static/preview_mwm.png",
+      "twitter:title": "MWM - Build, run, and scale your mobile app",
+      "viewport": "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    },
+    "title": "MWM - Build, run, and scale your mobile app",
+    "url": "https://mwm.ai/apps/com.a10minuteschool.tenminuteschool",
+    "usage": {
+      "tokens": 2143
+    },
+    "warning": "Target URL returned error 404: Not Found"
+  },
+  "meta": {
+    "usage": {
+      "tokens": 2143
+    }
+  },
+  "status": 20000
+}

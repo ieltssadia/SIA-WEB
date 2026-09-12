@@ -3,7 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, ShoppingBag, X } from "lucide-react";
+import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -12,6 +12,8 @@ import { useHashRoute } from "@/lib/router";
 import { usePortalStore } from "@/lib/portal-store";
 import { cartCount, useCartStore } from "@/lib/cart-store";
 import { CartSheet } from "@/components/site/cart-sheet";
+import { SearchDialog } from "@/components/site/search-dialog";
+import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 
 const emptySubscribe = () => () => {};
 
@@ -20,7 +22,11 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [promoClosed, setPromoClosed] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const route = useHashRoute();
+  // 10MS-style "অফার শেষ হতে বাকি" timer for the gold announcement bar
+  const countdown = useOfferCountdown();
+  const offerLeft = compactCountdown(countdown); // "" until mounted → hydration-safe
   // Swaps the header CTA to "My Portal" once the persisted session restores
   const portalUser = usePortalStore((s) => s.user);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
@@ -56,6 +62,13 @@ export function SiteHeader() {
         >
           <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-10 py-2 text-center text-xs font-semibold lg:px-8">
             <p className="truncate">{promoBar.message}</p>
+            {offerLeft ? (
+              <span className="hidden shrink-0 items-center gap-1 text-[11px] font-semibold text-[#16120a]/80 sm:flex">
+                <Timer className="h-3 w-3" aria-hidden />
+                <span className="tabular-nums">অফার শেষ হতে বাকি {offerLeft}</span>
+                <span className="hidden md:inline">· {countdown.endsOn}</span>
+              </span>
+            ) : null}
             <a
               href={promoBar.ctaHref}
               className="hidden shrink-0 rounded-full bg-[#16120a] px-3 py-1 text-[11px] font-bold text-primary transition-opacity hover:opacity-85 sm:inline-block"
@@ -168,6 +181,16 @@ export function SiteHeader() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            {/* Search — opens the ⌘K palette */}
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Search (Ctrl+K)"
+              onClick={() => setSearchOpen(true)}
+              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+            >
+              <Search className="h-4.5 w-4.5" aria-hidden />
+            </Button>
             {/* Cart — opens the slide-over bag */}
             <CartSheet
               open={cartOpen}
@@ -284,6 +307,11 @@ export function SiteHeader() {
                   </div>
                 </SheetContent>
               </Sheet>
+            ) : null}
+
+            {/* ⌘K search palette — client-only to stay hydration-safe */}
+            {mounted ? (
+              <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
             ) : null}
           </div>
         </div>

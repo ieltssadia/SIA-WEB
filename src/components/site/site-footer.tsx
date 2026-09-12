@@ -30,6 +30,7 @@ const columns = [
       { label: "Events", href: "#/routine" },
       { label: "Gallery", href: site.facebook, external: true },
       { label: "FAQs", href: "#faq" },
+      { label: "Verify Certificate", href: "#/verify" },
     ],
   },
   {

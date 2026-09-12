@@ -20,6 +20,7 @@ import { ShopPage } from "@/components/site/pages/shop-page";
 import { ContactPage } from "@/components/site/pages/contact-page";
 import { PortalPage } from "@/components/site/pages/portal-page";
 import { CheckoutPage } from "@/components/site/pages/checkout-page";
+import { VerifyPage } from "@/components/site/pages/verify-page";
 import { useHashQuery } from "@/lib/router";
 
 function subscribe(callback: () => void) {
@@ -97,6 +98,8 @@ export function SiteRouter() {
     page = <PortalPage />;
   } else if (segments[0] === "checkout") {
     page = <CheckoutPage initialCourse={query.get("course")} />;
+  } else if (segments[0] === "verify") {
+    page = <VerifyPage />;
   } else {
     page = <HomePage />;
   }

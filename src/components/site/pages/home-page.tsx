@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Hero } from "@/components/site/hero";
 import { StatsStrip } from "@/components/site/stats-strip";
 import { CoursesSection } from "@/components/site/courses-section";
+import { HowItWorksSection } from "@/components/site/how-it-works-section";
 import { FreeResourcesSection } from "@/components/site/free-resources-section";
 import { RoutineBanner } from "@/components/site/routine-banner";
 import { SkillsSection } from "@/components/site/skills-section";
@@ -142,6 +143,7 @@ export function HomePage() {
       <Hero />
       <StatsStrip />
       <CoursesSection featured />
+      <HowItWorksSection />
       <FreeResourcesSection />
       <RoutineBanner />
       <SkillsSection />

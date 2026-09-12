@@ -56,6 +56,10 @@ function Stars({ rating }: { rating: number }) {
 export function CourseCard({ course, index }: { course: Course; index: number }) {
   const Icon = courseIconMap[course.icon] ?? BookOpen;
   const discount = course.price ? discountPct(course.price, course.oldPrice) : null;
+  const savings =
+    course.price && course.oldPrice && course.oldPrice > course.price
+      ? course.oldPrice - course.price
+      : null;
 
   return (
     <Reveal delay={(index % 3) * 0.08} className="h-full">
@@ -66,7 +70,17 @@ export function CourseCard({ course, index }: { course: Course; index: number })
             aria-hidden
             className="absolute -right-6 -top-8 h-28 w-28 rounded-full bg-primary/10 blur-xl transition-opacity group-hover:opacity-100"
           />
-          <div className="absolute inset-0 flex items-center justify-between px-5">
+          {/* 10MS discount badge */}
+          {discount ? (
+            <span className="absolute right-4 top-1 z-10 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300">
+              {discount}
+            </span>
+          ) : null}
+          <div
+            className={`absolute inset-0 flex items-center justify-between px-5 ${
+              discount ? "pt-5" : ""
+            }`}
+          >
             <Badge className="border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
               {course.tag}
             </Badge>
@@ -113,11 +127,50 @@ export function CourseCard({ course, index }: { course: Course; index: number })
             </span>
           </div>
 
-          {/* Next batch */}
-          <p className="mt-3 flex items-center gap-1.5 rounded-lg border border-primary/15 bg-primary/5 px-3 py-2 text-xs font-medium text-primary">
-            <CalendarClock className="h-3.5 w-3.5" aria-hidden />
-            Next batch: {course.nextBatch}
-          </p>
+          {/* Next batch + 10MS enrollment status & seats urgency */}
+          <div className="mt-3 rounded-lg border border-primary/15 bg-primary/5 px-3 py-2">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+              <p className="flex items-center gap-1.5 text-xs font-medium text-primary">
+                <CalendarClock className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                Next batch: {course.nextBatch}
+              </p>
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
+                <span
+                  className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+                  aria-hidden
+                />
+                {course.price === 0 ? "ফ্রি — এখনই শুরু করুন" : "ভর্তি চলমান"}
+              </span>
+            </div>
+            {course.seatsLeft && course.seatsTotal ? (
+              <div className="mt-2 flex items-center gap-2">
+                <div
+                  className="h-0.5 flex-1 overflow-hidden rounded-full bg-primary/15"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={course.seatsTotal}
+                  aria-valuenow={course.seatsLeft}
+                  aria-label={`${course.seatsLeft} of ${course.seatsTotal} seats left`}
+                >
+                  <div
+                    className="h-full rounded-full bg-primary"
+                    style={{
+                      width: `${Math.round((1 - course.seatsLeft / course.seatsTotal) * 100)}%`,
+                    }}
+                  />
+                </div>
+                <span
+                  className={`shrink-0 text-[11px] font-semibold ${
+                    course.seatsLeft <= 5 ? "text-red-400" : "text-muted-foreground"
+                  }`}
+                >
+                  {course.seatsLeft <= 5
+                    ? `মাত্র ${course.seatsLeft} সিট বাকি!`
+                    : `${course.seatsLeft} seats left`}
+                </span>
+              </div>
+            ) : null}
+          </div>
 
           {/* Features */}
           <ul className="mt-4 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
@@ -163,9 +216,9 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                       </p>
                     ) : null}
                   </div>
-                  {discount ? (
+                  {discount && savings ? (
                     <p className="text-[11px] font-semibold text-emerald-400">
-                      {discount} admission offer
+                      {discount} admission offer · Save {formatBDT(savings)}
                     </p>
                   ) : null}
                 </>

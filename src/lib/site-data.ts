@@ -39,6 +39,72 @@ export const promoBar = {
 
 export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];
 
+/** 10MS-style popular searches shown in the header search dialog. */
+export const popularSearches = [
+  "Basic to IELTS",
+  "Mock Test",
+  "Speaking",
+  "Crash Course",
+  "Free Course",
+  "Vocabulary",
+];
+
+/**
+ * Demo certificates for the public "Verify Certificate" page (10MS pattern —
+ * 10minuteschool.com/certificate). Real issued certificates live in the DB;
+ * these seeds are inserted on first boot so the page is demonstrable.
+ */
+export const certificateSeeds = [
+  {
+    id: "SIE-CERT-2417",
+    name: "Mithila Akter",
+    course: "Basic to IELTS — In Batch",
+    batch: "Batch 315",
+    band: "8.0",
+    issued: "30 May 2025",
+  },
+  {
+    id: "SIE-CERT-2402",
+    name: "Anika Tasnim",
+    course: "Basic to IELTS — Private Batch",
+    batch: "Batch 312",
+    band: "7.5",
+    issued: "30 May 2025",
+  },
+  {
+    id: "SIE-CERT-2406",
+    name: "Raihan Ahmed",
+    course: "IELTS Crash Course",
+    batch: "Batch 314-C",
+    band: "7.5",
+    issued: "06 Jun 2025",
+  },
+  {
+    id: "SIE-CERT-2395",
+    name: "Fariha Islam",
+    course: "Basic to IELTS — In Batch",
+    batch: "Batch 311",
+    band: "7.0",
+    issued: "30 May 2025",
+  },
+  {
+    id: "SIE-CERT-2388",
+    name: "Milon Mahmud",
+    course: "Basic to IELTS — One to One",
+    batch: "1-on-1",
+    band: "6.0",
+    issued: "30 May 2025",
+  },
+  {
+    id: "SIE-CERT-2411",
+    name: "Emran Ahmed",
+    course: "IELTS Crash Course",
+    batch: "Batch 313-C",
+    band: "6.0",
+    issued: "30 May 2025",
+  },
+];
+
 export const stats = [
   { value: 9, suffix: "+", label: "Years of Experience" },
   { value: 316, suffix: "+", label: "Batches Completed" },
@@ -66,6 +132,11 @@ export type Course = {
   syllabus: string[];
   /** One-line weekly schedule summary shown on the course page. */
   scheduleNote: string;
+  /** 10MS batch urgency — seats remaining in the currently enrolling batch. */
+  seatsLeft?: number;
+  seatsTotal?: number;
+  /** 10MS-style access duration, e.g. "3 মাস" / "আজীবন". */
+  accessPeriod?: string;
 };
 
 export const courseCategories = [
@@ -99,6 +170,9 @@ export const courses: Course[] = [
     nextBatch: "Every Sunday",
     mode: "Online + Offline",
     scheduleNote: "Sat – Thu · 10:00 AM – 11:30 AM + Thursday Weekly Mock",
+    seatsLeft: 5,
+    seatsTotal: 30,
+    accessPeriod: "3 মাস + পরীক্ষা পর্যন্ত রেকর্ডেড অ্যাক্সেস",
     syllabus: [
       "Foundation: Grammar & Vocabulary (4 weeks)",
       "Listening: Accents, note-taking & practice tests",
@@ -131,6 +205,9 @@ export const courses: Course[] = [
     nextBatch: "Every Sunday",
     mode: "Online + Offline",
     scheduleNote: "Sun & Tue · 5:00 PM – 6:30 PM + Thursday Weekly Mock",
+    seatsLeft: 4,
+    seatsTotal: 10,
+    accessPeriod: "3 মাস + পরীক্ষা পর্যন্ত রেকর্ডেড অ্যাক্সেস",
     syllabus: [
       "Foundation: Grammar & Vocabulary (4 weeks)",
       "All 4 modules with individual feedback",
@@ -161,6 +238,9 @@ export const courses: Course[] = [
     nextBatch: "Any day you start",
     mode: "Online + Offline",
     scheduleNote: "Flexible — class times are fixed with your mentor at admission",
+    seatsLeft: 3,
+    seatsTotal: 8,
+    accessPeriod: "6 মাস অ্যাক্সেস",
     syllabus: [
       "Level assessment & custom study plan",
       "All 4 modules at your own pace",
@@ -191,6 +271,9 @@ export const courses: Course[] = [
     nextBatch: "1st of every month",
     mode: "Online + Offline",
     scheduleNote: "Mon & Wed · 4:00 PM – 5:30 PM",
+    seatsLeft: 15,
+    seatsTotal: 35,
+    accessPeriod: "1 মাস অ্যাক্সেস",
     syllabus: [
       "English grammar from absolute basics",
       "Everyday & academic vocabulary building",
@@ -220,6 +303,9 @@ export const courses: Course[] = [
     nextBatch: "Every Monday",
     mode: "Online + Offline",
     scheduleNote: "Mon & Wed · 6:00 PM – 7:30 PM + Thursday Mock Review",
+    seatsLeft: 8,
+    seatsTotal: 25,
+    accessPeriod: "1 মাস অ্যাক্সেস",
     syllabus: [
       "Week 1: All 4 module strategies & shortcuts",
       "Week 2: Question-type tricks (Reading & Listening)",
@@ -249,6 +335,7 @@ export const courses: Course[] = [
     nextBatch: "Start instantly",
     mode: "Online",
     scheduleNote: "Self-paced — learn anytime + join the weekly free live classes",
+    accessPeriod: "আজীবন অ্যাক্সেস",
     syllabus: [
       "10 premium video lessons",
       "Downloadable practice materials",

@@ -3,17 +3,31 @@
 import {
   ArrowRight,
   ArrowLeft,
+  Award,
   BookOpen,
   CalendarClock,
   Check,
+  ClipboardCheck,
   Clock,
+  FileText,
+  Gift,
   GraduationCap,
+  Infinity as InfinityIcon,
+  Mic,
   MonitorSmartphone,
   MessageCircle,
   Phone,
   Star,
+  Timer,
   Users,
+  Video,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,7 +37,8 @@ import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { CourseCard, courseIconMap } from "@/components/site/courses-section";
 import { CourseRoutineTable } from "@/components/site/weekly-routine";
 import { LockedRoutineCard } from "@/components/site/locked-routine";
-import { courses, site, type Course } from "@/lib/site-data";
+import { courses, faqs, stories, upcomingBatches, site, type Course } from "@/lib/site-data";
+import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 import { usePortalStore } from "@/lib/portal-store";
 
 function formatBDT(n: number) {
@@ -37,6 +52,67 @@ function discountPct(price: number, oldPrice?: number) {
 
 function formatStudents(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k+` : `${n}`;
+}
+
+/** 10MS course-page FAQ — payment question first, then the global FAQs. */
+const paymentFaq = {
+  q: "ভর্তি ও পেমেন্ট কীভাবে করব?",
+  a: "এই পেজের Enroll Now বাটনে ক্লিক করে account খুলে bKash/Nagad/Rocket/Cash — যেকোনো মাধ্যমে পেমেন্ট করা যায়। অথবা সরাসরি কল করুন +880 1752-716238।",
+};
+
+const courseFaqs = [paymentFaq, ...faqs];
+
+/** 10MS "এই কোর্সে যা যা থাকছে" stat-grid items derived from course data. */
+function courseIncludes(course: Course): {
+  icon: React.ElementType;
+  label: string;
+  sub: string;
+}[] {
+  const isFree = course.price === 0;
+  return [
+    {
+      icon: Video,
+      label: isFree ? `${course.lessons} Video Lessons` : `${course.lessons} Live Classes`,
+      sub: isFree ? "Self-paced" : "Zoom + campus hybrid",
+    },
+    { icon: FileText, label: `${course.lessons} Lecture Sheets`, sub: "PDF — বাংলা ব্যাখ্যাসহ" },
+    { icon: ClipboardCheck, label: "Weekly Full Mock", sub: "Band report সহ" },
+    { icon: BookOpen, label: "Study Materials", sub: "Templates & practice packs" },
+    course.category === "complete"
+      ? { icon: Gift, label: "Free Hardcopy Book", sub: "Premium course bonus" }
+      : { icon: Mic, label: "Speaking Club", sub: "Every Saturday" },
+    { icon: Award, label: "Completion Certificate", sub: "Verifiable on our site" },
+  ];
+}
+
+/** Hydration-safe evergreen offer countdown (10MS signature). */
+function OfferCountdownRow() {
+  const countdown = useOfferCountdown();
+  if (!countdown.ready) return null;
+  return (
+    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-semibold text-primary">
+      <Timer className="h-3.5 w-3.5 shrink-0" aria-hidden />
+      <span>অফার শেষ হতে বাকি: {compactCountdown(countdown)}</span>
+      <span className="font-normal text-primary/70">· offer ends {countdown.endsOn}</span>
+    </p>
+  );
+}
+
+/** 5-star row used on course-page reviews. */
+function ReviewStars({ rating }: { rating: number }) {
+  return (
+    <span className="flex items-center gap-0.5" aria-label={`Rated ${rating} out of 5`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Star
+          key={i}
+          className={`h-3.5 w-3.5 ${
+            i <= Math.round(rating) ? "fill-primary text-primary" : "text-muted-foreground/40"
+          }`}
+          aria-hidden
+        />
+      ))}
+    </span>
+  );
 }
 
 /** Routine table for students enrolled in THIS course; a locked teaser otherwise. */
@@ -111,6 +187,19 @@ export function CourseDetailPage({ slug }: { slug: string }) {
   const Icon = courseIconMap[course.icon] ?? BookOpen;
   const discount = course.price ? discountPct(course.price, course.oldPrice) : null;
 
+  const batchLabel =
+    upcomingBatches.find((b) => b.courseSlug === course.slug)?.batch ?? "This batch";
+  const includes = courseIncludes(course);
+
+  // 10MS course-page reviews: this course's stories first, padded from other
+  // courses when there are fewer than 2.
+  const ownStories = stories.filter((s) => s.course === course.title);
+  const reviews = (
+    ownStories.length >= 2
+      ? ownStories
+      : [...ownStories, ...stories.filter((s) => s.course !== course.title)]
+  ).slice(0, 3);
+
   const sameCategory = courses.filter(
     (c) => c.slug !== course.slug && c.category === course.category
   );
@@ -175,6 +264,24 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                 </p>
               </Reveal>
 
+              {/* এই কোর্সে যা যা থাকছে — 10MS what's-inside stat grid */}
+              <Reveal delay={0.06}>
+                <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
+                  এই কোর্সে যা যা থাকছে
+                </h2>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {includes.map((item) => (
+                    <div key={item.label} className="rounded-xl border border-border bg-card p-4">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                        <item.icon className="h-5 w-5" aria-hidden />
+                      </span>
+                      <p className="mt-3 text-sm font-semibold text-foreground">{item.label}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{item.sub}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
               {/* What you get */}
               <Reveal delay={0.08}>
                 <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
@@ -227,6 +334,37 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                 </div>
               </Reveal>
 
+              {/* Student reviews — 10MS social proof */}
+              <Reveal delay={0.115}>
+                <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
+                  What Our Students Say
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  রিয়েল স্টুডেন্টস, রিয়েল রেজাল্ট — সরাসরি আমাদের রেজাল্ট পোস্ট থেকে।
+                </p>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {reviews.map((r) => (
+                    <figure
+                      key={r.name}
+                      className="flex flex-col rounded-xl border border-border bg-card p-5"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <ReviewStars rating={4.9} />
+                        <span className="shrink-0 rounded-full border border-primary/40 bg-primary/15 px-2.5 py-0.5 text-[11px] font-bold text-primary">
+                          {r.band}
+                        </span>
+                      </div>
+                      <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground/85">
+                        “{r.quote}”
+                      </blockquote>
+                      <figcaption className="mt-3 text-xs text-muted-foreground">
+                        <span className="font-semibold text-foreground">{r.name}</span> · {r.date}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </Reveal>
+
               {/* Instructor mini */}
               <Reveal delay={0.12}>
                 <Card className="mt-10 border-primary/20 bg-gradient-to-br from-[#1d1808] via-[#141419] to-[#141419]">
@@ -255,6 +393,29 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                   </CardContent>
                 </Card>
               </Reveal>
+
+              {/* FAQs — 10MS course-page FAQ */}
+              <Reveal delay={0.13}>
+                <h2 className="mt-10 font-display text-2xl font-bold text-foreground">
+                  Frequently Asked Questions
+                </h2>
+                <Accordion type="single" collapsible className="mt-4 space-y-3">
+                  {courseFaqs.map((faq, i) => (
+                    <AccordionItem
+                      key={faq.q}
+                      value={`course-faq-${i}`}
+                      className="rounded-2xl border border-border bg-card px-5 transition-colors data-[state=open]:border-primary/40"
+                    >
+                      <AccordionTrigger className="py-4 text-left text-sm font-medium text-foreground hover:text-primary hover:no-underline [&[data-state=open]>svg]:text-primary">
+                        {faq.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
+                        {faq.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </Reveal>
             </div>
 
             {/* Sticky enroll card */}
@@ -263,7 +424,15 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                 <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
                   {/* Gradient header */}
                   <div className="relative bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6">
-                    <div className="flex items-start justify-between gap-3">
+                    {/* 10MS live enrollment status */}
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                      <span
+                        className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+                        aria-hidden
+                      />
+                      ভর্তি চলমান
+                    </span>
+                    <div className="mt-4 flex items-start justify-between gap-3">
                       <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/25 bg-[#141419]/80">
                         <Icon className="h-7 w-7 text-primary" aria-hidden />
                       </span>
@@ -305,9 +474,36 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                         </>
                       )}
                     </div>
+                    {course.price && course.oldPrice ? <OfferCountdownRow /> : null}
                   </div>
 
                   <CardContent className="space-y-4 p-6">
+                    {/* 10MS batch seats urgency */}
+                    {course.seatsLeft && course.seatsTotal ? (
+                      <div>
+                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs">
+                          <span className="font-medium text-foreground">
+                            {batchLabel} — {course.seatsLeft}/{course.seatsTotal} seats left
+                          </span>
+                          {course.seatsLeft <= 5 ? (
+                            <span className="font-semibold text-red-400">
+                              মাত্র {course.seatsLeft} সিট বাকি!
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-primary/15">
+                          <div
+                            className="h-full rounded-full bg-primary"
+                            style={{
+                              width: `${Math.round(
+                                ((course.seatsTotal - course.seatsLeft) / course.seatsTotal) * 100
+                              )}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ) : null}
+
                     {/* Facts */}
                     <div className="space-y-2.5 text-sm">
                       <p className="flex items-center justify-between gap-3">
@@ -333,6 +529,20 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                         </span>
                         <span className="font-medium text-foreground">{course.duration}</span>
                       </p>
+                      {course.accessPeriod ? (
+                        <>
+                          <Separator className="bg-primary/10" />
+                          <p className="flex items-start justify-between gap-3">
+                            <span className="flex shrink-0 items-center gap-2 text-muted-foreground">
+                              <InfinityIcon className="h-4 w-4 text-primary" aria-hidden />
+                              Course access
+                            </span>
+                            <span className="text-right font-medium text-foreground">
+                              {course.accessPeriod}
+                            </span>
+                          </p>
+                        </>
+                      ) : null}
                     </div>
 
                     {/* CTAs */}
