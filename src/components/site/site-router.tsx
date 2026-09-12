@@ -16,6 +16,8 @@ import { RoutinePage } from "@/components/site/pages/routine-page";
 import { AboutPage } from "@/components/site/pages/about-page";
 import { TipsPage } from "@/components/site/pages/tips-page";
 import { StoriesPage } from "@/components/site/pages/stories-page";
+import { LivePage } from "@/components/site/pages/live-page";
+import { LiveClassroomPage } from "@/components/site/pages/live-classroom-page";
 import { ShopPage } from "@/components/site/pages/shop-page";
 import { ContactPage } from "@/components/site/pages/contact-page";
 import { PortalPage } from "@/components/site/pages/portal-page";
@@ -82,6 +84,10 @@ export function SiteRouter() {
     page = <CourseDetailPage slug={segments[1]} />;
   } else if (segments[0] === "courses") {
     page = <CoursesPage />;
+  } else if (segments[0] === "live" && segments[1]) {
+    page = <LiveClassroomPage slug={segments[1]} />;
+  } else if (segments[0] === "live") {
+    page = <LivePage />;
   } else if (segments[0] === "routine") {
     page = <RoutinePage />;
   } else if (segments[0] === "about") {

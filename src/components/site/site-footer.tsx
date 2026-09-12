@@ -27,6 +27,7 @@ const columns = [
     title: "Links",
     links: [
       { label: "Courses", href: "#/courses" },
+      { label: "Live Classes", href: "#/live" },
       { label: "Events", href: "#/routine" },
       { label: "Gallery", href: site.facebook, external: true },
       { label: "FAQs", href: "#faq" },

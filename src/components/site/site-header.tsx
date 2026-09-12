@@ -33,6 +33,30 @@ export function SiteHeader() {
   const portalAuthed = hasHydrated && !!portalUser;
   // Cart badge — count only after mount so SSR/client markup matches
   const cartItems = useCartStore((s) => s.items);
+  // Live-now indicator — pings the live-class API every 60 s; the pulsing dot
+  // only decorates the "Live" nav item, so a failed fetch is harmless.
+  const [liveNow, setLiveNow] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const check = () =>
+      fetch("/api/live-classes", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((json) => {
+          if (cancelled) return;
+          setLiveNow(
+            !!json?.ok &&
+              Array.isArray(json.classes) &&
+              json.classes.some((c: { status?: string }) => c.status === "live")
+          );
+        })
+        .catch(() => {});
+    check();
+    const t = setInterval(check, 60_000);
+    return () => {
+      cancelled = true;
+      clearInterval(t);
+    };
+  }, []);
   // Hydration-safe "client only" flag (false during SSR, true on client)
   const mounted = useSyncExternalStore(
     emptySubscribe,
@@ -174,6 +198,12 @@ export function SiteHeader() {
                   }`}
                 >
                   {link.label}
+                  {link.href === "#/live" && liveNow ? (
+                    <span
+                      aria-hidden
+                      className="ml-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 align-middle"
+                    />
+                  ) : null}
                 </a>
               );
             })}
@@ -276,6 +306,12 @@ export function SiteHeader() {
                         className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground/85 transition-colors hover:bg-accent hover:text-primary"
                       >
                         {link.label}
+                        {link.href === "#/live" && liveNow ? (
+                          <span
+                            aria-hidden
+                            className="ml-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 align-middle"
+                          />
+                        ) : null}
                       </a>
                     ))}
                   </nav>

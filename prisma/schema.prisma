@@ -116,6 +116,28 @@ model Certificate {
   @@index([name])
 }
 
+// A scheduled live class. Students join the real-time classroom
+// (#/live/<slug>) — chat, synced slides, polls, raise-hand and the teacher
+// camera stream all run over the socket.io live-class-service
+// (mini-services/live-class-service, port 3003). `slides` is JSON because
+// Prisma does not support Json columns on SQLite.
+model LiveClass {
+  id          String   @id @default(cuid())
+  slug        String   @unique // e.g. "speaking-marathon"
+  title       String
+  courseSlug  String? // optional link to courses[].slug in site-data.ts
+  teacher     String   @default("Sadia Ma'am")
+  description String?
+  startsAt    DateTime
+  durationMin Int      @default(60)
+  status      String   @default("scheduled") // scheduled | live | ended
+  slides      String   @default("[]") // JSON: [{ title, bullets[], note? }]
+  createdAt   DateTime @default(now())
+
+  @@index([status])
+  @@index([startsAt])
+}
+
 // Line items of an Order — unit price captured at purchase time.
 model OrderItem {
   id        String @id @default(cuid())
