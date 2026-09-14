@@ -3,11 +3,19 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Mail, Menu, Phone, MapPin, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X } from "lucide-react";
+import { Facebook, Lightbulb, Mail, Menu, Phone, MapPin, Quote, Users, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { navLinks, promoBar, site } from "@/lib/site-data";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { navPrimary, navMore, promoBar, site } from "@/lib/site-data";
 import { useHashRoute } from "@/lib/router";
 import { usePortalStore } from "@/lib/portal-store";
 import { cartCount, useCartStore } from "@/lib/cart-store";
@@ -17,6 +25,22 @@ import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 
 const emptySubscribe = () => () => {};
 
+/* "More" dropdown icon + jewel-pastel chip rotation (Gilded Court order) */
+const MORE_ICONS: Record<string, LucideIcon> = {
+  "#/about": Users,
+  "#/tips": Lightbulb,
+  "#/stories": Quote,
+  "#/shop": ShoppingBag,
+  "#/contact": Phone,
+};
+const MORE_CHIPS = [
+  "bg-pastel-sky text-[#2c4f8a]",
+  "bg-pastel-butter text-[#7a5a16]",
+  "bg-pastel-ruby text-[#7a2734]",
+  "bg-pastel-green text-[#1f5c40]",
+  "bg-pastel-orange text-[#7a4c12]",
+];
+
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -24,6 +48,8 @@ export function SiteHeader() {
   const [promoClosed, setPromoClosed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const route = useHashRoute();
+  // "More" trigger wears the active pill while any of its routes is open
+  const moreActive = navMore.some((l) => (l.href.replace(/^#/, "") || "/") === route);
   // 10MS-style "অফার শেষ হতে বাকি" timer for the announcement bar
   const countdown = useOfferCountdown();
   const offerLeft = compactCountdown(countdown); // "" until mounted → hydration-safe
@@ -76,7 +102,8 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 overflow-hidden">
+    /* NOTE: no overflow-hidden here — it would clip the "More" dropdown panel */
+    <header className="sticky top-0 z-50">
       {/* Promo announcement bar — 10MS style, dismissible, collapses on scroll */}
       {!promoClosed ? (
         <div
@@ -181,12 +208,12 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* Desktop nav — LabAcademy-style pill group, full menu only when there's room (≥1280px) */}
+          {/* Desktop nav — 10MS-style de-cluttered pill group: 4 primary links + "More" dropdown */}
           <nav
             aria-label="Main navigation"
             className="hidden items-center gap-0.5 rounded-full border border-border/80 bg-card/80 p-1 shadow-[0_2px_16px_rgba(30,27,20,0.06)] backdrop-blur xl:flex"
           >
-            {navLinks.map((link) => {
+            {navPrimary.map((link) => {
               const target = link.href.replace(/^#/, "") || "/";
               const active = route === target;
               return (
@@ -194,7 +221,7 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium transition-colors 2xl:px-3.5 ${
+                  className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                     active
                       ? "bg-ink text-white"
                       : "text-foreground/75 hover:bg-secondary hover:text-primary"
@@ -210,6 +237,59 @@ export function SiteHeader() {
                 </a>
               );
             })}
+
+            {/* Secondary links under a "More" dropdown (viewport=false → inline panel).
+                Rendered after mount only — Radix useId differs between SSR and client
+                otherwise (same hydration gate as CartSheet / SearchDialog / mobile Sheet) */}
+            {mounted ? (
+              <NavigationMenu viewport={false}>
+                <NavigationMenuList className="gap-0">
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger
+                      className={`h-auto rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus:outline-none ${
+                        moreActive
+                          ? "bg-ink text-white hover:bg-ink hover:text-white focus:bg-ink focus:text-white data-[state=open]:bg-ink data-[state=open]:text-white"
+                          : "bg-transparent text-foreground/75 hover:bg-secondary hover:text-primary focus:bg-secondary focus:text-primary data-[state=open]:bg-secondary data-[state=open]:text-primary"
+                      }`}
+                    >
+                      More
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="rounded-2xl border-border bg-card p-2 shadow-[0_24px_60px_rgba(30,27,20,0.16)]">
+                      <div className="grid w-[320px] gap-0.5">
+                        {navMore.map((item, i) => {
+                          const Icon = MORE_ICONS[item.href] ?? Users;
+                          return (
+                            <NavigationMenuLink asChild key={item.href}>
+                              <a
+                                href={item.href}
+                                className="flex flex-row items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-secondary/80 focus-visible:bg-secondary/80"
+                              >
+                                <span
+                                  aria-hidden
+                                  className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                                    MORE_CHIPS[i % MORE_CHIPS.length]
+                                  }`}
+                                >
+                                  <Icon className="h-4 w-4" />
+                                </span>
+                                <span className="min-w-0">
+                                  <span className="block text-sm font-semibold text-foreground">
+                                    {item.label}
+                                  </span>
+                                  <span className="block text-xs leading-snug text-muted-foreground">
+                                    {item.desc}
+                                  </span>
+                                </span>
+                              </a>
+                            </NavigationMenuLink>
+                          );
+                        })}
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : null}
           </nav>
 
           {/* Actions */}
@@ -304,7 +384,7 @@ export function SiteHeader() {
                   </SheetTitle>
                   <Separator className="bg-primary/10" />
                   <nav aria-label="Mobile navigation" className="mt-2 flex flex-col gap-1">
-                    {navLinks.map((link) => (
+                    {navPrimary.map((link) => (
                       <a
                         key={link.href}
                         href={link.href}
@@ -318,6 +398,19 @@ export function SiteHeader() {
                             className="ml-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 align-middle"
                           />
                         ) : null}
+                      </a>
+                    ))}
+                    <p className="px-3 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                      Explore more
+                    </p>
+                    {navMore.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground/85 transition-colors hover:bg-accent hover:text-primary"
+                      >
+                        {link.label}
                       </a>
                     ))}
                   </nav>

@@ -32,6 +32,23 @@ export const navLinks = [
   { label: "Contact", href: "#/contact" },
 ];
 
+/** 10MS-style de-cluttered desktop nav — these 4 links stay top-level. */
+export const navPrimary = [
+  { label: "Home", href: "#/" },
+  { label: "Courses", href: "#/courses" },
+  { label: "Cambridge", href: "#/cambridge" },
+  { label: "Live", href: "#/live" },
+];
+
+/** Secondary links grouped under the "More" dropdown in the desktop nav. */
+export const navMore = [
+  { label: "About", href: "#/about", desc: "Sadia's story, mission & team" },
+  { label: "Free Tips", href: "#/tips", desc: "Daily IELTS hacks & blog" },
+  { label: "Stories", href: "#/stories", desc: "Band 8+ success stories" },
+  { label: "Shop", href: "#/shop", desc: "Books & mock test bundles" },
+  { label: "Contact", href: "#/contact", desc: "Visit us or drop a message" },
+];
+
 /** Dismissible promo strip above the nav — 10MS-style announcement bar. */
 export const promoBar = {
   message: "🎉 নতুন ব্যাচে ভর্তি চলছে! Admission offer — up to 33% off on all courses",
