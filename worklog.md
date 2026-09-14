@@ -567,3 +567,20 @@ Work Log:
 Stage Summary:
 - Gilded Court fully restored after the workspace revert: ivory canvas + charcoal ink + ONE gold moment per screen + rotating jewel pastels; Cambridge shelf now jewel-colored; payment/WhatsApp/logo brand colors untouched; CartSheet hydration gate re-applied (dev overlay clean). Site visually matches the approved pre-revert state.
 - NOT yet started: the 10MS full-site UI/UX refactor (user's prior instruction: "SHUDHU BENTO NA ODER FULL UI UX DEKHO DASHBOARD COURSE HOME CLASS OI SCREENSHOT GULAY JA JA ASE SHOB") — queued as Task ID 9 on top of the restored Gilded Court tokens.
+
+---
+Task ID: 9-a
+Agent: Z.ai Code (main)
+Task: RECOVERY #2 — user reported "nav menu thik hoynai updated ta na ... aro onek kichu hoyto hariye gese recover everything"; rebuild the lost simplified nav + dropdown and audit the rest of the site for further losses
+
+Work Log:
+- Diagnosis: working tree == 252b531 (Gilded Court restoration, committed) — git status clean, reflog/stash/fsck show NO trace of any newer work. Conclusion: the "updated nav" (nav 精简+下拉, requested before Gilded Court) was only ever uncommitted work, lost in a workspace revert, and unrecoverable from git → must rebuild. Audit of all other delivered features (globals jewel/pastel/gold tokens, framer-motion transitions, lenis, partner-strip marquee, WhatsApp #25D366 FAB, Cambridge library, admin panel, portal) confirmed ALL intact.
+- site-data.ts: kept full navLinks; added navPrimary (Home/Courses/Cambridge/Live) + navMore (About/Free Tips/Stories/Shop/Contact with 1-line hooks).
+- site-header.tsx rebuilt desktop nav, 10MS-style de-cluttered: 4 primary ink-Active pills + "More" dropdown using shadcn/Radix NavigationMenu with viewport={false} (inline panel); panel = rounded-2xl bg-card border-border soft shadow, rows = jewel-pastel icon chip (sky/butter/ruby/green/orange with Gilded inks) + label + desc; removed header overflow-hidden (was clipping the dropdown); More trigger wears the ink pill when route ∈ navMore, secondary tint otherwise; focus/data-[state=open] overrides so focus ring doesn't fight the active pill.
+- Fixed two bugs found in browser verification: (1) default NavigationMenuLink flex-col beat my flex → added flex-row (chip-left rows); (2) Radix useId hydration mismatch (same class of issue as CartSheet) → gated the NavigationMenu behind the existing `mounted` useSyncExternalStore flag; fresh-session issue badge now "none".
+- Mobile Sheet: primary links, then "EXPLORE MORE" uppercase label, then the 5 secondary links; CTA stack unchanged.
+- Verified: bun run lint clean; agent-browser fresh sessions 1440+390 — dropdown opens/navigates (Free Tips → #/tips, More=ink pill on #/shop), route sweep #/courses #/live #/portal #/checkout #/cambridge all render h1 + header nav, 0 page errors, no horizontal overflow, no hydration issue badge.
+
+Stage Summary:
+- The long-missing "updated nav" is restored: 9 crammed links → 4 primary pills + a classy "More" dropdown (jewel chips), full keyboard/ARIA support, hydration-safe. Everything else audited intact at the Gilded Court baseline. Recovery committed (do not lose: nav now lives in git).
+- Next: queued 10MS full-site UI/UX refactor as Tasks 9-b (courses bento), 9-c (home density polish), 9-d (dashboard + live class) on top of these tokens.
