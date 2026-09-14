@@ -49,9 +49,9 @@ function useRawHash(): string {
  * browser back/forward works and links are shareable. Legacy section anchors
  * ("#faq") stay supported by scrolling on the home page.
  *
- * The whole public site sits inside a floating white rounded shell on the
- * warm-gray canvas (LabAcademy-style), pages cross-fade on navigation, and
- * scrolling is smoothed by lenis (see SmoothScroll).
+ * Pages cross-fade on navigation and scrolling is smoothed by lenis (see
+ * SmoothScroll). Layout is full-bleed edge-to-edge — no floating shell,
+ * so nothing floats with a gap around the viewport edges.
  */
 export function SiteRouter() {
   const route = useHashRoute();
@@ -129,9 +129,9 @@ export function SiteRouter() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col px-2 pb-3 pt-2 sm:px-4 sm:pb-5 sm:pt-3">
-      {/* Floating white shell — the entire public site lives inside it */}
-      <div className="flex w-full flex-1 flex-col rounded-[1.5rem] bg-card shadow-[0_24px_80px_rgba(16,22,19,0.09)] ring-1 ring-border/70 sm:rounded-[2rem]">
+    <div className="flex min-h-screen flex-col">
+      {/* Full-bleed site column — header/footer run edge-to-edge */}
+      <div className="flex w-full flex-1 flex-col">
         <SiteHeader />
         <main className="flex-1">
           {/* Page transition — keyed cross-fade + rise on every navigation */}

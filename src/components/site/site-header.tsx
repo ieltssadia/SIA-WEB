@@ -76,7 +76,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 overflow-hidden rounded-t-[1.5rem] sm:rounded-t-[2rem]">
+    <header className="sticky top-0 z-50 overflow-hidden">
       {/* Promo announcement bar — 10MS style, dismissible, collapses on scroll */}
       {!promoClosed ? (
         <div

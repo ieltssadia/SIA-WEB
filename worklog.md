@@ -514,3 +514,20 @@ Work Log:
 
 Stage Summary:
 - The site now wears a premium LabAcademy-style light identity: warm-gray canvas + floating white shell + ink display type + emerald brand + pastel multicolor course cards + forest accent bands — no black/gold left. Navigation cross-fades between pages and scrolling is inertially smooth (lenis). Admin panel fully rebuilt and browser-verified end to end (login sadia-admin-2025). Lint clean, zero page errors, desktop + mobile verified.
+
+---
+Task ID: 3
+Agent: Z.ai Code (main)
+Task: Remove the cheap-looking viewport-edge gaps (user screenshot showed white margins + rounded corners around announcement bar / page sides / footer)
+
+Work Log:
+- Root cause: site-router.tsx wrapped the whole public site in a "floating white rounded shell" — outer div had px-2 pb-3 pt-2 sm:px-4 sm:pb-5 sm:pt-3 and the shell div had rounded-[1.5rem]/sm:rounded-[2rem] bg-card shadow ring
+- site-router.tsx: removed all shell padding + rounding/shadow/ring; wrapper is now plain flex min-h-screen flex-col; updated doc comment
+- site-header.tsx: removed rounded-t-[1.5rem] sm:rounded-t-[2rem] from sticky header (announcement bar now edge-to-edge)
+- site-footer.tsx: removed rounded-b-[1.5rem] sm:rounded-b-[2rem] from footer (full-bleed to bottom edge)
+- Verified remaining rounded-[2rem] hits are content-level cards only (hero photo, instructor glow) — intentional
+- bun run lint clean; dev server compiled OK
+- agent-browser verified desktop 1920px + mobile 390px: promo bar/contact strip/nav/footer all run edge-to-edge, sticky footer intact, no console errors
+
+Stage Summary:
+- Site is now full-bleed edge-to-edge (10MS-style), no floating shell gaps anywhere; page transition cross-fade + lenis smooth scroll confirmed present in site-router
