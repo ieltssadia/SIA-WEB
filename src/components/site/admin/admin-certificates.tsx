@@ -316,7 +316,7 @@ export function AdminCertificates() {
                     aria-label={`Copy ID ${c.id}`}
                   >
                     {copiedId === c.id ? (
-                      <Check className="h-4 w-4 text-emerald-600" />
+                      <Check className="h-4 w-4 text-[#28694d]" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}

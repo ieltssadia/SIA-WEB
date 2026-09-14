@@ -177,7 +177,7 @@ function CartSummary({ zone, onEdit }: { zone: string; onEdit?: () => void }) {
         </div>
         <div className="flex items-center justify-between">
           <dt className="text-muted-foreground">Delivery</dt>
-          <dd className={fee === 0 ? "font-medium text-emerald-700" : "text-foreground"}>
+          <dd className={fee === 0 ? "font-medium text-[#225941]" : "text-foreground"}>
             {fee === 0 ? "Free" : taka(fee)}
           </dd>
         </div>
@@ -194,7 +194,7 @@ function CartSummary({ zone, onEdit }: { zone: string; onEdit?: () => void }) {
         </p>
       ) : null}
       {zoneInfo?.courier && toFree <= 0 ? (
-        <p className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+        <p className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-[#225941]">
           <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden />
           কুরিয়ার ডেলিভারি ফ্রি হয়ে গেছে!
         </p>
@@ -466,7 +466,7 @@ function PaymentStep({
           </div>
         </div>
       ) : (
-        <p className="flex items-start gap-2 rounded-xl border border-emerald-600/20 bg-emerald-500/10 px-3.5 py-2.5 text-xs leading-relaxed text-emerald-700">
+        <p className="flex items-start gap-2 rounded-xl border border-[#28694d]/20 bg-[#2e7d5b]/10 px-3.5 py-2.5 text-xs leading-relaxed text-[#225941]">
           <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           বই বুঝিয়ে দেওয়ার সময় {taka(total)} ক্যাশ পরিশোধ করবেন। ডেলিভারির আগে আমরা কল দিয়ে
           অর্ডার কনফার্ম করব।
@@ -479,7 +479,7 @@ function PaymentStep({
         <Button
           onClick={onPlace}
           disabled={busy}
-          className="flex-1 rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
+          className="flex-1 rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85 disabled:opacity-60"
         >
           {busy ? (
             <>
@@ -524,34 +524,34 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
   const manual = order.paymentMethod !== "Cash on Delivery";
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-10">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-10">
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-radial-glow blur-2xl" />
       <div className="relative">
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(16,138,96,0.45)]">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(169,127,42,0.45)]">
           <CheckCircle2 className="h-8 w-8 text-white" aria-hidden />
         </span>
-        <h2 className="mt-5 text-center font-display text-2xl font-bold text-[#EAF4EE] md:text-3xl">
-          Order <span className="text-[#63D6A4]">placed!</span>
+        <h2 className="mt-5 text-center font-display text-2xl font-bold text-[#f6ecd4] md:text-3xl">
+          Order <span className="text-[#d9b75c]">placed!</span>
         </h2>
-        <p className="mt-2 text-center text-sm text-[#A9C6B6] md:text-base">
+        <p className="mt-2 text-center text-sm text-[#c6b995] md:text-base">
           ধন্যবাদ {firstName}! আপনার অর্ডার আমরা পেয়েছি — ২৪ ঘণ্টার মধ্যে{" "}
-          <span className="font-semibold text-[#EAF4EE]">{order.phone}</span> নম্বরে কল দিয়ে
+          <span className="font-semibold text-[#f6ecd4]">{order.phone}</span> নম্বরে কল দিয়ে
           কনফার্ম করা হবে।
         </p>
 
         {/* Order number */}
         <div className="mx-auto mt-6 flex max-w-sm items-center justify-between gap-3 rounded-2xl border border-dashed border-white/20 bg-white/[0.05] px-4 py-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7FA091]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a3977b]">
               Order number
             </p>
-            <p className="font-display text-lg font-bold tracking-wider text-[#63D6A4]">{order.orderNo}</p>
+            <p className="font-display text-lg font-bold tracking-wider text-[#d9b75c]">{order.orderNo}</p>
           </div>
           <Button
             size="sm"
             variant="outline"
             onClick={copyOrderNo}
-            className="shrink-0 border-white/20 bg-transparent text-xs font-semibold text-[#EAF4EE] hover:bg-white/10 hover:text-white"
+            className="shrink-0 border-white/20 bg-transparent text-xs font-semibold text-[#f6ecd4] hover:bg-white/10 hover:text-white"
           >
             {copied ? <CheckCircle2 className="mr-1 h-3.5 w-3.5" aria-hidden /> : <Copy className="mr-1 h-3.5 w-3.5" aria-hidden />}
             {copied ? "Copied" : "Copy"}
@@ -562,31 +562,31 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
         <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-white/10 bg-white/[0.05] p-4">
           {manual ? (
             <>
-              <p className="text-sm font-bold text-[#EAF4EE]">
+              <p className="text-sm font-bold text-[#f6ecd4]">
                 পেমেন্ট: {order.paymentMethod} — {taka(order.total)}
               </p>
-              <p className="mt-1.5 text-xs leading-relaxed text-[#A9C6B6]">
+              <p className="mt-1.5 text-xs leading-relaxed text-[#c6b995]">
                 {order.paymentMethod} অ্যাপ থেকে{" "}
-                <span className="font-bold text-[#63D6A4]">{PAYMENT_RECEIVER.full}</span> (Merchant)
-                নম্বরে <span className="font-bold text-[#EAF4EE]">{taka(order.total)}</span> Send
-                Money করুন — Reference: <span className="font-bold text-[#EAF4EE]">{order.orderNo}</span>
+                <span className="font-bold text-[#d9b75c]">{PAYMENT_RECEIVER.full}</span> (Merchant)
+                নম্বরে <span className="font-bold text-[#f6ecd4]">{taka(order.total)}</span> Send
+                Money করুন — Reference: <span className="font-bold text-[#f6ecd4]">{order.orderNo}</span>
                 {order.transactionId ? (
                   <>
-                    {" "}· TrxID: <span className="font-bold text-[#EAF4EE]">{order.transactionId}</span>
+                    {" "}· TrxID: <span className="font-bold text-[#f6ecd4]">{order.transactionId}</span>
                   </>
                 ) : null}
                 । ভেরিফাই হলেই বই কুরিয়ারে।
               </p>
             </>
           ) : order.zone === "pickup" ? (
-            <p className="text-xs leading-relaxed text-[#A9C6B6]">
+            <p className="text-xs leading-relaxed text-[#c6b995]">
               ক্যাম্পাস (Chowmuhona, Sreemangal) থেকে বই বুঝে নেওয়ার সময়{" "}
-              <span className="font-bold text-[#EAF4EE]">{taka(order.total)}</span> পরিশোধ করুন।
+              <span className="font-bold text-[#f6ecd4]">{taka(order.total)}</span> পরিশোধ করুন।
             </p>
           ) : (
-            <p className="text-xs leading-relaxed text-[#A9C6B6]">
+            <p className="text-xs leading-relaxed text-[#c6b995]">
               বই বুঝিয়ে দেওয়ার সময়{" "}
-              <span className="font-bold text-[#EAF4EE]">{taka(order.total)}</span> ক্যাশ পরিশোধ
+              <span className="font-bold text-[#f6ecd4]">{taka(order.total)}</span> ক্যাশ পরিশোধ
               করবেন।
             </p>
           )}
@@ -597,20 +597,20 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
           <ul className="space-y-2">
             {order.items.map((i) => (
               <li key={i.slug} className="flex items-center justify-between gap-3 text-xs">
-                <span className="min-w-0 truncate text-[#EAF4EE]/90">
-                  {i.title} <span className="text-[#A9C6B6]">× {i.quantity}</span>
+                <span className="min-w-0 truncate text-[#f6ecd4]/90">
+                  {i.title} <span className="text-[#c6b995]">× {i.quantity}</span>
                 </span>
-                <span className="shrink-0 font-semibold text-[#EAF4EE]">{taka(i.lineTotal)}</span>
+                <span className="shrink-0 font-semibold text-[#f6ecd4]">{taka(i.lineTotal)}</span>
               </li>
             ))}
           </ul>
           <Separator className="my-3 bg-white/10" />
-          <div className="flex items-center justify-between text-xs text-[#A9C6B6]">
+          <div className="flex items-center justify-between text-xs text-[#c6b995]">
             <span>Subtotal {order.deliveryFee > 0 ? `+ delivery ${taka(order.deliveryFee)}` : "· free delivery"}</span>
-            <span className="font-display text-base font-bold text-[#63D6A4]">{taka(order.total)}</span>
+            <span className="font-display text-base font-bold text-[#d9b75c]">{taka(order.total)}</span>
           </div>
-          <p className="mt-3 flex items-center gap-1.5 text-[11px] text-[#A9C6B6]">
-            <MapPin className="h-3 w-3 shrink-0 text-[#63D6A4]" aria-hidden />
+          <p className="mt-3 flex items-center gap-1.5 text-[11px] text-[#c6b995]">
+            <MapPin className="h-3 w-3 shrink-0 text-[#d9b75c]" aria-hidden />
             {zone?.label}
             {order.address ? <> — {order.address}</> : null}
           </p>
@@ -623,7 +623,7 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
               Continue Shopping
             </a>
           </Button>
-          <Button asChild variant="outline" className="border-white/20 bg-transparent px-6 py-6 font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white">
+          <Button asChild variant="outline" className="border-white/20 bg-transparent px-6 py-6 font-semibold text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white">
             <a href={site.phoneHref}>
               <Phone className="mr-2 h-5 w-5" aria-hidden />
               Questions? {site.phone}
@@ -631,9 +631,9 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
           </Button>
         </div>
 
-        <p className="mt-5 text-center text-xs text-[#A9C6B6]">
+        <p className="mt-5 text-center text-xs text-[#c6b995]">
           অন্য অর্ডার করতে চান?{" "}
-          <button type="button" onClick={onNewOrder} className="font-semibold text-[#63D6A4] hover:underline">
+          <button type="button" onClick={onNewOrder} className="font-semibold text-[#d9b75c] hover:underline">
             Start a new order
           </button>
         </p>

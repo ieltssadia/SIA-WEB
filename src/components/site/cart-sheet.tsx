@@ -66,7 +66,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
               আর {taka(toFree)} যোগ করলেই সারাদেশে <span className="font-bold">ফ্রি কুরিয়ার</span>! (৳{FREE_COURIER_THRESHOLD.toLocaleString("en-US")}+)
             </p>
           ) : (
-            <p className="mx-4 mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-[11px] font-semibold text-emerald-700">
+            <p className="mx-4 mt-4 flex items-center gap-2 rounded-xl border border-[#2e7d5b]/20 bg-[#2e7d5b]/10 px-3 py-2 text-[11px] font-semibold text-[#225941]">
               <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden />
               অভিনন্দন! কুরিয়ার ডেলিভারি এখন ফ্রি 🎉
             </p>

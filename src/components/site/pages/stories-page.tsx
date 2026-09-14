@@ -66,11 +66,11 @@ export function StoriesPage() {
           </div>
 
           <Reveal delay={0.15}>
-            <div className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-8 text-center">
-              <p className="font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
+            <div className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] p-8 text-center">
+              <p className="font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
                 পরের সফলতার গল্পটা হতে পারে আপনার!
               </p>
-              <p className="mx-auto mt-2 max-w-lg text-sm text-[#A9C6B6]">
+              <p className="mx-auto mt-2 max-w-lg text-sm text-[#c6b995]">
                 See more result celebrations on our Facebook page, or start your own journey
                 today.
               </p>
@@ -87,7 +87,7 @@ export function StoriesPage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                  className="border-white/20 bg-transparent font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   <a
                     href={site.facebook}

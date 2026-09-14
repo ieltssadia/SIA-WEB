@@ -161,7 +161,7 @@ export function VerifyPage() {
                     <Button
                       type="submit"
                       disabled={loading}
-                      className="h-11 rounded-full bg-ink px-6 font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+                      className="h-11 rounded-full bg-ink px-6 font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
                     >
                       {loading ? (
                         <>
@@ -209,12 +209,12 @@ export function VerifyPage() {
             {result ? (
               <div className="mt-10">
                 {/* Double-border certificate frame */}
-                <div className="relative overflow-hidden rounded-2xl border-2 border-[#2fbf8a] bg-gradient-to-b from-[#0A241B] via-[#0A241B] to-[#071B14] p-2 shadow-[0_20px_60px_rgba(16,138,96,0.14)]">
+                <div className="relative overflow-hidden rounded-2xl border-2 border-[#c8a04a] bg-gradient-to-b from-[#121009] via-[#121009] to-[#0f0d08] p-2 shadow-[0_20px_60px_rgba(169,127,42,0.14)]">
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-radial-glow blur-2xl"
                   />
-                  <div className="relative rounded-xl border border-[#2fbf8a] px-6 py-10 text-center md:px-10">
+                  <div className="relative rounded-xl border border-[#c8a04a] px-6 py-10 text-center md:px-10">
                     <div className="flex justify-center">
                       <Image
                         src="/sadia-logo.png"
@@ -225,28 +225,28 @@ export function VerifyPage() {
                       />
                     </div>
                     <p className="mt-3 font-display text-lg font-bold tracking-wide">
-                      <span className="text-[#63D6A4]">
+                      <span className="text-[#d9b75c]">
                         Sadia&apos;s IELTS
                       </span>
                     </p>
-                    <p className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#63D6A4]">
+                    <p className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#d9b75c]">
                       <Award className="h-3.5 w-3.5" aria-hidden />
                       Certificate of Achievement
                     </p>
-                    <p className="mt-2 font-mono text-[11px] tracking-wider text-[#A9C6B6]">
+                    <p className="mt-2 font-mono text-[11px] tracking-wider text-[#c6b995]">
                       ID: {result.id}
                     </p>
 
-                    <h2 className="mt-5 font-display text-3xl font-bold leading-tight text-[#EAF4EE]">
+                    <h2 className="mt-5 font-display text-3xl font-bold leading-tight text-[#f6ecd4]">
                       {result.name}
                     </h2>
-                    <p className="mt-2 text-sm italic text-[#A9C6B6]">
+                    <p className="mt-2 text-sm italic text-[#c6b995]">
                       has successfully completed
                     </p>
-                    <p className="mt-3 font-semibold text-[#EAF4EE]">
+                    <p className="mt-3 font-semibold text-[#f6ecd4]">
                       {result.course}
                     </p>
-                    <p className="mt-1 text-sm text-[#A9C6B6]">
+                    <p className="mt-1 text-sm text-[#c6b995]">
                       {result.batch}
                     </p>
 
@@ -256,20 +256,20 @@ export function VerifyPage() {
                       </Badge>
                       <Badge
                         variant="outline"
-                        className="border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-[#BFE6D4]"
+                        className="border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-[#e4d5ae]"
                       >
                         Issued {result.issued}
                       </Badge>
                     </div>
 
                     {/* Verified strip */}
-                    <div className="mt-8 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-[#63D6A4] sm:flex-row sm:gap-4">
+                    <div className="mt-8 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-[#d9b75c] sm:flex-row sm:gap-4">
                       <p className="flex items-center gap-2 text-sm font-medium">
                         <BadgeCheck className="h-5 w-5 shrink-0" aria-hidden />
                         ✓ Verified — এই সার্টিফিকেটটি আমাদের রেকর্ডে সঠিক পাওয়া
                         গেছে
                       </p>
-                      <p className="text-xs text-[#A9C6B6]">
+                      <p className="text-xs text-[#c6b995]">
                         Verified on {verifiedOn}
                       </p>
                       <Button
@@ -277,7 +277,7 @@ export function VerifyPage() {
                         variant="outline"
                         size="sm"
                         onClick={handleCopy}
-                        className="border-white/20 bg-transparent text-[#EAF4EE] hover:bg-white/10 hover:text-white"
+                        className="border-white/20 bg-transparent text-[#f6ecd4] hover:bg-white/10 hover:text-white"
                       >
                         {copied ? (
                           <Check className="mr-1.5 h-3.5 w-3.5" aria-hidden />

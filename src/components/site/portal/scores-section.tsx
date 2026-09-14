@@ -21,7 +21,7 @@ const moduleMeta = [
 ];
 
 function bandBarColor(band: number): string {
-  if (band >= 7.5) return "bg-emerald-700";
+  if (band >= 7.5) return "bg-[#225941]";
   if (band >= 6.5) return "bg-primary";
   return "bg-amber-600";
 }
@@ -62,32 +62,32 @@ export function ScoresSection({
       {/* Latest band + module breakdown */}
       <div className="grid gap-6 xl:grid-cols-[320px_1fr]">
         <Reveal y={12}>
-          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 text-center">
-            <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">{latest.label}</p>
-            <p className="mt-1 text-xs text-[#A9C6B6]">{latest.date}</p>
-            <p className="mt-4 font-display text-6xl font-bold leading-none text-[#63D6A4]">
+          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 text-center">
+            <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">{latest.label}</p>
+            <p className="mt-1 text-xs text-[#c6b995]">{latest.date}</p>
+            <p className="mt-4 font-display text-6xl font-bold leading-none text-[#d9b75c]">
               {latest.overall.toFixed(1)}
             </p>
-            <p className="mt-2 text-xs uppercase tracking-wider text-[#A9C6B6]">Overall band</p>
+            <p className="mt-2 text-xs uppercase tracking-wider text-[#c6b995]">Overall band</p>
             <div className="mt-4 flex flex-wrap justify-center gap-1.5">
               {toTarget !== null ? (
                 toTarget <= 0 ? (
                   <Badge
                     variant="outline"
-                    className="border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                    className="border-[#2e7d5b]/40 bg-[#2e7d5b]/10 text-[#529b78]"
                   >
                     <Trophy className="mr-1 h-3 w-3" aria-hidden />
                     Target {targetBand} achieved!
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     <Target className="mr-1 h-3 w-3" aria-hidden />
                     {toTarget.toFixed(1)} band to go — target {targetBand}
                   </Badge>
                 )
               ) : null}
               {bestOverall !== null && bestOverall > latest.overall ? (
-                <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
+                <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                   Best {bestOverall.toFixed(1)}
                 </Badge>
               ) : null}
@@ -158,7 +158,7 @@ export function ScoresSection({
                   {delta !== null && delta > 0 ? (
                     <Badge
                       variant="outline"
-                      className="shrink-0 border-emerald-600/40 bg-emerald-500/10 text-[10px] text-emerald-700"
+                      className="shrink-0 border-[#28694d]/40 bg-[#2e7d5b]/10 text-[10px] text-[#225941]"
                     >
                       +{delta.toFixed(1)}
                     </Badge>

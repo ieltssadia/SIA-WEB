@@ -276,12 +276,12 @@ function AdminShell({
           <div className="ml-auto flex items-center gap-2">
             {liveCount > 0 ? (
               <span
-                className="flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700"
+                className="flex items-center gap-1.5 rounded-full border border-[#b5d4c4] bg-[#e8f0ea] px-3 py-1 text-xs font-semibold text-[#225941]"
                 aria-label={`${liveCount} live class running`}
               >
                 <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2e7d5b] opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#28694d]" />
                 </span>
                 {liveCount} live
               </span>

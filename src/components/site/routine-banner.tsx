@@ -57,7 +57,7 @@ export function RoutineBanner() {
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
             >
               <a href="#/portal">
                 <LogIn className="mr-2 h-4 w-4" aria-hidden />
@@ -77,10 +77,10 @@ export function RoutineBanner() {
 
         {/* Right card: today's classes for logged-in students, locked teaser otherwise */}
         <Reveal delay={0.1}>
-          <Card className="overflow-hidden border-border shadow-[0_20px_60px_rgba(16,22,19,0.14)]">
-            <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] px-6 py-4">
-              <p className="flex items-center gap-2 font-display text-base font-bold text-[#EAF4EE]">
-                <Clock className="h-4.5 w-4.5 text-[#63D6A4]" aria-hidden />
+          <Card className="overflow-hidden border-border shadow-[0_20px_60px_rgba(30,27,20,0.14)]">
+            <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] px-6 py-4">
+              <p className="flex items-center gap-2 font-display text-base font-bold text-[#f6ecd4]">
+                <Clock className="h-4.5 w-4.5 text-[#d9b75c]" aria-hidden />
                 {enrolled
                   ? today
                     ? `Today · ${today}`
@@ -88,10 +88,10 @@ export function RoutineBanner() {
                   : "Class Routine — Members Only"}
               </p>
               {enrolled ? (
-                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#A9C6B6]">
+                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#c6b995]">
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#529b78] opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#529b78]" />
                   </span>
                   Live Classes
                 </span>

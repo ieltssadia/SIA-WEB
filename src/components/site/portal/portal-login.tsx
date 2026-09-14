@@ -79,22 +79,22 @@ export function PortalLogin() {
         <div className="mx-auto grid max-w-4xl items-stretch gap-6 lg:grid-cols-[1fr_1.1fr]">
           {/* Benefits panel */}
           <Reveal>
-            <div className="flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-7">
+            <div className="flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-7">
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-gradient">
                 <LockKeyhole className="h-5.5 w-5.5 text-white" aria-hidden />
               </span>
-              <h2 className="mt-4 font-display text-2xl font-bold text-[#EAF4EE]">
+              <h2 className="mt-4 font-display text-2xl font-bold text-[#f6ecd4]">
                 শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য{" "}
-                <span className="text-[#63D6A4]">প্রাইভেট পোর্টাল</span>
+                <span className="text-[#d9b75c]">প্রাইভেট পোর্টাল</span>
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-[#A9C6B6]">
+              <p className="mt-2 text-sm leading-relaxed text-[#c6b995]">
                 Account খুলে কোর্স কিনুন — অথবা ভর্তির সময় পাওয়া credential দিয়ে লগ ইন করুন।
                 পোর্টালের সব কনটেন্ট শুধু আপনার জন্য।
               </p>
-              <ul className="mt-5 space-y-2.5 text-sm text-[#EAF4EE]/90">
+              <ul className="mt-5 space-y-2.5 text-sm text-[#f6ecd4]/90">
                 {benefits.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#63D6A4]" aria-hidden />
+                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -103,11 +103,11 @@ export function PortalLogin() {
               <div className="grid grid-cols-3 gap-3 text-center">
                 {stats.slice(0, 3).map((s) => (
                   <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.05] px-2 py-3">
-                    <p className="font-display text-lg font-bold text-[#63D6A4]">
+                    <p className="font-display text-lg font-bold text-[#d9b75c]">
                       {s.value}
                       {s.suffix}+
                     </p>
-                    <p className="mt-0.5 text-[10px] leading-tight text-[#7FA091]">{s.label}</p>
+                    <p className="mt-0.5 text-[10px] leading-tight text-[#a3977b]">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -116,7 +116,7 @@ export function PortalLogin() {
 
           {/* Auth card — tabs: Log in / Create account */}
           <Reveal delay={0.08}>
-            <Card className="h-full border-primary/25 bg-card shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
+            <Card className="h-full border-primary/25 bg-card shadow-[0_30px_80px_rgba(30,27,20,0.18)]">
               <CardContent className="p-6 md:p-8">
                 <div className="flex items-center gap-2.5">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gradient">
@@ -272,7 +272,7 @@ function LoginForm({
         <Button
           type="submit"
           disabled={busy}
-          className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
+          className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85 disabled:opacity-60"
         >
           {busy ? (
             <>
@@ -458,7 +458,7 @@ function SignupForm({
       <Button
         type="submit"
         disabled={busy}
-        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
+        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85 disabled:opacity-60"
       >
         {busy ? (
           <>

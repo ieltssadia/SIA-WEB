@@ -84,7 +84,7 @@ export function HowItWorksSection() {
             const Icon = step.icon;
             return (
               <Reveal key={step.title} delay={i * 0.08}>
-                <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(16,138,96,0.08)]">
+                <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(169,127,42,0.08)]">
                   <div className="flex items-center justify-between">
                     <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-105">
                       <Icon className="h-8 w-8 text-primary" aria-hidden />
@@ -125,16 +125,16 @@ export function HowItWorksSection() {
 
         {/* Proof strip */}
         <Reveal delay={0.15}>
-          <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] px-6 py-5 text-center sm:flex-row sm:text-left">
-            <p className="text-sm text-[#A9C6B6]">
-              <span className="font-display text-lg font-bold text-[#EAF4EE]">
+          <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] px-6 py-5 text-center sm:flex-row sm:text-left">
+            <p className="text-sm text-[#c6b995]">
+              <span className="font-display text-lg font-bold text-[#f6ecd4]">
                 {learners ? `${learners.value.toLocaleString("en-US")}${learners.suffix}` : "5,983+"}
               </span>{" "}
               শিক্ষার্থীর প্রমাণিত রুটিন — প্রতি সপ্তাহে নতুন ব্যাচ শুরু হয়।
             </p>
             <Button
               asChild
-              className="shrink-0 rounded-full bg-brand-gradient font-semibold text-white shadow-[0_4px_20px_rgba(16,138,96,0.25)] hover:opacity-90"
+              className="shrink-0 rounded-full bg-brand-gradient font-semibold text-white shadow-[0_4px_20px_rgba(169,127,42,0.25)] hover:opacity-90"
             >
               <a href="#/courses">
                 <GraduationCap className="mr-1.5 h-4 w-4" aria-hidden />

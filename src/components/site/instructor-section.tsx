@@ -25,7 +25,7 @@ export function InstructorSection() {
               aria-hidden
               className="absolute -inset-3 rounded-[2rem] bg-brand-gradient opacity-20 blur-2xl"
             />
-            <div className="relative overflow-hidden rounded-3xl border border-primary/25 shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
+            <div className="relative overflow-hidden rounded-3xl border border-primary/25 shadow-[0_30px_80px_rgba(30,27,20,0.18)]">
               <Image
                 src="/images/instructor-sadia.png"
                 alt="Sadia Rahman — founder and lead IELTS instructor at Sadia's IELTS"
@@ -38,8 +38,8 @@ export function InstructorSection() {
                 className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent"
               />
               <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-forest/80 px-4 py-3 backdrop-blur">
-                <p className="font-display text-lg font-bold text-[#EAF4EE]">Sadia Rahman</p>
-                <p className="text-xs text-[#63D6A4]">Founder & Lead IELTS Instructor</p>
+                <p className="font-display text-lg font-bold text-[#f6ecd4]">Sadia Rahman</p>
+                <p className="text-xs text-[#d9b75c]">Founder & Lead IELTS Instructor</p>
               </div>
             </div>
           </Reveal>

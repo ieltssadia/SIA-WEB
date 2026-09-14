@@ -90,10 +90,10 @@ function OfferCountdownRow() {
   const countdown = useOfferCountdown();
   if (!countdown.ready) return null;
   return (
-    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-semibold text-[#63D6A4]">
+    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-semibold text-[#d9b75c]">
       <Timer className="h-3.5 w-3.5 shrink-0" aria-hidden />
       <span>অফার শেষ হতে বাকি: {compactCountdown(countdown)}</span>
-      <span className="font-normal text-[#7FA091]">· offer ends {countdown.endsOn}</span>
+      <span className="font-normal text-[#a3977b]">· offer ends {countdown.endsOn}</span>
     </p>
   );
 }
@@ -367,23 +367,23 @@ export function CourseDetailPage({ slug }: { slug: string }) {
 
               {/* Instructor mini */}
               <Reveal delay={0.12}>
-                <Card className="mt-10 border-white/10 bg-gradient-to-br from-[#0B2E22] via-[#0C2E23] to-[#0C2E23]">
+                <Card className="mt-10 border-white/10 bg-gradient-to-br from-[#15120b] via-[#16130c] to-[#16130c]">
                   <CardContent className="flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center">
                     <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient">
                       <GraduationCap className="h-7 w-7 text-white" aria-hidden />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-display text-lg font-bold text-[#EAF4EE]">
+                      <p className="font-display text-lg font-bold text-[#f6ecd4]">
                         Taught by Sadia Rahman
                       </p>
-                      <p className="text-sm text-[#A9C6B6]">
+                      <p className="text-sm text-[#c6b995]">
                         Certified IELTS trainer · 9+ years · 5,983+ students mentored
                       </p>
                     </div>
                     <Button
                       asChild
                       variant="outline"
-                      className="shrink-0 border-white/20 bg-transparent text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                      className="shrink-0 border-white/20 bg-transparent text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                     >
                       <a href="#/about">
                         About Sadia
@@ -421,53 +421,53 @@ export function CourseDetailPage({ slug }: { slug: string }) {
             {/* Sticky enroll card */}
             <div className="lg:sticky lg:top-28 lg:self-start">
               <Reveal delay={0.1}>
-                <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(16,22,19,0.18)]">
+                <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(30,27,20,0.18)]">
                   {/* Gradient header */}
-                  <div className="relative bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6">
+                  <div className="relative bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6">
                     {/* 10MS live enrollment status */}
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-[#BFE6D4]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-[#e4d5ae]">
                       <span
-                        className="h-2 w-2 animate-pulse rounded-full bg-[#63D6A4]"
+                        className="h-2 w-2 animate-pulse rounded-full bg-[#d9b75c]"
                         aria-hidden
                       />
                       ভর্তি চলমান
                     </span>
                     <div className="mt-4 flex items-start justify-between gap-3">
                       <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05]">
-                        <Icon className="h-7 w-7 text-[#63D6A4]" aria-hidden />
+                        <Icon className="h-7 w-7 text-[#d9b75c]" aria-hidden />
                       </span>
-                      <Badge className="border-white/10 bg-white/10 text-[#BFE6D4] hover:bg-white/10">
+                      <Badge className="border-white/10 bg-white/10 text-[#e4d5ae] hover:bg-white/10">
                         {course.tag}
                       </Badge>
                     </div>
                     <div className="mt-4">
                       {course.price === 0 ? (
-                        <p className="font-display text-3xl font-bold text-[#63D6A4]">
+                        <p className="font-display text-3xl font-bold text-[#d9b75c]">
                           100% Free
                         </p>
                       ) : course.price === null ? (
                         <>
-                          <p className="font-display text-2xl font-bold text-[#EAF4EE]">
+                          <p className="font-display text-2xl font-bold text-[#f6ecd4]">
                             {formatBDT(6000)}+
                           </p>
-                          <p className="mt-1 text-xs text-[#A9C6B6]">
+                          <p className="mt-1 text-xs text-[#c6b995]">
                             Call for the current admission offer
                           </p>
                         </>
                       ) : (
                         <>
                           <div className="flex items-baseline gap-2">
-                            <p className="font-display text-3xl font-bold text-[#63D6A4]">
+                            <p className="font-display text-3xl font-bold text-[#d9b75c]">
                               {formatBDT(course.price)}
                             </p>
                             {course.oldPrice ? (
-                              <p className="text-sm text-[#7FA091] line-through">
+                              <p className="text-sm text-[#a3977b] line-through">
                                 {formatBDT(course.oldPrice)}
                               </p>
                             ) : null}
                           </div>
                           {discount ? (
-                            <p className="mt-1 text-xs font-semibold text-[#63D6A4]">
+                            <p className="mt-1 text-xs font-semibold text-[#d9b75c]">
                               {discount} admission offer — limited seats
                             </p>
                           ) : null}
@@ -549,7 +549,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                     {course.price === null ? (
                       <Button
                         asChild
-                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
                       >
                         <a href={site.phoneHref}>
                           <Phone className="mr-2 h-5 w-5" aria-hidden />
@@ -559,7 +559,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                     ) : (
                       <Button
                         asChild
-                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
                       >
                         <a href={`#/checkout?course=${course.slug}`}>
                           <GraduationCap className="mr-2 h-5 w-5" aria-hidden />

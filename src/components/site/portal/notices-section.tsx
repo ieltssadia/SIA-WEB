@@ -16,7 +16,7 @@ import { portalNotices, routineNote, site } from "@/lib/site-data";
 const tagStyles: Record<string, string> = {
   "Class Update": "border-primary/40 bg-primary/10 text-primary",
   "Mock Test": "border-amber-600/40 bg-amber-500/10 text-amber-700",
-  "Speaking Club": "border-emerald-600/40 bg-emerald-500/10 text-emerald-700",
+  "Speaking Club": "border-[#28694d]/40 bg-[#2e7d5b]/10 text-[#225941]",
   Notice: "border-border bg-accent text-muted-foreground",
 };
 

@@ -43,98 +43,112 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* LabAcademy-style pastel accents */
+  /* Gilded Court — jewel band + pastel panels (logo-derived palette) */
+  --color-jewel-sapphire: var(--jewel-sapphire);
+  --color-jewel-jade: var(--jewel-jade);
+  --color-jewel-ruby: var(--jewel-ruby);
+  --color-jewel-amethyst: var(--jewel-amethyst);
+  --color-jewel-citrine: var(--jewel-citrine);
   --color-pastel-green: var(--pastel-green);
   --color-pastel-orange: var(--pastel-orange);
   --color-pastel-sky: var(--pastel-sky);
   --color-pastel-butter: var(--pastel-butter);
+  --color-pastel-ruby: var(--pastel-ruby);
+  --color-pastel-amethyst: var(--pastel-amethyst);
   --color-ink: var(--ink);
   --color-forest: var(--forest);
 }
 
 :root {
   --radius: 1rem;
-  /* Sadia's IELTS — LabAcademy-style premium academic theme:
-     airy warm-gray canvas, white rounded shell, bold ink display type,
-     deep emerald brand + forest anchor, playful pastel course cards. */
-  --background: #f1f0ea;
-  --foreground: #101613;
-  --card: #ffffff;
-  --card-foreground: #101613;
-  --popover: #ffffff;
-  --popover-foreground: #101613;
-  --primary: #0e6b4f;
-  --primary-foreground: #f2faf6;
-  --secondary: #ecefe6;
-  --secondary-foreground: #1c3a2d;
-  --muted: #f1f2ea;
-  --muted-foreground: #5b6a60;
-  --accent: #e2efe6;
-  --accent-foreground: #0a5a41;
-  --destructive: #d64550;
-  --border: #e4e4da;
-  --input: #d7dbcc;
-  --ring: #0e6b4f;
-  --ink: #101613;
-  --forest: #0a241b;
-  --pastel-green: #c9e87f;
-  --pastel-orange: #f58a52;
-  --pastel-sky: #aecdf2;
-  --pastel-butter: #f6d98a;
-  --chart-1: #0e8a5f;
-  --chart-2: #14b8a6;
-  --chart-3: #e8a33d;
-  --chart-4: #7c6bd6;
-  --chart-5: #e2705a;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #101613;
-  --sidebar-primary: #0e6b4f;
-  --sidebar-primary-foreground: #f2faf6;
-  --sidebar-accent: #e2efe6;
-  --sidebar-accent-foreground: #0a5a41;
-  --sidebar-border: #e4e4da;
-  --sidebar-ring: #0e6b4f;
+  /* Sadia's IELTS — "Gilded Court": charcoal + ivory foundation drawn from
+     the logo's engraved-gold seal, ONE gold moment per screen, and a rotating
+     jewel band (sapphire / jade / ruby / amethyst / citrine) for accents. */
+  --background: #f6f1e4;
+  --foreground: #1e1b14;
+  --card: #fffdf6;
+  --card-foreground: #1e1b14;
+  --popover: #fffdf6;
+  --popover-foreground: #1e1b14;
+  --primary: #262012;
+  --primary-foreground: #f6ecd4;
+  --secondary: #efe7d1;
+  --secondary-foreground: #3a321e;
+  --muted: #f2ecda;
+  --muted-foreground: #6d6449;
+  --accent: #f0e6c8;
+  --accent-foreground: #7a5a16;
+  --destructive: #b3403f;
+  --border: #e6dcc3;
+  --input: #ddD2b5;
+  --ring: #a87f2a;
+  --ink: #1e1b14;
+  --forest: #171410;
+  --jewel-sapphire: #2e5fa3;
+  --jewel-jade: #2e7d5b;
+  --jewel-ruby: #a63a4c;
+  --jewel-amethyst: #7a5aa0;
+  --jewel-citrine: #b5771e;
+  --pastel-green: #cfe4d4;
+  --pastel-orange: #f0d3a0;
+  --pastel-sky: #d5dff0;
+  --pastel-butter: #f3e3ba;
+  --pastel-ruby: #f4d9dc;
+  --pastel-amethyst: #e0d8f0;
+  --chart-1: #b5771e;
+  --chart-2: #2e5fa3;
+  --chart-3: #a63a4c;
+  --chart-4: #7a5aa0;
+  --chart-5: #2e7d5b;
+  --sidebar: #fffdf6;
+  --sidebar-foreground: #1e1b14;
+  --sidebar-primary: #262012;
+  --sidebar-primary-foreground: #f6ecd4;
+  --sidebar-accent: #f0e6c8;
+  --sidebar-accent-foreground: #7a5a16;
+  --sidebar-border: #e6dcc3;
+  --sidebar-ring: #a87f2a;
 }
 
 .dark {
-  /* Deep-forest dark mode — same hue family, never pure black. */
-  --background: #0b1a14;
-  --foreground: #e9f2ec;
-  --card: #10231b;
-  --card-foreground: #e9f2ec;
-  --popover: #10231b;
-  --popover-foreground: #e9f2ec;
-  --primary: #2fbf8a;
-  --primary-foreground: #06231a;
-  --secondary: #16302560;
-  --secondary-foreground: #cfe4d8;
-  --muted: #16302560;
-  --muted-foreground: #8fa89b;
-  --accent: #16332780;
-  --accent-foreground: #63d6a4;
-  --destructive: #e5484d;
-  --border: #1d382c;
-  --input: #244234;
-  --ring: #2fbf8a;
-  --ink: #e9f2ec;
-  --forest: #071b14;
-  --pastel-green: #a8d96a;
-  --pastel-orange: #f58a52;
-  --pastel-sky: #8fb8ea;
-  --pastel-butter: #e8c46e;
-  --chart-1: #2fbf8a;
-  --chart-2: #2dd4bf;
-  --chart-3: #f0b254;
-  --chart-4: #a79bf0;
-  --chart-5: #f08a76;
-  --sidebar: #10231b;
-  --sidebar-foreground: #e9f2ec;
-  --sidebar-primary: #2fbf8a;
-  --sidebar-primary-foreground: #06231a;
-  --sidebar-accent: #16332780;
-  --sidebar-accent-foreground: #63d6a4;
-  --sidebar-border: #1d382c;
-  --sidebar-ring: #2fbf8a;
+  /* Logo-badge dark: charcoal lacquer + engraved gold. */
+  --background: #131007;
+  --foreground: #efe6cc;
+  --card: #1b160c;
+  --card-foreground: #efe6cc;
+  --popover: #1b160c;
+  --popover-foreground: #efe6cc;
+  --primary: #d9b75c;
+  --primary-foreground: #201a0a;
+  --secondary: #2a241560;
+  --secondary-foreground: #e4d5ae;
+  --muted: #2a241560;
+  --muted-foreground: #a2977a;
+  --accent: #2e271580;
+  --accent-foreground: #d9b75c;
+  --destructive: #d05252;
+  --border: #3a321e;
+  --input: #443a22;
+  --ring: #d9b75c;
+  --ink: #efe6cc;
+  --forest: #100d07;
+  --pastel-green: #cfe4d4;
+  --pastel-orange: #f0d3a0;
+  --pastel-sky: #b9c6e4;
+  --pastel-butter: #e8d296;
+  --chart-1: #d9b75c;
+  --chart-2: #6f92c9;
+  --chart-3: #c46a7a;
+  --chart-4: #a58ec7;
+  --chart-5: #5fa183;
+  --sidebar: #1b160c;
+  --sidebar-foreground: #efe6cc;
+  --sidebar-primary: #d9b75c;
+  --sidebar-primary-foreground: #201a0a;
+  --sidebar-accent: #2e271580;
+  --sidebar-accent-foreground: #d9b75c;
+  --sidebar-border: #3a321e;
+  --sidebar-ring: #d9b75c;
 }
 
 @layer base {
@@ -155,19 +169,19 @@
     overflow-x: clip;
   }
   ::selection {
-    background: rgba(14, 107, 79, 0.18);
-    color: #0a241b;
+    background: rgba(168, 127, 42, 0.22);
+    color: #171410;
   }
 }
 
-/* Brand gradient text — emerald, for short accents on light surfaces. */
+/* Brand gradient text — engraved gold, for short accents on light surfaces. */
 @utility text-brand-gradient {
   background: linear-gradient(
     115deg,
-    #0b7b52 0%,
-    #0f9c6c 30%,
-    #0a6845 68%,
-    #13a874 100%
+    #8a6720 0%,
+    #c8a04a 30%,
+    #96742c 68%,
+    #d9b75c 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -175,19 +189,29 @@
 }
 
 @utility bg-brand-gradient {
-  /* Fresh emerald → deep forest, angled so CTAs read as polished enamel.
-     Pairs with white label text. */
+  /* Charcoal lacquer — the house ink in gradient form. Pairs with the
+     ivory label color (--primary-foreground / text-[#f6ecd4]). */
   background: linear-gradient(
     115deg,
-    #129668 0%,
-    #0e7d55 35%,
-    #0a6144 70%,
-    #0f8a5f 100%
+    #2b2415 0%,
+    #221c10 35%,
+    #171410 70%,
+    #262012 100%
+  );
+}
+
+@utility bg-gold-gradient {
+  /* Engraved-gold metal from the logo seal. Label text should be ink. */
+  background: linear-gradient(
+    115deg,
+    #eeda9d 0%,
+    #d9b75c 45%,
+    #b08a2e 100%
   );
 }
 
 @utility bg-radial-glow {
-  background: radial-gradient(closest-side, rgba(14, 107, 79, 0.14), transparent);
+  background: radial-gradient(closest-side, rgba(168, 127, 42, 0.14), transparent);
 }
 
 /* ── Lenis smooth scroll ────────────────────────────────────────────── */
@@ -269,21 +293,21 @@ html.lenis body {
   }
 }
 
-/* Refined slim scrollbar for the warm-gray canvas */
+/* Refined slim scrollbar for the ivory canvas */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #e9e8e0;
+  background: #ede5cf;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c8c9ba;
+  background: #d4c8a8;
   border-radius: 8px;
-  border: 2px solid #e9e8e0;
+  border: 2px solid #ede5cf;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0e6b4f;
+  background: #a87f2a;
 }
 
 /* ── Live classroom ─────────────────────────────────────────────────── */
@@ -315,9 +339,9 @@ html.lenis body {
   background: transparent;
 }
 .live-scroll::-webkit-scrollbar-thumb {
-  background: #2a4a3c;
+  background: #3a321e;
   border: 0;
 }
 .live-scroll::-webkit-scrollbar-thumb:hover {
-  background: #2fbf8a;
+  background: #d9b75c;
 }

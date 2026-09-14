@@ -32,24 +32,24 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
     <div className="mx-auto max-w-7xl px-4 py-6 md:py-8 lg:px-8">
       {/* Account band */}
       <Reveal y={12}>
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-8">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-radial-glow blur-2xl"
           />
           <div className="relative flex flex-wrap items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(16,138,96,0.3)]">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(169,127,42,0.3)]">
               {user.name.charAt(0)}
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">Student Portal</p>
-              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-[#EAF4EE] md:text-3xl">
+              <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">Student Portal</p>
+              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-[#f6ecd4] md:text-3xl">
                 Assalamu Alaikum, {firstName}!
               </h1>
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
                 <Badge
                   variant="outline"
-                  className="border-emerald-500/40 bg-emerald-500/10 font-medium text-emerald-400"
+                  className="border-[#2e7d5b]/40 bg-[#2e7d5b]/10 font-medium text-[#529b78]"
                 >
                   <ShieldCheck className="mr-1 h-3 w-3" aria-hidden />
                   Account active · {user.phone}
@@ -59,7 +59,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
             <Button
               variant="outline"
               onClick={logout}
-              className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#f08c8c]"
+              className="border-white/20 bg-transparent font-medium text-[#f6ecd4] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#d98487]"
             >
               <LogOut className="mr-1.5 h-4 w-4" aria-hidden />
               Log out
@@ -86,7 +86,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
             >
               <a href="#/checkout">
                 <GraduationCap className="mr-2 h-4.5 w-4.5" aria-hidden />

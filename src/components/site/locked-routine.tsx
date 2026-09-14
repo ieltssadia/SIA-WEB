@@ -66,7 +66,7 @@ export function LockedRoutineSection() {
 
       {/* Overlay panel */}
       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-background/70 via-background/85 to-background p-4">
-        <div className="w-full max-w-md rounded-2xl border border-border bg-card/95 p-6 text-center shadow-[0_30px_80px_rgba(16,22,19,0.18)] backdrop-blur-md sm:p-8">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card/95 p-6 text-center shadow-[0_30px_80px_rgba(30,27,20,0.18)] backdrop-blur-md sm:p-8">
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient">
             <LockKeyhole className="h-6.5 w-6.5 text-white" aria-hidden />
           </span>
@@ -80,7 +80,7 @@ export function LockedRoutineSection() {
           <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
             <Button
               asChild
-              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
             >
               <Link href="#/portal">
                 <LogIn className="mr-1.5 h-4 w-4" aria-hidden />

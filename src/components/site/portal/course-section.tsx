@@ -46,7 +46,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
     <div className="space-y-6" id={`course-${enrollment.id}`}>
       {/* Course hero */}
       <Reveal y={12}>
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-8">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-radial-glow blur-2xl"
@@ -58,11 +58,11 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
                   <GraduationCap className="h-6 w-6 text-white" aria-hidden />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">My Course</p>
-                  <h1 className="mt-1 font-display text-xl font-bold leading-tight text-[#EAF4EE] md:text-2xl">
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">My Course</p>
+                  <h1 className="mt-1 font-display text-xl font-bold leading-tight text-[#f6ecd4] md:text-2xl">
                     {course?.title ?? enrollment.courseSlug}
                   </h1>
-                  <p className="mt-1 text-sm text-[#A9C6B6]">
+                  <p className="mt-1 text-sm text-[#c6b995]">
                     {course?.titleBn ?? "আপনার ভর্তি হওয়া কোর্স"}
                   </p>
                 </div>
@@ -70,7 +70,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
               <Button
                 asChild
                 variant="outline"
-                className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                className="border-white/20 bg-transparent font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
               >
                 <a href={`#/courses/${enrollment.courseSlug}`}>
                   Course details
@@ -80,20 +80,20 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              <Badge variant="outline" className="border-white/10 bg-white/10 font-medium text-[#BFE6D4]">
+              <Badge variant="outline" className="border-white/10 bg-white/10 font-medium text-[#e4d5ae]">
                 {enrollment.batch}
               </Badge>
               {course ? (
                 <>
-                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     <Layers className="mr-1 h-3 w-3" aria-hidden />
                     {course.lessons} lessons
                   </Badge>
-                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     <Clock className="mr-1 h-3 w-3" aria-hidden />
                     {course.duration}
                   </Badge>
-                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     {course.mode}
                   </Badge>
                 </>
@@ -101,7 +101,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
             </div>
 
             {course ? (
-              <p className="mt-4 rounded-xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5 text-xs font-medium text-[#BFE6D4]">
+              <p className="mt-4 rounded-xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5 text-xs font-medium text-[#e4d5ae]">
                 <CalendarDays className="mr-1.5 inline h-3.5 w-3.5" aria-hidden />
                 {course.scheduleNote}
               </p>
@@ -110,11 +110,11 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
             {/* Progress */}
             <div className="mt-5">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium text-[#EAF4EE]">Course progress</span>
-                <span className="font-display font-bold text-[#63D6A4]">{enrollment.progress}%</span>
+                <span className="font-medium text-[#f6ecd4]">Course progress</span>
+                <span className="font-display font-bold text-[#d9b75c]">{enrollment.progress}%</span>
               </div>
-              <Progress value={enrollment.progress} className="mt-2 h-2.5 bg-white/10 [&>div]:bg-[#63D6A4]" />
-              <p className="mt-2 text-xs text-[#A9C6B6]">
+              <Progress value={enrollment.progress} className="mt-2 h-2.5 bg-white/10 [&>div]:bg-[#d9b75c]" />
+              <p className="mt-2 text-xs text-[#c6b995]">
                 {lessonsDone} of {course?.lessons ?? "—"} lessons completed · keep going!
               </p>
             </div>

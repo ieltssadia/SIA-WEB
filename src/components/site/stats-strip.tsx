@@ -41,11 +41,11 @@ function StatItem({
   const display = useCountUp(value, active);
   return (
     <div className="text-center">
-      <p className="font-display text-3xl font-bold text-[#63D6A4] sm:text-4xl">
+      <p className="font-display text-3xl font-bold text-[#d9b75c] sm:text-4xl">
         {display.toLocaleString("en-US")}
         {suffix}
       </p>
-      <p className="mt-1.5 text-xs text-[#A9C6B6] sm:text-sm">{label}</p>
+      <p className="mt-1.5 text-xs text-[#c6b995] sm:text-sm">{label}</p>
     </div>
   );
 }

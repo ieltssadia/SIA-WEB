@@ -457,21 +457,21 @@ export default function CambridgePage() {
       <section className="pb-14 pt-4 md:pb-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl bg-[#0A241B] p-8 md:p-12">
+            <div className="relative overflow-hidden rounded-3xl bg-[#121009] p-8 md:p-12">
               <div
                 aria-hidden
-                className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#63D6A4]/15 blur-3xl"
+                className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#d9b75c]/15 blur-3xl"
               />
               <div
                 aria-hidden
-                className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#63D6A4]/10 blur-3xl"
+                className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#d9b75c]/10 blur-3xl"
               />
               <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
                 <div className="max-w-2xl">
-                  <h2 className="font-display text-2xl font-bold leading-snug text-[#EAF4EE] md:text-3xl">
+                  <h2 className="font-display text-2xl font-bold leading-snug text-[#f6ecd4] md:text-3xl">
                     সাদিয়া&apos;র গাইডেন্সে Cambridge শেখা আলাদা
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-[#A9C6B6] md:text-base">
+                  <p className="mt-3 text-sm leading-relaxed text-[#c6b995] md:text-base">
                     Mock test checking, speaking evaluation আর band guarantee — batch-এ ভর্তি হলেই।
                   </p>
                 </div>
@@ -479,7 +479,7 @@ export default function CambridgePage() {
                   <Button
                     asChild
                     size="lg"
-                    className="min-h-11 rounded-full bg-white font-bold text-[#0A241B] hover:bg-white/90"
+                    className="min-h-11 rounded-full bg-white font-bold text-[#121009] hover:bg-white/90"
                   >
                     <a href="#/checkout">Enroll Now</a>
                   </Button>
@@ -487,7 +487,7 @@ export default function CambridgePage() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="min-h-11 rounded-full border-white/25 bg-transparent font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                    className="min-h-11 rounded-full border-white/25 bg-transparent font-semibold text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                   >
                     <a href="#/courses">Browse Courses</a>
                   </Button>

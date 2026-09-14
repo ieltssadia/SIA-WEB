@@ -213,14 +213,14 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#071B14] shadow-[0_20px_60px_rgba(16,22,19,0.2)]">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0f0d08] shadow-[0_20px_60px_rgba(30,27,20,0.2)]">
         {/* ── Top bar ─────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-white/10 bg-[#0D3126] px-4 py-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-white/10 bg-[#18150e] px-4 py-3">
           <Button
             asChild
             variant="ghost"
             size="sm"
-            className="-ml-2 text-[#A9C6B6] hover:bg-white/10 hover:text-[#EAF4EE]"
+            className="-ml-2 text-[#c6b995] hover:bg-white/10 hover:text-[#f6ecd4]"
           >
             <a href="#/live">
               <span className="sr-only">লাইভ হাবে ফিরে যান</span>
@@ -228,17 +228,17 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
             </a>
           </Button>
           <div className="min-w-0 flex-1">
-            <p className="truncate font-display text-sm font-bold text-[#EAF4EE] sm:text-base">{classMeta.title}</p>
-            <p className="truncate text-xs text-[#A9C6B6]">
+            <p className="truncate font-display text-sm font-bold text-[#f6ecd4] sm:text-base">{classMeta.title}</p>
+            <p className="truncate text-xs text-[#c6b995]">
               {classMeta.teacher} · {startLabel(classMeta.startsAt)} (Dhaka)
             </p>
           </div>
-          <span className="flex items-center gap-1.5 text-xs text-[#A9C6B6]">
-            <Users className="h-3.5 w-3.5 text-[#63D6A4]" aria-hidden />
+          <span className="flex items-center gap-1.5 text-xs text-[#c6b995]">
+            <Users className="h-3.5 w-3.5 text-[#d9b75c]" aria-hidden />
             <span className="tabular-nums">{room.participants.length}</span>
           </span>
           {room.live && now ? (
-            <span className="flex items-center gap-1.5 text-xs text-[#A9C6B6]">
+            <span className="flex items-center gap-1.5 text-xs text-[#c6b995]">
               <Radio className="h-3.5 w-3.5 text-red-400" aria-hidden />
               <span className="tabular-nums">{elapsedLabel(now - new Date(classMeta.startsAt).getTime())}</span>
             </span>
@@ -268,7 +268,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
             />
 
             {/* Control bar */}
-            <div className="flex flex-wrap items-center gap-2 border-t border-white/10 bg-[#0D3126] px-3 py-2.5">
+            <div className="flex flex-wrap items-center gap-2 border-t border-white/10 bg-[#18150e] px-3 py-2.5">
               <div className="flex items-center gap-1">
                 {REACTIONS.map((emoji) => (
                   <button
@@ -292,7 +292,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                   className={
                     handRaised
                       ? "bg-brand-gradient font-semibold text-white"
-                      : "border-white/15 bg-transparent text-[#A9C6B6] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                      : "border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                   }
                 >
                   <Hand className="mr-1.5 h-4 w-4" aria-hidden />
@@ -308,18 +308,18 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                       type="button"
                       aria-label="আগের স্লাইড"
                       onClick={() => room.gotoSlide(Math.max(0, safeSlideIndex - 1))}
-                      className="flex h-8 w-8 items-center justify-center text-[#A9C6B6] transition-colors hover:bg-white/10 hover:text-white"
+                      className="flex h-8 w-8 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
                     >
                       <ChevronLeft className="h-4 w-4" aria-hidden />
                     </button>
-                    <span className="px-1 text-xs tabular-nums text-[#A9C6B6]">
+                    <span className="px-1 text-xs tabular-nums text-[#c6b995]">
                       {safeSlideIndex + 1}/{slides.length}
                     </span>
                     <button
                       type="button"
                       aria-label="পরের স্লাইড"
                       onClick={() => room.gotoSlide(Math.min(slides.length - 1, safeSlideIndex + 1))}
-                      className="flex h-8 w-8 items-center justify-center text-[#A9C6B6] transition-colors hover:bg-white/10 hover:text-white"
+                      className="flex h-8 w-8 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
                     >
                       <ChevronRight className="h-4 w-4" aria-hidden />
                     </button>
@@ -332,7 +332,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                     className={
                       room.camOn
                         ? "border-red-500/40 bg-transparent text-red-400 hover:bg-red-500/10 hover:text-red-300"
-                        : "border-white/15 bg-transparent text-[#A9C6B6] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                        : "border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                     }
                   >
                     {room.camOn ? (
@@ -347,7 +347,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                     variant="outline"
                     size="sm"
                     onClick={() => setPollFormOpen((v) => !v)}
-                    className="border-white/15 bg-transparent text-[#A9C6B6] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                    className="border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                   >
                     <Vote className="mr-1.5 h-4 w-4" aria-hidden />
                     পোল
@@ -390,10 +390,10 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
 
             {/* Teacher poll composer */}
             {identity.role === "teacher" && pollFormOpen ? (
-              <div className="border-t border-white/10 bg-[#0A241B] px-4 py-3">
+              <div className="border-t border-white/10 bg-[#121009] px-4 py-3">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
                   <div className="min-w-0 flex-1 space-y-1">
-                    <Label htmlFor="poll-q" className="text-xs text-[#A9C6B6]">
+                    <Label htmlFor="poll-q" className="text-xs text-[#c6b995]">
                       পোল প্রশ্ন
                     </Label>
                     <Input
@@ -401,7 +401,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                       value={draftQuestion}
                       onChange={(e) => setDraftQuestion(e.target.value)}
                       placeholder="যেমন: আজকের ক্লাস কেমন লাগছে?"
-                      className="h-9 border-white/10 bg-[#123A2B] text-[#EAF4EE] placeholder:text-[#7FA091]"
+                      className="h-9 border-white/10 bg-[#1d1810] text-[#f6ecd4] placeholder:text-[#a3977b]"
                     />
                   </div>
                   <div className="flex gap-2">
@@ -414,14 +414,14 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                         }
                         placeholder={`অপশন ${i + 1}`}
                         aria-label={`পোল অপশন ${i + 1}`}
-                        className="h-9 w-28 border-white/10 bg-[#123A2B] text-[#EAF4EE] placeholder:text-[#7FA091]"
+                        className="h-9 w-28 border-white/10 bg-[#1d1810] text-[#f6ecd4] placeholder:text-[#a3977b]"
                       />
                     ))}
                     {draftOptions.length < 4 ? (
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-[#A9C6B6] hover:bg-white/10 hover:text-white"
+                        className="text-[#c6b995] hover:bg-white/10 hover:text-white"
                         onClick={() => setDraftOptions((p) => [...p, ""])}
                       >
                         + অপশন
@@ -451,16 +451,16 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
           {/* ── Sidebar: chat / people / poll ──────────────────────── */}
           <aside className="border-t border-white/10 lg:border-l lg:border-t-0">
             <Tabs value={tab} onValueChange={setTab} className="flex h-full flex-col">
-              <TabsList className="grid w-full grid-cols-3 rounded-none border-b border-white/10 bg-[#0D3126]">
-                <TabsTrigger value="chat" className="gap-1.5 text-[#A9C6B6] data-[state=active]:bg-white/10 data-[state=active]:text-[#63D6A4]">
+              <TabsList className="grid w-full grid-cols-3 rounded-none border-b border-white/10 bg-[#18150e]">
+                <TabsTrigger value="chat" className="gap-1.5 text-[#c6b995] data-[state=active]:bg-white/10 data-[state=active]:text-[#d9b75c]">
                   <MessageSquare className="h-3.5 w-3.5" aria-hidden />
                   চ্যাট
                 </TabsTrigger>
-                <TabsTrigger value="people" className="gap-1.5 text-[#A9C6B6] data-[state=active]:bg-white/10 data-[state=active]:text-[#63D6A4]">
+                <TabsTrigger value="people" className="gap-1.5 text-[#c6b995] data-[state=active]:bg-white/10 data-[state=active]:text-[#d9b75c]">
                   <Users className="h-3.5 w-3.5" aria-hidden />
                   <span className="tabular-nums">{room.participants.length}</span>
                 </TabsTrigger>
-                <TabsTrigger value="poll" className="relative gap-1.5 text-[#A9C6B6] data-[state=active]:bg-white/10 data-[state=active]:text-[#63D6A4]">
+                <TabsTrigger value="poll" className="relative gap-1.5 text-[#c6b995] data-[state=active]:bg-white/10 data-[state=active]:text-[#d9b75c]">
                   <Vote className="h-3.5 w-3.5" aria-hidden />
                   পোল
                   {room.poll ? (
@@ -572,7 +572,7 @@ function Stage({
   const isLate = startsIn !== null && startsIn <= 0;
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-[#071B14]" data-testid="classroom-stage">
+    <div className="relative aspect-video w-full overflow-hidden bg-[#0f0d08]" data-testid="classroom-stage">
       {/* Main surface */}
       {showCam ? (
         role === "teacher" ? (
@@ -581,7 +581,7 @@ function Stage({
           <img src={frame as string} alt="লাইভ ক্যামেরা" className="h-full w-full object-cover" />
         )
       ) : camOn ? (
-        <div className="flex h-full w-full items-center justify-center text-sm text-[#A9C6B6]">
+        <div className="flex h-full w-full items-center justify-center text-sm text-[#c6b995]">
           <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />
           ক্যামেরা সংযোগ হচ্ছে…
         </div>
@@ -591,11 +591,11 @@ function Stage({
 
       {/* Slide PIP while the camera is live */}
       {showCam ? (
-        <div className="absolute bottom-3 right-3 w-40 overflow-hidden rounded-lg border border-white/15 bg-[#0A241B]/95 shadow-xl sm:w-52">
-          <div className="border-b border-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#63D6A4]">
+        <div className="absolute bottom-3 right-3 w-40 overflow-hidden rounded-lg border border-white/15 bg-[#121009]/95 shadow-xl sm:w-52">
+          <div className="border-b border-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#d9b75c]">
             স্লাইড {slideIndex + 1}/{slides.length}
           </div>
-          <p className="line-clamp-2 px-2.5 py-1.5 text-[11px] leading-snug text-[#EAF4EE]">{slide.title}</p>
+          <p className="line-clamp-2 px-2.5 py-1.5 text-[11px] leading-snug text-[#f6ecd4]">{slide.title}</p>
         </div>
       ) : null}
 
@@ -609,19 +609,19 @@ function Stage({
           LIVE
         </span>
       ) : (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[#071B14]/85 px-6 text-center backdrop-blur-[2px]">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[#0f0d08]/85 px-6 text-center backdrop-blur-[2px]">
           <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white/10">
-            <Radio className="h-6 w-6 text-[#63D6A4]" aria-hidden />
+            <Radio className="h-6 w-6 text-[#d9b75c]" aria-hidden />
           </span>
-          <p className="font-display text-lg font-bold text-[#EAF4EE]">ক্লাস এখনো লাইভ হয়নি</p>
-          <p className="text-sm text-[#A9C6B6]">
+          <p className="font-display text-lg font-bold text-[#f6ecd4]">ক্লাস এখনো লাইভ হয়নি</p>
+          <p className="text-sm text-[#c6b995]">
             {isLate
               ? "ক্লাস শুরুর সময় হয়ে গেছে — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"
               : startsIn !== null
                 ? `শুরু হতে বাকি ${countdownLabel(startsIn)} — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।`
                 : "শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"}
           </p>
-          <p className="text-xs text-[#7FA091]">
+          <p className="text-xs text-[#a3977b]">
             চ্যাটে প্রশ্ন করে রাখুন — Sadia Ma'am লাইভে উত্তর দেবেন।
           </p>
         </div>
@@ -649,19 +649,19 @@ function SlideView({ slide }: { slide: ClassSlide }) {
   return (
     <div
       key={slide.title}
-      className="animate-in fade-in slide-in-from-bottom-3 flex h-full w-full flex-col justify-center bg-[radial-gradient(ellipse_at_top,#0D3126_0%,#071B14_65%)] px-6 pt-16 pb-8 duration-300 sm:px-12 sm:py-0"
+      className="animate-in fade-in slide-in-from-bottom-3 flex h-full w-full flex-col justify-center bg-[radial-gradient(ellipse_at_top,#18150e_0%,#0f0d08_65%)] px-6 pt-16 pb-8 duration-300 sm:px-12 sm:py-0"
     >
       <div className="mx-auto w-full max-w-3xl">
-        <span className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#63D6A4]">
-          <span className="h-px w-8 bg-[#63D6A4]/60" aria-hidden />
+        <span className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d9b75c]">
+          <span className="h-px w-8 bg-[#d9b75c]/60" aria-hidden />
           Lesson
         </span>
-        <h2 className="font-display text-xl font-bold leading-snug text-[#EAF4EE] sm:text-3xl">{slide.title}</h2>
+        <h2 className="font-display text-xl font-bold leading-snug text-[#f6ecd4] sm:text-3xl">{slide.title}</h2>
         <ul className="mt-5 space-y-3">
           {slide.bullets.map((b, i) => (
             <li
               key={i}
-              className="animate-in fade-in slide-in-from-bottom-2 flex items-start gap-3 text-sm leading-relaxed text-[#EAF4EE]/85 duration-300 sm:text-base"
+              className="animate-in fade-in slide-in-from-bottom-2 flex items-start gap-3 text-sm leading-relaxed text-[#f6ecd4]/85 duration-300 sm:text-base"
               style={{ animationDelay: `${i * 90}ms` }}
             >
               <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-gradient" aria-hidden />
@@ -694,13 +694,13 @@ function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | nul
         aria-live="polite"
       >
         {chat.length === 0 ? (
-          <p className="pt-10 text-center text-xs text-[#7FA091]">
+          <p className="pt-10 text-center text-xs text-[#a3977b]">
             ক্লাস শুরু হলেই এখানে কথা বলা যাবে — প্রথম মেসেজটি আপনিই পাঠান!
           </p>
         ) : null}
         {chat.map((msg) =>
           msg.role === "system" ? (
-            <p key={msg.id} className="text-center text-[11px] leading-relaxed text-[#7FA091]">
+            <p key={msg.id} className="text-center text-[11px] leading-relaxed text-[#a3977b]">
               {msg.text}
             </p>
           ) : (
@@ -709,7 +709,7 @@ function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | nul
         )}
       </div>
       <form
-        className="flex items-center gap-2 border-t border-white/10 bg-[#0D3126] p-3"
+        className="flex items-center gap-2 border-t border-white/10 bg-[#18150e] p-3"
         onSubmit={(e) => {
           e.preventDefault();
           const t = text.trim();
@@ -724,7 +724,7 @@ function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | nul
           placeholder="মেসেজ লিখুন…"
           aria-label="চ্যাট মেসেজ"
           maxLength={500}
-          className="h-10 border-white/10 bg-[#123A2B] text-[#EAF4EE] placeholder:text-[#7FA091]"
+          className="h-10 border-white/10 bg-[#1d1810] text-[#f6ecd4] placeholder:text-[#a3977b]"
         />
         <Button type="submit" size="icon" aria-label="পাঠান" className="h-10 w-10 shrink-0 bg-brand-gradient text-white hover:opacity-90">
           <Send className="h-4 w-4" aria-hidden />
@@ -738,14 +738,14 @@ function ChatBubble({ msg, own }: { msg: ChatMsg; own: boolean }) {
   return (
     <div className={own ? "flex justify-end" : ""}>
       <div className={own ? "max-w-[85%]" : "max-w-full"}>
-        <p className="flex items-center gap-1.5 text-[11px] font-semibold text-[#A9C6B6]">
+        <p className="flex items-center gap-1.5 text-[11px] font-semibold text-[#c6b995]">
           {msg.role === "teacher" ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-brand-gradient px-1.5 py-px text-[9px] font-bold uppercase text-white">
               শিক্ষক
             </span>
           ) : null}
           {msg.name}
-          <span className="font-normal text-[#7FA091]">
+          <span className="font-normal text-[#a3977b]">
             {new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Dhaka", hour: "2-digit", minute: "2-digit", hour12: true }).format(
               new Date(msg.at)
             )}
@@ -753,7 +753,7 @@ function ChatBubble({ msg, own }: { msg: ChatMsg; own: boolean }) {
         </p>
         <p
           className={`mt-0.5 break-words text-sm leading-relaxed ${
-            own ? "rounded-lg bg-[#123A2B] px-2.5 py-1.5 text-[#EAF4EE]" : msg.role === "teacher" ? "font-medium text-[#63D6A4]" : "text-[#EAF4EE]/90"
+            own ? "rounded-lg bg-[#1d1810] px-2.5 py-1.5 text-[#f6ecd4]" : msg.role === "teacher" ? "font-medium text-[#d9b75c]" : "text-[#f6ecd4]/90"
           }`}
         >
           {msg.text}
@@ -769,8 +769,8 @@ function PeoplePanel({ participants, meId }: { participants: Participant[]; meId
   const sorted = [...participants].sort((a, b) => (a.role === "teacher" ? -1 : 1) - (b.role === "teacher" ? -1 : 1));
   return (
     <div className="live-scroll h-[380px] overflow-y-auto px-4 py-3 sm:h-[440px] lg:h-[560px]">
-      <p className="mb-3 text-xs text-[#A9C6B6]">
-        ক্লাসে আছেন <span className="font-semibold text-[#EAF4EE] tabular-nums">{participants.length}</span> জন
+      <p className="mb-3 text-xs text-[#c6b995]">
+        ক্লাসে আছেন <span className="font-semibold text-[#f6ecd4] tabular-nums">{participants.length}</span> জন
       </p>
       <ul className="space-y-1.5">
         {sorted.map((p) => (
@@ -780,15 +780,15 @@ function PeoplePanel({ participants, meId }: { participants: Participant[]; meId
           >
             <span
               aria-hidden
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-[#BFE6D4]"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-[#e4d5ae]"
             >
               {p.name.slice(0, 1).toUpperCase()}
             </span>
-            <span className="min-w-0 flex-1 truncate font-medium text-[#EAF4EE]/90">
+            <span className="min-w-0 flex-1 truncate font-medium text-[#f6ecd4]/90">
               {p.name}
-              {p.id === meId ? <span className="font-normal text-[#A9C6B6]"> (আপনি)</span> : null}
+              {p.id === meId ? <span className="font-normal text-[#c6b995]"> (আপনি)</span> : null}
             </span>
-            {p.role === "teacher" ? <Crown className="h-4 w-4 shrink-0 text-[#63D6A4]" aria-label="শিক্ষক" /> : null}
+            {p.role === "teacher" ? <Crown className="h-4 w-4 shrink-0 text-[#d9b75c]" aria-label="শিক্ষক" /> : null}
             {p.handRaised ? <Hand className="h-4 w-4 shrink-0 text-amber-400" aria-label="হাত তুলেছেন" /> : null}
           </li>
         ))}
@@ -815,8 +815,8 @@ function PollPanel({
   if (!poll) {
     return (
       <div className="flex h-[380px] flex-col items-center justify-center gap-2 px-8 text-center sm:h-[440px] lg:h-[560px]">
-        <Vote className="h-8 w-8 text-[#63D6A4]/60" aria-hidden />
-        <p className="text-sm text-[#A9C6B6]">
+        <Vote className="h-8 w-8 text-[#d9b75c]/60" aria-hidden />
+        <p className="text-sm text-[#c6b995]">
           কোনো পোল চালু নেই — শিক্ষক পোল চালু করলে এখানে ভোট দেওয়া যাবে।
         </p>
       </div>
@@ -825,8 +825,8 @@ function PollPanel({
 
   return (
     <div className="live-scroll h-[380px] overflow-y-auto px-4 py-4 sm:h-[440px] lg:h-[560px]">
-      <p className="text-xs font-semibold uppercase tracking-wider text-[#63D6A4]">লাইভ পোল</p>
-      <h3 className="mt-1.5 font-display text-base font-bold leading-snug text-[#EAF4EE]">{poll.question}</h3>
+      <p className="text-xs font-semibold uppercase tracking-wider text-[#d9b75c]">লাইভ পোল</p>
+      <h3 className="mt-1.5 font-display text-base font-bold leading-snug text-[#f6ecd4]">{poll.question}</h3>
 
       <div className="mt-4 space-y-2.5">
         {poll.options.map((opt, i) => {
@@ -839,24 +839,24 @@ function PollPanel({
               disabled={myVote !== null || role === "teacher"}
               onClick={() => onVote(i)}
               aria-pressed={voted}
-              className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm text-[#EAF4EE] transition-colors ${
+              className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm text-[#f6ecd4] transition-colors ${
                 voted
-                  ? "border-[#63D6A4]/60"
+                  ? "border-[#d9b75c]/60"
                   : "border-white/10 hover:border-white/25 hover:bg-white/5 disabled:hover:border-white/10 disabled:hover:bg-transparent"
               }`}
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-0 bg-[#63D6A4]/15 transition-[width] duration-500"
+                className="absolute inset-y-0 left-0 bg-[#d9b75c]/15 transition-[width] duration-500"
                 style={{ width: myVote !== null || role === "teacher" ? `${pct}%` : "0%" }}
               />
               <span className="relative flex items-center justify-between gap-2">
-                <span className={voted ? "font-semibold text-[#63D6A4]" : ""}>
+                <span className={voted ? "font-semibold text-[#d9b75c]" : ""}>
                   {opt}
-                  {voted ? <span className="ml-1.5 text-[10px] font-bold uppercase text-[#63D6A4]">আপনার ভোট</span> : null}
+                  {voted ? <span className="ml-1.5 text-[10px] font-bold uppercase text-[#d9b75c]">আপনার ভোট</span> : null}
                 </span>
                 {myVote !== null || role === "teacher" ? (
-                  <span className="shrink-0 text-xs tabular-nums text-[#A9C6B6]">{pct}%</span>
+                  <span className="shrink-0 text-xs tabular-nums text-[#c6b995]">{pct}%</span>
                 ) : null}
               </span>
             </button>
@@ -864,7 +864,7 @@ function PollPanel({
         })}
       </div>
 
-      <p className="mt-3 text-xs text-[#A9C6B6]">
+      <p className="mt-3 text-xs text-[#c6b995]">
         {myVote === null
           ? role === "teacher"
             ? `শিক্ষক ভিউ — মোট ভোট: ${poll.totalVotes}`

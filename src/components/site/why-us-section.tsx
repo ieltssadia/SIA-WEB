@@ -36,7 +36,7 @@ export function WhyUsSection() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Image side */}
           <Reveal className="relative order-2 lg:order-1">
-            <div className="relative overflow-hidden rounded-3xl border border-primary/20 shadow-[0_30px_80px_rgba(16,22,19,0.16)]">
+            <div className="relative overflow-hidden rounded-3xl border border-primary/20 shadow-[0_30px_80px_rgba(30,27,20,0.16)]">
               <Image
                 src="/images/classroom.png"
                 alt="Students learning together in a Sadia's IELTS classroom"
@@ -49,11 +49,11 @@ export function WhyUsSection() {
                 className="absolute inset-0 bg-gradient-to-tr from-background/60 via-transparent to-transparent"
               />
             </div>
-            <div className="absolute -bottom-5 left-6 right-6 rounded-2xl border border-white/10 bg-[#0C2E23]/95 px-5 py-4 shadow-xl backdrop-blur sm:left-10 sm:right-auto">
-              <p className="font-display text-lg font-bold text-[#EAF4EE]">
+            <div className="absolute -bottom-5 left-6 right-6 rounded-2xl border border-white/10 bg-[#16130c]/95 px-5 py-4 shadow-xl backdrop-blur sm:left-10 sm:right-auto">
+              <p className="font-display text-lg font-bold text-[#f6ecd4]">
                 Small batches · Personal attention
               </p>
-              <p className="mt-0.5 text-xs text-[#A9C6B6]">
+              <p className="mt-0.5 text-xs text-[#c6b995]">
                 Every student gets individually tracked progress reports
               </p>
             </div>

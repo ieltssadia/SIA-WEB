@@ -80,7 +80,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                 {d.slice(0, 3)}
                 {isToday ? (
                   <span
-                    className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-primary" : "bg-emerald-500"}`}
+                    className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-primary" : "bg-[#2e7d5b]"}`}
                     title="Today"
                   />
                 ) : null}

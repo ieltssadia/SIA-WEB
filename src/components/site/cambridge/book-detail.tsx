@@ -416,18 +416,18 @@ export default function BookDetail({
                 <ArrowLeft className="h-4 w-4" aria-hidden />
                 Back to Cambridge Library
               </a>
-              <div className="flex flex-col items-center gap-4 rounded-2xl bg-[#0A241B] p-6 text-center md:flex-row md:justify-between md:p-7 md:text-left">
+              <div className="flex flex-col items-center gap-4 rounded-2xl bg-[#121009] p-6 text-center md:flex-row md:justify-between md:p-7 md:text-left">
                 <div>
-                  <p className="font-display text-base font-bold text-[#EAF4EE] md:text-lg">
+                  <p className="font-display text-base font-bold text-[#f6ecd4] md:text-lg">
                     শুধু প্র্যাকটিস নয় — চেকিং আর গাইডেন্সও দরকার?
                   </p>
-                  <p className="mt-1 text-xs text-[#A9C6B6] md:text-sm">
+                  <p className="mt-1 text-xs text-[#c6b995] md:text-sm">
                     Mock test checking, speaking evaluation আর band guarantee — batch-এ ভর্তি হলেই।
                   </p>
                 </div>
                 <Button
                   asChild
-                  className="shrink-0 rounded-full bg-white font-bold text-[#0A241B] hover:bg-white/90"
+                  className="shrink-0 rounded-full bg-white font-bold text-[#121009] hover:bg-white/90"
                 >
                   <a href="#/checkout">Enroll Now</a>
                 </Button>

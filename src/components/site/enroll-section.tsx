@@ -117,29 +117,29 @@ export function EnrollSection() {
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Info side */}
           <div>
-            <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#63D6A4]">
-              <span className="h-px w-8 bg-[#63D6A4]/60" aria-hidden />
+            <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9b75c]">
+              <span className="h-px w-8 bg-[#d9b75c]/60" aria-hidden />
               Start your journey to success
             </span>
             <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">
-              Enroll Today — <span className="text-[#63D6A4]">Seats Fill Fast!</span>
+              Enroll Today — <span className="text-[#d9b75c]">Seats Fill Fast!</span>
             </h2>
-            <p className="mt-4 max-w-lg leading-relaxed text-[#A9C6B6]">
+            <p className="mt-4 max-w-lg leading-relaxed text-[#c6b995]">
               New students join every week — কোর্সটি শুরু করতে হবে কবে? ফর্মটি পূরণ করুন,
               আমাদের টিম ২৪ ঘণ্টার মধ্যে কল করে ব্যাচের সময়সূচি ও ভর্তি প্রক্রিয়া জানিয়ে দেবে।
             </p>
 
-            <ul className="mt-6 space-y-2.5 text-sm text-[#A9C6B6]">
+            <ul className="mt-6 space-y-2.5 text-sm text-[#c6b995]">
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#63D6A4]" aria-hidden />
+                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
                 Free level assessment before you join
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#63D6A4]" aria-hidden />
+                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
                 bKash / Nagad / Bank — pay however you like
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#63D6A4]" aria-hidden />
+                <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
                 অনলাইন ও অফলাইন — দুই ধরনের ব্যাচই আছে
               </li>
             </ul>
@@ -185,7 +185,7 @@ export function EnrollSection() {
 
           {/* Form side */}
           <Reveal delay={0.1}>
-            <Card className="border-white/10 bg-card shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
+            <Card className="border-white/10 bg-card shadow-[0_30px_80px_rgba(30,27,20,0.18)]">
               <CardContent className="p-6 md:p-8">
                 <h3 className="font-display text-xl font-bold text-foreground">
                   Enrollment Form
@@ -195,8 +195,8 @@ export function EnrollSection() {
                 </p>
 
                 {status === "success" ? (
-                  <div className="mt-8 flex flex-col items-center rounded-2xl border border-emerald-500/25 bg-emerald-500/5 p-8 text-center">
-                    <CheckCircle2 className="h-12 w-12 text-emerald-600" aria-hidden />
+                  <div className="mt-8 flex flex-col items-center rounded-2xl border border-[#2e7d5b]/25 bg-[#2e7d5b]/5 p-8 text-center">
+                    <CheckCircle2 className="h-12 w-12 text-[#28694d]" aria-hidden />
                     <p className="mt-4 font-display text-lg font-bold text-foreground">
                       Request received!
                     </p>
@@ -294,7 +294,7 @@ export function EnrollSection() {
                     <Button
                       type="submit"
                       disabled={status === "submitting"}
-                      className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
+                      className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85 disabled:opacity-60"
                     >
                       {status === "submitting" ? (
                         <>

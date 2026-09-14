@@ -64,7 +64,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
         {...("external" in link && link.external
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
-        className="text-sm text-[#A9C6B6] transition-colors hover:text-white"
+        className="text-sm text-[#c6b995] transition-colors hover:text-white"
       >
         {link.label}
       </a>
@@ -88,10 +88,10 @@ export function SiteFooter() {
                   className="h-11 w-11 rounded-full ring-1 ring-primary/30"
                 />
                 <div>
-                  <p className="font-display text-lg font-bold tracking-wide text-[#EAF4EE]">
-                    Sadia&apos;s <span className="font-bold text-[#7DDFB8]">IELTS</span>
+                  <p className="font-display text-lg font-bold tracking-wide text-[#f6ecd4]">
+                    Sadia&apos;s <span className="font-bold text-[#D9B75C]">IELTS</span>
                   </p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#8FB3A2]">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#b3a787]">
                     Unlock Your Future
                   </p>
                 </div>
@@ -104,17 +104,17 @@ export function SiteFooter() {
                     className="group flex items-start gap-2.5 transition-colors hover:text-white"
                   >
                     <Phone
-                      className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#d9b75c]"
                       aria-hidden
                     />
-                    <span className="text-[#A9C6B6] transition-colors group-hover:text-white">
+                    <span className="text-[#c6b995] transition-colors group-hover:text-white">
                       +8801752-716238
                     </span>
                   </a>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]" aria-hidden />
-                  <span className="max-w-[240px] text-[#A9C6B6]">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
+                  <span className="max-w-[240px] text-[#c6b995]">
                     Sreemangal, Moulvi Bazar District, Sylhet Division, Bangladesh, 3210
                   </span>
                 </li>
@@ -123,8 +123,8 @@ export function SiteFooter() {
                     href={`mailto:${site.email2}`}
                     className="group flex items-start gap-2.5 transition-colors hover:text-white"
                   >
-                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]" aria-hidden />
-                    <span className="break-all text-[#A9C6B6] transition-colors group-hover:text-white">
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
+                    <span className="break-all text-[#c6b995] transition-colors group-hover:text-white">
                       {site.email2}
                     </span>
                   </a>
@@ -135,7 +135,7 @@ export function SiteFooter() {
             {/* Link columns — Company / Links / Courses / Recommend */}
             {columns.map((col) => (
               <nav key={col.title} aria-label={`Footer — ${col.title}`}>
-                <h3 className="font-display text-sm font-bold uppercase tracking-wider text-[#EAF4EE]">
+                <h3 className="font-display text-sm font-bold uppercase tracking-wider text-[#f6ecd4]">
                   {col.title}
                 </h3>
                 <ul className="mt-4 space-y-2.5">
@@ -149,7 +149,7 @@ export function SiteFooter() {
 
           <Separator className="my-8 bg-white/10" />
 
-          <div className="flex flex-col items-center justify-between gap-3 text-xs text-[#8FB3A2] sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 text-xs text-[#b3a787] sm:flex-row">
             <p>© {new Date().getFullYear()} Sadia&apos;s IELTS. All Rights Reserved.</p>
             <p className="flex items-center gap-4">
               <span className="cursor-pointer transition-colors hover:text-white">

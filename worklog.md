@@ -549,3 +549,21 @@ Work Log:
 
 Stage Summary:
 - Full Cambridge library live: 35 editions, 140 interactive tests, 560 skill papers; listening scoring verified in browser (5/40 → band 2.5 + review), writing/speaking/book/library pages verified desktop+mobile; audio serves 200; lint clean
+---
+Task ID: 8
+Agent: Z.ai Code (main)
+Task: RESTORATION — workspace was reverted to a pre-Task-7 snapshot ("somethings are lost... onek kichu ager moto hoye gese"); re-applied the full "Gilded Court" design system that was lost
+
+Work Log:
+- Confirmed revert: globals.css was back to LabAcademy emerald (#f1f0ea canvas, #0e6b4f primary, forest bands, mint #63d6a4 accents); ~400 emerald/forest hexes across 30 components; worklog's Task 7 record also lost
+- Rewrote globals.css to Gilded Court tokens: ivory canvas #f6f1e4, charcoal ink #1e1b14, primary #262012, ring/gold #a87f2a, forest #171410, jewel band (--jewel-sapphire #2e5fa3 / jade #2e7d5b / ruby #a63a4c / amethyst #7a5aa0 / citrine #b5771e), 6 pastels (green/orange/sky/butter/ruby/amethyst), .dark logo-badge block (#131007 + #d9b75c), utilities: text-brand-gradient (engraved gold), bg-brand-gradient (charcoal lacquer), bg-gold-gradient (#eeda9d→#d9b75c→#b08a2e), bg-radial-glow (gold)
+- scripts/gild_sweep.py: scripted map (IGNORECASE re.sub) across src/components — 381 replacements in 29 files (forest ladder→charcoal, mint/sage text→ivory #f6ecd4/#c6b995/#a3977b, #63d6a4/#5fce9e→gold #d9b75c, emerald accents→jade/citrine, pastel inks→Gilded jewel inks, warm-grays→ivory family); round 2 fixed lookbehind for hyphen-prefixed utilities (from-/via-/to-/dark:) → +61 replacements in 16 files; emerald-*/lime-*/teal-* classes → muted jade hexes (opacity modifiers survive)
+- Deliberately preserved: partner-strip brand logos (bKash #E2136E, Nagad #F26522, IDP, British Council), payment brand colors in checkout/cart (#e2136e/#f26522/#8c3494 Rocket/#2e7d32 Sonali/#0f766e cash), WhatsApp #25D366
+- Manual touch-ups: site-header Enroll CTA → bg-gold-gradient text-ink + gold halo shadow (hover scale), cart badge → gold-gradient text-ink; courses-section PASTEL_PANELS → 6-panel jewel rotation (green/orange/sky/butter/ruby/amethyst with inks #1f5c40/#7a4c12/#2c4f8a/#7a5a16/#7a2734/#4a3372); hero squiggle + MapPin → gold; footer brand "IELTS" → gold; cambridge-teaser band glow → rgba(23,20,16,.30) + CTA halo → gold rgba(169,127,42,.30); 35 LabAcademy ink shadows rgba(16,22,19,…) → charcoal rgba(30,27,20,…); 10 emerald rgba glows rgba(16,138,96,…) → gold rgba(169,127,42,…)
+- Cambridge book covers: seed ACCENTS (emerald ladder) → jewel rotation (charcoal/sapphire/jade/ruby/amethyst/citrine/bronze); recolored all 35 existing DB rows via scripts/recolor-covers.mjs
+- BONUS FIX (lost hydration repair re-applied): CartSheet in site-header was the last un-gated Radix trigger → wrapped in {mounted ? ...} gate like Sheet/SearchDialog; fresh-browser check confirms dev-overlay issue badge gone ("clean"), SSR radix-id set now matches hydrated DOM
+- Verified: bun run lint clean; dev.log 0 errors; agent-browser fresh session — home/courses/portal/cambridge/checkout/live/shop desktop 1440 + mobile 390, no h-overflow, issue badge clean, 0 page errors across #/courses #/about #/stories #/tips #/routine #/verify sweep
+
+Stage Summary:
+- Gilded Court fully restored after the workspace revert: ivory canvas + charcoal ink + ONE gold moment per screen + rotating jewel pastels; Cambridge shelf now jewel-colored; payment/WhatsApp/logo brand colors untouched; CartSheet hydration gate re-applied (dev overlay clean). Site visually matches the approved pre-revert state.
+- NOT yet started: the 10MS full-site UI/UX refactor (user's prior instruction: "SHUDHU BENTO NA ODER FULL UI UX DEKHO DASHBOARD COURSE HOME CLASS OI SCREENSHOT GULAY JA JA ASE SHOB") — queued as Task ID 9 on top of the restored Gilded Court tokens.

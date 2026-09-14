@@ -54,7 +54,7 @@ function TodayBanner() {
 
   return (
     <Reveal y={12}>
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-8">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-radial-glow blur-2xl"
@@ -66,17 +66,17 @@ function TodayBanner() {
               {today ? `Today · ${today}` : "This Week"}
             </span>
             {dateLabel ? (
-              <span className="text-xs text-[#7FA091]">{dateLabel} · Bangladesh time (GMT+6)</span>
+              <span className="text-xs text-[#a3977b]">{dateLabel} · Bangladesh time (GMT+6)</span>
             ) : null}
           </div>
 
           {today && isOff ? (
-            <p className="mt-4 font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
+            <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
               আজ শুক্রবার — সাপ্তাহিক ছুটি। কাল সকাল ১০টায় ক্লাস! 
             </p>
           ) : today && rows.length > 0 ? (
             <>
-              <p className="mt-4 font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
+              <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
                 আজ {rows.length} টি ক্লাস আছে — সময়মতো জয়েন করুন!
               </p>
               <ul className="mt-4 grid gap-2.5 md:grid-cols-2">
@@ -86,14 +86,14 @@ function TodayBanner() {
                     className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.05] p-3.5"
                   >
                     <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10">
-                      <Clock className="h-4 w-4 text-[#63D6A4]" aria-hidden />
+                      <Clock className="h-4 w-4 text-[#d9b75c]" aria-hidden />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-[#EAF4EE]">
+                      <p className="text-sm font-semibold text-[#f6ecd4]">
                         {row.start} – {row.end}
-                        <span className="ml-2 font-normal text-[#A9C6B6]">{row.batch}</span>
+                        <span className="ml-2 font-normal text-[#c6b995]">{row.batch}</span>
                       </p>
-                      <p className="truncate text-sm text-[#A9C6B6]">{row.topic}</p>
+                      <p className="truncate text-sm text-[#c6b995]">{row.topic}</p>
                     </div>
                     <ModeBadge mode={row.mode} />
                   </li>
@@ -101,13 +101,13 @@ function TodayBanner() {
               </ul>
             </>
           ) : (
-            <p className="mt-4 font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
+            <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
               সপ্তাহে ৬ দিন — সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস
             </p>
           )}
 
-          <p className="mt-4 flex items-center gap-2 text-xs text-[#A9C6B6]">
-            <Info className="h-3.5 w-3.5 shrink-0 text-[#63D6A4]" aria-hidden />
+          <p className="mt-4 flex items-center gap-2 text-xs text-[#c6b995]">
+            <Info className="h-3.5 w-3.5 shrink-0 text-[#d9b75c]" aria-hidden />
             Class links (Zoom / Facebook Live) are posted in your batch WhatsApp group before every class.
           </p>
         </div>
@@ -141,7 +141,7 @@ function FreeLiveClasses() {
                     </span>
                     <Badge
                       variant="outline"
-                      className="border-emerald-600/30 bg-emerald-500/10 font-medium text-emerald-700"
+                      className="border-[#28694d]/30 bg-[#2e7d5b]/10 font-medium text-[#225941]"
                     >
                       Free
                     </Badge>
@@ -249,7 +249,7 @@ function UpcomingBatchesBoard() {
                         <td className="px-5 py-4">
                           <span
                             className={`text-xs font-semibold ${
-                              lowSeats ? "text-amber-600" : "text-emerald-700"
+                              lowSeats ? "text-amber-600" : "text-[#225941]"
                             }`}
                           >
                             {b.seats}
@@ -303,7 +303,7 @@ function RoutineCta() {
     <section className="py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-8 text-center md:p-14">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] p-8 text-center md:p-14">
             <div
               aria-hidden
               className="pointer-events-none absolute -left-24 top-0 h-[300px] w-[300px] rounded-full bg-radial-glow blur-2xl"
@@ -313,10 +313,10 @@ function RoutineCta() {
               className="pointer-events-none absolute -right-24 bottom-0 h-[300px] w-[300px] rounded-full bg-radial-glow blur-2xl"
             />
             <div className="relative">
-              <h2 className="font-display text-3xl font-bold leading-tight text-[#EAF4EE] md:text-4xl">
-                Enrolled? Your Batch <span className="text-[#63D6A4]">Is Waiting</span>
+              <h2 className="font-display text-3xl font-bold leading-tight text-[#f6ecd4] md:text-4xl">
+                Enrolled? Your Batch <span className="text-[#d9b75c]">Is Waiting</span>
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-[#A9C6B6]">
+              <p className="mx-auto mt-4 max-w-xl text-[#c6b995]">
                 যেকোনো ব্যাচে ভর্তি হলেই পাবেন পুরো সপ্তাহের লাইভ ক্লাস, mock test আর speaking club —
                 অনলাইনে অথবা ক্যাম্পাসে।
               </p>
@@ -324,7 +324,7 @@ function RoutineCta() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-brand-gradient text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,138,96,0.3)] hover:opacity-90"
+                  className="bg-brand-gradient text-base font-semibold text-white shadow-[0_8px_30px_rgba(169,127,42,0.3)] hover:opacity-90"
                 >
                   <a href="#/checkout">
                     <GraduationCap className="mr-1.5 h-5 w-5" aria-hidden />
@@ -335,7 +335,7 @@ function RoutineCta() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-white/20 bg-transparent text-base font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                  className="border-white/20 bg-transparent text-base font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   <a href={site.phoneHref}>
                     <Phone className="mr-2 h-4.5 w-4.5" aria-hidden />
@@ -355,14 +355,14 @@ function RoutineCta() {
 function WelcomeStrip({ name, batch }: { name: string; batch: string }) {
   return (
     <Reveal y={12}>
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] to-[#0C2E23] px-5 py-4">
-        <p className="flex items-center gap-2.5 text-sm text-[#EAF4EE]">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-gradient-to-r from-[#15120b] to-[#16130c] px-5 py-4">
+        <p className="flex items-center gap-2.5 text-sm text-[#f6ecd4]">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-gradient font-display text-sm font-bold text-white">
             {name.charAt(0)}
           </span>
           <span>
             Welcome back, <span className="font-semibold">{name}</span>!
-            <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-[#BFE6D4]">
+            <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-[#e4d5ae]">
               {batch}
             </span>
           </span>
@@ -371,7 +371,7 @@ function WelcomeStrip({ name, batch }: { name: string; batch: string }) {
           asChild
           size="sm"
           variant="outline"
-          className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+          className="border-white/20 bg-transparent font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
         >
           <a href="#/portal">
             <LogIn className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -433,7 +433,7 @@ export function RoutinePage() {
                     Class modes:
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden />{" "}
+                    <span className="h-2 w-2 rounded-full bg-[#529b78]" aria-hidden />{" "}
                     Online Live — Zoom ক্লাস
                   </span>
                   <span className="flex items-center gap-2">

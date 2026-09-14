@@ -78,20 +78,20 @@ export function PortalShell({
             </nav>
 
             {/* User block */}
-            <div className="mt-4 rounded-2xl border border-white/10 bg-[#0A241B] p-3.5">
+            <div className="mt-4 rounded-2xl border border-white/10 bg-[#121009] p-3.5">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gradient font-display text-base font-bold text-white">
                   {user.name.charAt(0)}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-[#EAF4EE]">{firstName}</p>
-                  <p className="truncate text-xs text-[#A9C6B6]">{batchLabel}</p>
+                  <p className="truncate text-sm font-semibold text-[#f6ecd4]">{firstName}</p>
+                  <p className="truncate text-xs text-[#c6b995]">{batchLabel}</p>
                 </div>
               </div>
               <Button
                 variant="outline"
                 onClick={logout}
-                className="mt-3 w-full border-white/15 bg-transparent text-xs font-medium text-[#EAF4EE] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#f08c8c]"
+                className="mt-3 w-full border-white/15 bg-transparent text-xs font-medium text-[#f6ecd4] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#d98487]"
               >
                 <LogOut className="mr-1.5 h-3.5 w-3.5" aria-hidden />
                 Log out

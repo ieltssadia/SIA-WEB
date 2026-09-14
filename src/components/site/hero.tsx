@@ -19,11 +19,11 @@ function Squiggle({ className }: { className?: string }) {
     >
       <path
         d="M12 148C48 118 20 74 58 44c30-24 70-8 88 16 16 22 2 52 24 70 26 21 38-16 38-16"
-        stroke="#b9d96a"
+        stroke="#d9b75c"
         strokeWidth="3"
         strokeLinecap="round"
       />
-      <circle cx="204" cy="24" r="5" fill="#b9d96a" />
+      <circle cx="204" cy="24" r="5" fill="#d9b75c" />
     </svg>
   );
 }
@@ -46,10 +46,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease }}
-            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-foreground/80 shadow-[0_2px_10px_rgba(16,22,19,0.05)]"
+            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-foreground/80 shadow-[0_2px_10px_rgba(30,27,20,0.05)]"
           >
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-pastel-green" aria-hidden>
-              <Sparkles className="h-3 w-3 text-[#2c4a12]" />
+              <Sparkles className="h-3 w-3 text-[#1f5c40]" />
             </span>
             9+ Years of Excellence · {site.addressShort}
           </motion.div>
@@ -84,7 +84,7 @@ export function Hero() {
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-ink text-base font-semibold text-white shadow-[0_10px_30px_rgba(16,22,19,0.22)] transition-all hover:opacity-85"
+              className="rounded-full bg-ink text-base font-semibold text-white shadow-[0_10px_30px_rgba(30,27,20,0.22)] transition-all hover:opacity-85"
             >
               <a href="#/checkout">
                 <GraduationCap className="mr-1.5 h-5 w-5" aria-hidden />
@@ -109,13 +109,13 @@ export function Hero() {
             className="mt-10 grid max-w-lg grid-cols-3 gap-3 border-t border-border/80 pt-6"
           >
             {[
-              { icon: TrendingUp, value: "316+", label: "Batches Done", chip: "bg-pastel-green text-[#2c4a12]" },
-              { icon: Award, value: "Band 7+", label: "Avg. Results", chip: "bg-pastel-orange text-[#5a2410]" },
-              { icon: Star, value: "4.9/5", label: "Student Rating", chip: "bg-pastel-sky text-[#16324f]" },
+              { icon: TrendingUp, value: "316+", label: "Batches Done", chip: "bg-pastel-green text-[#1f5c40]" },
+              { icon: Award, value: "Band 7+", label: "Avg. Results", chip: "bg-pastel-orange text-[#7a4c12]" },
+              { icon: Star, value: "4.9/5", label: "Student Rating", chip: "bg-pastel-sky text-[#2c4f8a]" },
             ].map(({ icon: Icon, value, label, chip }) => (
               <div
                 key={label}
-                className="flex items-center gap-2.5 rounded-2xl border border-border/70 bg-card px-3 py-2.5 shadow-[0_2px_10px_rgba(16,22,19,0.04)]"
+                className="flex items-center gap-2.5 rounded-2xl border border-border/70 bg-card px-3 py-2.5 shadow-[0_2px_10px_rgba(30,27,20,0.04)]"
               >
                 <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${chip}`} aria-hidden>
                   <Icon className="h-4 w-4" />
@@ -139,7 +139,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.15, ease }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
-          <div className="relative overflow-hidden rounded-[2rem] border border-border shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
+          <div className="relative overflow-hidden rounded-[2rem] border border-border shadow-[0_30px_80px_rgba(30,27,20,0.18)]">
             <Image
               src="/images/hero-student.png"
               alt="Successful IELTS student celebrating her achievement"
@@ -158,7 +158,7 @@ export function Hero() {
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -left-3 top-8 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(16,22,19,0.14)] backdrop-blur sm:-left-8"
+            className="absolute -left-3 top-8 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(30,27,20,0.14)] backdrop-blur sm:-left-8"
           >
             <p className="font-display text-2xl font-bold text-brand-gradient">Band 8.0</p>
             <p className="text-[11px] text-muted-foreground">Latest Achievement 🎉</p>
@@ -168,10 +168,10 @@ export function Hero() {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute -right-2 bottom-10 flex items-center gap-3 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(16,22,19,0.14)] backdrop-blur sm:-right-6"
+            className="absolute -right-2 bottom-10 flex items-center gap-3 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(30,27,20,0.14)] backdrop-blur sm:-right-6"
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-pastel-green">
-              <GraduationCap className="h-5 w-5 text-[#2c4a12]" aria-hidden />
+              <GraduationCap className="h-5 w-5 text-[#1f5c40]" aria-hidden />
             </span>
             <span>
               <span className="block font-display text-lg font-bold leading-none text-foreground">
@@ -189,7 +189,7 @@ export function Hero() {
             transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.6 }}
             className="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-xs text-white backdrop-blur"
           >
-            <MapPin className="h-3.5 w-3.5 text-[#7ddf9f]" aria-hidden />
+            <MapPin className="h-3.5 w-3.5 text-[#d9b75c]" aria-hidden />
             Sreemangal, Sylhet
           </motion.div>
         </motion.div>

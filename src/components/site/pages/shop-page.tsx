@@ -44,7 +44,7 @@ function waLink(book: Book) {
 function BookCover({ book, className }: { book: Book; className?: string }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-primary/20 bg-[#0A241B] ${className ?? ""}`}
+      className={`relative overflow-hidden rounded-xl border border-primary/20 bg-[#121009] ${className ?? ""}`}
     >
       <Image
         src={book.cover}
@@ -57,14 +57,14 @@ function BookCover({ book, className }: { book: Book; className?: string }) {
       <div aria-hidden className="absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/70 to-transparent" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
       <div className="absolute inset-0 flex flex-col justify-between p-3.5">
-        <span className="w-fit rounded-full border border-white/25 bg-black/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#EAF4EE]">
+        <span className="w-fit rounded-full border border-white/25 bg-black/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#f6ecd4]">
           Sadia&apos;s IELTS
         </span>
         <div>
-          <p className="font-display text-sm font-bold leading-snug text-[#EAF4EE] line-clamp-3 [text-wrap:balance]">
+          <p className="font-display text-sm font-bold leading-snug text-[#f6ecd4] line-clamp-3 [text-wrap:balance]">
             {book.title}
           </p>
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-wider text-[#63D6A4]">
+          <p className="mt-1 text-[10px] font-medium uppercase tracking-wider text-[#d9b75c]">
             {book.author}
           </p>
         </div>
@@ -258,23 +258,23 @@ export function ShopPage() {
 
           {/* Bundle banner */}
           <Reveal delay={0.1}>
-            <div className="relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-6 md:p-8">
+            <div className="relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] p-6 md:p-8">
               <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
                 <div className="relative h-36 w-28 shrink-0">
                   <BookCover book={books[books.length - 1]} className="h-full w-full shadow-2xl" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <Badge className="border-white/10 bg-white/10 text-[#BFE6D4] hover:bg-white/10">
+                  <Badge className="border-white/10 bg-white/10 text-[#e4d5ae] hover:bg-white/10">
                     <Sparkles className="mr-1 h-3 w-3" aria-hidden />
                     Best Value
                   </Badge>
-                  <h3 className="mt-2 font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
+                  <h3 className="mt-2 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
                     Complete IELTS Bundle — সব বই একসাথে, {taka(2200)}
                   </h3>
-                  <p className="mt-2 max-w-2xl text-sm text-[#A9C6B6]">
+                  <p className="mt-2 max-w-2xl text-sm text-[#c6b995]">
                     Reading Tricks + Writing Handbook + Speaking Bank + Vocabulary Builder +
                     Listening Workbook + 10 Mock Tests —{" "}
-                    <span className="font-semibold text-[#EAF4EE]">
+                    <span className="font-semibold text-[#f6ecd4]">
                       আলাদা কিনলে ৳{books.reduce((s, b) => s + (b.slug === "complete-bundle" ? 0 : b.price), 0).toLocaleString("en-US")}
                     </span>
                     , bundle-এ মাত্র ৳2,200. Free delivery in Sreemangal!
@@ -292,7 +292,7 @@ export function ShopPage() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="shrink-0 border-white/20 bg-transparent font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
+                  className="shrink-0 border-white/20 bg-transparent font-semibold text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   <a href={waLink(books[books.length - 1])} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="mr-1.5 h-4 w-4" aria-hidden />

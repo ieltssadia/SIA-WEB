@@ -156,7 +156,7 @@ export function SiteHeader() {
       <div
         className={`border-b transition-all duration-300 ${
           scrolled
-            ? "border-border/80 bg-card/90 shadow-[0_12px_32px_rgba(16,22,19,0.08)] backdrop-blur-xl"
+            ? "border-border/80 bg-card/90 shadow-[0_12px_32px_rgba(30,27,20,0.08)] backdrop-blur-xl"
             : "border-transparent bg-card/60 backdrop-blur-md"
         }`}
       >
@@ -184,7 +184,7 @@ export function SiteHeader() {
           {/* Desktop nav — LabAcademy-style pill group, full menu only when there's room (≥1280px) */}
           <nav
             aria-label="Main navigation"
-            className="hidden items-center gap-0.5 rounded-full border border-border/80 bg-card/80 p-1 shadow-[0_2px_16px_rgba(16,22,19,0.06)] backdrop-blur xl:flex"
+            className="hidden items-center gap-0.5 rounded-full border border-border/80 bg-card/80 p-1 shadow-[0_2px_16px_rgba(30,27,20,0.06)] backdrop-blur xl:flex"
           >
             {navLinks.map((link) => {
               const target = link.href.replace(/^#/, "") || "/";
@@ -224,10 +224,12 @@ export function SiteHeader() {
             >
               <Search className="h-4.5 w-4.5" aria-hidden />
             </Button>
-            {/* Cart — opens the slide-over bag */}
-            <CartSheet
-              open={cartOpen}
-              onOpenChange={setCartOpen}
+            {/* Cart — opens the slide-over bag (client-only to stay hydration-safe:
+                Radix useId differs between SSR and client otherwise) */}
+            {mounted ? (
+              <CartSheet
+                open={cartOpen}
+                onOpenChange={setCartOpen}
               trigger={
                 <Button
                   variant="outline"
@@ -237,13 +239,14 @@ export function SiteHeader() {
                 >
                   <ShoppingBag className="h-4.5 w-4.5" aria-hidden />
                   {bagCount > 0 ? (
-                    <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-gradient px-1 text-[10px] font-bold text-white shadow">
+                    <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-gradient px-1 text-[10px] font-bold text-ink shadow">
                       {bagCount > 9 ? "9+" : bagCount}
                     </span>
                   ) : null}
                 </Button>
               }
-            />
+              />
+            ) : null}
             <a
               href={site.phoneHref}
               className="hidden items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-accent 2xl:flex"
@@ -265,7 +268,7 @@ export function SiteHeader() {
             ) : null}
             <Button
               asChild
-              className="hidden rounded-full bg-ink px-5 font-semibold text-white shadow-[0_6px_20px_rgba(16,22,19,0.18)] transition-opacity hover:opacity-85 sm:inline-flex"
+              className="hidden rounded-full bg-gold-gradient px-5 font-semibold text-ink shadow-[0_6px_20px_rgba(169,127,42,0.35)] transition-transform hover:scale-[1.03] sm:inline-flex"
             >
               <a href={portalAuthed ? "#/portal" : "#/checkout"}>
                 {portalAuthed ? (

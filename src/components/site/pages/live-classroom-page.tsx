@@ -101,7 +101,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
 
   return (
     <div className="mx-auto max-w-lg px-4 py-12">
-      <div className="rounded-2xl border border-primary/15 bg-card p-6 shadow-[0_20px_60px_rgba(16,22,19,0.16)] sm:p-8">
+      <div className="rounded-2xl border border-primary/15 bg-card p-6 shadow-[0_20px_60px_rgba(30,27,20,0.16)] sm:p-8">
         {/* Status chip */}
         <div className="mb-4">
           {meta.status === "live" ? (

@@ -31,12 +31,14 @@ export const courseIconMap: Record<string, React.ElementType> = {
   gift: Gift,
 };
 
-/* LabAcademy-style pastel rotation — each card gets its own accent panel */
+/* Gilded Court pastel rotation — jewel panels, max 2–3 hues visible at once */
 const PASTEL_PANELS = [
-  { panel: "bg-pastel-green", ink: "text-[#2c4a12]", soft: "bg-white/55" },
-  { panel: "bg-pastel-orange", ink: "text-[#5a2410]", soft: "bg-white/55" },
-  { panel: "bg-pastel-sky", ink: "text-[#16324f]", soft: "bg-white/55" },
-  { panel: "bg-pastel-butter", ink: "text-[#54400e]", soft: "bg-white/55" },
+  { panel: "bg-pastel-green", ink: "text-[#1f5c40]", soft: "bg-white/55" },
+  { panel: "bg-pastel-orange", ink: "text-[#7a4c12]", soft: "bg-white/55" },
+  { panel: "bg-pastel-sky", ink: "text-[#2c4f8a]", soft: "bg-white/55" },
+  { panel: "bg-pastel-butter", ink: "text-[#7a5a16]", soft: "bg-white/55" },
+  { panel: "bg-pastel-ruby", ink: "text-[#7a2734]", soft: "bg-white/55" },
+  { panel: "bg-pastel-amethyst", ink: "text-[#4a3372]", soft: "bg-white/55" },
 ] as const;
 
 function formatBDT(n: number) {
@@ -72,7 +74,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
 
   return (
     <Reveal delay={(index % 3) * 0.08} className="h-full">
-      <Card className="group flex h-full flex-col overflow-hidden rounded-3xl border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(16,22,19,0.10)]">
+      <Card className="group flex h-full flex-col overflow-hidden rounded-3xl border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(30,27,20,0.10)]">
         {/* Pastel accent panel — LabAcademy style */}
         <div
           className={`relative h-28 shrink-0 ${pastel.panel} transition-transform duration-300`}
@@ -103,7 +105,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
               {course.tag}
             </span>
             <span
-              className={`flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(16,22,19,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink}`}
+              className={`flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(30,27,20,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink}`}
             >
               <Icon className="h-7 w-7" aria-hidden />
             </span>
@@ -112,7 +114,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
           <a
             href={`#/courses/${course.slug}`}
             aria-label={`Open ${course.title}`}
-            className="absolute -bottom-5 left-5 flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(16,22,19,0.18)] transition-all duration-300 hover:scale-110 hover:bg-ink hover:text-white"
+            className="absolute -bottom-5 left-5 flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(30,27,20,0.18)] transition-all duration-300 hover:scale-110 hover:bg-ink hover:text-white"
           >
             <ArrowUpRight className="h-4.5 w-4.5" aria-hidden />
           </a>
@@ -162,9 +164,9 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                 <CalendarClock className="h-3.5 w-3.5 shrink-0" aria-hidden />
                 Next batch: {course.nextBatch}
               </p>
-              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-[#225941]">
                 <span
-                  className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+                  className="h-2 w-2 animate-pulse rounded-full bg-[#529b78]"
                   aria-hidden
                 />
                 {course.price === 0 ? "ফ্রি — এখনই শুরু করুন" : "ভর্তি চলমান"}
@@ -245,7 +247,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                     ) : null}
                   </div>
                   {discount && savings ? (
-                    <p className="text-[11px] font-semibold text-emerald-700">
+                    <p className="text-[11px] font-semibold text-[#225941]">
                       {discount} admission offer · Save {formatBDT(savings)}
                     </p>
                   ) : null}
@@ -324,7 +326,7 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
                 aria-pressed={category === cat.value}
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                   category === cat.value
-                    ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(16,22,19,0.18)]"
+                    ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(30,27,20,0.18)]"
                     : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary"
                 }`}
               >

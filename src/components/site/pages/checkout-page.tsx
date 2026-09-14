@@ -344,13 +344,13 @@ function OfferCountdownBanner() {
   if (!left) return null; // hydration-safe: nothing before mount
   return (
     <div
-      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-gradient-to-r from-[#114430] via-[#0B2E22] to-[#114430] px-4 py-3 text-center"
+      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-gradient-to-r from-[#211b10] via-[#15120b] to-[#211b10] px-4 py-3 text-center"
       role="status"
     >
-      <Timer className="h-4 w-4 shrink-0 text-[#63D6A4]" aria-hidden />
-      <p className="text-sm text-[#EAF4EE]">
-        <span className="font-semibold text-[#63D6A4]">Admission offer শেষ হতে বাকি: {left}</span>{" "}
-        <span className="text-[#A9C6B6]">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
+      <Timer className="h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
+      <p className="text-sm text-[#f6ecd4]">
+        <span className="font-semibold text-[#d9b75c]">Admission offer শেষ হতে বাকি: {left}</span>{" "}
+        <span className="text-[#c6b995]">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
       </p>
     </div>
   );
@@ -511,7 +511,7 @@ function PaymentStep({
         <Button
           onClick={confirm}
           disabled={busy}
-          className="flex-1 rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
+          className="flex-1 rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85 disabled:opacity-60"
         >
           {busy ? (
             <>
@@ -544,29 +544,29 @@ function PaymentStep({
 
 function SuccessStep({ course, batch, name }: { course: Course; batch: string; name: string }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-8 text-center md:p-12">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-8 text-center md:p-12">
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-radial-glow blur-2xl" />
       <div className="relative">
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(16,138,96,0.45)]">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(169,127,42,0.45)]">
           <CheckCircle2 className="h-8 w-8 text-white" aria-hidden />
         </span>
-        <h2 className="mt-5 font-display text-2xl font-bold text-[#EAF4EE] md:text-3xl">
-          Enrollment <span className="text-[#63D6A4]">confirmed!</span>
+        <h2 className="mt-5 font-display text-2xl font-bold text-[#f6ecd4] md:text-3xl">
+          Enrollment <span className="text-[#d9b75c]">confirmed!</span>
         </h2>
-        <p className="mt-2 text-sm text-[#A9C6B6] md:text-base">
+        <p className="mt-2 text-sm text-[#c6b995] md:text-base">
           অভিনন্দন {name.split(" ")[0]}! ভর্তি সম্পন্ন হয়েছে — কোর্সটি এখন আপনার পোর্টালে।
         </p>
         <div className="mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-2">
-          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#BFE6D4]">
+          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#e4d5ae]">
             {course.title}
           </Badge>
-          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#BFE6D4]">
+          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#e4d5ae]">
             {batch}
           </Badge>
         </div>
-        <p className="mt-6 text-sm text-[#A9C6B6]">
+        <p className="mt-6 text-sm text-[#c6b995]">
           Class routine, materials, notices — সব এখন{" "}
-          <span className="font-semibold text-[#63D6A4]">Student Portal</span>-এ দেখুন।
+          <span className="font-semibold text-[#d9b75c]">Student Portal</span>-এ দেখুন।
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild className="bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
@@ -575,7 +575,7 @@ function SuccessStep({ course, batch, name }: { course: Course; batch: string; n
               Go to My Portal
             </a>
           </Button>
-          <Button asChild variant="outline" className="border-white/20 bg-transparent px-6 py-6 font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white">
+          <Button asChild variant="outline" className="border-white/20 bg-transparent px-6 py-6 font-semibold text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white">
             <a href="#/courses">Browse more courses</a>
           </Button>
         </div>
@@ -850,7 +850,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                       {course.oldPrice && course.price ? (
                         <div className="flex items-center justify-between">
                           <dt className="text-muted-foreground">Admission discount</dt>
-                          <dd className="font-medium text-emerald-700">−{taka(course.oldPrice - course.price)}</dd>
+                          <dd className="font-medium text-[#225941]">−{taka(course.oldPrice - course.price)}</dd>
                         </div>
                       ) : null}
                     </dl>

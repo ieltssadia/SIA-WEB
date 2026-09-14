@@ -34,7 +34,7 @@ export function useToday(): string {
 const modeMeta: Record<RoutineClass["mode"], { icon: React.ElementType; className: string }> = {
   "Online Live": {
     icon: Video,
-    className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
+    className: "border-[#2e7d5b]/30 bg-[#2e7d5b]/10 text-[#225941]",
   },
   Campus: {
     icon: Building2,
@@ -61,7 +61,7 @@ export function ModeBadge({ mode }: { mode: RoutineClass["mode"] }) {
 function TypeBadge({ type }: { type: RoutineClass["type"] }) {
   const highlight =
     type === "Free Live Class"
-      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700"
+      ? "border-[#2e7d5b]/30 bg-[#2e7d5b]/10 text-[#225941]"
       : type === "Mock Test"
         ? "border-amber-500/30 bg-amber-500/10 text-amber-700"
         : type === "Speaking Club"
@@ -97,7 +97,7 @@ function RoutineRows({
               mine
                 ? "border-l-2 border-l-primary bg-primary/[0.06]"
                 : isFree
-                  ? "border-primary/10 bg-emerald-500/[0.04]"
+                  ? "border-primary/10 bg-[#2e7d5b]/[0.04]"
                   : undefined
             }
           >
@@ -209,14 +209,14 @@ export function WeeklyRoutine() {
               aria-pressed={isActive}
               className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 isActive
-                  ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(16,22,19,0.18)]"
+                  ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(30,27,20,0.18)]"
                   : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary"
               }`}
             >
               {day.slice(0, 3)}
               {isToday ? (
                 <span
-                  className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-white" : "bg-emerald-500"}`}
+                  className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-white" : "bg-[#2e7d5b]"}`}
                   title="Today"
                 />
               ) : null}

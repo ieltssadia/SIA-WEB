@@ -58,7 +58,7 @@ export function FreeResourcesSection() {
 
             return (
               <Reveal key={res.title} delay={i * 0.08} className="h-full">
-                <Card className="group h-full border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(16,138,96,0.08)]">
+                <Card className="group h-full border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(169,127,42,0.08)]">
                   <CardContent className="flex h-full flex-col p-6">
                     {res.external ? (
                       <a
@@ -84,9 +84,9 @@ export function FreeResourcesSection() {
 
         {/* Free-to-paid funnel strip — 10MS style */}
         <Reveal delay={0.15} className="mt-10">
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-6 text-center md:flex-row md:text-left">
-            <p className="max-w-xl text-sm leading-relaxed text-[#A9C6B6]">
-              <span className="font-display text-base font-bold text-[#EAF4EE]">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] p-6 text-center md:flex-row md:text-left">
+            <p className="max-w-xl text-sm leading-relaxed text-[#c6b995]">
+              <span className="font-display text-base font-bold text-[#f6ecd4]">
                 প্রথমে ফ্রি-তে বিশ্বাস করুন, তারপর ভর্তি হন।
               </span>{" "}
               হাজারো শিক্ষার্থী আমাদের ফ্রি রিসোর্স দিয়ে শুরু করে এখন Band 7+ অর্জন করেছে —
@@ -102,7 +102,7 @@ export function FreeResourcesSection() {
               <Button
                 asChild
                 variant="outline"
-                className="rounded-full border-white/20 bg-white/[0.05] font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10"
+                className="rounded-full border-white/20 bg-white/[0.05] font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10"
               >
                 <a
                   href={site.whatsapp}
