@@ -23,7 +23,6 @@ type Step = {
   icon: LucideIcon;
   title: string;
   en: string;
-  desc: string;
   chips: string[];
 };
 
@@ -32,29 +31,25 @@ const steps: Step[] = [
     icon: UserPlus,
     title: "ভর্তি ও পেমেন্ট",
     en: "Enroll in minutes",
-    desc: "কোর্স বেছে bKash, Nagad বা Cash-এ পেমেন্ট করুন — সাথে সাথেই Student Portal অ্যাক্সেস আর batch WhatsApp group-এ জয়েন করুন।",
     chips: ["bKash · Nagad · Cash", "Instant portal access"],
   },
   {
     icon: MonitorPlay,
     title: "লাইভ ক্লাসে জয়েন",
     en: "Learn with your batch",
-    desc: "ক্যাম্পাসে বসে বা ঘরে বসে Zoom লাইভ ক্লাস — একই ক্লাস, একই রুটিন। ক্লাস মিস হলে archived রেকর্ডিং পোর্টালেই দেখুন।",
     chips: ["Zoom live", "Campus hybrid", "Recorded archive"],
   },
   {
     icon: ClipboardCheck,
     title: "প্র্যাকটিস ও এক্সাম",
     en: "Practice like the real exam",
-    desc: "লেকচার শিট আর ডেইলি practice-এর পাশাপাশি প্রতি বৃহস্পতিবার ফুল-লেন্থ mock test — লিখিত band report সহ।",
     chips: ["Lecture sheets", "Weekly full mock", "Band report"],
   },
   {
     icon: Award,
     title: "সার্টিফিকেট ও সাফল্য",
     en: "Get certified",
-    desc: "১:১ mentor feedback, batch লিডারবোর্ডে প্রোগ্রেস ট্র্যাকিং, আর ওয়েবসাইট থেকে যাচাইযোগ্য course completion certificate।",
-    chips: ["1:1 feedback", "Leaderboard", "Verifiable certificate"],
+    chips: ["1:1 feedback", "Leaderboard", "Certificate"],
   },
 ];
 
@@ -71,7 +66,7 @@ export function HowItWorksSection() {
               কীভাবে ক্লাস হয় — <span className="text-brand-gradient">Enrollment to Certificate</span>
             </>
           }
-          subtitle="Live Zoom ক্লাস, লেকচার শিট, সাপ্তাহিক এক্সাম আর ব্যক্তিগত ফিডব্যাক — একটি proven লার্নিং লুপে সাজানো, যাতে আপনি শুধু ফলাফলে ফোকাস করেন।"
+          subtitle="ভর্তি থেকে সার্টিফিকেট — proven লার্নিং লুপে সাজানো।"
         />
 
         <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -86,8 +81,8 @@ export function HowItWorksSection() {
               <Reveal key={step.title} delay={i * 0.08}>
                 <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(169,127,42,0.08)]">
                   <div className="flex items-center justify-between">
-                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-105">
-                      <Icon className="h-8 w-8 text-primary" aria-hidden />
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-105">
+                      <Icon className="h-6 w-6 text-primary" aria-hidden />
                     </span>
                     <span
                       aria-hidden
@@ -97,17 +92,14 @@ export function HowItWorksSection() {
                     </span>
                   </div>
 
-                  <h3 className="mt-5 font-display text-lg font-bold text-foreground">
+                  <h3 className="mt-4 font-display text-lg font-bold text-foreground">
                     {step.title}
                   </h3>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-primary">
                     {step.en}
                   </p>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {step.desc}
-                  </p>
 
-                  <ul className="mt-4 flex flex-wrap gap-1.5">
+                  <ul className="mt-auto flex flex-wrap gap-1.5 pt-4">
                     {step.chips.map((chip) => (
                       <li
                         key={chip}

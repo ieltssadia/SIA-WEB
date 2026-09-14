@@ -584,3 +584,57 @@ Work Log:
 Stage Summary:
 - The long-missing "updated nav" is restored: 9 crammed links → 4 primary pills + a classy "More" dropdown (jewel chips), full keyboard/ARIA support, hydration-safe. Everything else audited intact at the Gilded Court baseline. Recovery committed (do not lose: nav now lives in git).
 - Next: queued 10MS full-site UI/UX refactor as Tasks 9-b (courses bento), 9-c (home density polish), 9-d (dashboard + live class) on top of these tokens.
+---
+Task ID: 9-c
+Agent: frontend-styling-expert
+Task: 10MS-style density/whitespace polish of HOME page sections (hero, stats strip, Cambridge teaser, free resources, how-it-works) on the Gilded Court system
+
+Work Log:
+- hero.tsx: sub-copy trimmed 30→15 words, 1 sentence, max-w-lg text-base (2 lines max), mt-8→mt-7, hero bottom padding pb-16→pb-20; trust mini-card "Band 7+ / Avg. Results" → "7+ / Avg. Band Score"; floating badges de-worded ("Latest Achievement"→"Latest Result", "Completed Successfully"→"Completed"); trust cards now stack icon-above-text on mobile (flex-col → sm:flex-row) fixing pre-existing label clipping at 390px (all 3 labels measured scrollWidth==clientWidth=85px, no ellipsis); trust row pt-6→pt-7.
+- stats-strip.tsx (shared with #/about — styling-only change): band stays bg-forest with explicit light hexes; counters up-sized text-3xl/4xl → text-4xl/5xl gold #d9b75c, labels → text-[11px]/xs uppercase tracking-[0.18em] #a3977b, mt-2; grid py-10/12 → py-12 md:py-16, gap-8 → gap-6 md:gap-10. Big number + tiny label, zero sentences.
+- cambridge-teaser.tsx: charcoal band copy tightened to eyebrow + 1 heading ("পুরো Cambridge সিরিজ — এখন ইন্টার‌্যাক্টিভ") + 1 line (Books 1–19 (Academic + GT) · {total||140} প্র্যাকটিস টেস্ট — সম্পূর্ণ ফ্রি।) + CTA row; 4 skill tiles with note lines → 4 icon+label pills (rounded-full, 1 line each); mini bookshelf + live counts chips (19 Books / {total||140} Tests / 100% Answers) untouched; both CTAs + links kept.
+- free-resources-section.tsx: card descs → local shortDesc one-liners keyed by title (site-data descs kept as ?? fallback, site-data.ts untouched): ~6–9 Bengali words each; icon chip h-14→h-12 (icon h-7→h-6); CTA mt-5→mt-4; section subtitle cut to 1 sentence; funnel strip sentence trimmed to bold phrase + 3-word tail; all links/external aria-labels/enroll-store preselect logic kept.
+- how-it-works-section.tsx: removed verbose `desc` paragraph from Step type + all 4 steps (paragraphs deleted, ~70 Bengali words cut); card = ghost number + h-12 icon chip + BN title + 1 uppercase en line + chips pinned bottom (mt-auto pt-4); "Verifiable certificate" chip → "Certificate"; section subtitle cut to 1 line; proof strip + CTA untouched.
+- Universal: no token/hex changes (only pre-existing Gilded hexes #d9b75c/#a3977b/#c6b995/#f6ecd4/#15120b/#16130c), exports/props identical (Hero, StatsStrip, CambridgeTeaser, HowItWorksSection, FreeResourcesSection — grepped importers first), countdown/count-up logic, images/alt, ARIA, section rhythm py-16 md:py-24 and max-w-7xl containers preserved. home-page.tsx NOT touched (BookShopTeaser/HomeCta out of scope).
+
+Stage Summary:
+- Home hero→how-it-works now 10MS-scannable: ≤2-line hero sub-copy, 1-line trust cards (mobile-clipping bug fixed), poster-size stat numbers with tiny uppercase labels, Cambridge band at 1 heading + 1 line + skill pills + live count chips, funnel cards at icon + title + 1 line + CTA, zero paragraphs in how-it-works steps. Lint clean; 1440 + 390 full-page screenshots at /tmp/t9c-home-{full,mobile}.png; scrollWidth==clientWidth both viewports; no issue badge, no Application error; dev.log clean; #/about (shares StatsStrip) renders error-free.
+---
+Task ID: 9-b
+Agent: frontend-styling-expert (record written posthumously by main — agent died in the sandbox fs incident after landing its edits)
+Task: 10MS bento refactor of the COURSES surfaces (courses-section.tsx + pages/courses-page.tsx)
+
+Work Log (verified on disk via git diff + structural grep by main):
+- courses-section.tsx (487 lines changed): CourseCard gained `variant: "compact" | "featured"` — featured renders the large horizontal bento card (sm:col-span-2); grid helper renders the 10MS bento: 1–2 featured horizontal cards + compact cards (optional lg:col-span-2 spans); home keeps the 3-course featured variant, catalog page uses the full bento; jewel pastel panels retained as visual anchors; card body density cut (title + 1 hook + stats + price row + CTA).
+- pages/courses-page.tsx: dropped redundant "use client" (pure composition), subtitle trimmed to one line ("একদম শূন্য থেকে Band 7+ — আপনার level ও target অনুযায়ী সঠিক কোর্সটি বেছে নিন।").
+- Constraint compliance seen in diff: no color-system changes, exports (CoursesSection, CourseCard signature) preserved.
+
+Stage Summary:
+- 17-card text-heavy catalog is now a 10MS-style bento (featured horizontal cards + compact tiles). Lint clean. BROWSER VERIFICATION PENDING — agent died before its verify step during the sandbox fs incident (Task 9-e); main to verify when dev server returns.
+---
+Task ID: 9-d
+Agent: frontend-styling-expert (record written posthumously by main — agent died in the sandbox fs incident after landing its edits)
+Task: 10MS clarity refactor of the student dashboard (portal/overview.tsx) + light-touch live-classroom.tsx
+
+Work Log (verified on disk via git diff + structural grep by main):
+- portal/overview.tsx (343 lines changed): added 10MS-style compact stat tiles ("icon + big number + tiny label", grid-cols-2 → xl:grid-cols-4); My Course progress card with single "Continue" CTA (sr-only label "Open My Course — Continue"); welcome band kept dark-forest with explicit light text (established pattern); content re-gridded (xl:grid-cols-2 sections); paragraph text reduced to single lines.
+- live-classroom.tsx (42 lines): light-touch label/control tightening only (per brief), stage/sockets logic untouched per diff.
+- Constraint compliance seen in diff: no token changes, no API/store/schema touches, auth gates and loading skeletons preserved.
+
+Stage Summary:
+- Dashboard reads like 10MS "My Courses": stat tiles at a glance, one obvious Continue per course, live classes as rows. Lint clean. BROWSER VERIFICATION PENDING (Task 9-e); main to verify when dev server returns.
+---
+Task ID: 9-e
+Agent: Z.ai Code (main)
+Task: Sandbox filesystem incident — diagnosis, hardening, and recovery of ALL session work
+
+Work Log:
+- During parallel 9-b/9-c/9-d execution, two agents died (context deadline) after landing their edits; simultaneously the box wedged: load 12, 12 D-state processes, port 3000/3001 held by unkillable `next dev` zombies.
+- Root cause chain: agents had ALSO spawned two rogue `next dev -p 3001` instances (killed wrappers; zombies persisted) and the host-side fuse.ossfs mount at /home/z/my-project/upload went unresponsive (wchan=request_wait_answer; even `ls upload/` hangs; no root, no fusermount, sudo requires password → cannot abort FUSE from inside).
+- Anything scanning upload/ wedged: git status (45 upload files were TRACKED by an old commit — so even -uno hung), ESLint (walks the tree), dev servers (watchers).
+- Hardening: `git update-index --force-remove` (index-only) removed all 45 upload paths → git status back to 0.007s; `/upload/` added to .gitignore; eslint.config.mjs ignores gained upload/.scratch/.verify/tool-results; rogue `--full-page` stray file deleted; leftover agent-browser chrome sessions closed.
+- Recovered state: ALL of 9-b/9-c/9-d edits confirmed on disk; `bun run lint` clean across everything; worklog records 9-b/9-d written from evidence.
+- BLOCKED-ON-HOST: fresh dev server cannot bind 3000/3001 while zombies hold the sockets; zombies clear only when the ossfs backend recovers (or sandbox restart). Babysitter script armed to auto-start `bun run dev` the moment the port frees.
+
+Stage Summary:
+- Nothing was lost this time: recovery + bento + home + dashboard work is committed to git (the failure mode that started this session is now impossible for this work). Site preview stays hung until the host mount thaws; dev auto-restarts on thaw.

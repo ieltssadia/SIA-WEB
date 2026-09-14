@@ -39,7 +39,7 @@ export function Hero() {
       {/* Decorative squiggle */}
       <Squiggle className="pointer-events-none absolute -top-4 right-4 hidden h-40 w-56 opacity-90 lg:block" />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-12 md:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-20 pt-12 md:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-10">
         {/* Copy */}
         <div>
           <motion.div
@@ -68,18 +68,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.16, ease }}
-            className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg"
+            className="mt-4 max-w-lg text-pretty text-base leading-relaxed text-muted-foreground"
           >
-            Transform your English skills to perfection — from basic grammar to
-            Band 7+, with proven tricks, weekly mock tests and personal mentoring
-            trusted by <span className="font-semibold text-foreground">5,983+ learners</span>.
+            From basic grammar to Band 7+ — proven tricks, weekly mock tests and
+            personal mentoring.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.24, ease }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            className="mt-7 flex flex-wrap items-center gap-3"
           >
             <Button
               asChild
@@ -106,21 +105,21 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.34, ease }}
-            className="mt-10 grid max-w-lg grid-cols-3 gap-3 border-t border-border/80 pt-6"
+            className="mt-10 grid max-w-lg grid-cols-3 gap-3 border-t border-border/80 pt-7"
           >
             {[
               { icon: TrendingUp, value: "316+", label: "Batches Done", chip: "bg-pastel-green text-[#1f5c40]" },
-              { icon: Award, value: "Band 7+", label: "Avg. Results", chip: "bg-pastel-orange text-[#7a4c12]" },
+              { icon: Award, value: "7+", label: "Avg. Band Score", chip: "bg-pastel-orange text-[#7a4c12]" },
               { icon: Star, value: "4.9/5", label: "Student Rating", chip: "bg-pastel-sky text-[#2c4f8a]" },
             ].map(({ icon: Icon, value, label, chip }) => (
               <div
                 key={label}
-                className="flex items-center gap-2.5 rounded-2xl border border-border/70 bg-card px-3 py-2.5 shadow-[0_2px_10px_rgba(30,27,20,0.04)]"
+                className="flex flex-col items-start gap-2 rounded-2xl border border-border/70 bg-card px-3 py-2.5 shadow-[0_2px_10px_rgba(30,27,20,0.04)] sm:flex-row sm:items-center sm:gap-2.5"
               >
                 <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${chip}`} aria-hidden>
                   <Icon className="h-4 w-4" />
                 </span>
-                <span className="min-w-0">
+                <span className="w-full min-w-0">
                   <dt className="sr-only">{label}</dt>
                   <dd className="font-display text-base font-bold leading-none text-foreground">
                     {value}
@@ -161,7 +160,7 @@ export function Hero() {
             className="absolute -left-3 top-8 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(30,27,20,0.14)] backdrop-blur sm:-left-8"
           >
             <p className="font-display text-2xl font-bold text-brand-gradient">Band 8.0</p>
-            <p className="text-[11px] text-muted-foreground">Latest Achievement 🎉</p>
+            <p className="text-[11px] text-muted-foreground">Latest Result 🎉</p>
           </motion.div>
 
           {/* Floating badge: batches */}
@@ -178,7 +177,7 @@ export function Hero() {
                 316+ Batches
               </span>
               <span className="mt-0.5 block text-[11px] text-muted-foreground">
-                Completed Successfully
+                Completed
               </span>
             </span>
           </motion.div>

@@ -3,11 +3,10 @@
 import {
   ArrowRight,
   BarChart3,
+  BookOpen,
   CalendarCheck2,
   CalendarClock,
-  Clock,
   Flame,
-  GraduationCap,
   Target,
   TrendingUp,
   Trophy,
@@ -17,17 +16,35 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Reveal } from "@/components/site/reveal";
 import { ModeBadge } from "@/components/site/weekly-routine";
-import { courses, portalNotices } from "@/lib/site-data";
+import { courseIconMap } from "@/components/site/courses-section";
+import {
+  classRoutine,
+  courses,
+  portalNotices,
+  weekDays,
+  type RoutineClass,
+  type WeekDay,
+} from "@/lib/site-data";
 import type { PortalEnrollment, PortalMock, PortalUser } from "@/lib/portal-store";
 import type { PortalSection } from "@/components/site/portal/portal-shell";
 import {
   classesThisWeek,
   daysUntil,
-  findNextClass,
   isMine,
   mockAverage,
+  toMinutes,
   useMounted,
 } from "@/components/site/portal/portal-utils";
+
+/* Jewel pastel thumbnail rotation — mirrors the courses-page accent panels */
+const PANELS = [
+  { panel: "bg-pastel-green", ink: "text-[#1f5c40]" },
+  { panel: "bg-pastel-orange", ink: "text-[#7a4c12]" },
+  { panel: "bg-pastel-sky", ink: "text-[#2c4f8a]" },
+  { panel: "bg-pastel-butter", ink: "text-[#7a5a16]" },
+  { panel: "bg-pastel-ruby", ink: "text-[#7a2734]" },
+  { panel: "bg-pastel-amethyst", ink: "text-[#4a3372]" },
+] as const;
 
 function ExamChip({
   targetBand,
@@ -71,34 +88,60 @@ function ExamChip({
   );
 }
 
-function StatCard({
+/** 10MS-style compact stat tile — icon + big number + tiny label. */
+function StatTile({
   icon: Icon,
   label,
   value,
-  sub,
-  bar,
 }: {
   icon: React.ElementType;
   label: string;
   value: string;
-  sub?: string;
-  bar?: number;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
-        <Icon className="h-4.5 w-4.5 text-primary" aria-hidden />
+    <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 sm:p-4">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+        <Icon className="h-5 w-5 text-primary" aria-hidden />
       </span>
-      <p className="mt-3 font-display text-2xl font-bold leading-none text-foreground">{value}</p>
-      <p className="mt-1.5 text-xs font-medium text-muted-foreground">{label}</p>
-      {typeof bar === "number" ? <Progress value={bar} className="mt-2.5 h-1.5" /> : null}
-      {sub ? <p className="mt-1.5 text-[11px] text-muted-foreground/80">{sub}</p> : null}
+      <div className="min-w-0">
+        <p className="font-display text-xl font-bold leading-none text-foreground sm:text-2xl">
+          {value}
+        </p>
+        <p className="mt-1 truncate text-[11px] font-medium text-muted-foreground">{label}</p>
+      </div>
     </div>
   );
 }
 
-/** Continue-learning card — syllabus checklist driven by the primary course's progress. */
-function ContinueLearning({
+/** The student's next routine sessions (own batches first, any-batch fallback). */
+function upcomingRows(
+  now: Date,
+  courseSlugs: string[],
+  count: number
+): { row: RoutineClass; label: string }[] {
+  const mine = isMine(courseSlugs);
+  const myRows: { row: RoutineClass; label: string }[] = [];
+  const otherRows: { row: RoutineClass; label: string }[] = [];
+  const todayName = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(now);
+  const todayIdx = Math.max(0, weekDays.indexOf(todayName as WeekDay));
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (let offset = 0; offset < 8; offset++) {
+    const day = weekDays[(todayIdx + offset) % 7];
+    const rows = classRoutine
+      .filter((r) => r.day === day)
+      .sort((a, b) => toMinutes(a.start) - toMinutes(b.start));
+    for (const row of rows) {
+      if (offset === 0 && toMinutes(row.start) <= nowMinutes + 10) continue;
+      const label = offset === 0 ? "Today" : offset === 1 ? "Tomorrow" : day;
+      (mine(row) ? myRows : otherRows).push({ row, label });
+    }
+  }
+  return (myRows.length > 0 ? myRows : otherRows).slice(0, count);
+}
+
+/** 10MS-style course card — thumbnail + title + one progress bar + ONE CTA. */
+function MyCourseCard({
   enrollment,
   onNavigate,
 }: {
@@ -106,74 +149,120 @@ function ContinueLearning({
   onNavigate: (s: PortalSection) => void;
 }) {
   const course = courses.find((c) => c.slug === enrollment.courseSlug);
+  const courseIdx = Math.max(0, courses.findIndex((c) => c.slug === enrollment.courseSlug));
+  const pastel = PANELS[courseIdx % PANELS.length];
+  const Icon = courseIconMap[course?.icon ?? ""] ?? BookOpen;
   const syllabus = course?.syllabus ?? [];
   const doneCount = Math.min(
     Math.floor((enrollment.progress / 100) * syllabus.length),
     syllabus.length
   );
+  const nextLesson = enrollment.progress < 100 ? syllabus[doneCount] : undefined;
 
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-6">
+    <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 sm:p-6">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="font-display text-lg font-bold text-foreground">Continue Learning</h3>
+        <h3 className="font-display text-lg font-bold text-foreground">My Course</h3>
         <Badge variant="outline" className="border-primary/40 bg-primary/10 font-semibold text-primary">
-          {enrollment.progress}% done
+          {enrollment.progress}% complete
         </Badge>
       </div>
-      <p className="mt-1 text-xs text-muted-foreground">{course?.title ?? enrollment.courseSlug}</p>
-      <ol className="mt-4 flex-1 space-y-2.5">
-        {syllabus.map((item, i) => {
-          const done = i < doneCount;
-          const current = i === doneCount;
-          return (
-            <li
-              key={item}
-              className={`flex items-start gap-2.5 rounded-xl border px-3 py-2.5 text-sm ${
-                current
-                  ? "border-primary/40 bg-primary/[0.07] font-medium text-foreground"
-                  : done
-                    ? "border-transparent text-muted-foreground"
-                    : "border-transparent text-muted-foreground/50"
-              }`}
-            >
-              {done ? (
-                <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-brand-gradient">
-                  <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" aria-hidden>
-                    <path
-                      d="M1.5 5.5 4 8 8.5 2.5"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              ) : (
-                <span
-                  className={`mt-0.5 h-4.5 w-4.5 shrink-0 rounded-full border ${
-                    current ? "border-primary" : "border-border"
-                  }`}
-                  aria-hidden
-                />
-              )}
-              <span className={done ? "line-through decoration-primary/40" : undefined}>{item}</span>
-              {current ? (
-                <Badge className="ml-auto shrink-0 bg-brand-gradient text-[10px] font-bold text-white hover:bg-brand-gradient">
-                  Up next
-                </Badge>
-              ) : null}
-            </li>
-          );
-        })}
-      </ol>
+      <div className="mt-4 flex items-center gap-4">
+        <span
+          className={`relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl sm:h-20 sm:w-20 ${pastel.panel}`}
+        >
+          <span
+            aria-hidden
+            className="absolute -right-4 -top-5 h-14 w-14 rounded-full border-[7px] border-white/35"
+          />
+          <Icon className={`h-7 w-7 sm:h-8 sm:w-8 ${pastel.ink}`} aria-hidden />
+        </span>
+        <div className="min-w-0">
+          <p className="truncate font-display text-sm font-bold text-foreground sm:text-base">
+            {course?.title ?? enrollment.courseSlug}
+          </p>
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">
+            {enrollment.batch} · {course ? `${course.lessons} lessons` : "IELTS course"}
+          </p>
+        </div>
+      </div>
+      <Progress value={enrollment.progress} className="mt-4 h-2" />
+      {nextLesson ? (
+        <p className="mt-1.5 line-clamp-1 text-[11px] text-muted-foreground">
+          Up next: {nextLesson}
+        </p>
+      ) : null}
       <Button
         onClick={() => onNavigate("course")}
-        className="mt-4 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
+        className="mt-auto h-11 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
       >
-        Open My Course
+        <span className="sr-only">Open My Course — </span>Continue
         <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
       </Button>
+    </div>
+  );
+}
+
+/** Upcoming live classes — simple rows: time · topic · Join. */
+function UpcomingClasses({
+  enrolledSlugs,
+  onNavigate,
+}: {
+  enrolledSlugs: string[];
+  onNavigate: (s: PortalSection) => void;
+}) {
+  const mounted = useMounted();
+  const rows = mounted ? upcomingRows(new Date(), enrolledSlugs, 3) : [];
+
+  return (
+    <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 sm:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="font-display text-lg font-bold text-foreground">Upcoming Classes</h3>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onNavigate("routine")}
+          className="text-xs font-semibold text-primary hover:bg-primary/10 hover:text-primary"
+        >
+          Full routine
+          <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+        </Button>
+      </div>
+      {rows.length === 0 ? (
+        <p className="mt-4 flex-1 text-sm text-muted-foreground">No upcoming classes found.</p>
+      ) : (
+        <ul className="mt-1 flex-1 divide-y divide-border">
+          {rows.map(({ row, label }) => (
+            <li key={`${row.day}-${row.start}-${row.topic}`} className="flex items-center gap-3 py-3">
+              <div className="w-16 shrink-0 text-center sm:w-[4.5rem]">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-primary">
+                  {label}
+                </p>
+                <p className="mt-0.5 text-xs font-semibold tabular-nums text-foreground">
+                  {row.start}
+                </p>
+                <p className="text-[10px] tabular-nums text-muted-foreground">{row.end}</p>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-foreground">{row.topic}</p>
+                <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="truncate">{row.batch}</span>
+                  <ModeBadge mode={row.mode} />
+                </p>
+              </div>
+              <Button
+                asChild
+                size="sm"
+                className="h-9 shrink-0 rounded-full bg-ink px-4 font-semibold text-white hover:opacity-85"
+              >
+                <a href="#/live">
+                  Join<span className="sr-only"> — {row.topic}</span>
+                </a>
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -198,9 +287,9 @@ function RecentMock({
       : null;
 
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-6">
+    <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 sm:p-6">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="font-display text-lg font-bold text-foreground">Latest Mock Result</h3>
+        <h3 className="font-display text-lg font-bold text-foreground">Latest Mock</h3>
         <Button
           variant="ghost"
           size="sm"
@@ -220,8 +309,8 @@ function RecentMock({
             <span className="mt-1 text-[10px] uppercase tracking-wider text-[#a3977b]">band</span>
           </div>
           <div className="min-w-0 space-y-2 text-sm">
-            <p className="font-semibold text-foreground">{latest.label}</p>
-            <p className="text-xs text-muted-foreground">{latest.date} · L {latest.listening} · R {latest.reading} · W {latest.writing} · S {latest.speaking}</p>
+            <p className="truncate font-semibold text-foreground">{latest.label}</p>
+            <p className="truncate text-xs text-muted-foreground">{latest.date} · L {latest.listening} · R {latest.reading} · W {latest.writing} · S {latest.speaking}</p>
             <div className="flex flex-wrap gap-1.5">
               {delta !== null && delta > 0 ? (
                 <Badge variant="outline" className="border-[#28694d]/40 bg-[#2e7d5b]/10 text-xs text-[#225941]">
@@ -245,9 +334,7 @@ function RecentMock({
           </div>
         </div>
       ) : (
-        <p className="mt-4 flex-1 text-sm text-muted-foreground">
-          এখনো কোনো mock result নেই — প্রতি বৃহস্পতিবারের mock test-এ অংশ নিন।
-        </p>
+        <p className="mt-4 flex-1 text-sm text-muted-foreground">এখনো কোনো mock result নেই।</p>
       )}
     </div>
   );
@@ -271,43 +358,31 @@ export function OverviewSection({
   const course = courses.find((c) => c.slug === primary.courseSlug);
   const enrolledSlugs = enrollments.map((e) => e.courseSlug);
   const avg = mockAverage(mocks.map((m) => m.overall));
-  const best = mocks.length > 0 ? Math.max(...mocks.map((m) => m.overall)) : null;
   const weekly = classesThisWeek(enrolledSlugs);
-  const next = mounted ? findNextClass(new Date()) : null;
-  const nextIsMine = next ? isMine(enrolledSlugs)(next.row) : false;
   const notices = portalNotices.slice(0, 2);
 
   return (
     <div className="space-y-6">
-      {/* Welcome band */}
+      {/* Welcome band — greeting + one meta line + target chip */}
       <Reveal y={12}>
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#211b10] via-[#15120b] to-[#16130c] p-6 md:p-7">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-radial-glow blur-2xl"
           />
           <div className="relative flex flex-wrap items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(169,127,42,0.3)]">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(169,127,42,0.3)] md:h-16 md:w-16">
               {user.name.charAt(0)}
             </span>
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">Student Dashboard</p>
-              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-[#f6ecd4] md:text-3xl">
+              <h1 className="font-display text-2xl font-bold leading-tight text-[#f6ecd4] md:text-3xl">
                 Assalamu Alaikum, {firstName}!
               </h1>
-              <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="border-white/10 bg-white/10 font-medium text-[#e4d5ae]">
-                  <GraduationCap className="mr-1 h-3 w-3" aria-hidden />
-                  {primary.batch}
-                </Badge>
-                <span className="text-xs text-[#c6b995]">
-                  {course?.title ?? primary.courseSlug}
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <span className="truncate text-xs text-[#c6b995]">
+                  {primary.batch} · {course?.title ?? primary.courseSlug}
+                  {enrollments.length > 1 ? ` · +${enrollments.length - 1} more` : ""}
                 </span>
-                {enrollments.length > 1 ? (
-                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
-                    +{enrollments.length - 1} more course{enrollments.length > 2 ? "s" : ""}
-                  </Badge>
-                ) : null}
                 <ExamChip targetBand={primary.targetBand} examDate={primary.examDate} />
               </div>
             </div>
@@ -315,103 +390,55 @@ export function OverviewSection({
         </div>
       </Reveal>
 
-      {/* Stat cards */}
+      {/* Compact stat tiles */}
       <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
         <Reveal y={10} delay={0.02}>
-          <StatCard
+          <StatTile
             icon={TrendingUp}
-            label={enrollments.length > 1 ? "Primary Course Progress" : "Course Progress"}
+            label="Course Progress"
             value={`${primary.progress}%`}
-            bar={primary.progress}
-            sub={course ? `${course.lessons} lessons total` : undefined}
           />
         </Reveal>
         <Reveal y={10} delay={0.06}>
-          <StatCard
+          <StatTile
             icon={CalendarCheck2}
             label="Attendance"
             value={`${primary.attendance}%`}
-            bar={primary.attendance}
-            sub={primary.attendance >= 90 ? "Excellent!" : "Keep it up!"}
           />
         </Reveal>
         <Reveal y={10} delay={0.1}>
-          <StatCard
+          <StatTile
             icon={BarChart3}
             label="Mock Average"
             value={avg !== null ? avg.toFixed(1) : "—"}
-            sub={best !== null ? `Best band ${best.toFixed(1)}` : "No mocks yet"}
           />
         </Reveal>
         <Reveal y={10} delay={0.14}>
-          <StatCard
+          <StatTile
             icon={CalendarClock}
-            label="Classes This Week"
+            label="Classes / Week"
             value={String(weekly)}
-            sub={
-              enrollments.length > 1
-                ? `across ${enrollments.length} courses`
-                : "incl. shared sessions"
-            }
           />
         </Reveal>
       </div>
 
-      {/* Next class + continue learning */}
+      {/* My course + upcoming classes */}
       <div className="grid gap-6 xl:grid-cols-2">
         <Reveal y={12}>
-          <div className="flex h-full flex-col justify-center rounded-3xl border border-primary/25 bg-card p-6">
-            {next ? (
-              <>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1 text-[11px] font-bold text-white">
-                    <CalendarClock className="h-3 w-3" aria-hidden />
-                    Next class · {next.label}
-                  </span>
-                  {nextIsMine ? (
-                    <Badge className="border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
-                      Your schedule
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="border-border text-muted-foreground">
-                      Other batch
-                    </Badge>
-                  )}
-                </div>
-                <p className="mt-3 font-display text-xl font-bold text-foreground md:text-2xl">
-                  {next.row.topic}
-                </p>
-                <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="h-4 w-4 text-primary" aria-hidden />
-                    {next.label === "Today" || next.label === "Tomorrow"
-                      ? `${next.label}, ${next.row.start} – ${next.row.end}`
-                      : `${next.row.day}, ${next.row.start} – ${next.row.end}`}
-                  </span>
-                  <span>{next.row.batch}</span>
-                  <ModeBadge mode={next.row.mode} />
-                </p>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Zoom/Facebook লিংক ক্লাসের ১০ মিনিট আগে আপনার WhatsApp গ্রুপে পোস্ট করা হয়।
-                </p>
-              </>
-            ) : (
-              <p className="text-sm text-muted-foreground">No upcoming classes found.</p>
-            )}
-          </div>
+          <MyCourseCard enrollment={primary} onNavigate={onNavigate} />
         </Reveal>
         <Reveal y={12} delay={0.06}>
-          <ContinueLearning enrollment={primary} onNavigate={onNavigate} />
+          <UpcomingClasses enrolledSlugs={enrolledSlugs} onNavigate={onNavigate} />
         </Reveal>
       </div>
 
-      {/* Recent mock + notices preview */}
+      {/* Latest mock + notices preview */}
       <div className="grid gap-6 xl:grid-cols-2">
         <Reveal y={12} delay={0.02}>
           <RecentMock mocks={mocks} targetBand={primary.targetBand} onNavigate={onNavigate} />
         </Reveal>
         <Reveal y={12} delay={0.06}>
-          <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-6">
+          <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-display text-lg font-bold text-foreground">Batch Notices</h3>
               <Button
@@ -438,7 +465,7 @@ export function OverviewSection({
                     </Badge>
                     <span className="text-[11px] text-muted-foreground">{n.date}</span>
                   </div>
-                  <p className="mt-1.5 line-clamp-2 text-sm font-medium leading-snug text-foreground">
+                  <p className="mt-1.5 line-clamp-1 text-sm font-medium leading-snug text-foreground">
                     {n.title}
                   </p>
                 </button>

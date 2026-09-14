@@ -220,7 +220,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
             asChild
             variant="ghost"
             size="sm"
-            className="-ml-2 text-[#c6b995] hover:bg-white/10 hover:text-[#f6ecd4]"
+            className="-ml-2 h-11 px-2.5 text-[#c6b995] hover:bg-white/10 hover:text-[#f6ecd4]"
           >
             <a href="#/live">
               <span className="sr-only">লাইভ হাবে ফিরে যান</span>
@@ -276,7 +276,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                     type="button"
                     onClick={() => room.sendReaction(emoji)}
                     aria-label={`প্রতিক্রিয়া ${emoji}`}
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-lg transition-colors hover:bg-white/10 active:scale-90"
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-lg transition-colors hover:bg-white/10 active:scale-90"
                   >
                     {emoji}
                   </button>
@@ -291,12 +291,12 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                   aria-pressed={handRaised}
                   className={
                     handRaised
-                      ? "bg-brand-gradient font-semibold text-white"
-                      : "border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                      ? "h-11 bg-brand-gradient px-3.5 font-semibold text-white"
+                      : "h-11 border-white/15 bg-transparent px-3.5 text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                   }
                 >
                   <Hand className="mr-1.5 h-4 w-4" aria-hidden />
-                  {handRaised ? "হাত তোলা আছে" : "হাত তুলুন"}
+                  {handRaised ? "হাত তোলা" : "হাত তুলুন"}
                 </Button>
               ) : null}
 
@@ -308,7 +308,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                       type="button"
                       aria-label="আগের স্লাইড"
                       onClick={() => room.gotoSlide(Math.max(0, safeSlideIndex - 1))}
-                      className="flex h-8 w-8 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
+                      className="flex h-11 w-11 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
                     >
                       <ChevronLeft className="h-4 w-4" aria-hidden />
                     </button>
@@ -319,7 +319,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                       type="button"
                       aria-label="পরের স্লাইড"
                       onClick={() => room.gotoSlide(Math.min(slides.length - 1, safeSlideIndex + 1))}
-                      className="flex h-8 w-8 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
+                      className="flex h-11 w-11 items-center justify-center text-[#c6b995] transition-colors hover:bg-white/10 hover:text-white"
                     >
                       <ChevronRight className="h-4 w-4" aria-hidden />
                     </button>
@@ -331,8 +331,8 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                     onClick={() => (room.camOn ? disableCam() : enableCam())}
                     className={
                       room.camOn
-                        ? "border-red-500/40 bg-transparent text-red-400 hover:bg-red-500/10 hover:text-red-300"
-                        : "border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                        ? "h-11 border-red-500/40 bg-transparent px-3.5 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                        : "h-11 border-white/15 bg-transparent px-3.5 text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                     }
                   >
                     {room.camOn ? (
@@ -340,14 +340,14 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                     ) : (
                       <Camera className="mr-1.5 h-4 w-4" aria-hidden />
                     )}
-                    {room.camOn ? "ক্যামেরা বন্ধ" : "ক্যামেরা চালু"}
+                    {room.camOn ? "ক্যাম বন্ধ" : "ক্যাম চালু"}
                   </Button>
 
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setPollFormOpen((v) => !v)}
-                    className="border-white/15 bg-transparent text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
+                    className="h-11 border-white/15 bg-transparent px-3.5 text-[#c6b995] hover:border-white/30 hover:bg-white/10 hover:text-white"
                   >
                     <Vote className="mr-1.5 h-4 w-4" aria-hidden />
                     পোল
@@ -362,9 +362,9 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                           room.endClass();
                         }
                       }}
-                      className="bg-red-500 font-semibold text-white hover:bg-red-600"
+                      className="h-11 bg-red-500 px-4 font-semibold text-white hover:bg-red-600"
                     >
-                      ক্লাস শেষ করুন
+                      ক্লাস শেষ
                     </Button>
                   ) : (
                     <Button
@@ -373,9 +373,9 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                         room.goLive();
                         setTab("chat");
                       }}
-                      className="bg-brand-gradient font-semibold text-white"
+                      className="h-11 bg-brand-gradient px-4 font-semibold text-white"
                     >
-                      🔴 লাইভ শুরু করুন
+                      🔴 লাইভ শুরু
                     </Button>
                   )}
                 </div>
@@ -421,7 +421,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-[#c6b995] hover:bg-white/10 hover:text-white"
+                        className="h-11 text-[#c6b995] hover:bg-white/10 hover:text-white"
                         onClick={() => setDraftOptions((p) => [...p, ""])}
                       >
                         + অপশন
@@ -430,7 +430,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
                   </div>
                   <Button
                     size="sm"
-                    className="bg-brand-gradient font-semibold text-white"
+                    className="h-11 bg-brand-gradient px-4 font-semibold text-white"
                     onClick={() => {
                       const opts = draftOptions.map((o) => o.trim()).filter(Boolean);
                       if (!draftQuestion.trim() || opts.length < 2) return;
@@ -726,7 +726,7 @@ function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | nul
           maxLength={500}
           className="h-10 border-white/10 bg-[#1d1810] text-[#f6ecd4] placeholder:text-[#a3977b]"
         />
-        <Button type="submit" size="icon" aria-label="পাঠান" className="h-10 w-10 shrink-0 bg-brand-gradient text-white hover:opacity-90">
+        <Button type="submit" size="icon" aria-label="পাঠান" className="h-11 w-11 shrink-0 bg-brand-gradient text-white hover:opacity-90">
           <Send className="h-4 w-4" aria-hidden />
         </Button>
       </form>
@@ -839,7 +839,7 @@ function PollPanel({
               disabled={myVote !== null || role === "teacher"}
               onClick={() => onVote(i)}
               aria-pressed={voted}
-              className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm text-[#f6ecd4] transition-colors ${
+              className={`relative min-h-11 w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm text-[#f6ecd4] transition-colors ${
                 voted
                   ? "border-[#d9b75c]/60"
                   : "border-white/10 hover:border-white/25 hover:bg-white/5 disabled:hover:border-white/10 disabled:hover:bg-transparent"
@@ -877,9 +877,9 @@ function PollPanel({
           variant="outline"
           size="sm"
           onClick={onEnd}
-          className="mt-3 border-red-500/40 bg-transparent text-red-400 hover:bg-red-500/10 hover:text-red-300"
+          className="mt-3 h-11 border-red-500/40 bg-transparent px-3.5 text-red-400 hover:bg-red-500/10 hover:text-red-300"
         >
-          পোল শেষ করুন
+          পোল শেষ
         </Button>
       ) : null}
     </div>

@@ -13,6 +13,13 @@ const iconMap: Record<string, React.ElementType> = {
   lightbulb: BookOpenCheck,
 };
 
+/* 10MS-style one-liners — site-data descs are the long-form fallback */
+const shortDesc: Record<string, string> = {
+  "Free Video Lessons": "মডিউল-ভিত্তিক ফ্রি ভিডিও ক্লাস — আজই দেখা শুরু করুন।",
+  "Free Mock Test": "ফুল-লেন্থ মক টেস্ট ফ্রি — বর্তমান ব্যান্ড জানুন।",
+  "Free Tips & Tricks": "প্রতিটি প্রশ্ন টাইপের প্রমাণিত শর্টকাট পড়ুন।",
+};
+
 export function FreeResourcesSection() {
   const setCourse = useEnrollStore((s) => s.setCourse);
 
@@ -31,7 +38,7 @@ export function FreeResourcesSection() {
               Free Classes &amp; <span className="text-brand-gradient">Resources</span>
             </>
           }
-          subtitle="কোর্সে ভর্তি হওয়ার আগে ফ্রি-তে শিখে নিন! ফ্রি ভিডিও লেসন, ফ্রি মক টেস্ট আর প্রমাণিত টিপস — সবই একদম বিনামূল্যে।"
+          subtitle="ফ্রি ভিডিও লেসন, ফ্রি মক টেস্ট আর প্রমাণিত টিপস — সবই একদম বিনামূল্যে।"
         />
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -39,17 +46,17 @@ export function FreeResourcesSection() {
             const Icon = iconMap[res.icon] ?? Gift;
             const inner = (
               <>
-                <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-110">
-                  <Icon className="h-7 w-7 text-primary" aria-hidden />
+                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-110">
+                  <Icon className="h-6 w-6 text-primary" aria-hidden />
                 </span>
                 <h3 className="font-display text-lg font-bold text-foreground">{res.title}</h3>
-                <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {res.desc}
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {shortDesc[res.title] ?? res.desc}
                 </p>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="mt-5 w-fit rounded-full border-border bg-card font-semibold text-foreground hover:border-primary/50 hover:text-primary"
+                  className="mt-4 w-fit rounded-full border-border bg-card font-semibold text-foreground hover:border-primary/50 hover:text-primary"
                 >
                   {res.cta}
                 </Button>
@@ -89,8 +96,7 @@ export function FreeResourcesSection() {
               <span className="font-display text-base font-bold text-[#f6ecd4]">
                 প্রথমে ফ্রি-তে বিশ্বাস করুন, তারপর ভর্তি হন।
               </span>{" "}
-              হাজারো শিক্ষার্থী আমাদের ফ্রি রিসোর্স দিয়ে শুরু করে এখন Band 7+ অর্জন করেছে —
-              আপনিও পারেন।
+              হাজারো শিক্ষার্থীর প্রমাণিত পথ।
             </p>
             <div className="flex shrink-0 flex-wrap justify-center gap-3">
               <Button

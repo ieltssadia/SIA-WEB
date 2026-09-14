@@ -52,3 +52,7 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Host sync mount (ossfs) — app code never reads it; scanning it can wedge
+# git/dev-server when the backend stalls
+/upload/

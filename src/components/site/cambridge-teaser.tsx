@@ -14,10 +14,10 @@ interface BookRow {
 }
 
 const SKILLS = [
-  { icon: Headphones, label: "Listening", note: "Audio + transcript" },
-  { icon: BookOpenCheck, label: "Reading", note: "Answers + explanations" },
-  { icon: PenLine, label: "Writing", note: "Band-9 samples" },
-  { icon: Mic, label: "Speaking", note: "Cue cards + audio" },
+  { icon: Headphones, label: "Listening" },
+  { icon: BookOpenCheck, label: "Reading" },
+  { icon: PenLine, label: "Writing" },
+  { icon: Mic, label: "Speaking" },
 ];
 
 /**
@@ -56,30 +56,27 @@ export function CambridgeTeaser() {
                 Cambridge IELTS Library
               </span>
               <h2 className="mt-4 font-display text-3xl font-extrabold leading-tight text-[#f6ecd4] sm:text-4xl">
-                পুরো Cambridge IELTS সিরিজ —{" "}
-                <span className="text-[#d9b75c]">এখন সম্পূর্ণ ইন্টার‌্যাক্টিভ</span>
+                পুরো Cambridge সিরিজ —{" "}
+                <span className="text-[#d9b75c]">এখন ইন্টার‌্যাক্টিভ</span>
               </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#c6b995] sm:text-base">
-                Books 1–19 (Academic + General Training) · {total || 140} practice tests —
-                Listening audio ও transcript, Reading answers with explanations, Writing
-                Band-9 স্যাম্পল আর Speaking cue cards. সব এক জায়গায়, ফ্রি।
+              <p className="mt-3 text-sm leading-relaxed text-[#c6b995] sm:text-base">
+                Books 1–19 (Academic + GT) · {total || 140} প্র্যাকটিস টেস্ট — সম্পূর্ণ ফ্রি।
               </p>
 
-              {/* Per-skill perks */}
-              <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {/* Per-skill perk pills — 10MS-style, icon + one word */}
+              <div className="mt-6 flex flex-wrap gap-2.5">
                 {SKILLS.map((s) => (
-                  <div
+                  <span
                     key={s.label}
-                    className="rounded-xl border border-white/10 bg-white/[0.05] p-3"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3.5 py-1.5"
                   >
-                    <s.icon className="h-4.5 w-4.5 text-[#d9b75c]" aria-hidden />
-                    <p className="mt-2 text-xs font-bold text-[#f6ecd4]">{s.label}</p>
-                    <p className="mt-0.5 text-[11px] leading-snug text-[#a3977b]">{s.note}</p>
-                  </div>
+                    <s.icon className="h-4 w-4 text-[#d9b75c]" aria-hidden />
+                    <span className="text-xs font-bold text-[#f6ecd4]">{s.label}</span>
+                  </span>
                 ))}
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Button
                   asChild
                   className="rounded-full bg-brand-gradient px-6 font-semibold text-white shadow-[0_10px_30px_rgba(169,127,42,0.30)] transition-opacity hover:opacity-90"

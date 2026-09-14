@@ -41,11 +41,13 @@ function StatItem({
   const display = useCountUp(value, active);
   return (
     <div className="text-center">
-      <p className="font-display text-3xl font-bold text-[#d9b75c] sm:text-4xl">
+      <p className="font-display text-4xl font-bold text-[#d9b75c] sm:text-5xl">
         {display.toLocaleString("en-US")}
         {suffix}
       </p>
-      <p className="mt-1.5 text-xs text-[#c6b995] sm:text-sm">{label}</p>
+      <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#a3977b] sm:text-xs">
+        {label}
+      </p>
     </div>
   );
 }
@@ -58,7 +60,7 @@ export function StatsStrip() {
     <section aria-label="Our achievements" className="border-y border-white/10 bg-forest">
       <div
         ref={ref}
-        className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-10 md:grid-cols-4 md:py-12 lg:px-8"
+        className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-12 md:grid-cols-4 md:gap-10 md:py-16 lg:px-8"
       >
         {stats.map((s) => (
           <StatItem key={s.label} {...s} active={inView} />
