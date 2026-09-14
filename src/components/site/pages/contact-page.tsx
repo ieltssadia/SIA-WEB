@@ -10,7 +10,7 @@ export function ContactPage() {
         eyebrow="Contact & Admission"
         title={
           <>
-            Let&apos;s Get You <span className="text-gold-gradient">Enrolled</span>
+            Let&apos;s Get You <span className="text-brand-gradient">Enrolled</span>
           </>
         }
         subtitle="ফর্ম পূরণ করুন অথবা সরাসরি কল করুন — আমাদের টিম ২৪ ঘণ্টার মধ্যে ব্যাচের সময়সূচি ও ভর্তি প্রক্রিয়া জানিয়ে দেবে।"

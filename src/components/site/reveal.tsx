@@ -25,7 +25,7 @@ export function Reveal({ children, delay = 0, y = 24, className }: RevealProps) 
   );
 }
 
-/** Section heading block with gold eyebrow, serif title and subtitle. */
+/** Section heading block with brand eyebrow, serif title and subtitle. */
 export function SectionHeading({
   eyebrow,
   title,

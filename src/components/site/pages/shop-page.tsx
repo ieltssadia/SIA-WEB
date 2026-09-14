@@ -44,7 +44,7 @@ function waLink(book: Book) {
 function BookCover({ book, className }: { book: Book; className?: string }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-primary/20 bg-[#0b0b0e] ${className ?? ""}`}
+      className={`relative overflow-hidden rounded-xl border border-primary/20 bg-[#0A241B] ${className ?? ""}`}
     >
       <Image
         src={book.cover}
@@ -57,14 +57,14 @@ function BookCover({ book, className }: { book: Book; className?: string }) {
       <div aria-hidden className="absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/70 to-transparent" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
       <div className="absolute inset-0 flex flex-col justify-between p-3.5">
-        <span className="w-fit rounded-full border border-primary/40 bg-black/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-primary">
+        <span className="w-fit rounded-full border border-white/25 bg-black/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#EAF4EE]">
           Sadia&apos;s IELTS
         </span>
         <div>
-          <p className="font-display text-sm font-bold leading-snug text-foreground line-clamp-3 [text-wrap:balance]">
+          <p className="font-display text-sm font-bold leading-snug text-[#EAF4EE] line-clamp-3 [text-wrap:balance]">
             {book.title}
           </p>
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-wider text-primary">
+          <p className="mt-1 text-[10px] font-medium uppercase tracking-wider text-[#63D6A4]">
             {book.author}
           </p>
         </div>
@@ -117,7 +117,7 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
             <BookCover book={book} className="aspect-[3/4] w-full transition-transform duration-300 group-hover:scale-[1.02]" />
           </button>
           {book.tag ? (
-            <Badge className="absolute -right-1.5 -top-1.5 border-transparent bg-gold-gradient text-[10px] font-bold text-[#16120a] shadow">
+            <Badge className="absolute -right-1.5 -top-1.5 border-transparent bg-brand-gradient text-[10px] font-bold text-white shadow">
               {book.tag}
             </Badge>
           ) : null}
@@ -160,7 +160,7 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
         <div className="mt-auto flex gap-2 pt-4">
           <Button
             size="sm"
-            className="flex-1 bg-gold-gradient text-[12px] font-bold text-[#16120a] hover:opacity-90"
+            className="flex-1 rounded-full bg-ink text-[12px] font-bold text-white hover:opacity-85"
             onClick={() => addToCart(book)}
           >
             <ShoppingBag className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -207,7 +207,7 @@ export function ShopPage() {
         eyebrow="Book Shop"
         title={
           <>
-            IELTS Study <span className="text-gold-gradient">Books &amp; Materials</span>
+            IELTS Study <span className="text-brand-gradient">Books &amp; Materials</span>
           </>
         }
         subtitle="Sadia Rahman-এর proven preparation books — বাংলা ব্যাখ্যাসহ। Order online — সারাদেশে cash on delivery, অথবা ক্যাম্পাস থেকে সংগ্রহ করুন।"
@@ -258,23 +258,23 @@ export function ShopPage() {
 
           {/* Bundle banner */}
           <Reveal delay={0.1}>
-            <div className="relative mt-12 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-r from-[#1d1808] via-[#141419] to-[#1d1808] p-6 md:p-8">
+            <div className="relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-6 md:p-8">
               <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
                 <div className="relative h-36 w-28 shrink-0">
                   <BookCover book={books[books.length - 1]} className="h-full w-full shadow-2xl" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <Badge className="border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
+                  <Badge className="border-white/10 bg-white/10 text-[#BFE6D4] hover:bg-white/10">
                     <Sparkles className="mr-1 h-3 w-3" aria-hidden />
                     Best Value
                   </Badge>
-                  <h3 className="mt-2 font-display text-xl font-bold text-foreground md:text-2xl">
+                  <h3 className="mt-2 font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
                     Complete IELTS Bundle — সব বই একসাথে, {taka(2200)}
                   </h3>
-                  <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                  <p className="mt-2 max-w-2xl text-sm text-[#A9C6B6]">
                     Reading Tricks + Writing Handbook + Speaking Bank + Vocabulary Builder +
                     Listening Workbook + 10 Mock Tests —{" "}
-                    <span className="font-semibold text-foreground">
+                    <span className="font-semibold text-[#EAF4EE]">
                       আলাদা কিনলে ৳{books.reduce((s, b) => s + (b.slug === "complete-bundle" ? 0 : b.price), 0).toLocaleString("en-US")}
                     </span>
                     , bundle-এ মাত্র ৳2,200. Free delivery in Sreemangal!
@@ -282,7 +282,7 @@ export function ShopPage() {
                 </div>
                 <Button
                   size="lg"
-                  className="shrink-0 bg-gold-gradient font-bold text-[#16120a] hover:opacity-90"
+                  className="shrink-0 bg-brand-gradient font-bold text-white hover:opacity-90"
                   onClick={() => addToCart(books[books.length - 1])}
                 >
                   <ShoppingBag className="mr-1.5 h-4 w-4" aria-hidden />
@@ -292,7 +292,7 @@ export function ShopPage() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="shrink-0 border-primary/30 font-semibold hover:border-primary/60 hover:text-primary"
+                  className="shrink-0 border-white/20 bg-transparent font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   <a href={waLink(books[books.length - 1])} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="mr-1.5 h-4 w-4" aria-hidden />
@@ -351,7 +351,7 @@ export function ShopPage() {
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <Button
                   asChild
-                  className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                  className="rounded-full bg-ink font-semibold text-white hover:opacity-85"
                 >
                   <a href="#/courses">
                     <FileText className="mr-1.5 h-4 w-4" aria-hidden />
@@ -376,7 +376,7 @@ export function ShopPage() {
 
       {/* Book details dialog */}
       <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <DialogContent className="max-w-md border-primary/20 bg-[#101014] p-0 overflow-hidden">
+        <DialogContent className="max-w-md border-border bg-popover p-0 overflow-hidden">
           {selected ? (
             <div>
               <DialogHeader className="sr-only">
@@ -416,7 +416,7 @@ export function ShopPage() {
                 </ul>
                 <div className="mt-5 flex gap-2">
                   <Button
-                    className="flex-1 bg-gold-gradient font-bold text-[#16120a] hover:opacity-90"
+                    className="flex-1 rounded-full bg-ink font-bold text-white hover:opacity-85"
                     onClick={() => {
                       addToCart(selected);
                       setSelected(null);

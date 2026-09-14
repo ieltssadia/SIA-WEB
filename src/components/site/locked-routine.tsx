@@ -23,7 +23,7 @@ export function LockedRoutineCard({ title, desc }: { title: string; desc: string
       <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
         <Button
           asChild
-          className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+          className="rounded-full bg-ink font-semibold text-white hover:opacity-85"
         >
           <Link href="#/portal">
             <LogIn className="mr-1.5 h-4 w-4" aria-hidden />
@@ -33,7 +33,7 @@ export function LockedRoutineCard({ title, desc }: { title: string; desc: string
         <Button
           asChild
           variant="outline"
-          className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+          className="rounded-full border-border bg-card text-foreground font-medium hover:border-primary/50 hover:text-primary"
         >
           <Link href="#/checkout">
             <GraduationCap className="mr-1.5 h-4 w-4" aria-hidden />
@@ -61,14 +61,14 @@ export function LockedRoutineSection() {
         className="pointer-events-none select-none p-4 blur-[5px] sm:p-6"
       >
         <RoutineTable rows={previewRows} />
-        <div className="mt-4 h-24 rounded-2xl bg-[#101014]" />
+        <div className="mt-4 h-24 rounded-2xl bg-muted" />
       </div>
 
       {/* Overlay panel */}
       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-background/70 via-background/85 to-background p-4">
-        <div className="w-full max-w-md rounded-2xl border border-primary/30 bg-[#101014]/95 p-6 text-center shadow-[0_30px_80px_rgba(0,0,0,0.6)] backdrop-blur-md sm:p-8">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold-gradient">
-            <LockKeyhole className="h-6.5 w-6.5 text-[#16120a]" aria-hidden />
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card/95 p-6 text-center shadow-[0_30px_80px_rgba(16,22,19,0.18)] backdrop-blur-md sm:p-8">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient">
+            <LockKeyhole className="h-6.5 w-6.5 text-white" aria-hidden />
           </span>
           <h3 className="mt-4 font-display text-xl font-bold text-foreground">
             For Enrolled Students Only
@@ -80,7 +80,7 @@ export function LockedRoutineSection() {
           <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
             <Button
               asChild
-              className="bg-gold-gradient font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
             >
               <Link href="#/portal">
                 <LogIn className="mr-1.5 h-4 w-4" aria-hidden />
@@ -90,7 +90,7 @@ export function LockedRoutineSection() {
             <Button
               asChild
               variant="outline"
-              className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+              className="rounded-full border-border bg-card text-foreground font-medium hover:border-primary/50 hover:text-primary"
             >
               <Link href="#/checkout">
                 Not enrolled? Enroll Now

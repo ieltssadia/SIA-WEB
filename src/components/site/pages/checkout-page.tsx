@@ -126,10 +126,10 @@ function Steps({ current }: { current: 1 | 2 | 3 }) {
               aria-current={active ? "step" : undefined}
               className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
                 done
-                  ? "bg-gold-gradient text-[#16120a]"
+                  ? "bg-primary text-white"
                   : active
-                    ? "border-2 border-primary bg-primary/10 text-primary"
-                    : "border border-border text-muted-foreground"
+                    ? "rounded-full bg-ink text-white"
+                    : "rounded-full bg-secondary text-secondary-foreground"
               }`}
             >
               {done ? "✓" : n}
@@ -211,11 +211,11 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
       </p>
 
       <Tabs value={mode} onValueChange={(v) => { setMode(v as "signup" | "login"); setError(null); }} className="mt-4">
-        <TabsList className="grid w-full grid-cols-2 bg-[#101014]">
-          <TabsTrigger value="signup" className="gap-1.5 data-[state=active]:bg-gold-gradient data-[state=active]:text-[#16120a]">
+        <TabsList className="grid w-full grid-cols-2 bg-secondary">
+          <TabsTrigger value="signup" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             <UserPlus className="h-4 w-4" aria-hidden /> Create account
           </TabsTrigger>
-          <TabsTrigger value="login" className="gap-1.5 data-[state=active]:bg-gold-gradient data-[state=active]:text-[#16120a]">
+          <TabsTrigger value="login" className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             <LogIn className="h-4 w-4" aria-hidden /> Log in
           </TabsTrigger>
         </TabsList>
@@ -258,7 +258,7 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
               </div>
             </div>
             {error ? <ErrorNote text={error} /> : null}
-            <Button type="submit" disabled={busy} className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90 disabled:opacity-60">
+            <Button type="submit" disabled={busy} className="w-full rounded-full bg-ink font-semibold text-white hover:opacity-85 disabled:opacity-60">
               {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden /> : null}
               Continue to payment
               <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
@@ -281,7 +281,7 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
               />
             </div>
             {error ? <ErrorNote text={error} /> : null}
-            <Button type="submit" disabled={busy} className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90 disabled:opacity-60">
+            <Button type="submit" disabled={busy} className="w-full rounded-full bg-ink font-semibold text-white hover:opacity-85 disabled:opacity-60">
               {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden /> : null}
               Log in & continue
               <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
@@ -306,7 +306,7 @@ function PhoneField({
     <div className="space-y-1.5">
       <Label htmlFor="co-phone">Mobile number</Label>
       <div className="flex overflow-hidden rounded-xl border border-input bg-transparent focus-within:ring-2 focus-within:ring-ring/50">
-        <span className="flex items-center gap-1.5 border-r border-input bg-[#101014] px-3.5 text-sm font-semibold text-primary">
+        <span className="flex items-center gap-1.5 border-r border-input bg-secondary px-3.5 text-sm font-semibold text-primary">
           <Smartphone className="h-3.5 w-3.5" aria-hidden />
           +880
         </span>
@@ -344,13 +344,13 @@ function OfferCountdownBanner() {
   if (!left) return null; // hydration-safe: nothing before mount
   return (
     <div
-      className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-gradient-to-r from-[#33290f] via-[#1d1808] to-[#33290f] px-4 py-3 text-center"
+      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-gradient-to-r from-[#114430] via-[#0B2E22] to-[#114430] px-4 py-3 text-center"
       role="status"
     >
-      <Timer className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-      <p className="text-sm text-foreground/90">
-        <span className="font-semibold text-primary">Admission offer শেষ হতে বাকি: {left}</span>{" "}
-        <span className="text-muted-foreground">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
+      <Timer className="h-4 w-4 shrink-0 text-[#63D6A4]" aria-hidden />
+      <p className="text-sm text-[#EAF4EE]">
+        <span className="font-semibold text-[#63D6A4]">Admission offer শেষ হতে বাকি: {left}</span>{" "}
+        <span className="text-[#A9C6B6]">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
       </p>
     </div>
   );
@@ -442,7 +442,7 @@ function PaymentStep({
               key={b.batch}
               htmlFor={`batch-${b.batch}`}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
-                batch === b.batch ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-[#101014] hover:border-primary/30"
+                batch === b.batch ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-muted/50 hover:border-primary/30"
               }`}
             >
               <RadioGroupItem id={`batch-${b.batch}`} value={b.batch} />
@@ -468,7 +468,7 @@ function PaymentStep({
                 key={m.id}
                 htmlFor={`pay-${m.id}`}
                 className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
-                  method === m.id ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-[#101014] hover:border-primary/30"
+                  method === m.id ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-muted/50 hover:border-primary/30"
                 }`}
               >
                 <RadioGroupItem id={`pay-${m.id}`} value={m.id} />
@@ -511,7 +511,7 @@ function PaymentStep({
         <Button
           onClick={confirm}
           disabled={busy}
-          className="flex-1 bg-gold-gradient py-6 text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90 disabled:opacity-60"
+          className="flex-1 rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
         >
           {busy ? (
             <>
@@ -544,38 +544,38 @@ function PaymentStep({
 
 function SuccessStep({ course, batch, name }: { course: Course; batch: string; name: string }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-8 text-center md:p-12">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-8 text-center md:p-12">
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-radial-glow blur-2xl" />
       <div className="relative">
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold-gradient shadow-[0_8px_40px_rgba(212,175,55,0.45)]">
-          <CheckCircle2 className="h-8 w-8 text-[#16120a]" aria-hidden />
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(16,138,96,0.45)]">
+          <CheckCircle2 className="h-8 w-8 text-white" aria-hidden />
         </span>
-        <h2 className="mt-5 font-display text-2xl font-bold text-foreground md:text-3xl">
-          Enrollment <span className="text-gold-gradient">confirmed!</span>
+        <h2 className="mt-5 font-display text-2xl font-bold text-[#EAF4EE] md:text-3xl">
+          Enrollment <span className="text-[#63D6A4]">confirmed!</span>
         </h2>
-        <p className="mt-2 text-sm text-muted-foreground md:text-base">
+        <p className="mt-2 text-sm text-[#A9C6B6] md:text-base">
           অভিনন্দন {name.split(" ")[0]}! ভর্তি সম্পন্ন হয়েছে — কোর্সটি এখন আপনার পোর্টালে।
         </p>
         <div className="mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-2">
-          <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary">
+          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#BFE6D4]">
             {course.title}
           </Badge>
-          <Badge variant="outline" className="border-border px-3 py-1.5 text-sm font-semibold text-foreground">
+          <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#BFE6D4]">
             {batch}
           </Badge>
         </div>
-        <p className="mt-6 text-sm text-muted-foreground">
+        <p className="mt-6 text-sm text-[#A9C6B6]">
           Class routine, materials, notices — সব এখন{" "}
-          <span className="font-semibold text-primary">Student Portal</span>-এ দেখুন।
+          <span className="font-semibold text-[#63D6A4]">Student Portal</span>-এ দেখুন।
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button asChild className="bg-gold-gradient px-6 py-6 font-semibold text-[#16120a] hover:opacity-90">
+          <Button asChild className="bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
             <a href="#/portal">
               <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
               Go to My Portal
             </a>
           </Button>
-          <Button asChild variant="outline" className="border-primary/25 px-6 py-6 font-semibold hover:text-primary">
+          <Button asChild variant="outline" className="border-white/20 bg-transparent px-6 py-6 font-semibold text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white">
             <a href="#/courses">Browse more courses</a>
           </Button>
         </div>
@@ -608,13 +608,13 @@ function CoursePicker() {
                 <span>{c.mode}</span>
               </div>
               <div className="mt-auto flex items-center justify-between pt-4">
-                <span className="font-display text-lg font-bold text-gold-gradient">
+                <span className="font-display text-lg font-bold text-brand-gradient">
                   {c.price === 0 ? "Free" : c.price ? taka(c.price) : "Custom"}
                   {c.oldPrice ? (
                     <span className="ml-2 text-xs font-normal text-muted-foreground line-through">{taka(c.oldPrice)}</span>
                   ) : null}
                 </span>
-                <Button asChild size="sm" className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+                <Button asChild size="sm" className="rounded-full bg-ink font-semibold text-white hover:opacity-85">
                   <a href={`#/checkout?course=${c.slug}`}>
                     Enroll
                     <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
@@ -681,15 +681,15 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
           title={
             cartHasItems ? (
               <>
-                Review &amp; <span className="text-gold-gradient">place your order</span>
+                Review &amp; <span className="text-brand-gradient">place your order</span>
               </>
             ) : showReceipt ? (
               <>
-                Your recent <span className="text-gold-gradient">order</span>
+                Your recent <span className="text-brand-gradient">order</span>
               </>
             ) : (
               <>
-                Choose a <span className="text-gold-gradient">course</span>
+                Choose a <span className="text-brand-gradient">course</span>
               </>
             )
           }
@@ -710,7 +710,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
               <div className="mt-14">
                 <div className="mb-6 text-center">
                   <p className="font-display text-xl font-bold text-foreground md:text-2xl">
-                    অথবা কোর্সে <span className="text-gold-gradient">ভর্তি হতে চান?</span>
+                    অথবা কোর্সে <span className="text-brand-gradient">ভর্তি হতে চান?</span>
                   </p>
                   <p className="mt-1.5 text-sm text-muted-foreground">
                     Live classes, materials ও mock tests — ভর্তির পর সব Student Portal-এ।
@@ -739,15 +739,15 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
           eyebrow="Admission · Checkout"
           title={
             <>
-              Already <span className="text-gold-gradient">enrolled</span>
+              Already <span className="text-brand-gradient">enrolled</span>
             </>
           }
         />
         <section className="py-10 md:py-14">
           <div className="mx-auto max-w-2xl px-4 lg:px-8">
             <div className="rounded-3xl border border-primary/25 bg-card p-8 text-center">
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold-gradient">
-                <BadgeCheck className="h-7 w-7 text-[#16120a]" aria-hidden />
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient">
+                <BadgeCheck className="h-7 w-7 text-white" aria-hidden />
               </span>
               <h2 className="mt-4 font-display text-xl font-bold text-foreground">
                 আপনি ইতিমধ্যে এই কোর্সে ভর্তি
@@ -755,7 +755,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
               <p className="mt-2 text-sm text-muted-foreground">
                 {course.title} — আপনার পোর্টালে routine, materials ও scores দেখুন।
               </p>
-              <Button asChild className="mt-5 bg-gold-gradient px-6 py-6 font-semibold text-[#16120a] hover:opacity-90">
+              <Button asChild className="mt-5 rounded-full bg-ink px-6 py-6 font-semibold text-white hover:opacity-85">
                 <a href="#/portal">
                   <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
                   Go to My Portal
@@ -775,7 +775,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
         eyebrow="Admission · Checkout"
         title={
           <>
-            Enroll in <span className="text-gold-gradient">{course.title}</span>
+            Enroll in <span className="text-brand-gradient">{course.title}</span>
           </>
         }
         subtitle="২ ধাপে ভর্তি সম্পন্ন করুন — account, তারপর payment। কোর্স সাথে সাথেই পোর্টালে যুক্ত হবে।"
@@ -850,7 +850,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                       {course.oldPrice && course.price ? (
                         <div className="flex items-center justify-between">
                           <dt className="text-muted-foreground">Admission discount</dt>
-                          <dd className="font-medium text-emerald-400">−{taka(course.oldPrice - course.price)}</dd>
+                          <dd className="font-medium text-emerald-700">−{taka(course.oldPrice - course.price)}</dd>
                         </div>
                       ) : null}
                     </dl>
@@ -859,7 +859,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
 
                     <div className="flex items-center justify-between">
                       <span className="font-display text-base font-bold text-foreground">Total</span>
-                      <span className="font-display text-2xl font-bold text-gold-gradient">
+                      <span className="font-display text-2xl font-bold text-brand-gradient">
                         {course.price ? taka(course.price) : course.price === 0 ? "৳0" : "Custom"}
                       </span>
                     </div>

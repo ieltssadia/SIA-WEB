@@ -61,8 +61,8 @@ export function LiveSchedule() {
   if (error) {
     return (
       <div className="rounded-2xl border border-red-500/20 bg-red-500/5 px-6 py-10 text-center">
-        <p className="text-sm text-red-300">{error}</p>
-        <Button variant="outline" size="sm" onClick={load} className="mt-4 border-primary/30">
+        <p className="text-sm text-destructive">{error}</p>
+        <Button variant="outline" size="sm" onClick={load} className="mt-4 rounded-full border-border bg-card text-foreground hover:border-primary/50 hover:text-primary">
           আবার চেষ্টা করুন
         </Button>
       </div>
@@ -128,7 +128,7 @@ export function LiveSchedule() {
                 {c.description ? (
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
                 ) : null}
-                <Button asChild className="mt-4 w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+                <Button asChild className="mt-4 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85">
                   <a href={`#/live/${c.slug}`}>
                     <Play className="mr-1.5 h-4 w-4" aria-hidden />
                     ক্লাসে জয়েন করুন
@@ -172,7 +172,7 @@ export function LiveSchedule() {
                 {c.description ? (
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
                 ) : null}
-                <Button asChild variant="outline" className="mt-4 w-full border-primary/30 font-semibold hover:text-primary">
+                <Button asChild variant="outline" className="mt-4 w-full rounded-full border-border bg-card font-semibold text-foreground hover:border-primary/50 hover:text-primary">
                   <a href={`#/live/${c.slug}`}>ওয়েটিং রুমে ঢুকুন</a>
                 </Button>
               </article>

@@ -25,10 +25,10 @@ export function Steps({
               aria-current={active ? "step" : undefined}
               className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
                 done
-                  ? "bg-gold-gradient text-[#16120a]"
+                  ? "bg-primary text-white"
                   : active
-                    ? "border-2 border-primary bg-primary/10 text-primary"
-                    : "border border-border text-muted-foreground"
+                    ? "rounded-full bg-ink text-white"
+                    : "rounded-full bg-secondary text-secondary-foreground"
               }`}
             >
               {done ? "✓" : n}

@@ -12,7 +12,7 @@ import {
 
 /**
  * Portal weekly routine — day tabs with "My Classes / Full Routine" toggle.
- * Gold rows = the student's enrolled batches; shared sessions (speaking club,
+* Highlighted rows = the student's enrolled batches; shared sessions (speaking club,
  * mock, free classes) always count as mine.
  */
 export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
@@ -35,7 +35,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
             <CalendarDays className="h-5 w-5 text-primary" aria-hidden />
             My Weekly Routine
           </h2>
-          <div className="flex rounded-full border border-border bg-[#101014] p-1">
+          <div className="flex rounded-full border border-border bg-secondary p-1">
             {(["mine", "all"] as const).map((mode) => {
               const active = mineOnly === (mode === "mine");
               return (
@@ -46,7 +46,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                   aria-pressed={active}
                   className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
                     active
-                      ? "bg-gold-gradient text-[#16120a]"
+                      ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:text-primary"
                   }`}
                 >
@@ -73,19 +73,19 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                 aria-pressed={isActive}
                 className={`flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-all ${
                   isActive
-                    ? "border-primary/60 bg-gold-gradient text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)]"
-                    : "border-border bg-[#101014] text-muted-foreground hover:border-primary/40 hover:text-primary"
+                    ? "border-primary/60 bg-primary/10 text-primary"
+                    : "border-border bg-secondary text-muted-foreground hover:border-primary/40 hover:text-primary"
                 }`}
               >
                 {d.slice(0, 3)}
                 {isToday ? (
                   <span
-                    className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-[#16120a]" : "bg-emerald-400"}`}
+                    className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-primary" : "bg-emerald-500"}`}
                     title="Today"
                   />
                 ) : null}
                 <span
-                  className={`text-[11px] ${isActive ? "text-[#16120a]/70" : "text-muted-foreground/70"}`}
+                  className={`text-[11px] ${isActive ? "text-primary/80" : "text-muted-foreground/70"}`}
                 >
                   {count}
                 </span>
@@ -96,13 +96,13 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
 
         <div className="mt-4">
           {activeDay === "Friday" ? (
-            <p className="rounded-2xl border border-dashed border-primary/25 bg-[#101014] px-4 py-8 text-center text-sm text-muted-foreground">
+            <p className="rounded-2xl border border-dashed border-border bg-muted/50 px-4 py-8 text-center text-sm text-muted-foreground">
               শুক্রবার সাপ্তাহিক ছুটি — কাল সকাল ১০টায় ক্লাস শুরু হবে।
             </p>
           ) : visibleRows.length > 0 ? (
             <RoutineTable rows={visibleRows} isMine={mine} />
           ) : (
-            <p className="rounded-2xl border border-dashed border-primary/25 bg-[#101014] px-4 py-8 text-center text-sm text-muted-foreground">
+            <p className="rounded-2xl border border-dashed border-border bg-muted/50 px-4 py-8 text-center text-sm text-muted-foreground">
               এই দিনে আপনার ব্যাচের কোনো ক্লাস নেই — {activeDay} এ অন্য ব্যাচের ক্লাস আছে।
               &quot;Full Routine&quot; দেখুন অথবা WhatsApp গ্রুপে নোটিশ ফলো করুন।
             </p>

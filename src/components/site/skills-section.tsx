@@ -14,13 +14,13 @@ const iconMap: Record<string, React.ElementType> = {
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="scroll-mt-24 border-y border-primary/10 bg-[#0d0d10] py-16 md:py-24">
+    <section id="skills" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
           eyebrow="Four Modules"
           title={
             <>
-              Master All Four <span className="text-gold-gradient">IELTS Skills</span>
+              Master All Four <span className="text-brand-gradient">IELTS Skills</span>
             </>
           }
           subtitle="Listening, Reading, Writing ও Speaking — প্রতিটি মডিউলের জন্য আলাদা কৌশল, নিয়মিত প্র্যাকটিস ও ব্যক্তিগত ফিডব্যাক।"
@@ -48,7 +48,7 @@ export function SkillsSection() {
                   </CardContent>
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 bg-gold-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 bg-brand-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   />
                 </Card>
               </Reveal>

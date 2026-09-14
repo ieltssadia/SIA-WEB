@@ -54,15 +54,15 @@ const quickLinks = [
   { label: "Contact", href: "#/contact", icon: MessageCircle },
 ];
 
-/** Gold highlight on keyboard/pointer selection (overrides the neutral accent). */
+/** Light-on-forest palette item — explicit colors, never dark tokens on dark. */
 const itemCls =
-  "data-[selected=true]:bg-primary/10 data-[selected=true]:text-primary";
+  "text-[#EAF4EE] data-[selected=true]:bg-white/10 data-[selected=true]:text-white";
 
 const kbdCls =
-  "inline-flex h-4 min-w-4 items-center justify-center rounded-[3px] border border-primary/20 bg-primary/5 px-1 font-mono text-[10px] leading-none";
+  "inline-flex h-4 min-w-4 items-center justify-center rounded-[3px] border border-white/15 bg-white/5 px-1 font-mono text-[10px] leading-none text-[#8FB3A2]";
 
 const badgeCls =
-  "shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-primary";
+  "shrink-0 rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-[#BFE6D4]";
 
 export function SearchDialog({
   open,
@@ -137,7 +137,7 @@ export function SearchDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="overflow-hidden gap-0 border-primary/25 bg-[#101014] p-0 sm:top-[15%] sm:translate-y-0"
+        className="overflow-hidden gap-0 border-white/10 bg-[#0A241B] p-0 sm:top-[15%] sm:translate-y-0"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>Search Sadia&apos;s IELTS</DialogTitle>
@@ -149,17 +149,18 @@ export function SearchDialog({
         <Command
           loop
           shouldFilter={false}
-          className="w-full rounded-lg bg-[#101014] [&_[data-slot=command-input-wrapper]]:border-primary/15"
+          className="w-full rounded-lg bg-[#0A241B] text-[#EAF4EE] [&_[cmdk-group-heading]]:text-[#8FB3A2] [&_[data-slot=command-input-wrapper]]:border-white/10 [&_[data-slot=command-input-wrapper]]:text-[#A9C6B6]"
         >
           <CommandInput
             value={query}
             onValueChange={setQuery}
             placeholder="Search courses, books, tips…"
+            className="text-[#EAF4EE] placeholder:text-[#8FB3A2]"
           />
           <CommandList className="max-h-[min(60vh,400px)] py-1">
             {!hasQuery ? (
               <>
-                <CommandGroup heading="জনপ্রিয় সার্চ">
+                <CommandGroup heading="জনপ্রিয় সার্চ" className="[&_[cmdk-group-heading]]:text-[#8FB3A2]">
                   {popularSearches.map((term) => (
                     <CommandItem
                       key={term}
@@ -167,13 +168,13 @@ export function SearchDialog({
                       onSelect={() => setQuery(term)}
                       className={itemCls}
                     >
-                      <Search className="text-primary" aria-hidden />
+                      <Search className="text-[#63D6A4]" aria-hidden />
                       <span className="truncate">{term}</span>
                       <ArrowRight className="ml-auto size-3.5 opacity-50" aria-hidden />
                     </CommandItem>
                   ))}
                 </CommandGroup>
-                <CommandGroup heading="Quick Links">
+                <CommandGroup heading="Quick Links" className="[&_[cmdk-group-heading]]:text-[#8FB3A2]">
                   {quickLinks.map((link) => (
                     <CommandItem
                       key={link.href}
@@ -181,7 +182,7 @@ export function SearchDialog({
                       onSelect={() => go(link.href)}
                       className={itemCls}
                     >
-                      <link.icon className="text-primary" aria-hidden />
+                      <link.icon className="text-[#63D6A4]" aria-hidden />
                       <span className="truncate">{link.label}</span>
                       <ArrowRight className="ml-auto size-3.5 opacity-50" aria-hidden />
                     </CommandItem>
@@ -191,7 +192,7 @@ export function SearchDialog({
             ) : null}
 
             {matchedCourses.length > 0 ? (
-              <CommandGroup heading="Courses">
+              <CommandGroup heading="Courses" className="[&_[cmdk-group-heading]]:text-[#8FB3A2]">
                 {matchedCourses.map((course) => (
                   <CommandItem
                     key={course.slug}
@@ -199,13 +200,13 @@ export function SearchDialog({
                     onSelect={() => go(`#/courses/${course.slug}`)}
                     className={itemCls}
                   >
-                    <GraduationCap aria-hidden />
+                    <GraduationCap className="text-[#63D6A4]" aria-hidden />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
                         <span className="truncate font-medium">{course.title}</span>
                         <span className={badgeCls}>{course.tag}</span>
                       </div>
-                      <span className="block truncate text-xs text-muted-foreground">
+                      <span className="block truncate text-xs text-[#8FB3A2]">
                         {course.titleBn}
                       </span>
                     </div>
@@ -218,7 +219,7 @@ export function SearchDialog({
             ) : null}
 
             {matchedBooks.length > 0 ? (
-              <CommandGroup heading="Book Shop">
+              <CommandGroup heading="Book Shop" className="[&_[cmdk-group-heading]]:text-[#8FB3A2]">
                 {matchedBooks.map((book) => (
                   <CommandItem
                     key={book.slug}
@@ -226,13 +227,13 @@ export function SearchDialog({
                     onSelect={() => go("#/shop")}
                     className={itemCls}
                   >
-                    <BookOpen aria-hidden />
+                    <BookOpen className="text-[#63D6A4]" aria-hidden />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
                         <span className="truncate font-medium">{book.title}</span>
                         {book.tag ? <span className={badgeCls}>{book.tag}</span> : null}
                       </div>
-                      <span className="block truncate text-xs text-muted-foreground">
+                      <span className="block truncate text-xs text-[#8FB3A2]">
                         {priceLabel(book.price)}
                       </span>
                     </div>
@@ -242,7 +243,7 @@ export function SearchDialog({
             ) : null}
 
             {matchedTips.length > 0 ? (
-              <CommandGroup heading="Tips & Tricks">
+              <CommandGroup heading="Tips & Tricks" className="[&_[cmdk-group-heading]]:text-[#8FB3A2]">
                 {matchedTips.map((tip, index) => (
                   <CommandItem
                     key={`tip-${index}-${tip.title}`}
@@ -250,10 +251,10 @@ export function SearchDialog({
                     onSelect={() => go("#/tips")}
                     className={itemCls}
                   >
-                    <Lightbulb aria-hidden />
+                    <Lightbulb className="text-[#63D6A4]" aria-hidden />
                     <div className="min-w-0 flex-1">
                       <span className="block truncate font-medium">{tip.title}</span>
-                      <span className="block truncate text-xs text-muted-foreground">
+                      <span className="block truncate text-xs text-[#8FB3A2]">
                         {tip.category}
                       </span>
                     </div>
@@ -266,12 +267,12 @@ export function SearchDialog({
               <button
                 type="button"
                 onClick={askOnWhatsapp}
-                className="flex w-full items-center justify-center gap-2 px-4 py-2 text-sm text-foreground/90 transition-colors hover:bg-primary/10 hover:text-primary"
+                className="flex w-full items-center justify-center gap-2 px-4 py-2 text-sm text-[#EAF4EE] transition-colors hover:bg-white/10 hover:text-white"
               >
-                <MessageCircle className="size-4 text-primary" aria-hidden />
+                <MessageCircle className="size-4 text-[#63D6A4]" aria-hidden />
                 <span>
                   কিছু পাওয়া যায়নি —{" "}
-                  <span className="font-semibold text-primary">
+                  <span className="font-semibold text-[#63D6A4]">
                     WhatsApp-এ জিজ্ঞেস করুন
                   </span>
                 </span>
@@ -280,7 +281,7 @@ export function SearchDialog({
           </CommandList>
 
           {/* Keyboard hints */}
-          <div className="flex items-center gap-3 border-t border-primary/15 px-3 py-2 text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-3 border-t border-white/10 px-3 py-2 text-[11px] text-[#8FB3A2]">
             <span className="flex items-center gap-1">
               <kbd className={kbdCls}>↑↓</kbd> navigate
             </span>

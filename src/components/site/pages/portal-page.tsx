@@ -73,7 +73,7 @@ export function PortalPage() {
           eyebrow="Student Portal"
           title={
             <>
-              Student <span className="text-gold-gradient">Portal</span>
+              Student <span className="text-brand-gradient">Portal</span>
             </>
           }
         />
@@ -93,7 +93,7 @@ export function PortalPage() {
           eyebrow="Student Portal"
           title={
             <>
-              Student <span className="text-gold-gradient">Portal</span>
+              Student <span className="text-brand-gradient">Portal</span>
             </>
           }
           subtitle="শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য প্রাইভেট পোর্টাল — ভর্তির সময় দেওয়া মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগ ইন করুন।"

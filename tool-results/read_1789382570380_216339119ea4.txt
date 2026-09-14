@@ -1,0 +1,907 @@
+     1→"use client";
+     2→
+     3→import { useMemo, useState, type FormEvent } from "react";
+     4→import {
+     5→  ArrowRight,
+     6→  BadgeCheck,
+     7→  Banknote,
+     8→  BookOpen,
+     9→  CalendarDays,
+    10→  CheckCircle2,
+    11→  ChevronRight,
+    12→  Clock,
+    13→  GraduationCap,
+    14→  Landmark,
+    15→  Loader2,
+    16→  Lock,
+    17→  LogIn,
+    18→  ShieldCheck,
+    19→  Smartphone,
+    20→  Timer,
+    21→  UserPlus,
+    22→  Wallet,
+    23→  type LucideIcon,
+    24→} from "lucide-react";
+    25→import { Badge } from "@/components/ui/badge";
+    26→import { Button } from "@/components/ui/button";
+    27→import { Card, CardContent } from "@/components/ui/card";
+    28→import { Input } from "@/components/ui/input";
+    29→import { Label } from "@/components/ui/label";
+    30→import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+    31→import { Separator } from "@/components/ui/separator";
+    32→import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+    33→import { PageHeader } from "@/components/site/page-header";
+    34→import { Reveal } from "@/components/site/reveal";
+    35→import { site, courses, upcomingBatches, type Course } from "@/lib/site-data";
+    36→import { compactCountdown, useOfferCountdown } from "@/lib/offer";
+    37→import { usePortalStore } from "@/lib/portal-store";
+    38→import { useCartStore } from "@/lib/cart-store";
+    39→import { CartCheckout } from "@/components/site/cart-checkout";
+    40→
+    41→/* ------------------------------------------------------------------ */
+    42→/* Payment methods — 10MS-style branded options                        */
+    43→/* ------------------------------------------------------------------ */
+    44→
+    45→type PayMethod = {
+    46→  id: "bKash" | "Nagad" | "Rocket" | "Bank Transfer" | "Cash";
+    47→  label: string;
+    48→  note: string;
+    49→  icon: LucideIcon;
+    50→  color: string;
+    51→  needsTxId: boolean;
+    52→};
+    53→
+    54→const payMethods: PayMethod[] = [
+    55→  {
+    56→    id: "bKash",
+    57→    label: "bKash",
+    58→    note: "Send Money · 01752-716238 (Merchant)",
+    59→    icon: Smartphone,
+    60→    color: "#e2136e",
+    61→    needsTxId: true,
+    62→  },
+    63→  {
+    64→    id: "Nagad",
+    65→    label: "Nagad",
+    66→    note: "Send Money · 01752-716238 (Merchant)",
+    67→    icon: Wallet,
+    68→    color: "#f26522",
+    69→    needsTxId: true,
+    70→  },
+    71→  {
+    72→    id: "Rocket",
+    73→    label: "Rocket",
+    74→    note: "Send Money · 017520716238 (Merchant)",
+    75→    icon: Smartphone,
+    76→    color: "#8c3494",
+    77→    needsTxId: true,
+    78→  },
+    79→  {
+    80→    id: "Bank Transfer",
+    81→    label: "Bank Transfer",
+    82→    note: "A/C: 1023 4567 8901 · Sonali Bank, Sreemangal",
+    83→    icon: Landmark,
+    84→    color: "#2e7d32",
+    85→    needsTxId: true,
+    86→  },
+    87→  {
+    88→    id: "Cash",
+    89→    label: "Cash at Office",
+    90→    note: "Pay at Sreemangal campus — receipt same day",
+    91→    icon: Banknote,
+    92→    color: "#0f766e",
+    93→    needsTxId: false,
+    94→  },
+    95→];
+    96→
+    97→const taka = (n: number) => `৳${n.toLocaleString("en-IN")}`;
+    98→
+    99→function nextBatchOptions(courseSlug: string) {
+   100→  const advertised = upcomingBatches
+   101→    .filter((b) => b.courseSlug === courseSlug)
+   102→    .map((b) => ({
+   103→      batch: b.batch,
+   104→      meta: `${b.starts} · ${b.time} · ${b.seats}`,
+   105→    }));
+   106→  return advertised.length > 0
+   107→    ? advertised
+   108→    : [{ batch: "Batch 322", meta: "Starting soon · rolling admission" }];
+   109→}
+   110→
+   111→/* ------------------------------------------------------------------ */
+   112→/* Step indicator                                                      */
+   113→/* ------------------------------------------------------------------ */
+   114→
+   115→function Steps({ current }: { current: 1 | 2 | 3 }) {
+   116→  const steps = ["Account", "Payment", "Done"];
+   117→  return (
+   118→    <ol className="flex items-center gap-2" aria-label="Checkout steps">
+   119→      {steps.map((label, i) => {
+   120→        const n = (i + 1) as 1 | 2 | 3;
+   121→        const done = n < current;
+   122→        const active = n === current;
+   123→        return (
+   124→          <li key={label} className="flex items-center gap-2">
+   125→            <span
+   126→              aria-current={active ? "step" : undefined}
+   127→              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
+   128→                done
+   129→                  ? "bg-brand-gradient text-white"
+   130→                  : active
+   131→                    ? "border-2 border-primary bg-primary/10 text-primary"
+   132→                    : "border border-border text-muted-foreground"
+   133→              }`}
+   134→            >
+   135→              {done ? "✓" : n}
+   136→            </span>
+   137→            <span
+   138→              className={`text-xs font-semibold sm:text-sm ${
+   139→                active ? "text-foreground" : "text-muted-foreground"
+   140→              }`}
+   141→            >
+   142→              {label}
+   143→            </span>
+   144→            {i < steps.length - 1 ? (
+   145→              <ChevronRight className="h-4 w-4 text-muted-foreground/60" aria-hidden />
+   146→            ) : null}
+   147→          </li>
+   148→        );
+   149→      })}
+   150→    </ol>
+   151→  );
+   152→}
+   153→
+   154→/* ------------------------------------------------------------------ */
+   155→/* Account step — create account / log in                              */
+   156→/* ------------------------------------------------------------------ */
+   157→
+   158→function AccountStep({ onAuthed }: { onAuthed: () => void }) {
+   159→  const setSession = usePortalStore((s) => s.setSession);
+   160→
+   161→  const [mode, setMode] = useState<"signup" | "login">("signup");
+   162→  const [name, setName] = useState("");
+   163→  const [phone, setPhone] = useState("");
+   164→  const [password, setPassword] = useState("");
+   165→  const [confirm, setConfirm] = useState("");
+   166→  const [error, setError] = useState<string | null>(null);
+   167→  const [busy, setBusy] = useState(false);
+   168→
+   169→  async function submit(e: FormEvent<HTMLFormElement>) {
+   170→    e.preventDefault();
+   171→    setError(null);
+   172→    if (mode === "signup" && password !== confirm) {
+   173→      setError("Passwords don't match — আবার লিখুন।");
+   174→      return;
+   175→    }
+   176→    setBusy(true);
+   177→    try {
+   178→      const res = await fetch(
+   179→        mode === "signup" ? "/api/auth/register" : "/api/portal/login",
+   180→        {
+   181→          method: "POST",
+   182→          headers: { "Content-Type": "application/json" },
+   183→          body: JSON.stringify(
+   184→            mode === "signup" ? { name, phone, password } : { phone, password }
+   185→          ),
+   186→        }
+   187→      );
+   188→      const data = (await res.json().catch(() => null)) as
+   189→        | { user?: { name: string; phone: string }; token?: string; error?: string }
+   190→        | null;
+   191→      if (!res.ok || !data?.user) {
+   192→        setError(data?.error ?? "Something went wrong — please try again.");
+   193→        return;
+   194→      }
+   195→      setSession(data.user, [], [], data.token ?? null);
+   196→      onAuthed();
+   197→    } catch {
+   198→      setError("Could not reach the server — check your connection.");
+   199→    } finally {
+   200→      setBusy(false);
+   201→    }
+   202→  }
+   203→
+   204→  return (
+   205→    <div>
+   206→      <h2 className="font-display text-lg font-bold text-foreground">
+   207→        {mode === "signup" ? "Create your student account" : "Log in to continue"}
+   208→      </h2>
+   209→      <p className="mt-1 text-sm text-muted-foreground">
+   210→        কোর্স কিনলে একই account-এ ভর্তি হবে — পোর্টালে সাথে সাথে দেখতে পাবেন।
+   211→      </p>
+   212→
+   213→      <Tabs value={mode} onValueChange={(v) => { setMode(v as "signup" | "login"); setError(null); }} className="mt-4">
+   214→        <TabsList className="grid w-full grid-cols-2 bg-[#0A241B]">
+   215→          <TabsTrigger value="signup" className="gap-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white">
+   216→            <UserPlus className="h-4 w-4" aria-hidden /> Create account
+   217→          </TabsTrigger>
+   218→          <TabsTrigger value="login" className="gap-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white">
+   219→            <LogIn className="h-4 w-4" aria-hidden /> Log in
+   220→          </TabsTrigger>
+   221→        </TabsList>
+   222→
+   223→        <TabsContent value="signup">
+   224→          <form onSubmit={submit} className="mt-4 space-y-3.5" noValidate>
+   225→            <div className="space-y-1.5">
+   226→              <Label htmlFor="co-name">Full name</Label>
+   227→              <Input
+   228→                id="co-name"
+   229→                placeholder="e.g. Rahim Ahmed"
+   230→                value={name}
+   231→                onChange={(e) => { setName(e.target.value); setError(null); }}
+   232→                autoComplete="name"
+   233→              />
+   234→            </div>
+   235→            <PhoneField phone={phone} setPhone={setPhone} setError={setError} />
+   236→            <div className="grid gap-3.5 sm:grid-cols-2">
+   237→              <div className="space-y-1.5">
+   238→                <Label htmlFor="co-pass">Password (min 6)</Label>
+   239→                <Input
+   240→                  id="co-pass"
+   241→                  type="password"
+   242→                  placeholder="Create a password"
+   243→                  value={password}
+   244→                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
+   245→                  autoComplete="new-password"
+   246→                />
+   247→              </div>
+   248→              <div className="space-y-1.5">
+   249→                <Label htmlFor="co-pass2">Confirm password</Label>
+   250→                <Input
+   251→                  id="co-pass2"
+   252→                  type="password"
+   253→                  placeholder="Repeat password"
+   254→                  value={confirm}
+   255→                  onChange={(e) => { setConfirm(e.target.value); setError(null); }}
+   256→                  autoComplete="new-password"
+   257→                />
+   258→              </div>
+   259→            </div>
+   260→            {error ? <ErrorNote text={error} /> : null}
+   261→            <Button type="submit" disabled={busy} className="w-full bg-brand-gradient font-semibold text-white hover:opacity-90 disabled:opacity-60">
+   262→              {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden /> : null}
+   263→              Continue to payment
+   264→              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+   265→            </Button>
+   266→          </form>
+   267→        </TabsContent>
+   268→
+   269→        <TabsContent value="login">
+   270→          <form onSubmit={submit} className="mt-4 space-y-3.5" noValidate>
+   271→            <PhoneField phone={phone} setPhone={setPhone} setError={setError} />
+   272→            <div className="space-y-1.5">
+   273→              <Label htmlFor="co-login-pass">Password</Label>
+   274→              <Input
+   275→                id="co-login-pass"
+   276→                type="password"
+   277→                placeholder="Your portal password"
+   278→                value={password}
+   279→                onChange={(e) => { setPassword(e.target.value); setError(null); }}
+   280→                autoComplete="current-password"
+   281→              />
+   282→            </div>
+   283→            {error ? <ErrorNote text={error} /> : null}
+   284→            <Button type="submit" disabled={busy} className="w-full bg-brand-gradient font-semibold text-white hover:opacity-90 disabled:opacity-60">
+   285→              {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden /> : null}
+   286→              Log in & continue
+   287→              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+   288→            </Button>
+   289→          </form>
+   290→        </TabsContent>
+   291→      </Tabs>
+   292→    </div>
+   293→  );
+   294→}
+   295→
+   296→function PhoneField({
+   297→  phone,
+   298→  setPhone,
+   299→  setError,
+   300→}: {
+   301→  phone: string;
+   302→  setPhone: (v: string) => void;
+   303→  setError: (v: string | null) => void;
+   304→}) {
+   305→  return (
+   306→    <div className="space-y-1.5">
+   307→      <Label htmlFor="co-phone">Mobile number</Label>
+   308→      <div className="flex overflow-hidden rounded-xl border border-input bg-transparent focus-within:ring-2 focus-within:ring-ring/50">
+   309→        <span className="flex items-center gap-1.5 border-r border-input bg-[#0A241B] px-3.5 text-sm font-semibold text-primary">
+   310→          <Smartphone className="h-3.5 w-3.5" aria-hidden />
+   311→          +880
+   312→        </span>
+   313→        <Input
+   314→          id="co-phone"
+   315→          type="tel"
+   316→          inputMode="tel"
+   317→          placeholder="01XXX-XXXXXX"
+   318→          value={phone}
+   319→          onChange={(e) => { setPhone(e.target.value); setError(null); }}
+   320→          maxLength={20}
+   321→          autoComplete="tel"
+   322→          className="rounded-l-none border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+   323→        />
+   324→      </div>
+   325→    </div>
+   326→  );
+   327→}
+   328→
+   329→function ErrorNote({ text }: { text: string }) {
+   330→  return (
+   331→    <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 px-3.5 py-2.5 text-sm text-destructive">
+   332→      {text}
+   333→    </p>
+   334→  );
+   335→}
+   336→
+   337→/* ------------------------------------------------------------------ */
+   338→/* Payment step                                                        */
+   339→/* ------------------------------------------------------------------ */
+   340→
+   341→function OfferCountdownBanner() {
+   342→  const countdown = useOfferCountdown();
+   343→  const left = compactCountdown(countdown);
+   344→  if (!left) return null; // hydration-safe: nothing before mount
+   345→  return (
+   346→    <div
+   347→      className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-gradient-to-r from-[#114430] via-[#0B2E22] to-[#114430] px-4 py-3 text-center"
+   348→      role="status"
+   349→    >
+   350→      <Timer className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+   351→      <p className="text-sm text-foreground/90">
+   352→        <span className="font-semibold text-primary">Admission offer শেষ হতে বাকি: {left}</span>{" "}
+   353→        <span className="text-muted-foreground">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
+   354→      </p>
+   355→    </div>
+   356→  );
+   357→}
+   358→
+   359→function PaymentStep({
+   360→  course,
+   361→  onEnrolled,
+   362→  onBack,
+   363→}: {
+   364→  course: Course;
+   365→  /** Called with the confirmed batch label once enrollment succeeds. */
+   366→  onEnrolled: (batch: string) => void;
+   367→  onBack: () => void;
+   368→}) {
+   369→  const token = usePortalStore((s) => s.token);
+   370→  const setSession = usePortalStore((s) => s.setSession);
+   371→  const logout = usePortalStore((s) => s.logout);
+   372→  const batchOptions = useMemo(() => nextBatchOptions(course.slug), [course.slug]);
+   373→
+   374→  const [batch, setBatch] = useState(batchOptions[0].batch);
+   375→  const [method, setMethod] = useState<PayMethod["id"]>("bKash");
+   376→  const [txId, setTxId] = useState("");
+   377→  const [error, setError] = useState<string | null>(null);
+   378→  const [busy, setBusy] = useState(false);
+   379→
+   380→  const selected = payMethods.find((m) => m.id === method)!;
+   381→
+   382→  // Reset batch if options change (course switched)
+   383→  const [prevCourse, setPrevCourse] = useState(course.slug);
+   384→  if (prevCourse !== course.slug) {
+   385→    setPrevCourse(course.slug);
+   386→    setBatch(batchOptions[0].batch);
+   387→  }
+   388→
+   389→  async function confirm() {
+   390→    setError(null);
+   391→    setBusy(true);
+   392→    try {
+   393→      const res = await fetch("/api/portal/enroll", {
+   394→        method: "POST",
+   395→        headers: {
+   396→          "Content-Type": "application/json",
+   397→          Authorization: `Bearer ${token ?? ""}`,
+   398→        },
+   399→        body: JSON.stringify({
+   400→          courseSlug: course.slug,
+   401→          batch,
+   402→          paymentMethod: method,
+   403→          transactionId: txId,
+   404→        }),
+   405→      });
+   406→      const data = (await res.json().catch(() => null)) as
+   407→        | {
+   408→            user?: { name: string; phone: string };
+   409→            enrollments?: never[];
+   410→            mocks?: never[];
+   411→            token?: string;
+   412→            error?: string;
+   413→          }
+   414→        | null;
+   415→      if (res.status === 401) {
+   416→        logout();
+   417→        setError("Session expired — please log in again.");
+   418→        onBack();
+   419→        return;
+   420→      }
+   421→      if (!res.ok || !data?.user) {
+   422→        setError(data?.error ?? "Enrollment failed — please try again.");
+   423→        return;
+   424→      }
+   425→      setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token ?? null);
+   426→      onEnrolled(batch);
+   427→    } catch {
+   428→      setError("Could not reach the server — check your connection.");
+   429→    } finally {
+   430→      setBusy(false);
+   431→    }
+   432→  }
+   433→
+   434→  return (
+   435→    <div className="space-y-6">
+   436→      <OfferCountdownBanner />
+   437→      <div>
+   438→        <h2 className="font-display text-lg font-bold text-foreground">Choose your batch</h2>
+   439→        <RadioGroup value={batch} onValueChange={setBatch} className="mt-3 space-y-2">
+   440→          {batchOptions.map((b) => (
+   441→            <Label
+   442→              key={b.batch}
+   443→              htmlFor={`batch-${b.batch}`}
+   444→              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
+   445→                batch === b.batch ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-[#0A241B] hover:border-primary/30"
+   446→              }`}
+   447→            >
+   448→              <RadioGroupItem id={`batch-${b.batch}`} value={b.batch} />
+   449→              <span className="min-w-0">
+   450→                <span className="block text-sm font-bold text-foreground">{b.batch}</span>
+   451→                <span className="block text-xs text-muted-foreground">{b.meta}</span>
+   452→              </span>
+   453→              <CalendarDays className="ml-auto h-4 w-4 shrink-0 text-primary" aria-hidden />
+   454→            </Label>
+   455→          ))}
+   456→        </RadioGroup>
+   457→      </div>
+   458→
+   459→      <Separator className="bg-primary/10" />
+   460→
+   461→      <div>
+   462→        <h2 className="font-display text-lg font-bold text-foreground">Payment method</h2>
+   463→        <RadioGroup value={method} onValueChange={(v) => setMethod(v as PayMethod["id"])} className="mt-3 space-y-2">
+   464→          {payMethods.map((m) => {
+   465→            const Icon = m.icon;
+   466→            return (
+   467→              <Label
+   468→                key={m.id}
+   469→                htmlFor={`pay-${m.id}`}
+   470→                className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
+   471→                  method === m.id ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-[#0A241B] hover:border-primary/30"
+   472→                }`}
+   473→              >
+   474→                <RadioGroupItem id={`pay-${m.id}`} value={m.id} />
+   475→                <span
+   476→                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white"
+   477→                  style={{ backgroundColor: m.color }}
+   478→                  aria-hidden
+   479→                >
+   480→                  <Icon className="h-4.5 w-4.5" />
+   481→                </span>
+   482→                <span className="min-w-0">
+   483→                  <span className="block text-sm font-bold text-foreground">{m.label}</span>
+   484→                  <span className="block truncate text-xs text-muted-foreground">{m.note}</span>
+   485→                </span>
+   486→              </Label>
+   487→            );
+   488→          })}
+   489→        </RadioGroup>
+   490→
+   491→        {selected.needsTxId ? (
+   492→          <div className="mt-3 space-y-1.5">
+   493→            <Label htmlFor="co-txid">Transaction ID (optional here)</Label>
+   494→            <Input
+   495→              id="co-txid"
+   496→              placeholder="Demo checkout — any text works"
+   497→              value={txId}
+   498→              onChange={(e) => setTxId(e.target.value)}
+   499→              maxLength={60}
+   500→            />
+   501→            <p className="text-xs text-muted-foreground">
+   502→              ডেমো মোড — আসল পেমেন্ট হয় না। প্রোডাকশনে TrxID ভেরিফিকেশন যুক্ত হবে।
+   503→            </p>
+   504→          </div>
+   505→        ) : null}
+   506→      </div>
+   507→
+   508→      {error ? <ErrorNote text={error} /> : null}
+   509→
+   510→      <div className="flex flex-col gap-2.5 sm:flex-row">
+   511→        <Button
+   512→          onClick={confirm}
+   513→          disabled={busy}
+   514→          className="flex-1 bg-brand-gradient py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,138,96,0.25)] hover:opacity-90 disabled:opacity-60"
+   515→        >
+   516→          {busy ? (
+   517→            <>
+   518→              <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden />
+   519→              Processing...
+   520→            </>
+   521→          ) : (
+   522→            <>
+   523→              <ShieldCheck className="mr-2 h-5 w-5" aria-hidden />
+   524→              Confirm Enrollment · {course.price === 0 ? "Free" : course.price ? taka(course.price) : "Custom"}
+   525→            </>
+   526→          )}
+   527→        </Button>
+   528→        <Button variant="outline" onClick={onBack} disabled={busy} className="border-primary/25 hover:text-primary">
+   529→          Back
+   530→        </Button>
+   531→      </div>
+   532→
+   533→      <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+   534→        <Lock className="h-3.5 w-3.5" aria-hidden />
+   535→        Secure demo checkout · bKash / Nagad / Rocket / Bank / Cash accepted
+   536→      </p>
+   537→    </div>
+   538→  );
+   539→}
+   540→
+   541→/* ------------------------------------------------------------------ */
+   542→/* Success step                                                        */
+   543→/* ------------------------------------------------------------------ */
+   544→
+   545→function SuccessStep({ course, batch, name }: { course: Course; batch: string; name: string }) {
+   546→  return (
+   547→    <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-8 text-center md:p-12">
+   548→      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-radial-glow blur-2xl" />
+   549→      <div className="relative">
+   550→        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(16,138,96,0.45)]">
+   551→          <CheckCircle2 className="h-8 w-8 text-white" aria-hidden />
+   552→        </span>
+   553→        <h2 className="mt-5 font-display text-2xl font-bold text-foreground md:text-3xl">
+   554→          Enrollment <span className="text-brand-gradient">confirmed!</span>
+   555→        </h2>
+   556→        <p className="mt-2 text-sm text-muted-foreground md:text-base">
+   557→          অভিনন্দন {name.split(" ")[0]}! ভর্তি সম্পন্ন হয়েছে — কোর্সটি এখন আপনার পোর্টালে।
+   558→        </p>
+   559→        <div className="mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-2">
+   560→          <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary">
+   561→            {course.title}
+   562→          </Badge>
+   563→          <Badge variant="outline" className="border-border px-3 py-1.5 text-sm font-semibold text-foreground">
+   564→            {batch}
+   565→          </Badge>
+   566→        </div>
+   567→        <p className="mt-6 text-sm text-muted-foreground">
+   568→          Class routine, materials, notices — সব এখন{" "}
+   569→          <span className="font-semibold text-primary">Student Portal</span>-এ দেখুন।
+   570→        </p>
+   571→        <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+   572→          <Button asChild className="bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
+   573→            <a href="#/portal">
+   574→              <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
+   575→              Go to My Portal
+   576→            </a>
+   577→          </Button>
+   578→          <Button asChild variant="outline" className="border-primary/25 px-6 py-6 font-semibold hover:text-primary">
+   579→            <a href="#/courses">Browse more courses</a>
+   580→          </Button>
+   581→        </div>
+   582→      </div>
+   583→    </div>
+   584→  );
+   585→}
+   586→
+   587→/* ------------------------------------------------------------------ */
+   588→/* Course picker (when no course is selected)                          */
+   589→/* ------------------------------------------------------------------ */
+   590→
+   591→function CoursePicker() {
+   592→  return (
+   593→    <div className="grid gap-4 sm:grid-cols-2">
+   594→      {courses.map((c, i) => (
+   595→        <Reveal key={c.slug} delay={i * 0.04} y={10}>
+   596→          <Card className="h-full border-border bg-card transition-colors hover:border-primary/40">
+   597→            <CardContent className="flex h-full flex-col p-5">
+   598→              <div className="flex items-start justify-between gap-3">
+   599→                <h3 className="font-display text-base font-bold leading-snug text-foreground">{c.title}</h3>
+   600→                <Badge variant="outline" className="shrink-0 border-primary/40 text-[11px] text-primary">
+   601→                  {c.tag}
+   602→                </Badge>
+   603→              </div>
+   604→              <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{c.desc}</p>
+   605→              <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+   606→                <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" aria-hidden />{c.lessons} lessons</span>
+   607→                <span className="flex items-center gap-1"><Clock className="h-3 w-3" aria-hidden />{c.duration}</span>
+   608→                <span>{c.mode}</span>
+   609→              </div>
+   610→              <div className="mt-auto flex items-center justify-between pt-4">
+   611→                <span className="font-display text-lg font-bold text-brand-gradient">
+   612→                  {c.price === 0 ? "Free" : c.price ? taka(c.price) : "Custom"}
+   613→                  {c.oldPrice ? (
+   614→                    <span className="ml-2 text-xs font-normal text-muted-foreground line-through">{taka(c.oldPrice)}</span>
+   615→                  ) : null}
+   616→                </span>
+   617→                <Button asChild size="sm" className="bg-brand-gradient font-semibold text-white hover:opacity-90">
+   618→                  <a href={`#/checkout?course=${c.slug}`}>
+   619→                    Enroll
+   620→                    <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+   621→                  </a>
+   622→                </Button>
+   623→              </div>
+   624→            </CardContent>
+   625→          </Card>
+   626→        </Reveal>
+   627→      ))}
+   628→    </div>
+   629→  );
+   630→}
+   631→
+   632→/* ------------------------------------------------------------------ */
+   633→/* Checkout page                                                       */
+   634→/* ------------------------------------------------------------------ */
+   635→
+   636→export function CheckoutPage({ initialCourse }: { initialCourse: string | null }) {
+   637→  const user = usePortalStore((s) => s.user);
+   638→  const enrollments = usePortalStore((s) => s.enrollments);
+   639→  const hasHydrated = usePortalStore((s) => s.hasHydrated);
+   640→  const cartItems = useCartStore((s) => s.items);
+   641→  const cartLastOrder = useCartStore((s) => s.lastOrder);
+   642→  const cartHydrated = useCartStore((s) => s.hasHydrated);
+   643→
+   644→  const [courseSlug, setCourseSlug] = useState(initialCourse);
+   645→  const [step, setStep] = useState<1 | 2 | 3>(1);
+   646→  const [enrolledBatch, setEnrolledBatch] = useState<string | null>(null);
+   647→
+   648→  // Logged-in visitors skip account creation (render-time state adjustment).
+   649→  // prevAuthed starts false so a visitor who arrives while ALREADY logged in
+   650→  // still advances from step 1 → 2 on the first post-hydration render.
+   651→  const authed = hasHydrated && !!user;
+   652→  const [prevAuthed, setPrevAuthed] = useState(false);
+   653→  if (authed !== prevAuthed) {
+   654→    setPrevAuthed(authed);
+   655→    if (authed) setStep((s) => (s === 1 ? 2 : s));
+   656→    else setStep(1);
+   657→  }
+   658→
+   659→  // The course comes from the hash query — sync prop → state when the
+   660→  // visitor switches courses (render-time adjustment; useState ignores
+   661→  // new prop values on re-render)
+   662→  const [prevInitial, setPrevInitial] = useState(initialCourse);
+   663→  if (initialCourse !== prevInitial) {
+   664→    setPrevInitial(initialCourse);
+   665→    setCourseSlug(initialCourse);
+   666→    setEnrolledBatch(null);
+   667→    setStep(authed ? 2 : 1);
+   668→  }
+   669→
+   670→  const course = courses.find((c) => c.slug === courseSlug) ?? null;
+   671→  const alreadyEnrolled = !!(course && user && enrollments.some((e) => e.courseSlug === course.slug));
+   672→
+   673→  /* --- No course chosen → cart checkout (+ course picker when cart is empty) --- */
+   674→  if (!course) {
+   675→    const cartHasItems = cartHydrated && cartItems.length > 0;
+   676→    const showReceipt = cartHydrated && !cartHasItems && !!cartLastOrder;
+   677→    return (
+   678→      <>
+   679→        <PageHeader
+   680→          eyebrow={cartHasItems || showReceipt ? "Book Shop · Checkout" : "Admission · Checkout"}
+   681→          title={
+   682→            cartHasItems ? (
+   683→              <>
+   684→                Review &amp; <span className="text-brand-gradient">place your order</span>
+   685→              </>
+   686→            ) : showReceipt ? (
+   687→              <>
+   688→                Your recent <span className="text-brand-gradient">order</span>
+   689→              </>
+   690→            ) : (
+   691→              <>
+   692→                Choose a <span className="text-brand-gradient">course</span>
+   693→              </>
+   694→            )
+   695→          }
+   696→          subtitle={
+   697→            cartHasItems
+   698→              ? "ডেলিভারি ডিটেইলস দিন, পেমেন্ট বেছে নিন — অর্ডার কনফার্ম করতে ২৪ ঘণ্টার মধ্যে আমরা কল দেব।"
+   699→              : showReceipt
+   700→                ? "আপনার সর্বশেষ অর্ডারের রসিদ — পেমেন্ট ও ডেলিভারি তথ্য একসাথে।"
+   701→                : "যে কোর্সে ভর্তি হতে চান বেছে নিন — payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
+   702→          }
+   703→        />
+   704→        <section className="py-10 md:py-14">
+   705→          <div className="mx-auto max-w-7xl px-4 lg:px-8">
+   706→            <CartCheckout />
+   707→
+   708→            {/* Course picker stays reachable when the cart is empty */}
+   709→            {cartHydrated && !cartHasItems && !cartLastOrder ? (
+   710→              <div className="mt-14">
+   711→                <div className="mb-6 text-center">
+   712→                  <p className="font-display text-xl font-bold text-foreground md:text-2xl">
+   713→                    অথবা কোর্সে <span className="text-brand-gradient">ভর্তি হতে চান?</span>
+   714→                  </p>
+   715→                  <p className="mt-1.5 text-sm text-muted-foreground">
+   716→                    Live classes, materials ও mock tests — ভর্তির পর সব Student Portal-এ।
+   717→                  </p>
+   718→                </div>
+   719→                {hasHydrated && user && enrollments.length > 0 ? (
+   720→                  <p className="mx-auto mb-6 flex max-w-xl items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
+   721→                    <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
+   722→                    আপনার পোর্টালে {enrollments.length}টি কোর্স আছে — নতুন কোর্স যোগ করতে পারেন।
+   723→                  </p>
+   724→                ) : null}
+   725→                <CoursePicker />
+   726→              </div>
+   727→            ) : null}
+   728→          </div>
+   729→        </section>
+   730→      </>
+   731→    );
+   732→  }
+   733→
+   734→  /* --- Already enrolled → portal CTA (but not during the success step) --- */
+   735→  if (alreadyEnrolled && step !== 3) {
+   736→    return (
+   737→      <>
+   738→        <PageHeader
+   739→          eyebrow="Admission · Checkout"
+   740→          title={
+   741→            <>
+   742→              Already <span className="text-brand-gradient">enrolled</span>
+   743→            </>
+   744→          }
+   745→        />
+   746→        <section className="py-10 md:py-14">
+   747→          <div className="mx-auto max-w-2xl px-4 lg:px-8">
+   748→            <div className="rounded-3xl border border-primary/25 bg-card p-8 text-center">
+   749→              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient">
+   750→                <BadgeCheck className="h-7 w-7 text-white" aria-hidden />
+   751→              </span>
+   752→              <h2 className="mt-4 font-display text-xl font-bold text-foreground">
+   753→                আপনি ইতিমধ্যে এই কোর্সে ভর্তি
+   754→              </h2>
+   755→              <p className="mt-2 text-sm text-muted-foreground">
+   756→                {course.title} — আপনার পোর্টালে routine, materials ও scores দেখুন।
+   757→              </p>
+   758→              <Button asChild className="mt-5 bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
+   759→                <a href="#/portal">
+   760→                  <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
+   761→                  Go to My Portal
+   762→                </a>
+   763→              </Button>
+   764→            </div>
+   765→          </div>
+   766→        </section>
+   767→      </>
+   768→    );
+   769→  }
+   770→
+   771→  /* --- Main checkout --- */
+   772→  return (
+   773→    <>
+   774→      <PageHeader
+   775→        eyebrow="Admission · Checkout"
+   776→        title={
+   777→          <>
+   778→            Enroll in <span className="text-brand-gradient">{course.title}</span>
+   779→          </>
+   780→        }
+   781→        subtitle="২ ধাপে ভর্তি সম্পন্ন করুন — account, তারপর payment। কোর্স সাথে সাথেই পোর্টালে যুক্ত হবে।"
+   782→      />
+   783→
+   784→      <section className="py-10 md:py-14">
+   785→        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+   786→          {step === 3 && course && enrolledBatch && user ? (
+   787→            <div className="mx-auto max-w-3xl">
+   788→              <SuccessStep course={course} batch={enrolledBatch} name={user.name} />
+   789→            </div>
+   790→          ) : (
+   791→            <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
+   792→              {/* Left: steps */}
+   793→              <Reveal y={12}>
+   794→                <Card className="border-primary/20 bg-card">
+   795→                  <CardContent className="space-y-6 p-6 md:p-8">
+   796→                    <Steps current={step} />
+   797→
+   798→                    {step === 1 ? (
+   799→                      <AccountStep onAuthed={() => setStep(2)} />
+   800→                    ) : null}
+   801→
+   802→                    {step === 2 && user ? (
+   803→                      <PaymentStep
+   804→                        course={course}
+   805→                        onEnrolled={(batch) => {
+   806→                          setEnrolledBatch(batch);
+   807→                          setStep(3);
+   808→                        }}
+   809→                        onBack={() => setStep(1)}
+   810→                      />
+   811→                    ) : null}
+   812→
+   813→                    {step === 2 && !user ? (
+   814→                      <p className="text-sm text-destructive">
+   815→                        Session lost — আবার account step-এ ফিরে যান।
+   816→                      </p>
+   817→                    ) : null}
+   818→                  </CardContent>
+   819→                </Card>
+   820→              </Reveal>
+   821→
+   822→              {/* Right: order summary */}
+   823→              <Reveal y={12} delay={0.08}>
+   824→                <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
+   825→                  <CardContent className="p-6">
+   826→                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+   827→                      Order summary
+   828→                    </p>
+   829→                    <h2 className="mt-2 font-display text-lg font-bold leading-snug text-foreground">
+   830→                      {course.title}
+   831→                    </h2>
+   832→                    <p className="mt-1 text-xs text-muted-foreground">{course.titleBn}</p>
+   833→
+   834→                    <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+   835→                      <Badge variant="outline" className="border-border font-normal">{course.lessons} lessons</Badge>
+   836→                      <Badge variant="outline" className="border-border font-normal">{course.duration}</Badge>
+   837→                      <Badge variant="outline" className="border-border font-normal">{course.mode}</Badge>
+   838→                    </div>
+   839→
+   840→                    <Separator className="my-4 bg-primary/10" />
+   841→
+   842→                    <dl className="space-y-2 text-sm">
+   843→                      <div className="flex items-center justify-between">
+   844→                        <dt className="text-muted-foreground">Course fee</dt>
+   845→                        <dd className="text-foreground">
+   846→                          {course.oldPrice ? <span className="mr-2 text-muted-foreground line-through">{taka(course.oldPrice)}</span> : null}
+   847→                          {course.price ? taka(course.price) : course.price === 0 ? "Free" : "—"}
+   848→                        </dd>
+   849→                      </div>
+   850→                      {course.oldPrice && course.price ? (
+   851→                        <div className="flex items-center justify-between">
+   852→                          <dt className="text-muted-foreground">Admission discount</dt>
+   853→                          <dd className="font-medium text-emerald-400">−{taka(course.oldPrice - course.price)}</dd>
+   854→                        </div>
+   855→                      ) : null}
+   856→                    </dl>
+   857→
+   858→                    <Separator className="my-4 bg-primary/10" />
+   859→
+   860→                    <div className="flex items-center justify-between">
+   861→                      <span className="font-display text-base font-bold text-foreground">Total</span>
+   862→                      <span className="font-display text-2xl font-bold text-brand-gradient">
+   863→                        {course.price ? taka(course.price) : course.price === 0 ? "৳0" : "Custom"}
+   864→                      </span>
+   865→                    </div>
+   866→                    {course.price ? (
+   867→                      <p className="mt-2 text-xs text-muted-foreground">
+   868→                        {Math.round(((course.oldPrice ?? course.price) - course.price) / (course.oldPrice ?? course.price) * 100)}% admission offer applied
+   869→                      </p>
+   870→                    ) : null}
+   871→
+   872→                    <Separator className="my-4 bg-primary/10" />
+   873→
+   874→                    <ul className="space-y-2 text-xs text-muted-foreground">
+   875→                      {course.features.map((f) => (
+   876→                        <li key={f} className="flex items-start gap-2">
+   877→                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+   878→                          {f}
+   879→                        </li>
+   880→                      ))}
+   881→                    </ul>
+   882→
+   883→                    <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
+   884→                      ভর্তির পর portal account-এ লগ ইন করে routine, materials, mock scores — সব দেখতে পাবেন।
+   885→                      প্রশ্ন থাকলে কল করুন {site.phone}।
+   886→                    </p>
+   887→                  </CardContent>
+   888→                </Card>
+   889→              </Reveal>
+   890→            </div>
+   891→          )}
+   892→
+   893→          {/* Course switcher */}
+   894→          {step !== 3 ? (
+   895→            <p className="mt-6 text-center text-xs text-muted-foreground">
+   896→              ভুল কোর্স?{" "}
+   897→              <a href="#/checkout" onClick={() => setCourseSlug(null)} className="font-semibold text-primary hover:underline">
+   898→                অন্য কোর্স বেছে নিন
+   899→              </a>
+   900→            </p>
+   901→          ) : null}
+   902→        </div>
+   903→      </section>
+   904→    </>
+   905→  );
+   906→}
+   907→

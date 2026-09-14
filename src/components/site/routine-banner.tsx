@@ -23,7 +23,7 @@ export function RoutineBanner() {
   const isOff = today === "Friday";
 
   return (
-    <section className="border-y border-primary/10 bg-[#0b0b0e] py-16 md:py-20">
+    <section className="py-16 md:py-20">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 lg:grid-cols-2 lg:px-8">
         {/* Copy */}
         <Reveal>
@@ -32,7 +32,7 @@ export function RoutineBanner() {
             Online Class Routine
           </span>
           <h2 className="font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            Live Classes <span className="text-gold-gradient">Every Single Day</span>
+            Live Classes <span className="text-brand-gradient">Every Single Day</span>
           </h2>
           <p className="mt-4 max-w-lg leading-relaxed text-muted-foreground">
             সপ্তাহে ৬ দিন — সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস চলে। অনলাইনে (Zoom) অথবা
@@ -57,7 +57,7 @@ export function RoutineBanner() {
             <Button
               asChild
               size="lg"
-              className="bg-gold-gradient font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
             >
               <a href="#/portal">
                 <LogIn className="mr-2 h-4 w-4" aria-hidden />
@@ -68,7 +68,7 @@ export function RoutineBanner() {
               asChild
               size="lg"
               variant="outline"
-              className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+              className="rounded-full border-border bg-card text-foreground font-medium hover:border-primary/50 hover:text-primary"
             >
               <a href="#/routine">Routine &amp; Free Classes</a>
             </Button>
@@ -77,10 +77,10 @@ export function RoutineBanner() {
 
         {/* Right card: today's classes for logged-in students, locked teaser otherwise */}
         <Reveal delay={0.1}>
-          <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
-            <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] px-6 py-4">
-              <p className="flex items-center gap-2 font-display text-base font-bold text-foreground">
-                <Clock className="h-4.5 w-4.5 text-primary" aria-hidden />
+          <Card className="overflow-hidden border-border shadow-[0_20px_60px_rgba(16,22,19,0.14)]">
+            <div className="flex items-center justify-between gap-3 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] px-6 py-4">
+              <p className="flex items-center gap-2 font-display text-base font-bold text-[#EAF4EE]">
+                <Clock className="h-4.5 w-4.5 text-[#63D6A4]" aria-hidden />
                 {enrolled
                   ? today
                     ? `Today · ${today}`
@@ -88,7 +88,7 @@ export function RoutineBanner() {
                   : "Class Routine — Members Only"}
               </p>
               {enrolled ? (
-                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#A9C6B6]">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -96,8 +96,8 @@ export function RoutineBanner() {
                   Live Classes
                 </span>
               ) : (
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gold-gradient">
-                  <LockKeyhole className="h-3.5 w-3.5 text-[#16120a]" aria-hidden />
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-gradient">
+                  <LockKeyhole className="h-3.5 w-3.5 text-white" aria-hidden />
                 </span>
               )}
             </div>
@@ -115,7 +115,7 @@ export function RoutineBanner() {
                     {rows.map((row) => (
                       <div
                         key={`${row.day}-${row.start}-${row.topic}`}
-                        className="flex items-start gap-3 rounded-xl border border-border bg-[#101014] p-3.5"
+                        className="flex items-start gap-3 rounded-xl border border-border bg-secondary p-3.5"
                       >
                         <div className="w-24 shrink-0">
                           <p className="text-sm font-semibold text-foreground">{row.start}</p>
@@ -138,7 +138,7 @@ export function RoutineBanner() {
                     </a>
                   </>
                 ) : (
-                  <div className="rounded-xl border border-border bg-[#101014] px-4 py-8 text-center">
+                  <div className="rounded-xl border border-border bg-secondary px-4 py-8 text-center">
                     <Clock className="mx-auto h-6 w-6 text-primary" aria-hidden />
                     <p className="mt-2 font-semibold text-foreground">Classes run Sat – Thu</p>
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -148,13 +148,13 @@ export function RoutineBanner() {
                 )
               ) : (
                 <>
-                  <p className="rounded-xl border border-dashed border-primary/25 bg-[#101014] px-4 py-5 text-center text-sm leading-relaxed text-muted-foreground">
+                  <p className="rounded-xl border border-dashed border-primary/25 bg-secondary px-4 py-5 text-center text-sm leading-relaxed text-muted-foreground">
                     সম্পূর্ণ রুটিন, ব্যাচের ক্লাস ও Zoom লিংক শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য —
                     enrolled নম্বর দিয়ে পোর্টালে লগ ইন করুন।
                   </p>
                   <Button
                     asChild
-                    className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                    className="w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
                   >
                     <a href="#/portal">
                       <LogIn className="mr-1.5 h-4 w-4" aria-hidden />

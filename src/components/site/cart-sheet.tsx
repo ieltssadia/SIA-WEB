@@ -32,7 +32,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
 
   const body = (
     <div className="flex h-full flex-col">
-      <SheetHeader className="border-b border-primary/10 pb-4">
+      <SheetHeader className="border-b border-border pb-4">
         <SheetTitle className="flex items-center gap-2 font-display text-lg font-bold">
           <ShoppingBag className="h-5 w-5 text-primary" aria-hidden />
           Your Cart {hasHydrated && count > 0 ? <span className="text-sm font-semibold text-primary">({count})</span> : null}
@@ -51,7 +51,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
           </span>
           <p className="font-display text-base font-bold text-foreground">আপনার কার্ট খালি</p>
           <p className="text-sm text-muted-foreground">Shop থেকে পছন্দের বইগুলো কার্টে যোগ করুন।</p>
-          <Button asChild variant="outline" className="mt-2 border-primary/30 font-semibold hover:text-primary">
+          <Button asChild variant="outline" className="mt-2 rounded-full border-border bg-card text-foreground font-semibold hover:border-primary/50 hover:text-primary">
             <a href="#/shop" onClick={() => onOpenChange?.(false)}>
               Browse Books
             </a>
@@ -66,7 +66,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
               আর {taka(toFree)} যোগ করলেই সারাদেশে <span className="font-bold">ফ্রি কুরিয়ার</span>! (৳{FREE_COURIER_THRESHOLD.toLocaleString("en-US")}+)
             </p>
           ) : (
-            <p className="mx-4 mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-[11px] font-semibold text-emerald-400">
+            <p className="mx-4 mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-[11px] font-semibold text-emerald-700">
               <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden />
               অভিনন্দন! কুরিয়ার ডেলিভারি এখন ফ্রি 🎉
             </p>
@@ -77,7 +77,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
             {items.map((item) => (
               <li
                 key={item.slug}
-                className="flex gap-3 rounded-2xl border border-border bg-[#0b0b0e] p-3"
+                className="flex gap-3 rounded-2xl border border-border bg-muted/60 p-3"
               >
                 <div className="relative h-20 w-15 shrink-0 overflow-hidden rounded-lg border border-primary/15">
                   <Image src={item.cover} alt="" fill sizes="60px" className="object-cover" />
@@ -127,15 +127,15 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
           </ul>
 
           {/* Footer */}
-          <div className="border-t border-primary/10 px-4 py-4">
+          <div className="border-t border-border px-4 py-4">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Subtotal</span>
-              <span className="font-display text-lg font-bold text-gold-gradient">{taka(subtotal)}</span>
+              <span className="font-display text-lg font-bold text-ink">{taka(subtotal)}</span>
             </div>
             <p className="mt-1 text-[11px] text-muted-foreground">
               Delivery fee checkout-এ যোগ হবে (Sreemangal-এ ফ্রি)।
             </p>
-            <Button asChild className="mt-3 w-full bg-gold-gradient py-5 font-bold text-[#16120a] hover:opacity-90">
+            <Button asChild className="mt-3 w-full rounded-full bg-ink py-5 font-bold text-white hover:opacity-85">
               <a href="#/checkout" onClick={() => onOpenChange?.(false)}>
                 Checkout — অর্ডার করুন
                 <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
@@ -153,7 +153,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
       {trigger ? <SheetTrigger asChild>{trigger}</SheetTrigger> : null}
       <SheetContent
         side="right"
-        className="flex w-[360px] max-w-[92vw] flex-col border-l border-primary/15 bg-[#101014] p-0 sm:w-[400px]"
+        className="flex w-[360px] max-w-[92vw] flex-col border-l border-border bg-card p-0 sm:w-[400px]"
       >
         {body}
       </SheetContent>

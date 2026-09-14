@@ -18,7 +18,7 @@ export function FaqSection() {
           eyebrow="FAQs"
           title={
             <>
-              Frequently Asked <span className="text-gold-gradient">Questions</span>
+              Frequently Asked <span className="text-brand-gradient">Questions</span>
             </>
           }
           subtitle="আপনার মনে যে প্রশ্নগুলো ঘুরছে — উত্তর এখানেই আছে।"

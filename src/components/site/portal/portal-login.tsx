@@ -79,35 +79,35 @@ export function PortalLogin() {
         <div className="mx-auto grid max-w-4xl items-stretch gap-6 lg:grid-cols-[1fr_1.1fr]">
           {/* Benefits panel */}
           <Reveal>
-            <div className="flex h-full flex-col justify-center rounded-3xl border border-primary/20 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-7">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-gradient">
-                <LockKeyhole className="h-5.5 w-5.5 text-[#16120a]" aria-hidden />
+            <div className="flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-7">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-gradient">
+                <LockKeyhole className="h-5.5 w-5.5 text-white" aria-hidden />
               </span>
-              <h2 className="mt-4 font-display text-2xl font-bold text-foreground">
+              <h2 className="mt-4 font-display text-2xl font-bold text-[#EAF4EE]">
                 শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য{" "}
-                <span className="text-gold-gradient">প্রাইভেট পোর্টাল</span>
+                <span className="text-[#63D6A4]">প্রাইভেট পোর্টাল</span>
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-[#A9C6B6]">
                 Account খুলে কোর্স কিনুন — অথবা ভর্তির সময় পাওয়া credential দিয়ে লগ ইন করুন।
                 পোর্টালের সব কনটেন্ট শুধু আপনার জন্য।
               </p>
-              <ul className="mt-5 space-y-2.5 text-sm text-foreground/85">
+              <ul className="mt-5 space-y-2.5 text-sm text-[#EAF4EE]/90">
                 {benefits.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#63D6A4]" aria-hidden />
                     {item}
                   </li>
                 ))}
               </ul>
-              <Separator className="my-5 bg-primary/15" />
+              <Separator className="my-5 bg-white/10" />
               <div className="grid grid-cols-3 gap-3 text-center">
                 {stats.slice(0, 3).map((s) => (
-                  <div key={s.label} className="rounded-2xl border border-primary/15 bg-[#141419]/60 px-2 py-3">
-                    <p className="font-display text-lg font-bold text-gold-gradient">
+                  <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.05] px-2 py-3">
+                    <p className="font-display text-lg font-bold text-[#63D6A4]">
                       {s.value}
                       {s.suffix}+
                     </p>
-                    <p className="mt-0.5 text-[10px] leading-tight text-muted-foreground">{s.label}</p>
+                    <p className="mt-0.5 text-[10px] leading-tight text-[#7FA091]">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -116,11 +116,11 @@ export function PortalLogin() {
 
           {/* Auth card — tabs: Log in / Create account */}
           <Reveal delay={0.08}>
-            <Card className="h-full border-primary/25 bg-card shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+            <Card className="h-full border-primary/25 bg-card shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
               <CardContent className="p-6 md:p-8">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-gradient">
-                    <KeyRound className="h-5 w-5 text-[#16120a]" aria-hidden />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gradient">
+                    <KeyRound className="h-5 w-5 text-white" aria-hidden />
                   </span>
                   <div>
                     <h3 className="font-display text-xl font-bold text-foreground">Student Account</h3>
@@ -135,16 +135,16 @@ export function PortalLogin() {
                   onValueChange={(v) => setMode(v as "login" | "signup")}
                   className="mt-6"
                 >
-                  <TabsList className="grid w-full grid-cols-2 bg-[#101014]">
+                  <TabsList className="grid w-full grid-cols-2 bg-secondary">
                     <TabsTrigger
                       value="login"
-                      className="gap-1.5 data-[state=active]:bg-gold-gradient data-[state=active]:text-[#16120a]"
+                      className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                     >
                       <LogIn className="h-4 w-4" aria-hidden /> Log in
                     </TabsTrigger>
                     <TabsTrigger
                       value="signup"
-                      className="gap-1.5 data-[state=active]:bg-gold-gradient data-[state=active]:text-[#16120a]"
+                      className="gap-1.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                     >
                       <UserPlus className="h-4 w-4" aria-hidden /> Create account
                     </TabsTrigger>
@@ -205,7 +205,7 @@ function LoginForm({
         <div className="space-y-2">
           <Label htmlFor="portal-phone">Mobile Number (used at enrollment)</Label>
           <div className="flex overflow-hidden rounded-xl border border-input bg-transparent focus-within:ring-2 focus-within:ring-ring/50">
-            <span className="flex items-center gap-1.5 border-r border-input bg-[#101014] px-3.5 text-sm font-semibold text-primary">
+            <span className="flex items-center gap-1.5 border-r border-input bg-secondary px-3.5 text-sm font-semibold text-primary">
               <Smartphone className="h-3.5 w-3.5" aria-hidden />
               +880
             </span>
@@ -272,7 +272,7 @@ function LoginForm({
         <Button
           type="submit"
           disabled={busy}
-          className="w-full bg-gold-gradient py-6 text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90 disabled:opacity-60"
+          className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
         >
           {busy ? (
             <>
@@ -289,7 +289,7 @@ function LoginForm({
       </form>
 
       <Separator className="my-5 bg-primary/10" />
-      <details className="group rounded-xl border border-dashed border-border bg-[#101014] px-4 py-3">
+      <details className="group rounded-xl border border-dashed border-border bg-muted/50 px-4 py-3">
         <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-wider text-muted-foreground transition-colors group-open:text-primary">
           Demo accounts (for testing)
         </summary>
@@ -303,7 +303,7 @@ function LoginForm({
                 setPassword("sadia123");
                 setError(null);
               }}
-              className="rounded-full border border-border bg-[#141419] px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
             >
               {d.phone} · {d.label}
             </button>
@@ -391,7 +391,7 @@ function SignupForm({
       <div className="space-y-2">
         <Label htmlFor="portal-new-phone">Mobile number</Label>
         <div className="flex overflow-hidden rounded-xl border border-input bg-transparent focus-within:ring-2 focus-within:ring-ring/50">
-          <span className="flex items-center gap-1.5 border-r border-input bg-[#101014] px-3.5 text-sm font-semibold text-primary">
+          <span className="flex items-center gap-1.5 border-r border-input bg-secondary px-3.5 text-sm font-semibold text-primary">
             <Smartphone className="h-3.5 w-3.5" aria-hidden />
             +880
           </span>
@@ -458,7 +458,7 @@ function SignupForm({
       <Button
         type="submit"
         disabled={busy}
-        className="w-full bg-gold-gradient py-6 text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90 disabled:opacity-60"
+        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85 disabled:opacity-60"
       >
         {busy ? (
           <>

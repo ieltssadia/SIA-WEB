@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   BookOpen,
   CalendarClock,
   Check,
@@ -17,7 +18,6 @@ import {
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { courseCategories, courses, site, type Course } from "@/lib/site-data";
@@ -30,6 +30,14 @@ export const courseIconMap: Record<string, React.ElementType> = {
   zap: Zap,
   gift: Gift,
 };
+
+/* LabAcademy-style pastel rotation — each card gets its own accent panel */
+const PASTEL_PANELS = [
+  { panel: "bg-pastel-green", ink: "text-[#2c4a12]", soft: "bg-white/55" },
+  { panel: "bg-pastel-orange", ink: "text-[#5a2410]", soft: "bg-white/55" },
+  { panel: "bg-pastel-sky", ink: "text-[#16324f]", soft: "bg-white/55" },
+  { panel: "bg-pastel-butter", ink: "text-[#54400e]", soft: "bg-white/55" },
+] as const;
 
 function formatBDT(n: number) {
   return `৳${n.toLocaleString("en-US")}`;
@@ -60,19 +68,27 @@ export function CourseCard({ course, index }: { course: Course; index: number })
     course.price && course.oldPrice && course.oldPrice > course.price
       ? course.oldPrice - course.price
       : null;
+  const pastel = PASTEL_PANELS[index % PASTEL_PANELS.length];
 
   return (
     <Reveal delay={(index % 3) * 0.08} className="h-full">
-      <Card className="group flex h-full flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(212,175,55,0.08)]">
-        {/* Decorative header */}
-        <div className="relative h-24 shrink-0 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419]">
+      <Card className="group flex h-full flex-col overflow-hidden rounded-3xl border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(16,22,19,0.10)]">
+        {/* Pastel accent panel — LabAcademy style */}
+        <div
+          className={`relative h-28 shrink-0 ${pastel.panel} transition-transform duration-300`}
+        >
+          {/* Decorative rings */}
           <div
             aria-hidden
-            className="absolute -right-6 -top-8 h-28 w-28 rounded-full bg-primary/10 blur-xl transition-opacity group-hover:opacity-100"
+            className="absolute -right-8 -top-10 h-32 w-32 rounded-full border-[10px] border-white/35"
+          />
+          <div
+            aria-hidden
+            className="absolute right-16 top-6 h-3 w-3 rounded-full bg-white/50"
           />
           {/* 10MS discount badge */}
           {discount ? (
-            <span className="absolute right-4 top-1 z-10 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300">
+            <span className="absolute right-4 top-4 z-10 rounded-full bg-ink px-2.5 py-0.5 text-[11px] font-bold text-white">
               {discount}
             </span>
           ) : null}
@@ -81,16 +97,28 @@ export function CourseCard({ course, index }: { course: Course; index: number })
               discount ? "pt-5" : ""
             }`}
           >
-            <Badge className="border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
+            <span
+              className={`rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
+            >
               {course.tag}
-            </Badge>
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/25 bg-[#141419]/80 shadow-lg transition-transform duration-300 group-hover:scale-110">
-              <Icon className="h-7 w-7 text-primary" aria-hidden />
+            </span>
+            <span
+              className={`flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(16,22,19,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink}`}
+            >
+              <Icon className="h-7 w-7" aria-hidden />
             </span>
           </div>
+          {/* White circular arrow — the reference's signature affordance */}
+          <a
+            href={`#/courses/${course.slug}`}
+            aria-label={`Open ${course.title}`}
+            className="absolute -bottom-5 left-5 flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-[0_8px_24px_rgba(16,22,19,0.18)] transition-all duration-300 hover:scale-110 hover:bg-ink hover:text-white"
+          >
+            <ArrowUpRight className="h-4.5 w-4.5" aria-hidden />
+          </a>
         </div>
 
-        <CardContent className="flex flex-1 flex-col p-6 pt-5">
+        <CardContent className="flex flex-1 flex-col p-6 pt-8">
           <h3 className="font-display text-lg font-bold leading-snug text-foreground">
             <a
               href={`#/courses/${course.slug}`}
@@ -134,7 +162,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                 <CalendarClock className="h-3.5 w-3.5 shrink-0" aria-hidden />
                 Next batch: {course.nextBatch}
               </p>
-              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
                 <span
                   className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
                   aria-hidden
@@ -161,7 +189,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                 </div>
                 <span
                   className={`shrink-0 text-[11px] font-semibold ${
-                    course.seatsLeft <= 5 ? "text-red-400" : "text-muted-foreground"
+                    course.seatsLeft <= 5 ? "text-red-600" : "text-muted-foreground"
                   }`}
                 >
                   {course.seatsLeft <= 5
@@ -195,7 +223,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
           <div className="mt-auto flex items-end justify-between gap-3 border-t border-border/70 pt-5 [margin-top:auto]">
             <div className="pt-4">
               {course.price === 0 ? (
-                <p className="font-display text-2xl font-bold text-gold-gradient">Free</p>
+                <p className="font-display text-2xl font-bold text-ink">Free</p>
               ) : course.price === null ? (
                 <>
                   <p className="font-display text-xl font-bold text-foreground">
@@ -207,7 +235,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
               ) : (
                 <>
                   <div className="flex items-baseline gap-2">
-                    <p className="font-display text-2xl font-bold text-gold-gradient">
+                    <p className="font-display text-2xl font-bold text-ink">
                       {formatBDT(course.price)}
                     </p>
                     {course.oldPrice ? (
@@ -217,7 +245,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
                     ) : null}
                   </div>
                   {discount && savings ? (
-                    <p className="text-[11px] font-semibold text-emerald-400">
+                    <p className="text-[11px] font-semibold text-emerald-700">
                       {discount} admission offer · Save {formatBDT(savings)}
                     </p>
                   ) : null}
@@ -228,7 +256,7 @@ export function CourseCard({ course, index }: { course: Course; index: number })
             <Button
               asChild
               size="sm"
-              className="mt-4 shrink-0 bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+              className="mt-4 shrink-0 rounded-full bg-ink font-semibold text-white transition-opacity hover:opacity-85"
             >
               {course.price === null ? (
                 <a href={site.phoneHref} aria-label={`Call to enroll in ${course.title}`}>
@@ -268,7 +296,7 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
             eyebrow="Our Courses"
             title={
               <>
-                Our Popular <span className="text-gold-gradient">Courses</span>
+                Our Popular <span className="text-brand-gradient">Courses</span>
               </>
             }
             subtitle="Basic English থেকে Band 7+ পর্যন্ত — প্রতিটি লেভেলের জন্য সঠিক কোর্স। ৯ বছরের অভিজ্ঞতায় তৈরি কোর্স ডিজাইন।"
@@ -278,7 +306,7 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
             eyebrow="All Courses"
             title={
               <>
-                Choose the Course That <span className="text-gold-gradient">Fits You Best</span>
+                Choose the Course That <span className="text-brand-gradient">Fits You Best</span>
               </>
             }
             subtitle="Basic English থেকে Band 7+ পর্যন্ত — প্রতিটি লেভেলের জন্য সঠিক কোর্স। ৯ বছরের অভিজ্ঞতায় তৈরি কোর্স ডিজাইন।"
@@ -296,7 +324,7 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
                 aria-pressed={category === cat.value}
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                   category === cat.value
-                    ? "border-primary/60 bg-gold-gradient text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)]"
+                    ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(16,22,19,0.18)]"
                     : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary"
                 }`}
               >

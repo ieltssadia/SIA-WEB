@@ -1,0 +1,888 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useRef, useState } from "react";
+     4→import {
+     5→  Camera,
+     6→  CameraOff,
+     7→  ChevronLeft,
+     8→  ChevronRight,
+     9→  Crown,
+    10→  Hand,
+    11→  Loader2,
+    12→  MessageSquare,
+    13→  Radio,
+    14→  Send,
+    15→  Users,
+    16→  Vote,
+    17→  WifiOff,
+    18→} from "lucide-react";
+    19→import { Button } from "@/components/ui/button";
+    20→import { Input } from "@/components/ui/input";
+    21→import { Label } from "@/components/ui/label";
+    22→import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+    23→import { useLiveRoom, type ChatMsg, type Participant, type Role } from "@/lib/use-live-room";
+    24→import type { ClassSlide, LiveClassDetail } from "@/lib/live-types";
+    25→
+    26→const REACTIONS = ["👍", "❤️", "🎉", "😮", "😂", "🔥"] as const;
+    27→
+    28→const dhakaTime = new Intl.DateTimeFormat("en-GB", {
+    29→  timeZone: "Asia/Dhaka",
+    30→  hour: "2-digit",
+    31→  minute: "2-digit",
+    32→  hour12: true,
+    33→});
+    34→
+    35→function startLabel(iso: string): string {
+    36→  return dhakaTime.format(new Date(iso));
+    37→}
+    38→
+    39→/** "1h 05m 12s"-style elapsed clock. */
+    40→function elapsedLabel(ms: number): string {
+    41→  const total = Math.max(0, Math.floor(ms / 1000));
+    42→  const h = Math.floor(total / 3600);
+    43→  const m = Math.floor((total % 3600) / 60);
+    44→  const s = total % 60;
+    45→  const mm = String(m).padStart(2, "0");
+    46→  const ss = String(s).padStart(2, "0");
+    47→  return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
+    48→}
+    49→
+    50→/** Compact future countdown: "2d 3h", "4h 12m", "9m", "<1m". */
+    51→function countdownLabel(ms: number): string {
+    52→  if (ms <= 60_000) return "<1 মিনিট";
+    53→  const mins = Math.floor(ms / 60_000);
+    54→  if (mins < 60) return `${mins} মিনিট`;
+    55→  const hours = Math.floor(mins / 60);
+    56→  if (hours < 24) return `${hours} ঘণ্টা ${mins % 60} মিনিট`;
+    57→  return `${Math.floor(hours / 24)} দিন ${hours % 24} ঘণ্টা`;
+    58→}
+    59→
+    60→export type LiveIdentity = { name: string; role: Role; hostKey?: string };
+    61→
+    62→/**
+    63→ * The real-time classroom. Everything interactive (chat, slides, polls,
+    64→ * reactions, camera) runs over the socket room joined in useLiveRoom.
+    65→ */
+    66→export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDetail; identity: LiveIdentity }) {
+    67→  const room = useLiveRoom({
+    68→    classId: classMeta.slug,
+    69→    name: identity.name,
+    70→    role: identity.role,
+    71→    hostKey: identity.hostKey,
+    72→    initialLive: classMeta.status === "live",
+    73→    enabled: true,
+    74→  });
+    75→
+    76→  const [tab, setTab] = useState("chat");
+    77→  const [now, setNow] = useState<number | null>(null);
+    78→  const [pollFormOpen, setPollFormOpen] = useState(false);
+    79→  const [draftQuestion, setDraftQuestion] = useState("");
+    80→  const [draftOptions, setDraftOptions] = useState<string[]>(["", ""]);
+    81→  const [camError, setCamError] = useState<string | null>(null);
+    82→  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+    83→
+    84→  const hiddenVideoRef = useRef<HTMLVideoElement | null>(null);
+    85→  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    86→  const streamRef = useRef<MediaStream | null>(null);
+    87→  const frameTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    88→
+    89→  // Ticking clock (client-only → hydration-safe; first tick fires async)
+    90→  useEffect(() => {
+    91→    const first = setTimeout(() => setNow(Date.now()), 0);
+    92→    const t = setInterval(() => setNow(Date.now()), 1000);
+    93→    return () => {
+    94→      clearTimeout(first);
+    95→      clearInterval(t);
+    96→    };
+    97→  }, []);
+    98→
+    99→  // My poll vote — reset automatically when a new poll question arrives
+   100→  // (React's sanctioned "adjust state during render" pattern).
+   101→  const pollQuestion = room.poll?.question ?? null;
+   102→  const [voteState, setVoteState] = useState<{ q: string | null; index: number | null }>({
+   103→    q: null,
+   104→    index: null,
+   105→  });
+   106→  if (voteState.q !== pollQuestion) {
+   107→    setVoteState({ q: pollQuestion, index: null });
+   108→  }
+   109→  const myVote = voteState.q === pollQuestion ? voteState.index : null;
+   110→
+   111→  const slides: ClassSlide[] = classMeta.slides.length
+   112→    ? classMeta.slides
+   113→    : [{ title: classMeta.title, bullets: [classMeta.description ?? ""] }];
+   114→  const safeSlideIndex = Math.min(room.slideIndex, Math.max(0, slides.length - 1));
+   115→
+   116→  // ---------------- teacher camera (frame streaming) ----------------
+   117→
+   118→  const stopFrameLoop = () => {
+   119→    if (frameTimerRef.current) {
+   120→      clearInterval(frameTimerRef.current);
+   121→      frameTimerRef.current = null;
+   122→    }
+   123→  };
+   124→
+   125→  const disableCam = () => {
+   126→    stopFrameLoop();
+   127→    streamRef.current?.getTracks().forEach((t) => t.stop());
+   128→    streamRef.current = null;
+   129→    setLocalStream(null);
+   130→    room.stopCam();
+   131→  };
+   132→
+   133→  const enableCam = async () => {
+   134→    setCamError(null);
+   135→    try {
+   136→      const stream = await navigator.mediaDevices.getUserMedia({
+   137→        video: { width: 480, height: 270, frameRate: 15 },
+   138→        audio: false,
+   139→      });
+   140→      streamRef.current = stream;
+   141→      setLocalStream(stream);
+   142→      if (hiddenVideoRef.current) {
+   143→        hiddenVideoRef.current.srcObject = stream;
+   144→        await hiddenVideoRef.current.play().catch(() => {});
+   145→      }
+   146→      room.startCam();
+   147→      stopFrameLoop();
+   148→      frameTimerRef.current = setInterval(() => {
+   149→        const v = hiddenVideoRef.current;
+   150→        const c = canvasRef.current;
+   151→        if (!v || !c || v.readyState < 2) return;
+   152→        c.width = 480;
+   153→        c.height = 270;
+   154→        c.getContext("2d")?.drawImage(v, 0, 0, 480, 270);
+   155→        try {
+   156→          room.sendCamFrame(c.toDataURL("image/jpeg", 0.5));
+   157→        } catch {
+   158→          /* frame skipped */
+   159→        }
+   160→      }, 220); // ~4.5 fps — gentle on the gateway, smooth enough for a demo
+   161→    } catch {
+   162→      setCamError("ক্যামেরা অনুমতি পাওয়া যায়নি — ব্রাউজার permission চেক করুন।");
+   163→    }
+   164→  };
+   165→
+   166→  useEffect(
+   167→    () => () => {
+   168→      stopFrameLoop();
+   169→      streamRef.current?.getTracks().forEach((t) => t.stop());
+   170→    },
+   171→    []
+   172→  );
+   173→
+   174→  // ---------------- states that replace the room UI ----------------
+   175→
+   176→  if (room.status === "denied") {
+   177→    return (
+   178→      <div className="mx-auto max-w-lg px-4 py-16 text-center">
+   179→        <p className="font-display text-xl font-bold">{room.deniedReason ?? "যুক্ত হওয়া যাচ্ছে না।"}</p>
+   180→        <Button asChild variant="outline" className="mt-6 border-primary/30">
+   181→          <a href="#/live">লাইভ হাবে ফিরে যান</a>
+   182→        </Button>
+   183→      </div>
+   184→    );
+   185→  }
+   186→
+   187→  if (room.status === "error") {
+   188→    return (
+   189→      <div className="mx-auto max-w-lg px-4 py-16 text-center">
+   190→        <p className="font-display text-xl font-bold">সংযোগ ব্যর্থ হয়েছে</p>
+   191→        <p className="mt-2 text-sm text-muted-foreground">
+   192→          লাইভ সার্ভারের সাথে সংযোগ করা যায়নি — পেজ রিলোড করে আবার চেষ্টা করুন।
+   193→        </p>
+   194→        <Button asChild variant="outline" className="mt-6 border-primary/30">
+   195→          <a href="#/live">লাইভ হাবে ফিরে যান</a>
+   196→        </Button>
+   197→      </div>
+   198→    );
+   199→  }
+   200→
+   201→  if (room.status !== "joined") {
+   202→    return (
+   203→      <div className="mx-auto max-w-lg px-4 py-24 text-center text-muted-foreground">
+   204→        <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" aria-hidden />
+   205→        <p className="mt-4 text-sm">ক্লাসরুমে যুক্ত হচ্ছে…</p>
+   206→      </div>
+   207→    );
+   208→  }
+   209→
+   210→  const me = room.participants.find((p) => p.id === room.meId);
+   211→  const handRaised = !!me?.handRaised;
+   212→  const teacher = room.participants.find((p) => p.role === "teacher");
+   213→
+   214→  return (
+   215→    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+   216→      <div className="overflow-hidden rounded-2xl border border-primary/15 bg-[#0b0b0e] shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+   217→        {/* ── Top bar ─────────────────────────────────────────────── */}
+   218→        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-primary/10 bg-[#0d0d11] px-4 py-3">
+   219→          <Button
+   220→            asChild
+   221→            variant="ghost"
+   222→            size="sm"
+   223→            className="-ml-2 text-muted-foreground hover:text-primary"
+   224→          >
+   225→            <a href="#/live">
+   226→              <span className="sr-only">লাইভ হাবে ফিরে যান</span>
+   227→              ← লাইভ হাব
+   228→            </a>
+   229→          </Button>
+   230→          <div className="min-w-0 flex-1">
+   231→            <p className="truncate font-display text-sm font-bold sm:text-base">{classMeta.title}</p>
+   232→            <p className="truncate text-xs text-muted-foreground">
+   233→              {classMeta.teacher} · {startLabel(classMeta.startsAt)} (Dhaka)
+   234→            </p>
+   235→          </div>
+   236→          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+   237→            <Users className="h-3.5 w-3.5 text-primary" aria-hidden />
+   238→            <span className="tabular-nums">{room.participants.length}</span>
+   239→          </span>
+   240→          {room.live && now ? (
+   241→            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+   242→              <Radio className="h-3.5 w-3.5 text-red-400" aria-hidden />
+   243→              <span className="tabular-nums">{elapsedLabel(now - new Date(classMeta.startsAt).getTime())}</span>
+   244→            </span>
+   245→          ) : null}
+   246→          {!room.connected ? (
+   247→            <span className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-400">
+   248→              <WifiOff className="h-3 w-3" aria-hidden />
+   249→              পুনরায় সংযোগ হচ্ছে…
+   250→            </span>
+   251→          ) : null}
+   252→        </div>
+   253→
+   254→        {/* ── Stage + sidebar ─────────────────────────────────────── */}
+   255→        <div className="grid lg:grid-cols-[minmax(0,1fr)_360px]">
+   256→          <div className="flex min-w-0 flex-col">
+   257→            <Stage
+   258→              slides={slides}
+   259→              slideIndex={safeSlideIndex}
+   260→              live={room.live}
+   261→              startsAt={classMeta.startsAt}
+   262→              role={identity.role}
+   263→              camOn={room.camOn}
+   264→              initialFrame={room.initialFrame}
+   265→              socketRef={room.socket}
+   266→              localStream={localStream}
+   267→              now={now}
+   268→            />
+   269→
+   270→            {/* Control bar */}
+   271→            <div className="flex flex-wrap items-center gap-2 border-t border-primary/10 bg-[#0d0d11] px-3 py-2.5">
+   272→              <div className="flex items-center gap-1">
+   273→                {REACTIONS.map((emoji) => (
+   274→                  <button
+   275→                    key={emoji}
+   276→                    type="button"
+   277→                    onClick={() => room.sendReaction(emoji)}
+   278→                    aria-label={`প্রতিক্রিয়া ${emoji}`}
+   279→                    className="flex h-9 w-9 items-center justify-center rounded-full text-lg transition-colors hover:bg-accent active:scale-90"
+   280→                  >
+   281→                    {emoji}
+   282→                  </button>
+   283→                ))}
+   284→              </div>
+   285→
+   286→              {identity.role === "student" ? (
+   287→                <Button
+   288→                  variant={handRaised ? "default" : "outline"}
+   289→                  size="sm"
+   290→                  onClick={() => room.setHand(!handRaised)}
+   291→                  aria-pressed={handRaised}
+   292→                  className={
+   293→                    handRaised
+   294→                      ? "bg-brand-gradient font-semibold text-white"
+   295→                      : "border-primary/25 text-muted-foreground hover:text-primary"
+   296→                  }
+   297→                >
+   298→                  <Hand className="mr-1.5 h-4 w-4" aria-hidden />
+   299→                  {handRaised ? "হাত তোলা আছে" : "হাত তুলুন"}
+   300→                </Button>
+   301→              ) : null}
+   302→
+   303→              {identity.role === "teacher" ? (
+   304→                <div className="ml-auto flex flex-wrap items-center gap-2">
+   305→                  {/* Slides */}
+   306→                  <div className="flex items-center rounded-md border border-primary/20">
+   307→                    <button
+   308→                      type="button"
+   309→                      aria-label="আগের স্লাইড"
+   310→                      onClick={() => room.gotoSlide(Math.max(0, safeSlideIndex - 1))}
+   311→                      className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+   312→                    >
+   313→                      <ChevronLeft className="h-4 w-4" aria-hidden />
+   314→                    </button>
+   315→                    <span className="px-1 text-xs tabular-nums text-muted-foreground">
+   316→                      {safeSlideIndex + 1}/{slides.length}
+   317→                    </span>
+   318→                    <button
+   319→                      type="button"
+   320→                      aria-label="পরের স্লাইড"
+   321→                      onClick={() => room.gotoSlide(Math.min(slides.length - 1, safeSlideIndex + 1))}
+   322→                      className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+   323→                    >
+   324→                      <ChevronRight className="h-4 w-4" aria-hidden />
+   325→                    </button>
+   326→                  </div>
+   327→
+   328→                  <Button
+   329→                    variant="outline"
+   330→                    size="sm"
+   331→                    onClick={() => (room.camOn ? disableCam() : enableCam())}
+   332→                    className={
+   333→                      room.camOn
+   334→                        ? "border-red-500/40 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+   335→                        : "border-primary/25 text-muted-foreground hover:text-primary"
+   336→                    }
+   337→                  >
+   338→                    {room.camOn ? (
+   339→                      <CameraOff className="mr-1.5 h-4 w-4" aria-hidden />
+   340→                    ) : (
+   341→                      <Camera className="mr-1.5 h-4 w-4" aria-hidden />
+   342→                    )}
+   343→                    {room.camOn ? "ক্যামেরা বন্ধ" : "ক্যামেরা চালু"}
+   344→                  </Button>
+   345→
+   346→                  <Button
+   347→                    variant="outline"
+   348→                    size="sm"
+   349→                    onClick={() => setPollFormOpen((v) => !v)}
+   350→                    className="border-primary/25 text-muted-foreground hover:text-primary"
+   351→                  >
+   352→                    <Vote className="mr-1.5 h-4 w-4" aria-hidden />
+   353→                    পোল
+   354→                  </Button>
+   355→
+   356→                  {room.live ? (
+   357→                    <Button
+   358→                      size="sm"
+   359→                      onClick={() => {
+   360→                        if (window.confirm("নিশ্চিতভাবে ক্লাস শেষ করবেন?")) {
+   361→                          if (streamRef.current) disableCam();
+   362→                          room.endClass();
+   363→                        }
+   364→                      }}
+   365→                      className="bg-red-500 font-semibold text-white hover:bg-red-600"
+   366→                    >
+   367→                      ক্লাস শেষ করুন
+   368→                    </Button>
+   369→                  ) : (
+   370→                    <Button
+   371→                      size="sm"
+   372→                      onClick={() => {
+   373→                        room.goLive();
+   374→                        setTab("chat");
+   375→                      }}
+   376→                      className="bg-brand-gradient font-semibold text-white"
+   377→                    >
+   378→                      🔴 লাইভ শুরু করুন
+   379→                    </Button>
+   380→                  )}
+   381→                </div>
+   382→              ) : null}
+   383→            </div>
+   384→
+   385→            {camError ? (
+   386→              <p role="alert" className="border-t border-red-500/20 bg-red-500/10 px-4 py-2 text-xs text-red-300">
+   387→                {camError}
+   388→              </p>
+   389→            ) : null}
+   390→
+   391→            {/* Teacher poll composer */}
+   392→            {identity.role === "teacher" && pollFormOpen ? (
+   393→              <div className="border-t border-primary/10 bg-[#0A241B] px-4 py-3">
+   394→                <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+   395→                  <div className="min-w-0 flex-1 space-y-1">
+   396→                    <Label htmlFor="poll-q" className="text-xs text-muted-foreground">
+   397→                      পোল প্রশ্ন
+   398→                    </Label>
+   399→                    <Input
+   400→                      id="poll-q"
+   401→                      value={draftQuestion}
+   402→                      onChange={(e) => setDraftQuestion(e.target.value)}
+   403→                      placeholder="যেমন: আজকের ক্লাস কেমন লাগছে?"
+   404→                      className="h-9 border-primary/20 bg-[#16161b]"
+   405→                    />
+   406→                  </div>
+   407→                  <div className="flex gap-2">
+   408→                    {draftOptions.map((opt, i) => (
+   409→                      <Input
+   410→                        key={i}
+   411→                        value={opt}
+   412→                        onChange={(e) =>
+   413→                          setDraftOptions((prev) => prev.map((o, j) => (j === i ? e.target.value : o)))
+   414→                        }
+   415→                        placeholder={`অপশন ${i + 1}`}
+   416→                        aria-label={`পোল অপশন ${i + 1}`}
+   417→                        className="h-9 w-28 border-primary/20 bg-[#16161b]"
+   418→                      />
+   419→                    ))}
+   420→                    {draftOptions.length < 4 ? (
+   421→                      <Button
+   422→                        variant="ghost"
+   423→                        size="sm"
+   424→                        className="text-muted-foreground hover:text-primary"
+   425→                        onClick={() => setDraftOptions((p) => [...p, ""])}
+   426→                      >
+   427→                        + অপশন
+   428→                      </Button>
+   429→                    ) : null}
+   430→                  </div>
+   431→                  <Button
+   432→                    size="sm"
+   433→                    className="bg-brand-gradient font-semibold text-white"
+   434→                    onClick={() => {
+   435→                      const opts = draftOptions.map((o) => o.trim()).filter(Boolean);
+   436→                      if (!draftQuestion.trim() || opts.length < 2) return;
+   437→                      room.startPoll(draftQuestion.trim(), opts);
+   438→                      setPollFormOpen(false);
+   439→                      setDraftQuestion("");
+   440→                      setDraftOptions(["", ""]);
+   441→                      setTab("poll");
+   442→                    }}
+   443→                  >
+   444→                    শুরু করুন
+   445→                  </Button>
+   446→                </div>
+   447→              </div>
+   448→            ) : null}
+   449→          </div>
+   450→
+   451→          {/* ── Sidebar: chat / people / poll ──────────────────────── */}
+   452→          <aside className="border-t border-primary/10 lg:border-l lg:border-t-0">
+   453→            <Tabs value={tab} onValueChange={setTab} className="flex h-full flex-col">
+   454→              <TabsList className="grid w-full grid-cols-3 rounded-none border-b border-primary/10 bg-[#0d0d11]">
+   455→                <TabsTrigger value="chat" className="gap-1.5 data-[state=active]:text-primary">
+   456→                  <MessageSquare className="h-3.5 w-3.5" aria-hidden />
+   457→                  চ্যাট
+   458→                </TabsTrigger>
+   459→                <TabsTrigger value="people" className="gap-1.5 data-[state=active]:text-primary">
+   460→                  <Users className="h-3.5 w-3.5" aria-hidden />
+   461→                  <span className="tabular-nums">{room.participants.length}</span>
+   462→                </TabsTrigger>
+   463→                <TabsTrigger value="poll" className="relative gap-1.5 data-[state=active]:text-primary">
+   464→                  <Vote className="h-3.5 w-3.5" aria-hidden />
+   465→                  পোল
+   466→                  {room.poll ? (
+   467→                    <span aria-hidden className="absolute right-2 top-1.5 h-1.5 w-1.5 rounded-full bg-red-500" />
+   468→                  ) : null}
+   469→                </TabsTrigger>
+   470→              </TabsList>
+   471→
+   472→              <TabsContent value="chat" className="mt-0 flex min-h-0 flex-col">
+   473→                <ChatPanel chat={room.chat} meId={room.meId} onSend={room.sendChat} />
+   474→              </TabsContent>
+   475→
+   476→              <TabsContent value="people" className="mt-0">
+   477→                <PeoplePanel participants={room.participants} meId={room.meId} />
+   478→              </TabsContent>
+   479→
+   480→              <TabsContent value="poll" className="mt-0">
+   481→                <PollPanel
+   482→                  poll={room.poll}
+   483→                  myVote={myVote}
+   484→                  role={identity.role}
+   485→                  onVote={(i) => {
+   486→                    if (myVote !== null) return;
+   487→                    setVoteState({ q: pollQuestion, index: i });
+   488→                    room.vote(i);
+   489→                  }}
+   490→                  onEnd={() => room.endPoll()}
+   491→                />
+   492→              </TabsContent>
+   493→            </Tabs>
+   494→          </aside>
+   495→        </div>
+   496→      </div>
+   497→
+   498→      {/* Hidden frame-capture pipeline (teacher camera → JPEG frames) */}
+   499→      <video ref={hiddenVideoRef} className="hidden" muted playsInline aria-hidden />
+   500→      <canvas ref={canvasRef} className="hidden" aria-hidden />
+   501→    </div>
+   502→  );
+   503→}
+   504→
+   505→/* ── Stage ──────────────────────────────────────────────────────────── */
+   506→
+   507→function Stage({
+   508→  slides,
+   509→  slideIndex,
+   510→  live,
+   511→  startsAt,
+   512→  role,
+   513→  camOn,
+   514→  initialFrame,
+   515→  socketRef,
+   516→  localStream,
+   517→  now,
+   518→}: {
+   519→  slides: ClassSlide[];
+   520→  slideIndex: number;
+   521→  live: boolean;
+   522→  startsAt: string;
+   523→  role: Role;
+   524→  camOn: boolean;
+   525→  initialFrame: string | null;
+   526→  socketRef: React.RefObject<import("socket.io-client").Socket | null>;
+   527→  localStream: MediaStream | null;
+   528→  now: number | null;
+   529→}) {
+   530→  const [frame, setFrame] = useState<string | null>(initialFrame);
+   531→  const [reactions, setReactions] = useState<{ id: string; emoji: string; x: number }[]>([]);
+   532→  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+   533→
+   534→  // Live camera frames + floating reactions
+   535→  useEffect(() => {
+   536→    const socket = socketRef.current;
+   537→    if (!socket) return;
+   538→    const onFrame = (e: { data?: string }) => {
+   539→      if (typeof e?.data === "string") setFrame(e.data);
+   540→    };
+   541→    const onCamStatus = (e: { on?: boolean }) => {
+   542→      if (!e?.on) setFrame(null);
+   543→    };
+   544→    const onReact = (e: { emoji?: string }) => {
+   545→      if (!e?.emoji) return;
+   546→      const id = Math.random().toString(36).slice(2);
+   547→      setReactions((prev) => [...prev.slice(-24), { id, emoji: e.emoji as string, x: 8 + Math.random() * 74 }]);
+   548→      setTimeout(() => setReactions((prev) => prev.filter((r) => r.id !== id)), 2700);
+   549→    };
+   550→    socket.on("cam:frame", onFrame);
+   551→    socket.on("cam:status", onCamStatus);
+   552→    socket.on("reaction:new", onReact);
+   553→    return () => {
+   554→      socket.off("cam:frame", onFrame);
+   555→      socket.off("cam:status", onCamStatus);
+   556→      socket.off("reaction:new", onReact);
+   557→    };
+   558→  }, [socketRef]);
+   559→
+   560→  // Teacher's own local preview
+   561→  useEffect(() => {
+   562→    const v = localVideoRef.current;
+   563→    if (v && localStream) {
+   564→      v.srcObject = localStream;
+   565→      v.play().catch(() => {});
+   566→    }
+   567→  }, [localStream]);
+   568→
+   569→  const slide = slides[Math.min(slideIndex, slides.length - 1)];
+   570→  const showCam = camOn && (role === "teacher" ? !!localStream : !!frame);
+   571→  const startsIn = now !== null ? new Date(startsAt).getTime() - now : null;
+   572→  const isLate = startsIn !== null && startsIn <= 0;
+   573→
+   574→  return (
+   575→    <div className="relative aspect-video w-full overflow-hidden bg-black" data-testid="classroom-stage">
+   576→      {/* Main surface */}
+   577→      {showCam ? (
+   578→        role === "teacher" ? (
+   579→          <video ref={localVideoRef} muted playsInline className="h-full w-full object-cover" />
+   580→        ) : (
+   581→          <img src={frame as string} alt="লাইভ ক্যামেরা" className="h-full w-full object-cover" />
+   582→        )
+   583→      ) : camOn ? (
+   584→        <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+   585→          <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />
+   586→          ক্যামেরা সংযোগ হচ্ছে…
+   587→        </div>
+   588→      ) : (
+   589→        <SlideView slide={slide} />
+   590→      )}
+   591→
+   592→      {/* Slide PIP while the camera is live */}
+   593→      {showCam ? (
+   594→        <div className="absolute bottom-3 right-3 w-40 overflow-hidden rounded-lg border border-white/15 bg-[#0A241B]/95 shadow-xl sm:w-52">
+   595→          <div className="border-b border-primary/20 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
+   596→            স্লাইড {slideIndex + 1}/{slides.length}
+   597→          </div>
+   598→          <p className="line-clamp-2 px-2.5 py-1.5 text-[11px] leading-snug text-foreground/90">{slide.title}</p>
+   599→        </div>
+   600→      ) : null}
+   601→
+   602→      {/* LIVE / waiting badge */}
+   603→      {live ? (
+   604→        <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-lg">
+   605→          <span className="relative flex h-2 w-2">
+   606→            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+   607→            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+   608→          </span>
+   609→          LIVE
+   610→        </span>
+   611→      ) : (
+   612→        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/72 px-6 text-center backdrop-blur-[2px]">
+   613→          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
+   614→            <Radio className="h-6 w-6 text-primary" aria-hidden />
+   615→          </span>
+   616→          <p className="font-display text-lg font-bold text-foreground">ক্লাস এখনো লাইভ হয়নি</p>
+   617→          <p className="text-sm text-muted-foreground">
+   618→            {isLate
+   619→              ? "ক্লাস শুরুর সময় হয়ে গেছে — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"
+   620→              : startsIn !== null
+   621→                ? `শুরু হতে বাকি ${countdownLabel(startsIn)} — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।`
+   622→                : "শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"}
+   623→          </p>
+   624→          <p className="text-xs text-muted-foreground/70">
+   625→            চ্যাটে প্রশ্ন করে রাখুন — Sadia Ma'am লাইভে উত্তর দেবেন।
+   626→          </p>
+   627→        </div>
+   628→      )}
+   629→
+   630→      {/* Floating reactions */}
+   631→      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+   632→        {reactions.map((r) => (
+   633→          <span
+   634→            key={r.id}
+   635→            className="live-reaction absolute bottom-2 text-3xl drop-shadow-lg"
+   636→            style={{ left: `${r.x}%` }}
+   637→          >
+   638→            {r.emoji}
+   639→          </span>
+   640→        ))}
+   641→      </div>
+   642→    </div>
+   643→  );
+   644→}
+   645→
+   646→/* ── Slide renderer ─────────────────────────────────────────────────── */
+   647→
+   648→function SlideView({ slide }: { slide: ClassSlide }) {
+   649→  return (
+   650→    <div
+   651→      key={slide.title}
+   652→      className="animate-in fade-in slide-in-from-bottom-3 flex h-full w-full flex-col justify-center bg-[radial-gradient(ellipse_at_top,#17131f_0%,#071B14_65%)] px-6 pt-16 pb-8 duration-300 sm:px-12 sm:py-0"
+   653→    >
+   654→      <div className="mx-auto w-full max-w-3xl">
+   655→        <span className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+   656→          <span className="h-px w-8 bg-primary/60" aria-hidden />
+   657→          Lesson
+   658→        </span>
+   659→        <h2 className="font-display text-xl font-bold leading-snug text-foreground sm:text-3xl">{slide.title}</h2>
+   660→        <ul className="mt-5 space-y-3">
+   661→          {slide.bullets.map((b, i) => (
+   662→            <li
+   663→              key={i}
+   664→              className="animate-in fade-in slide-in-from-bottom-2 flex items-start gap-3 text-sm leading-relaxed text-foreground/85 duration-300 sm:text-base"
+   665→              style={{ animationDelay: `${i * 90}ms` }}
+   666→            >
+   667→              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-gradient" aria-hidden />
+   668→              {b}
+   669→            </li>
+   670→          ))}
+   671→        </ul>
+   672→      </div>
+   673→    </div>
+   674→  );
+   675→}
+   676→
+   677→/* ── Chat ───────────────────────────────────────────────────────────── */
+   678→
+   679→function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | null; onSend: (text: string) => void }) {
+   680→  const [text, setText] = useState("");
+   681→  const scrollRef = useRef<HTMLDivElement | null>(null);
+   682→
+   683→  useEffect(() => {
+   684→    const el = scrollRef.current;
+   685→    if (el) el.scrollTop = el.scrollHeight;
+   686→  }, [chat.length]);
+   687→
+   688→  return (
+   689→    <div className="flex h-[380px] flex-col sm:h-[440px] lg:h-[560px]">
+   690→      <div
+   691→        ref={scrollRef}
+   692→        className="live-scroll min-h-0 flex-1 space-y-2.5 overflow-y-auto px-4 py-3"
+   693→        aria-label="ক্লাস চ্যাট"
+   694→        aria-live="polite"
+   695→      >
+   696→        {chat.length === 0 ? (
+   697→          <p className="pt-10 text-center text-xs text-muted-foreground">
+   698→            ক্লাস শুরু হলেই এখানে কথা বলা যাবে — প্রথম মেসেজটি আপনিই পাঠান!
+   699→          </p>
+   700→        ) : null}
+   701→        {chat.map((msg) =>
+   702→          msg.role === "system" ? (
+   703→            <p key={msg.id} className="text-center text-[11px] leading-relaxed text-muted-foreground/80">
+   704→              {msg.text}
+   705→            </p>
+   706→          ) : (
+   707→            <ChatBubble key={msg.id} msg={msg} own={!!msg.from && msg.from === meId} />
+   708→          )
+   709→        )}
+   710→      </div>
+   711→      <form
+   712→        className="flex items-center gap-2 border-t border-primary/10 bg-[#0d0d11] p-3"
+   713→        onSubmit={(e) => {
+   714→          e.preventDefault();
+   715→          const t = text.trim();
+   716→          if (!t) return;
+   717→          onSend(t);
+   718→          setText("");
+   719→        }}
+   720→      >
+   721→        <Input
+   722→          value={text}
+   723→          onChange={(e) => setText(e.target.value)}
+   724→          placeholder="মেসেজ লিখুন…"
+   725→          aria-label="চ্যাট মেসেজ"
+   726→          maxLength={500}
+   727→          className="h-10 border-primary/20 bg-[#16161b]"
+   728→        />
+   729→        <Button type="submit" size="icon" aria-label="পাঠান" className="h-10 w-10 shrink-0 bg-brand-gradient text-white hover:opacity-90">
+   730→          <Send className="h-4 w-4" aria-hidden />
+   731→        </Button>
+   732→      </form>
+   733→    </div>
+   734→  );
+   735→}
+   736→
+   737→function ChatBubble({ msg, own }: { msg: ChatMsg; own: boolean }) {
+   738→  return (
+   739→    <div className={own ? "flex justify-end" : ""}>
+   740→      <div className={own ? "max-w-[85%]" : "max-w-full"}>
+   741→        <p className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground">
+   742→          {msg.role === "teacher" ? (
+   743→            <span className="inline-flex items-center gap-1 rounded-full bg-brand-gradient px-1.5 py-px text-[9px] font-bold uppercase text-white">
+   744→              শিক্ষক
+   745→            </span>
+   746→          ) : null}
+   747→          {msg.name}
+   748→          <span className="font-normal text-muted-foreground/60">
+   749→            {new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Dhaka", hour: "2-digit", minute: "2-digit", hour12: true }).format(
+   750→              new Date(msg.at)
+   751→            )}
+   752→          </span>
+   753→        </p>
+   754→        <p
+   755→          className={`mt-0.5 break-words text-sm leading-relaxed ${
+   756→            own ? "rounded-lg bg-primary/10 px-2.5 py-1.5" : msg.role === "teacher" ? "font-medium text-primary/95" : "text-foreground/90"
+   757→          }`}
+   758→        >
+   759→          {msg.text}
+   760→        </p>
+   761→      </div>
+   762→    </div>
+   763→  );
+   764→}
+   765→
+   766→/* ── People ─────────────────────────────────────────────────────────── */
+   767→
+   768→function PeoplePanel({ participants, meId }: { participants: Participant[]; meId: string | null }) {
+   769→  const sorted = [...participants].sort((a, b) => (a.role === "teacher" ? -1 : 1) - (b.role === "teacher" ? -1 : 1));
+   770→  return (
+   771→    <div className="live-scroll h-[380px] overflow-y-auto px-4 py-3 sm:h-[440px] lg:h-[560px]">
+   772→      <p className="mb-3 text-xs text-muted-foreground">
+   773→        ক্লাসে আছেন <span className="font-semibold text-foreground tabular-nums">{participants.length}</span> জন
+   774→      </p>
+   775→      <ul className="space-y-1.5">
+   776→        {sorted.map((p) => (
+   777→          <li
+   778→            key={p.id}
+   779→            className="flex items-center gap-2.5 rounded-lg border border-transparent px-2.5 py-2 text-sm transition-colors hover:border-primary/10 hover:bg-accent/50"
+   780→          >
+   781→            <span
+   782→              aria-hidden
+   783→              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary"
+   784→            >
+   785→              {p.name.slice(0, 1).toUpperCase()}
+   786→            </span>
+   787→            <span className="min-w-0 flex-1 truncate font-medium text-foreground/90">
+   788→              {p.name}
+   789→              {p.id === meId ? <span className="font-normal text-muted-foreground"> (আপনি)</span> : null}
+   790→            </span>
+   791→            {p.role === "teacher" ? <Crown className="h-4 w-4 shrink-0 text-primary" aria-label="শিক্ষক" /> : null}
+   792→            {p.handRaised ? <Hand className="h-4 w-4 shrink-0 text-amber-400" aria-label="হাত তুলেছেন" /> : null}
+   793→          </li>
+   794→        ))}
+   795→      </ul>
+   796→    </div>
+   797→  );
+   798→}
+   799→
+   800→/* ── Poll ───────────────────────────────────────────────────────────── */
+   801→
+   802→function PollPanel({
+   803→  poll,
+   804→  myVote,
+   805→  role,
+   806→  onVote,
+   807→  onEnd,
+   808→}: {
+   809→  poll: { question: string; options: string[]; counts: number[]; totalVotes: number } | null;
+   810→  myVote: number | null;
+   811→  role: Role;
+   812→  onVote: (index: number) => void;
+   813→  onEnd: () => void;
+   814→}) {
+   815→  if (!poll) {
+   816→    return (
+   817→      <div className="flex h-[380px] flex-col items-center justify-center gap-2 px-8 text-center sm:h-[440px] lg:h-[560px]">
+   818→        <Vote className="h-8 w-8 text-primary/50" aria-hidden />
+   819→        <p className="text-sm text-muted-foreground">
+   820→          কোনো পোল চালু নেই — শিক্ষক পোল চালু করলে এখানে ভোট দেওয়া যাবে।
+   821→        </p>
+   822→      </div>
+   823→    );
+   824→  }
+   825→
+   826→  return (
+   827→    <div className="live-scroll h-[380px] overflow-y-auto px-4 py-4 sm:h-[440px] lg:h-[560px]">
+   828→      <p className="text-xs font-semibold uppercase tracking-wider text-primary">লাইভ পোল</p>
+   829→      <h3 className="mt-1.5 font-display text-base font-bold leading-snug">{poll.question}</h3>
+   830→
+   831→      <div className="mt-4 space-y-2.5">
+   832→        {poll.options.map((opt, i) => {
+   833→          const pct = poll.totalVotes > 0 ? Math.round((poll.counts[i] / poll.totalVotes) * 100) : 0;
+   834→          const voted = myVote === i;
+   835→          return (
+   836→            <button
+   837→              key={i}
+   838→              type="button"
+   839→              disabled={myVote !== null || role === "teacher"}
+   840→              onClick={() => onVote(i)}
+   841→              aria-pressed={voted}
+   842→              className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm transition-colors ${
+   843→                voted
+   844→                  ? "border-primary/60"
+   845→                  : "border-primary/15 hover:border-primary/40 hover:bg-accent/50 disabled:hover:border-primary/15 disabled:hover:bg-transparent"
+   846→              }`}
+   847→            >
+   848→              <span
+   849→                aria-hidden
+   850→                className="absolute inset-y-0 left-0 bg-primary/10 transition-[width] duration-500"
+   851→                style={{ width: myVote !== null || role === "teacher" ? `${pct}%` : "0%" }}
+   852→              />
+   853→              <span className="relative flex items-center justify-between gap-2">
+   854→                <span className={voted ? "font-semibold text-primary" : ""}>
+   855→                  {opt}
+   856→                  {voted ? <span className="ml-1.5 text-[10px] font-bold uppercase text-primary">আপনার ভোট</span> : null}
+   857→                </span>
+   858→                {myVote !== null || role === "teacher" ? (
+   859→                  <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{pct}%</span>
+   860→                ) : null}
+   861→              </span>
+   862→            </button>
+   863→          );
+   864→        })}
+   865→      </div>
+   866→
+   867→      <p className="mt-3 text-xs text-muted-foreground">
+   868→        {myVote === null
+   869→          ? role === "teacher"
+   870→            ? `শিক্ষক ভিউ — মোট ভোট: ${poll.totalVotes}`
+   871→            : "একটি অপশনে ক্লিক করে ভোট দিন"
+   872→          : `মোট ভোট: ${poll.totalVotes} — রেজাল্ট লাইভ আপডেট হচ্ছে`}
+   873→      </p>
+   874→
+   875→      {role === "teacher" ? (
+   876→        <Button
+   877→          variant="outline"
+   878→          size="sm"
+   879→          onClick={onEnd}
+   880→          className="mt-3 border-red-500/40 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+   881→        >
+   882→          পোল শেষ করুন
+   883→        </Button>
+   884→      ) : null}
+   885→    </div>
+   886→  );
+   887→}
+   888→

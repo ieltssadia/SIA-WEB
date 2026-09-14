@@ -24,7 +24,7 @@ export function StoriesPage() {
         eyebrow="Success Stories"
         title={
           <>
-            Real Students, <span className="text-gold-gradient">Real Results</span>
+            Real Students, <span className="text-brand-gradient">Real Results</span>
           </>
         }
         subtitle="আমাদের recent batches-এর শিক্ষার্থীদের সফলতার গল্প — Band 7+ এখন আর স্বপ্ন নয়।"
@@ -43,7 +43,7 @@ export function StoriesPage() {
                       &ldquo;{story.quote}&rdquo;
                     </p>
                     <div className="mt-6 flex items-center gap-3 border-t border-border/70 pt-5">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-gold-gradient font-display text-sm font-bold text-[#16120a]">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-brand-gradient font-display text-sm font-bold text-white">
                         {initials(story.name)}
                       </span>
                       <div className="min-w-0">
@@ -66,18 +66,18 @@ export function StoriesPage() {
           </div>
 
           <Reveal delay={0.15}>
-            <div className="mt-12 rounded-2xl border border-primary/20 bg-gradient-to-r from-[#1d1808] via-[#141419] to-[#1d1808] p-8 text-center">
-              <p className="font-display text-xl font-bold text-foreground md:text-2xl">
+            <div className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-8 text-center">
+              <p className="font-display text-xl font-bold text-[#EAF4EE] md:text-2xl">
                 পরের সফলতার গল্পটা হতে পারে আপনার!
               </p>
-              <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">
+              <p className="mx-auto mt-2 max-w-lg text-sm text-[#A9C6B6]">
                 See more result celebrations on our Facebook page, or start your own journey
                 today.
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Button
                   asChild
-                  className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                  className="bg-brand-gradient font-semibold text-white hover:opacity-90"
                 >
                   <a href="#/contact">
                     Start Your Journey
@@ -87,7 +87,7 @@ export function StoriesPage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                  className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   <a
                     href={site.facebook}

@@ -6,7 +6,7 @@ type Crumb = { label: string; href?: string };
 
 /**
  * Shared hero banner for inner pages — breadcrumb + serif title + subtitle
- * on the brand's dark gradient with gold glow accents.
+ * on the soft sage brand band with emerald accents.
  */
 export function PageHeader({
   eyebrow,

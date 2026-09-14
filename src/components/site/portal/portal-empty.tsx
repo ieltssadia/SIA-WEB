@@ -32,18 +32,18 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
     <div className="mx-auto max-w-7xl px-4 py-6 md:py-8 lg:px-8">
       {/* Account band */}
       <Reveal y={12}>
-        <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-8">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-radial-glow blur-2xl"
           />
           <div className="relative flex flex-wrap items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient font-display text-2xl font-bold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)]">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(16,138,96,0.3)]">
               {user.name.charAt(0)}
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs uppercase tracking-[0.25em] text-primary">Student Portal</p>
-              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
+              <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">Student Portal</p>
+              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-[#EAF4EE] md:text-3xl">
                 Assalamu Alaikum, {firstName}!
               </h1>
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
@@ -59,7 +59,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
             <Button
               variant="outline"
               onClick={logout}
-              className="border-primary/25 font-medium hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
+              className="border-white/20 bg-transparent font-medium text-[#EAF4EE] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#f08c8c]"
             >
               <LogOut className="mr-1.5 h-4 w-4" aria-hidden />
               Log out
@@ -70,7 +70,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
 
       {/* Empty state */}
       <Reveal y={12} delay={0.06}>
-        <div className="mt-6 rounded-3xl border border-dashed border-primary/25 bg-card/60 px-6 py-14 text-center">
+        <div className="mt-6 rounded-3xl border border-dashed border-border bg-muted/50 px-6 py-14 text-center">
           <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <BookX className="h-8 w-8 text-primary" aria-hidden />
           </span>
@@ -86,7 +86,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
             <Button
               asChild
               size="lg"
-              className="bg-gold-gradient font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
+              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
             >
               <a href="#/checkout">
                 <GraduationCap className="mr-2 h-4.5 w-4.5" aria-hidden />
@@ -112,7 +112,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
       <Reveal y={12} delay={0.1}>
         <div className="mt-10">
           <h2 className="font-display text-lg font-bold text-foreground">
-            Start with a <span className="text-gold-gradient">popular course</span>
+            Start with a <span className="text-brand-gradient">popular course</span>
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {popular.map((c) => (
@@ -125,7 +125,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
                   <Badge variant="outline" className="border-primary/40 bg-primary/10 text-[10px] font-semibold text-primary">
                     {c.tag}
                   </Badge>
-                  <span className="font-display text-sm font-bold text-gold-gradient">
+                  <span className="font-display text-sm font-bold text-brand-gradient">
                     {formatBDT(c.price ?? 0)}
                   </span>
                 </div>
@@ -164,7 +164,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
                 WhatsApp
               </a>
             </Button>
-            <Button asChild size="sm" className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+            <Button asChild size="sm" className="rounded-full bg-ink font-semibold text-white hover:opacity-85">
               <a href={site.phoneHref}>
                 <Phone className="mr-1.5 h-3.5 w-3.5" aria-hidden />
                 Call Now

@@ -1,0 +1,857 @@
+     1→"use client";
+     2→
+     3→import { useState, type FormEvent } from "react";
+     4→import Image from "next/image";
+     5→import {
+     6→  ArrowRight,
+     7→  BadgeCheck,
+     8→  Banknote,
+     9→  BookOpen,
+    10→  CheckCircle2,
+    11→  Clock,
+    12→  Copy,
+    13→  CreditCard,
+    14→  Loader2,
+    15→  Lock,
+    16→  MapPin,
+    17→  Minus,
+    18→  Phone,
+    19→  Plus,
+    20→  ShieldCheck,
+    21→  ShoppingBag,
+    22→  Smartphone,
+    23→  Truck,
+    24→  Wallet,
+    25→  type LucideIcon,
+    26→} from "lucide-react";
+    27→import { Badge } from "@/components/ui/badge";
+    28→import { Button } from "@/components/ui/button";
+    29→import { Card, CardContent } from "@/components/ui/card";
+    30→import { Input } from "@/components/ui/input";
+    31→import { Label } from "@/components/ui/label";
+    32→import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+    33→import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+    34→import { Separator } from "@/components/ui/separator";
+    35→import { Textarea } from "@/components/ui/textarea";
+    36→import { Steps } from "@/components/site/checkout-steps";
+    37→import { Reveal } from "@/components/site/reveal";
+    38→import { cartSubtotal, useCartStore, type PlacedOrder } from "@/lib/cart-store";
+    39→import {
+    40→  DELIVERY_ZONES,
+    41→  FREE_COURIER_THRESHOLD,
+    42→  PAYMENT_RECEIVER,
+    43→  deliveryFeeFor,
+    44→  getZone,
+    45→} from "@/lib/delivery";
+    46→import { canonicalPhone } from "@/lib/phone";
+    47→import { usePortalStore } from "@/lib/portal-store";
+    48→import { site } from "@/lib/site-data";
+    49→
+    50→const taka = (n: number) => `৳${n.toLocaleString("en-US")}`;
+    51→
+    52→/* ------------------------------------------------------------------ */
+    53→/* Payment methods — book shop order checkout                          */
+    54→/* ------------------------------------------------------------------ */
+    55→
+    56→type OrderPayMethod = {
+    57→  id: "bKash" | "Nagad" | "Cash on Delivery";
+    58→  label: string;
+    59→  note: string;
+    60→  icon: LucideIcon;
+    61→  color: string;
+    62→  kind: "manual" | "cod";
+    63→};
+    64→
+    65→const orderPayMethods: OrderPayMethod[] = [
+    66→  {
+    67→    id: "bKash",
+    68→    label: "bKash — Send Money",
+    69→    note: `Send Money · ${PAYMENT_RECEIVER.bkash}`,
+    70→    icon: Smartphone,
+    71→    color: "#e2136e",
+    72→    kind: "manual",
+    73→  },
+    74→  {
+    75→    id: "Nagad",
+    76→    label: "Nagad — Send Money",
+    77→    note: `Send Money · ${PAYMENT_RECEIVER.nagad}`,
+    78→    icon: Wallet,
+    79→    color: "#f26522",
+    80→    kind: "manual",
+    81→  },
+    82→  {
+    83→    id: "Cash on Delivery",
+    84→    label: "Cash on Delivery",
+    85→    note: "বই হাতে পেয়ে টাকা পরিশোধ করুন — সারাদেশে",
+    86→    icon: Banknote,
+    87→    color: "#0f766e",
+    88→    kind: "cod",
+    89→  },
+    90→];
+    91→
+    92→function ErrorNote({ text }: { text: string }) {
+    93→  return (
+    94→    <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 px-3.5 py-2.5 text-sm text-destructive">
+    95→      {text}
+    96→    </p>
+    97→  );
+    98→}
+    99→
+   100→/* ------------------------------------------------------------------ */
+   101→/* Order summary sidebar                                               */
+   102→/* ------------------------------------------------------------------ */
+   103→
+   104→function CartSummary({ zone, onEdit }: { zone: string; onEdit?: () => void }) {
+   105→  const items = useCartStore((s) => s.items);
+   106→  const setQuantity = useCartStore((s) => s.setQuantity);
+   107→  const subtotal = cartSubtotal(items);
+   108→  const fee = deliveryFeeFor(zone, subtotal);
+   109→  const total = subtotal + fee;
+   110→  const zoneInfo = getZone(zone);
+   111→  const toFree = FREE_COURIER_THRESHOLD - subtotal;
+   112→
+   113→  return (
+   114→    <div>
+   115→      <div className="flex items-center justify-between">
+   116→        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+   117→          Order summary
+   118→        </p>
+   119→        {onEdit ? (
+   120→          <button
+   121→            type="button"
+   122→            onClick={onEdit}
+   123→            className="text-[11px] font-semibold text-primary hover:underline"
+   124→          >
+   125→            Edit cart
+   126→          </button>
+   127→        ) : null}
+   128→      </div>
+   129→
+   130→      <ul className="mt-4 space-y-3">
+   131→        {items.map((item) => (
+   132→          <li key={item.slug} className="flex gap-3">
+   133→            <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded-lg border border-primary/15">
+   134→              <Image src={item.cover} alt="" fill sizes="48px" className="object-cover" />
+   135→            </div>
+   136→            <div className="min-w-0 flex-1">
+   137→              <p className="line-clamp-2 text-xs font-semibold leading-snug text-foreground">
+   138→                {item.title}
+   139→              </p>
+   140→              <div className="mt-1 flex items-center justify-between">
+   141→                <div className="flex items-center rounded-md border border-border">
+   142→                  <button
+   143→                    type="button"
+   144→                    aria-label={`Decrease quantity of ${item.title}`}
+   145→                    onClick={() => setQuantity(item.slug, item.quantity - 1)}
+   146→                    className="flex h-6 w-6 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+   147→                  >
+   148→                    <Minus className="h-3 w-3" aria-hidden />
+   149→                  </button>
+   150→                  <span className="w-6 text-center text-[11px] font-bold text-foreground">
+   151→                    {item.quantity}
+   152→                  </span>
+   153→                  <button
+   154→                    type="button"
+   155→                    aria-label={`Increase quantity of ${item.title}`}
+   156→                    onClick={() => setQuantity(item.slug, item.quantity + 1)}
+   157→                    className="flex h-6 w-6 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+   158→                  >
+   159→                    <Plus className="h-3 w-3" aria-hidden />
+   160→                  </button>
+   161→                </div>
+   162→                <span className="text-xs font-bold text-foreground">
+   163→                  {taka(item.price * item.quantity)}
+   164→                </span>
+   165→              </div>
+   166→            </div>
+   167→          </li>
+   168→        ))}
+   169→      </ul>
+   170→
+   171→      <Separator className="my-4 bg-primary/10" />
+   172→
+   173→      <dl className="space-y-2 text-sm">
+   174→        <div className="flex items-center justify-between">
+   175→          <dt className="text-muted-foreground">Subtotal</dt>
+   176→          <dd className="text-foreground">{taka(subtotal)}</dd>
+   177→        </div>
+   178→        <div className="flex items-center justify-between">
+   179→          <dt className="text-muted-foreground">Delivery</dt>
+   180→          <dd className={fee === 0 ? "font-medium text-emerald-400" : "text-foreground"}>
+   181→            {fee === 0 ? "Free" : taka(fee)}
+   182→          </dd>
+   183→        </div>
+   184→        <div className="flex items-center justify-between border-t border-primary/10 pt-2.5">
+   185→          <dt className="font-display text-base font-bold text-foreground">Total</dt>
+   186→          <dd className="font-display text-2xl font-bold text-brand-gradient">{taka(total)}</dd>
+   187→        </div>
+   188→      </dl>
+   189→
+   190→      {zoneInfo?.courier && toFree > 0 ? (
+   191→        <p className="mt-3 flex items-start gap-1.5 text-[11px] leading-relaxed text-primary">
+   192→          <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+   193→          আর {taka(toFree)} যোগ করলেই কুরিয়ার ফ্রি ({taka(FREE_COURIER_THRESHOLD)}+ অর্ডারে)
+   194→        </p>
+   195→      ) : null}
+   196→      {zoneInfo?.courier && toFree <= 0 ? (
+   197→        <p className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-400">
+   198→          <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden />
+   199→          কুরিয়ার ডেলিভারি ফ্রি হয়ে গেছে!
+   200→        </p>
+   201→      ) : null}
+   202→      {zoneInfo && !zoneInfo.courier ? (
+   203→        <p className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+   204→          <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+   205→          {zoneInfo.note}
+   206→        </p>
+   207→      ) : null}
+   208→    </div>
+   209→  );
+   210→}
+   211→
+   212→/* ------------------------------------------------------------------ */
+   213→/* Step 1 — delivery details                                           */
+   214→/* ------------------------------------------------------------------ */
+   215→
+   216→function DetailsStep({
+   217→  form,
+   218→  setField,
+   219→  onNext,
+   220→}: {
+   221→  form: DetailsForm;
+   222→  setField: (k: keyof DetailsForm, v: string) => void;
+   223→  onNext: () => void;
+   224→}) {
+   225→  const zoneInfo = getZone(form.zone);
+   226→  const courier = !!zoneInfo?.courier;
+   227→
+   228→  function submit(e: FormEvent<HTMLFormElement>) {
+   229→    e.preventDefault();
+   230→    onNext();
+   231→  }
+   232→
+   233→  return (
+   234→    <form onSubmit={submit} className="space-y-4" noValidate>
+   235→      <div>
+   236→        <h2 className="font-display text-lg font-bold text-foreground">Delivery details</h2>
+   237→        <p className="mt-1 text-sm text-muted-foreground">
+   238→          বই পাঠানোর ঠিকানা দিন — আমরা কল দিয়ে কনফার্ম করে পার্সেল পাঠাব।
+   239→        </p>
+   240→      </div>
+   241→
+   242→      <div className="grid gap-3.5 sm:grid-cols-2">
+   243→        <div className="space-y-1.5">
+   244→          <Label htmlFor="cart-name">Full name *</Label>
+   245→          <Input
+   246→            id="cart-name"
+   247→            placeholder="e.g. Rahim Ahmed"
+   248→            value={form.name}
+   249→            onChange={(e) => setField("name", e.target.value)}
+   250→            autoComplete="name"
+   251→          />
+   252→        </div>
+   253→        <div className="space-y-1.5">
+   254→          <Label htmlFor="cart-phone">Mobile number *</Label>
+   255→          <div className="flex overflow-hidden rounded-xl border border-input bg-transparent focus-within:ring-2 focus-within:ring-ring/50">
+   256→            <span className="flex items-center gap-1.5 border-r border-input bg-[#0A241B] px-3.5 text-sm font-semibold text-primary">
+   257→              <Smartphone className="h-3.5 w-3.5" aria-hidden />
+   258→              +880
+   259→            </span>
+   260→            <Input
+   261→              id="cart-phone"
+   262→              type="tel"
+   263→              inputMode="tel"
+   264→              placeholder="01XXX-XXXXXX"
+   265→              value={form.phone}
+   266→              onChange={(e) => setField("phone", e.target.value)}
+   267→              maxLength={20}
+   268→              autoComplete="tel"
+   269→              className="rounded-l-none border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+   270→            />
+   271→          </div>
+   272→        </div>
+   273→      </div>
+   274→
+   275→      <div className="grid gap-3.5 sm:grid-cols-2">
+   276→        <div className="space-y-1.5">
+   277→          <Label htmlFor="cart-email">Email (optional)</Label>
+   278→          <Input
+   279→            id="cart-email"
+   280→            type="email"
+   281→            placeholder="you@example.com"
+   282→            value={form.email}
+   283→            onChange={(e) => setField("email", e.target.value)}
+   284→            autoComplete="email"
+   285→          />
+   286→        </div>
+   287→        <div className="space-y-1.5">
+   288→          <Label htmlFor="cart-zone">Delivery area *</Label>
+   289→          <Select value={form.zone} onValueChange={(v) => setField("zone", v)}>
+   290→            <SelectTrigger id="cart-zone" className="w-full">
+   291→              <SelectValue placeholder="Select delivery area" />
+   292→            </SelectTrigger>
+   293→            <SelectContent className="border-primary/20 bg-[#0A241B]">
+   294→              {DELIVERY_ZONES.map((z) => (
+   295→                <SelectItem key={z.value} value={z.value}>
+   296→                  {z.label} {z.fee === 0 ? "— Free" : `— ${taka(z.fee)}`}
+   297→                </SelectItem>
+   298→              ))}
+   299→            </SelectContent>
+   300→          </Select>
+   301→        </div>
+   302→      </div>
+   303→
+   304→      {courier ? (
+   305→        <div className="space-y-1.5">
+   306→          <Label htmlFor="cart-address">Full address *</Label>
+   307→          <Textarea
+   308→            id="cart-address"
+   309→            placeholder="House / Road / Area, Thana, District"
+   310→            value={form.address}
+   311→            onChange={(e) => setField("address", e.target.value)}
+   312→            rows={3}
+   313→          />
+   314→          <p className="text-xs text-muted-foreground">
+   315→            কুরিয়ার পার্সেল পৌঁছাতে সম্পূর্ণ ঠিকানা দরকার — house, road, area সহ।
+   316→          </p>
+   317→        </div>
+   318→      ) : (
+   319→        <p className="flex items-start gap-2 rounded-xl border border-primary/15 bg-primary/5 px-3.5 py-2.5 text-xs leading-relaxed text-primary">
+   320→          <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+   321→          {zoneInfo?.note} — ঠিকানা লাগবে না, আমরা কল দিয়ে সময় নিশ্চিত করব।
+   322→        </p>
+   323→      )}
+   324→
+   325→      <div className="space-y-1.5">
+   326→        <Label htmlFor="cart-note">Order note (optional)</Label>
+   327→        <Textarea
+   328→          id="cart-note"
+   329→          placeholder="Special instructions — delivery time, gift wrap, etc."
+   330→          value={form.note}
+   331→          onChange={(e) => setField("note", e.target.value)}
+   332→          rows={2}
+   333→        />
+   334→      </div>
+   335→
+   336→      <Button
+   337→        type="submit"
+   338→        className="w-full bg-brand-gradient py-5 text-base font-semibold text-white hover:opacity-90"
+   339→      >
+   340→        Continue to payment
+   341→        <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+   342→      </Button>
+   343→    </form>
+   344→  );
+   345→}
+   346→
+   347→/* ------------------------------------------------------------------ */
+   348→/* Step 2 — payment                                                    */
+   349→/* ------------------------------------------------------------------ */
+   350→
+   351→function PaymentStep({
+   352→  form,
+   353→  setField,
+   354→  method,
+   355→  setMethod,
+   356→  total,
+   357→  onBack,
+   358→  onPlace,
+   359→  busy,
+   360→  error,
+   361→}: {
+   362→  form: DetailsForm;
+   363→  setField: (k: keyof DetailsForm, v: string) => void;
+   364→  method: OrderPayMethod["id"];
+   365→  setMethod: (m: OrderPayMethod["id"]) => void;
+   366→  total: number;
+   367→  onBack: () => void;
+   368→  onPlace: () => void;
+   369→  busy: boolean;
+   370→  error: string | null;
+   371→}) {
+   372→  const selected = orderPayMethods.find((m) => m.id === method)!;
+   373→
+   374→  return (
+   375→    <div className="space-y-6">
+   376→      <div>
+   377→        <h2 className="font-display text-lg font-bold text-foreground">Payment method</h2>
+   378→        <p className="mt-1 text-sm text-muted-foreground">
+   379→          পেমেন্ট পদ্ধতি বেছে নিন — অর্ডার কনফার্ম হওয়ার পর আমরা কল দিয়ে নিশ্চিত করব।
+   380→        </p>
+   381→      </div>
+   382→
+   383→      <RadioGroup value={method} onValueChange={(v) => setMethod(v as OrderPayMethod["id"])} className="space-y-2">
+   384→        {orderPayMethods.map((m) => {
+   385→          const Icon = m.icon;
+   386→          return (
+   387→            <Label
+   388→              key={m.id}
+   389→              htmlFor={`opay-${m.id}`}
+   390→              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
+   391→                method === m.id ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-[#0A241B] hover:border-primary/30"
+   392→              }`}
+   393→            >
+   394→              <RadioGroupItem id={`opay-${m.id}`} value={m.id} />
+   395→              <span
+   396→                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white"
+   397→                style={{ backgroundColor: m.color }}
+   398→                aria-hidden
+   399→              >
+   400→                <Icon className="h-4.5 w-4.5" />
+   401→              </span>
+   402→              <span className="min-w-0">
+   403→                <span className="block text-sm font-bold text-foreground">{m.label}</span>
+   404→                <span className="block truncate text-xs text-muted-foreground">{m.note}</span>
+   405→              </span>
+   406→            </Label>
+   407→          );
+   408→        })}
+   409→        {/* Reserved slot — the online payment gateway plugs in here later */}
+   410→        <div
+   411→          aria-disabled
+   412→          className="flex cursor-not-allowed items-center gap-3 rounded-xl border border-border/60 bg-[#0A241B]/60 p-3.5 opacity-60"
+   413→        >
+   414→          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1d1d24] text-muted-foreground" aria-hidden>
+   415→            <CreditCard className="h-4.5 w-4.5" />
+   416→          </span>
+   417→          <span className="min-w-0 flex-1">
+   418→            <span className="block text-sm font-bold text-foreground">Card / Online Payment</span>
+   419→            <span className="block text-xs text-muted-foreground">bKash PGW · SSLCommerz · Nagad PGW</span>
+   420→          </span>
+   421→          <Badge variant="outline" className="shrink-0 border-primary/40 text-[10px] font-bold uppercase tracking-wider text-primary">
+   422→            <Clock className="mr-1 h-3 w-3" aria-hidden />
+   423→            Coming Soon
+   424→          </Badge>
+   425→        </div>
+   426→      </RadioGroup>
+   427→
+   428→      {selected.kind === "manual" ? (
+   429→        <div className="space-y-3">
+   430→          <div className="rounded-xl border border-primary/25 bg-gradient-to-br from-[#114430]/60 to-[#0C2E23] p-4">
+   431→            <p className="text-sm font-bold text-foreground">
+   432→              {selected.id} Send Money — {taka(total)}
+   433→            </p>
+   434→            <ol className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+   435→              <li className="flex items-start gap-1.5">
+   436→                <span className="font-bold text-primary">১.</span>
+   437→                <span>
+   438→                  {selected.id} অ্যাপ থেকে{" "}
+   439→                  <span className="font-bold text-foreground">Send Money</span> করুন{" "}
+   440→                  <span className="font-bold text-primary">{PAYMENT_RECEIVER.full}</span> নম্বরে
+   441→                  (Merchant)।
+   442→                </span>
+   443→              </li>
+   444→              <li className="flex items-start gap-1.5">
+   445→                <span className="font-bold text-primary">২.</span>
+   446→                <span>
+   447→                  Reference-এ অর্ডার নম্বর লিখুন (পরের ধাপে দেখাব) অথবা টাকা পাঠানোর পর{" "}
+   448→                  <span className="font-bold text-foreground">TrxID</span> নিচে দিন।
+   449→                </span>
+   450→              </li>
+   451→              <li className="flex items-start gap-1.5">
+   452→                <span className="font-bold text-primary">৩.</span>
+   453→                <span>আমরা পেমেন্ট ভেরিফাই করে আপনাকে কল দেব — তারপর বই পাঠানো হবে।</span>
+   454→              </li>
+   455→            </ol>
+   456→          </div>
+   457→          <div className="space-y-1.5">
+   458→            <Label htmlFor="cart-txid">Transaction ID (optional)</Label>
+   459→            <Input
+   460→              id="cart-txid"
+   461→              placeholder="e.g. 9GX7A2B1CD — পরে ফোনেও দেওয়া যাবে"
+   462→              value={form.transactionId}
+   463→              onChange={(e) => setField("transactionId", e.target.value)}
+   464→              maxLength={60}
+   465→            />
+   466→          </div>
+   467→        </div>
+   468→      ) : (
+   469→        <p className="flex items-start gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-2.5 text-xs leading-relaxed text-emerald-400">
+   470→          <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+   471→          বই বুঝিয়ে দেওয়ার সময় {taka(total)} ক্যাশ পরিশোধ করবেন। ডেলিভারির আগে আমরা কল দিয়ে
+   472→          অর্ডার কনফার্ম করব।
+   473→        </p>
+   474→      )}
+   475→
+   476→      {error ? <ErrorNote text={error} /> : null}
+   477→
+   478→      <div className="flex flex-col gap-2.5 sm:flex-row">
+   479→        <Button
+   480→          onClick={onPlace}
+   481→          disabled={busy}
+   482→          className="flex-1 bg-brand-gradient py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,138,96,0.25)] hover:opacity-90 disabled:opacity-60"
+   483→        >
+   484→          {busy ? (
+   485→            <>
+   486→              <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden />
+   487→              Placing order...
+   488→            </>
+   489→          ) : (
+   490→            <>
+   491→              <ShieldCheck className="mr-2 h-5 w-5" aria-hidden />
+   492→              Place Order · {taka(total)}
+   493→            </>
+   494→          )}
+   495→        </Button>
+   496→        <Button variant="outline" onClick={onBack} disabled={busy} className="border-primary/25 hover:text-primary">
+   497→          Back
+   498→        </Button>
+   499→      </div>
+   500→
+   501→      <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+   502→        <Lock className="h-3.5 w-3.5" aria-hidden />
+   503→        Secure checkout · bKash / Nagad / Cash on Delivery accepted
+   504→      </p>
+   505→    </div>
+   506→  );
+   507→}
+   508→
+   509→/* ------------------------------------------------------------------ */
+   510→/* Step 3 — order receipt                                              */
+   511→/* ------------------------------------------------------------------ */
+   512→
+   513→function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: () => void }) {
+   514→  const [copied, setCopied] = useState(false);
+   515→
+   516→  function copyOrderNo() {
+   517→    navigator.clipboard?.writeText(order.orderNo).catch(() => {});
+   518→    setCopied(true);
+   519→    setTimeout(() => setCopied(false), 1600);
+   520→  }
+   521→
+   522→  const firstName = order.name.trim().split(/\s+/)[0];
+   523→  const zone = getZone(order.zone);
+   524→  const manual = order.paymentMethod !== "Cash on Delivery";
+   525→
+   526→  return (
+   527→    <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-10">
+   528→      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-radial-glow blur-2xl" />
+   529→      <div className="relative">
+   530→        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gradient shadow-[0_8px_40px_rgba(16,138,96,0.45)]">
+   531→          <CheckCircle2 className="h-8 w-8 text-white" aria-hidden />
+   532→        </span>
+   533→        <h2 className="mt-5 text-center font-display text-2xl font-bold text-foreground md:text-3xl">
+   534→          Order <span className="text-brand-gradient">placed!</span>
+   535→        </h2>
+   536→        <p className="mt-2 text-center text-sm text-muted-foreground md:text-base">
+   537→          ধন্যবাদ {firstName}! আপনার অর্ডার আমরা পেয়েছি — ২৪ ঘণ্টার মধ্যে{" "}
+   538→          <span className="font-semibold text-foreground">{order.phone}</span> নম্বরে কল দিয়ে
+   539→          কনফার্ম করা হবে।
+   540→        </p>
+   541→
+   542→        {/* Order number */}
+   543→        <div className="mx-auto mt-6 flex max-w-sm items-center justify-between gap-3 rounded-2xl border border-dashed border-primary/50 bg-black/30 px-4 py-3">
+   544→          <div>
+   545→            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+   546→              Order number
+   547→            </p>
+   548→            <p className="font-display text-lg font-bold tracking-wider text-primary">{order.orderNo}</p>
+   549→          </div>
+   550→          <Button
+   551→            size="sm"
+   552→            variant="outline"
+   553→            onClick={copyOrderNo}
+   554→            className="shrink-0 border-primary/40 text-xs font-semibold text-primary hover:bg-primary/10 hover:text-primary"
+   555→          >
+   556→            {copied ? <CheckCircle2 className="mr-1 h-3.5 w-3.5" aria-hidden /> : <Copy className="mr-1 h-3.5 w-3.5" aria-hidden />}
+   557→            {copied ? "Copied" : "Copy"}
+   558→          </Button>
+   559→        </div>
+   560→
+   561→        {/* Payment instruction */}
+   562→        <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-primary/20 bg-card/80 p-4">
+   563→          {manual ? (
+   564→            <>
+   565→              <p className="text-sm font-bold text-foreground">
+   566→                পেমেন্ট: {order.paymentMethod} — {taka(order.total)}
+   567→              </p>
+   568→              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+   569→                {order.paymentMethod} অ্যাপ থেকে{" "}
+   570→                <span className="font-bold text-primary">{PAYMENT_RECEIVER.full}</span> (Merchant)
+   571→                নম্বরে <span className="font-bold text-foreground">{taka(order.total)}</span> Send
+   572→                Money করুন — Reference: <span className="font-bold text-foreground">{order.orderNo}</span>
+   573→                {order.transactionId ? (
+   574→                  <>
+   575→                    {" "}· TrxID: <span className="font-bold text-foreground">{order.transactionId}</span>
+   576→                  </>
+   577→                ) : null}
+   578→                । ভেরিফাই হলেই বই কুরিয়ারে।
+   579→              </p>
+   580→            </>
+   581→          ) : order.zone === "pickup" ? (
+   582→            <p className="text-xs leading-relaxed text-muted-foreground">
+   583→              ক্যাম্পাস (Chowmuhona, Sreemangal) থেকে বই বুঝে নেওয়ার সময়{" "}
+   584→              <span className="font-bold text-foreground">{taka(order.total)}</span> পরিশোধ করুন।
+   585→            </p>
+   586→          ) : (
+   587→            <p className="text-xs leading-relaxed text-muted-foreground">
+   588→              বই বুঝিয়ে দেওয়ার সময়{" "}
+   589→              <span className="font-bold text-foreground">{taka(order.total)}</span> ক্যাশ পরিশোধ
+   590→              করবেন।
+   591→            </p>
+   592→          )}
+   593→        </div>
+   594→
+   595→        {/* Items recap */}
+   596→        <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-border bg-card/60 p-4">
+   597→          <ul className="space-y-2">
+   598→            {order.items.map((i) => (
+   599→              <li key={i.slug} className="flex items-center justify-between gap-3 text-xs">
+   600→                <span className="min-w-0 truncate text-foreground/90">
+   601→                  {i.title} <span className="text-muted-foreground">× {i.quantity}</span>
+   602→                </span>
+   603→                <span className="shrink-0 font-semibold text-foreground">{taka(i.lineTotal)}</span>
+   604→              </li>
+   605→            ))}
+   606→          </ul>
+   607→          <Separator className="my-3 bg-primary/10" />
+   608→          <div className="flex items-center justify-between text-xs text-muted-foreground">
+   609→            <span>Subtotal {order.deliveryFee > 0 ? `+ delivery ${taka(order.deliveryFee)}` : "· free delivery"}</span>
+   610→            <span className="font-display text-base font-bold text-brand-gradient">{taka(order.total)}</span>
+   611→          </div>
+   612→          <p className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+   613→            <MapPin className="h-3 w-3 shrink-0 text-primary" aria-hidden />
+   614→            {zone?.label}
+   615→            {order.address ? <> — {order.address}</> : null}
+   616→          </p>
+   617→        </div>
+   618→
+   619→        <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+   620→          <Button asChild className="bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
+   621→            <a href="#/shop">
+   622→              <ShoppingBag className="mr-2 h-5 w-5" aria-hidden />
+   623→              Continue Shopping
+   624→            </a>
+   625→          </Button>
+   626→          <Button asChild variant="outline" className="border-primary/25 px-6 py-6 font-semibold hover:text-primary">
+   627→            <a href={site.phoneHref}>
+   628→              <Phone className="mr-2 h-5 w-5" aria-hidden />
+   629→              Questions? {site.phone}
+   630→            </a>
+   631→          </Button>
+   632→        </div>
+   633→
+   634→        <p className="mt-5 text-center text-xs text-muted-foreground">
+   635→          অন্য অর্ডার করতে চান?{" "}
+   636→          <button type="button" onClick={onNewOrder} className="font-semibold text-primary hover:underline">
+   637→            Start a new order
+   638→          </button>
+   639→        </p>
+   640→      </div>
+   641→    </div>
+   642→  );
+   643→}
+   644→
+   645→/* ------------------------------------------------------------------ */
+   646→/* Cart checkout page body                                             */
+   647→/* ------------------------------------------------------------------ */
+   648→
+   649→type DetailsForm = {
+   650→  name: string;
+   651→  phone: string;
+   652→  email: string;
+   653→  zone: string;
+   654→  address: string;
+   655→  note: string;
+   656→  transactionId: string;
+   657→};
+   658→
+   659→const EMPTY_FORM: DetailsForm = {
+   660→  name: "",
+   661→  phone: "",
+   662→  email: "",
+   663→  zone: "sreemangal",
+   664→  address: "",
+   665→  note: "",
+   666→  transactionId: "",
+   667→};
+   668→
+   669→export function CartCheckout() {
+   670→  const items = useCartStore((s) => s.items);
+   671→  const lastOrder = useCartStore((s) => s.lastOrder);
+   672→  const setLastOrder = useCartStore((s) => s.setLastOrder);
+   673→  const clear = useCartStore((s) => s.clear);
+   674→  const hasHydrated = useCartStore((s) => s.hasHydrated);
+   675→  const portalUser = usePortalStore((s) => s.user);
+   676→
+   677→  const [step, setStep] = useState<1 | 2 | 3>(1);
+   678→  const [form, setForm] = useState<DetailsForm>(EMPTY_FORM);
+   679→  const [formError, setFormError] = useState<string | null>(null);
+   680→  const [method, setMethod] = useState<OrderPayMethod["id"]>("bKash");
+   681→  const [busy, setBusy] = useState(false);
+   682→
+   683→  const subtotal = cartSubtotal(items);
+   684→  const fee = deliveryFeeFor(form.zone, subtotal);
+   685→  const total = subtotal + fee;
+   686→
+   687→  // Portal users get name/phone prefilled once the session restores.
+   688→  if (hasHydrated && portalUser && form.name === "" && form.phone === "") {
+   689→    setForm((f) => ({ ...f, name: portalUser.name, phone: portalUser.phone }));
+   690→  }
+   691→
+   692→  function setField(k: keyof DetailsForm, v: string) {
+   693→    setForm((f) => ({ ...f, [k]: v }));
+   694→    setFormError(null);
+   695→  }
+   696→
+   697→  function validateDetails(): string | null {
+   698→    if (form.name.trim().length < 2) return "আপনার পুরো নাম লিখুন।";
+   699→    const phone = canonicalPhone(form.phone);
+   700→    if (!/^01[3-9]\d{8}$/.test(phone)) return "সঠিক মোবাইল নম্বর দিন — যেমন 01712-345678।";
+   701→    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email.trim())) return "Email টি সঠিক নয়।";
+   702→    const zone = getZone(form.zone);
+   703→    if (zone?.courier && form.address.trim().length < 8) {
+   704→      return "কুরিয়ার ডেলিভারির জন্য সম্পূর্ণ ঠিকানা লিখুন (house/road/area)।";
+   705→    }
+   706→    return null;
+   707→  }
+   708→
+   709→  function goNextFromDetails() {
+   710→    const err = validateDetails();
+   711→    if (err) {
+   712→      setFormError(err);
+   713→      return;
+   714→    }
+   715→    setFormError(null);
+   716→    setStep(2);
+   717→  }
+   718→
+   719→  async function placeOrder() {
+   720→    setBusy(true);
+   721→    setFormError(null);
+   722→    try {
+   723→      const res = await fetch("/api/orders", {
+   724→        method: "POST",
+   725→        headers: { "Content-Type": "application/json" },
+   726→        body: JSON.stringify({
+   727→          name: form.name.trim(),
+   728→          phone: canonicalPhone(form.phone),
+   729→          email: form.email.trim() || undefined,
+   730→          zone: form.zone,
+   731→          address: form.address.trim() || undefined,
+   732→          note: form.note.trim() || undefined,
+   733→          items: items.map((i) => ({ slug: i.slug, quantity: i.quantity })),
+   734→          paymentMethod: method,
+   735→          transactionId: form.transactionId.trim() || undefined,
+   736→        }),
+   737→      });
+   738→      const data = (await res.json().catch(() => null)) as
+   739→        | { order?: PlacedOrder; error?: string }
+   740→        | null;
+   741→      if (!res.ok || !data?.order) {
+   742→        setFormError(data?.error ?? "Order placement failed — please try again.");
+   743→        return;
+   744→      }
+   745→      clear();
+   746→      setLastOrder(data.order);
+   747→      setStep(3);
+   748→      window.scrollTo({ top: 0, behavior: "smooth" });
+   749→    } catch {
+   750→      setFormError("Could not reach the server — check your connection.");
+   751→    } finally {
+   752→      setBusy(false);
+   753→    }
+   754→  }
+   755→
+   756→  /* --- Receipt view (just placed / restored from last session) --- */
+   757→  if (hasHydrated && items.length === 0 && lastOrder) {
+   758→    return (
+   759→      <Reveal y={12}>
+   760→        <div className="mx-auto max-w-3xl">
+   761→          <OrderReceipt order={lastOrder} onNewOrder={() => setLastOrder(null)} />
+   762→        </div>
+   763→      </Reveal>
+   764→    );
+   765→  }
+   766→
+   767→  /* --- Empty cart --- */
+   768→  if (!hasHydrated) {
+   769→    return (
+   770→      <div className="flex justify-center py-16">
+   771→        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/30 border-t-primary" aria-label="Loading cart" />
+   772→      </div>
+   773→    );
+   774→  }
+   775→
+   776→  if (items.length === 0) {
+   777→    return (
+   778→      <div className="mx-auto max-w-xl">
+   779→        <div className="rounded-3xl border border-border bg-card p-10 text-center">
+   780→          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-primary/25 bg-primary/10">
+   781→            <ShoppingBag className="h-7 w-7 text-primary/70" aria-hidden />
+   782→          </span>
+   783→          <h2 className="mt-4 font-display text-xl font-bold text-foreground">আপনার কার্ট খালি</h2>
+   784→          <p className="mt-2 text-sm text-muted-foreground">
+   785→            Book Shop থেকে বই কার্টে যোগ করুন — অথবা নিচের কোর্সে ভর্তি হোন।
+   786→          </p>
+   787→          <Button asChild className="mt-5 bg-brand-gradient px-6 py-6 font-semibold text-white hover:opacity-90">
+   788→            <a href="#/shop">
+   789→              <BookOpen className="mr-2 h-5 w-5" aria-hidden />
+   790→              Browse Books
+   791→            </a>
+   792→          </Button>
+   793→        </div>
+   794→      </div>
+   795→    );
+   796→  }
+   797→
+   798→  /* --- Steps 1–2 flow --- */
+   799→  return (
+   800→    <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
+   801→      <Reveal y={12}>
+   802→        <Card className="border-primary/20 bg-card">
+   803→          <CardContent className="space-y-6 p-6 md:p-8">
+   804→            <Steps current={step} labels={["Details", "Payment", "Done"]} />
+   805→
+   806→            {step === 1 ? (
+   807→              <DetailsStep form={form} setField={setField} onNext={goNextFromDetails} />
+   808→            ) : null}
+   809→
+   810→            {step === 2 ? (
+   811→              <PaymentStep
+   812→                form={form}
+   813→                setField={setField}
+   814→                method={method}
+   815→                setMethod={setMethod}
+   816→                total={total}
+   817→                onBack={() => setStep(1)}
+   818→                onPlace={placeOrder}
+   819→                busy={busy}
+   820→                error={formError}
+   821→              />
+   822→            ) : null}
+   823→
+   824→            {formError && step === 1 ? <ErrorNote text={formError} /> : null}
+   825→          </CardContent>
+   826→        </Card>
+   827→      </Reveal>
+   828→
+   829→      <Reveal y={12} delay={0.08}>
+   830→        <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
+   831→          <CardContent className="p-6">
+   832→            <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
+   833→            <Separator className="my-4 bg-primary/10" />
+   834→            <ul className="space-y-2 text-xs text-muted-foreground">
+   835→              <li className="flex items-start gap-2">
+   836→                <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+   837→                100% original — Sadia Rahman-এর লেখা বই
+   838→              </li>
+   839→              <li className="flex items-start gap-2">
+   840→                <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+   841→                {taka(FREE_COURIER_THRESHOLD)}+ অর্ডারে সারাদেশে ফ্রি কুরিয়ার
+   842→              </li>
+   843→              <li className="flex items-start gap-2">
+   844→                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+   845→                Cash on delivery available — ঝুঁকিমুক্ত কেনাকাটা
+   846→              </li>
+   847→            </ul>
+   848→            <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
+   849→              প্রশ্ন থাকলে কল করুন {site.phone} — অথবা অর্ডার করার পর আমরাই আপনাকে কল দেব।
+   850→            </p>
+   851→          </CardContent>
+   852→        </Card>
+   853→      </Reveal>
+   854→    </div>
+   855→  );
+   856→}
+   857→

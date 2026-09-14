@@ -21,9 +21,9 @@ const moduleMeta = [
 ];
 
 function bandBarColor(band: number): string {
-  if (band >= 7.5) return "bg-emerald-500/80";
-  if (band >= 6.5) return "bg-gold-gradient";
-  return "bg-amber-500/70";
+  if (band >= 7.5) return "bg-emerald-700";
+  if (band >= 6.5) return "bg-primary";
+  return "bg-amber-600";
 }
 
 export function ScoresSection({
@@ -44,7 +44,7 @@ export function ScoresSection({
   if (!latest) {
     return (
       <Reveal>
-        <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-primary/25 bg-card/60 px-6 py-16 text-center">
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-border bg-muted/50 px-6 py-16 text-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <BarChart3 className="h-7 w-7 text-primary" aria-hidden />
           </span>
@@ -62,13 +62,13 @@ export function ScoresSection({
       {/* Latest band + module breakdown */}
       <div className="grid gap-6 xl:grid-cols-[320px_1fr]">
         <Reveal y={12}>
-          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-primary/25 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6 text-center">
-            <p className="text-xs uppercase tracking-[0.25em] text-primary">{latest.label}</p>
-            <p className="mt-1 text-xs text-muted-foreground">{latest.date}</p>
-            <p className="mt-4 font-display text-6xl font-bold leading-none text-gold-gradient">
+          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 text-center">
+            <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">{latest.label}</p>
+            <p className="mt-1 text-xs text-[#A9C6B6]">{latest.date}</p>
+            <p className="mt-4 font-display text-6xl font-bold leading-none text-[#63D6A4]">
               {latest.overall.toFixed(1)}
             </p>
-            <p className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">Overall band</p>
+            <p className="mt-2 text-xs uppercase tracking-wider text-[#A9C6B6]">Overall band</p>
             <div className="mt-4 flex flex-wrap justify-center gap-1.5">
               {toTarget !== null ? (
                 toTarget <= 0 ? (
@@ -80,14 +80,14 @@ export function ScoresSection({
                     Target {targetBand} achieved!
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
                     <Target className="mr-1 h-3 w-3" aria-hidden />
                     {toTarget.toFixed(1)} band to go — target {targetBand}
                   </Badge>
                 )
               ) : null}
               {bestOverall !== null && bestOverall > latest.overall ? (
-                <Badge variant="outline" className="border-border text-muted-foreground">
+                <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
                   Best {bestOverall.toFixed(1)}
                 </Badge>
               ) : null}
@@ -152,13 +152,13 @@ export function ScoresSection({
                       className={`flex h-full items-center justify-end rounded-lg pr-2 ${bandBarColor(m.overall)}`}
                       style={{ width: `${Math.max((m.overall / 9) * 100, 14)}%` }}
                     >
-                      <span className="text-[10px] font-bold text-[#16120a]">{m.overall.toFixed(1)}</span>
+                      <span className="text-[10px] font-bold text-white">{m.overall.toFixed(1)}</span>
                     </div>
                   </div>
                   {delta !== null && delta > 0 ? (
                     <Badge
                       variant="outline"
-                      className="shrink-0 border-emerald-500/40 bg-emerald-500/10 text-[10px] text-emerald-400"
+                      className="shrink-0 border-emerald-600/40 bg-emerald-500/10 text-[10px] text-emerald-700"
                     >
                       +{delta.toFixed(1)}
                     </Badge>
@@ -179,7 +179,7 @@ export function ScoresSection({
           <div className="mt-4 overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="border-border/80 bg-[#0d0d11] hover:bg-[#0d0d11]">
+                <TableRow className="border-border/80 bg-muted/50 hover:bg-muted/50">
                   {["Mock", "Date", "Listening", "Reading", "Writing", "Speaking", "Overall"].map((h) => (
                     <TableHead key={h} className="whitespace-nowrap text-xs uppercase tracking-wider text-muted-foreground">
                       {h}

@@ -30,7 +30,7 @@ export function StoriesSection() {
           eyebrow="Success Stories"
           title={
             <>
-              What Our <span className="text-gold-gradient">Students Achieve</span>
+              What Our <span className="text-brand-gradient">Students Achieve</span>
             </>
           }
           subtitle="Authentic experiences — আমাদের recent batches-এর শিক্ষার্থীদের সফলতার গল্প।"
@@ -52,7 +52,7 @@ export function StoriesSection() {
                         &ldquo;{story.quote}&rdquo;
                       </p>
                       <div className="mt-6 flex items-center gap-3 border-t border-border/70 pt-5">
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-gold-gradient font-display text-sm font-bold text-[#16120a]">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-brand-gradient font-display text-sm font-bold text-white">
                           {initials(story.name)}
                         </span>
                         <div className="min-w-0">

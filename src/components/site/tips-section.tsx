@@ -17,14 +17,14 @@ export function TipsSection() {
   return (
     <section
       id="tips"
-      className="scroll-mt-24 border-y border-primary/10 bg-[#0d0d10] py-16 md:py-24"
+      className="scroll-mt-24 py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
           eyebrow="Free Resources"
           title={
             <>
-              Free IELTS <span className="text-gold-gradient">Tips & Tricks</span>
+              Free IELTS <span className="text-brand-gradient">Tips & Tricks</span>
             </>
           }
           subtitle="প্রতি সপ্তাহে নতুন শর্টকাট টেকনিক — আমাদের ব্লগ ও ফেসবুক পেজে ফ্রি।"
@@ -72,7 +72,7 @@ export function TipsSection() {
             asChild
             variant="outline"
             size="lg"
-            className="border-primary/30 bg-transparent hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+            className="rounded-full border-border bg-card text-foreground hover:border-primary/50 hover:text-primary"
           >
             <a href={site.facebook} target="_blank" rel="noopener noreferrer">
               <Facebook className="mr-2 h-4 w-4" aria-hidden />

@@ -24,7 +24,7 @@ export function SiteHeader() {
   const [promoClosed, setPromoClosed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const route = useHashRoute();
-  // 10MS-style "অফার শেষ হতে বাকি" timer for the gold announcement bar
+  // 10MS-style "অফার শেষ হতে বাকি" timer for the announcement bar
   const countdown = useOfferCountdown();
   const offerLeft = compactCountdown(countdown); // "" until mounted → hydration-safe
   // Swaps the header CTA to "My Portal" once the persisted session restores
@@ -76,18 +76,18 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 overflow-hidden rounded-t-[1.5rem] sm:rounded-t-[2rem]">
       {/* Promo announcement bar — 10MS style, dismissible, collapses on scroll */}
       {!promoClosed ? (
         <div
-          className={`relative overflow-hidden bg-gold-gradient text-[#16120a] transition-all duration-300 ${
+          className={`relative overflow-hidden bg-brand-gradient text-white transition-all duration-300 ${
             scrolled ? "max-h-0" : "max-h-12"
           }`}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-10 py-2 text-center text-xs font-semibold lg:px-8">
             <p className="truncate">{promoBar.message}</p>
             {offerLeft ? (
-              <span className="hidden shrink-0 items-center gap-1 text-[11px] font-semibold text-[#16120a]/80 sm:flex">
+              <span className="hidden shrink-0 items-center gap-1 text-[11px] font-semibold text-white/80 sm:flex">
                 <Timer className="h-3 w-3" aria-hidden />
                 <span className="tabular-nums">অফার শেষ হতে বাকি {offerLeft}</span>
                 <span className="hidden md:inline">· {countdown.endsOn}</span>
@@ -95,7 +95,7 @@ export function SiteHeader() {
             ) : null}
             <a
               href={promoBar.ctaHref}
-              className="hidden shrink-0 rounded-full bg-[#16120a] px-3 py-1 text-[11px] font-bold text-primary transition-opacity hover:opacity-85 sm:inline-block"
+              className="hidden shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-bold text-primary transition-opacity hover:opacity-85 sm:inline-block"
             >
               {promoBar.ctaLabel}
             </a>
@@ -113,7 +113,7 @@ export function SiteHeader() {
 
       {/* Top contact strip — collapses on scroll to keep the sticky nav compact */}
       <div
-        className={`hidden overflow-hidden border-b border-primary/10 bg-[#070708] transition-all duration-300 md:block ${
+        className={`hidden overflow-hidden border-b border-border/70 bg-muted/60 transition-all duration-300 md:block ${
           scrolled ? "max-h-0" : "max-h-12"
         }`}
       >
@@ -156,8 +156,8 @@ export function SiteHeader() {
       <div
         className={`border-b transition-all duration-300 ${
           scrolled
-            ? "border-primary/15 bg-background/90 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-            : "border-transparent bg-background/70 backdrop-blur-md"
+            ? "border-border/80 bg-card/90 shadow-[0_12px_32px_rgba(16,22,19,0.08)] backdrop-blur-xl"
+            : "border-transparent bg-card/60 backdrop-blur-md"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 lg:px-8">
@@ -173,7 +173,7 @@ export function SiteHeader() {
             />
             <span className="min-w-0">
               <span className="block truncate font-display text-lg font-bold leading-tight tracking-wide">
-                Sadia&apos;s <span className="text-gold-gradient">IELTS</span>
+                Sadia&apos;s <span className="text-brand-gradient">IELTS</span>
               </span>
               <span className="hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:block">
                 Unlock Your Future
@@ -181,8 +181,11 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* Desktop nav — full menu only when there's room (≥1280px) so labels never wrap */}
-          <nav aria-label="Main navigation" className="hidden items-center gap-0.5 xl:flex">
+          {/* Desktop nav — LabAcademy-style pill group, full menu only when there's room (≥1280px) */}
+          <nav
+            aria-label="Main navigation"
+            className="hidden items-center gap-0.5 rounded-full border border-border/80 bg-card/80 p-1 shadow-[0_2px_16px_rgba(16,22,19,0.06)] backdrop-blur xl:flex"
+          >
             {navLinks.map((link) => {
               const target = link.href.replace(/^#/, "") || "/";
               const active = route === target;
@@ -191,10 +194,10 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium transition-colors 2xl:px-3 ${
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium transition-colors 2xl:px-3.5 ${
                     active
-                      ? "bg-primary/10 text-primary"
-                      : "text-foreground/80 hover:bg-accent hover:text-primary"
+                      ? "bg-ink text-white"
+                      : "text-foreground/75 hover:bg-secondary hover:text-primary"
                   }`}
                 >
                   {link.label}
@@ -217,7 +220,7 @@ export function SiteHeader() {
               size="icon"
               aria-label="Search (Ctrl+K)"
               onClick={() => setSearchOpen(true)}
-              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+              className="rounded-full border-border/80 text-primary hover:bg-primary/10 hover:text-primary"
             >
               <Search className="h-4.5 w-4.5" aria-hidden />
             </Button>
@@ -230,11 +233,11 @@ export function SiteHeader() {
                   variant="outline"
                   size="icon"
                   aria-label={`Open cart${bagCount ? ` — ${bagCount} item${bagCount > 1 ? "s" : ""}` : ""}`}
-                  className="relative border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+                  className="relative rounded-full border-border/80 text-primary hover:bg-primary/10 hover:text-primary"
                 >
                   <ShoppingBag className="h-4.5 w-4.5" aria-hidden />
                   {bagCount > 0 ? (
-                    <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-gradient px-1 text-[10px] font-bold text-[#16120a] shadow">
+                    <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-gradient px-1 text-[10px] font-bold text-white shadow">
                       {bagCount > 9 ? "9+" : bagCount}
                     </span>
                   ) : null}
@@ -262,7 +265,7 @@ export function SiteHeader() {
             ) : null}
             <Button
               asChild
-              className="hidden bg-gold-gradient font-semibold text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)] hover:opacity-90 sm:inline-flex"
+              className="hidden rounded-full bg-ink px-5 font-semibold text-white shadow-[0_6px_20px_rgba(16,22,19,0.18)] transition-opacity hover:opacity-85 sm:inline-flex"
             >
               <a href={portalAuthed ? "#/portal" : "#/checkout"}>
                 {portalAuthed ? (
@@ -284,7 +287,7 @@ export function SiteHeader() {
                 </SheetTrigger>
               <SheetContent
                   side="right"
-                  className="flex w-[280px] flex-col border-l border-primary/15 bg-[#101014]"
+                  className="flex w-[280px] flex-col border-l border-border bg-card"
                 >
                   <SheetTitle className="flex items-center gap-2 font-display text-lg font-bold">
                     <Image
@@ -294,7 +297,7 @@ export function SiteHeader() {
                       height={32}
                       className="h-8 w-8 rounded-full ring-1 ring-primary/30"
                     />
-                    Sadia&apos;s <span className="text-gold-gradient">IELTS</span>
+                    Sadia&apos;s <span className="text-brand-gradient">IELTS</span>
                   </SheetTitle>
                   <Separator className="bg-primary/10" />
                   <nav aria-label="Mobile navigation" className="mt-2 flex flex-col gap-1">
@@ -316,7 +319,7 @@ export function SiteHeader() {
                     ))}
                   </nav>
                   <div className="mt-auto space-y-3 pb-2">
-                    <Button asChild className="w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+                    <Button asChild className="w-full rounded-full bg-ink font-semibold text-white transition-opacity hover:opacity-85">
                       <a href={portalAuthed ? "#/portal" : "#/checkout"} onClick={() => setOpen(false)}>
                         {portalAuthed ? (
                           <LayoutDashboard className="mr-1 h-4 w-4" aria-hidden />

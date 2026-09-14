@@ -64,7 +64,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
         {...("external" in link && link.external
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
-        className="text-sm text-muted-foreground transition-colors hover:text-primary"
+        className="text-sm text-[#A9C6B6] transition-colors hover:text-white"
       >
         {link.label}
       </a>
@@ -74,7 +74,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-primary/10 bg-[#070708]">
+    <footer className="rounded-b-[1.5rem] border-t border-white/5 bg-forest sm:rounded-b-[2rem]">
         <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.15fr_1fr]">
             {/* Brand + contact — like the real site footer */}
@@ -88,10 +88,10 @@ export function SiteFooter() {
                   className="h-11 w-11 rounded-full ring-1 ring-primary/30"
                 />
                 <div>
-                  <p className="font-display text-lg font-bold tracking-wide">
-                    Sadia&apos;s <span className="text-gold-gradient">IELTS</span>
+                  <p className="font-display text-lg font-bold tracking-wide text-[#EAF4EE]">
+                    Sadia&apos;s <span className="font-bold text-[#7DDFB8]">IELTS</span>
                   </p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#8FB3A2]">
                     Unlock Your Future
                   </p>
                 </div>
@@ -101,30 +101,30 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={site.phoneHref}
-                    className="group flex items-start gap-2.5 transition-colors hover:text-primary"
+                    className="group flex items-start gap-2.5 transition-colors hover:text-white"
                   >
                     <Phone
-                      className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]"
                       aria-hidden
                     />
-                    <span className="text-muted-foreground transition-colors group-hover:text-primary">
+                    <span className="text-[#A9C6B6] transition-colors group-hover:text-white">
                       +8801752-716238
                     </span>
                   </a>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                  <span className="max-w-[240px] text-muted-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]" aria-hidden />
+                  <span className="max-w-[240px] text-[#A9C6B6]">
                     Sreemangal, Moulvi Bazar District, Sylhet Division, Bangladesh, 3210
                   </span>
                 </li>
                 <li>
                   <a
                     href={`mailto:${site.email2}`}
-                    className="group flex items-start gap-2.5 transition-colors hover:text-primary"
+                    className="group flex items-start gap-2.5 transition-colors hover:text-white"
                   >
-                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span className="break-all text-muted-foreground transition-colors group-hover:text-primary">
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#5FCE9E]" aria-hidden />
+                    <span className="break-all text-[#A9C6B6] transition-colors group-hover:text-white">
                       {site.email2}
                     </span>
                   </a>
@@ -135,7 +135,7 @@ export function SiteFooter() {
             {/* Link columns — Company / Links / Courses / Recommend */}
             {columns.map((col) => (
               <nav key={col.title} aria-label={`Footer — ${col.title}`}>
-                <h3 className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+                <h3 className="font-display text-sm font-bold uppercase tracking-wider text-[#EAF4EE]">
                   {col.title}
                 </h3>
                 <ul className="mt-4 space-y-2.5">
@@ -147,18 +147,18 @@ export function SiteFooter() {
             ))}
           </div>
 
-          <Separator className="my-8 bg-primary/10" />
+          <Separator className="my-8 bg-white/10" />
 
-          <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 text-xs text-[#8FB3A2] sm:flex-row">
             <p>© {new Date().getFullYear()} Sadia&apos;s IELTS. All Rights Reserved.</p>
             <p className="flex items-center gap-4">
-              <span className="cursor-pointer transition-colors hover:text-primary">
+              <span className="cursor-pointer transition-colors hover:text-white">
                 Privacy
               </span>
-              <span className="cursor-pointer transition-colors hover:text-primary">
+              <span className="cursor-pointer transition-colors hover:text-white">
                 Terms
               </span>
-              <span className="cursor-pointer transition-colors hover:text-primary">
+              <span className="cursor-pointer transition-colors hover:text-white">
                 Sitemap
               </span>
             </p>

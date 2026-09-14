@@ -90,10 +90,10 @@ function OfferCountdownRow() {
   const countdown = useOfferCountdown();
   if (!countdown.ready) return null;
   return (
-    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-semibold text-primary">
+    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-semibold text-[#63D6A4]">
       <Timer className="h-3.5 w-3.5 shrink-0" aria-hidden />
       <span>অফার শেষ হতে বাকি: {compactCountdown(countdown)}</span>
-      <span className="font-normal text-primary/70">· offer ends {countdown.endsOn}</span>
+      <span className="font-normal text-[#7FA091]">· offer ends {countdown.endsOn}</span>
     </p>
   );
 }
@@ -161,14 +161,14 @@ function CourseNotFound() {
         eyebrow="Oops"
         title={
           <>
-            Course <span className="text-gold-gradient">Not Found</span>
+            Course <span className="text-brand-gradient">Not Found</span>
           </>
         }
         subtitle="The course you are looking for doesn't exist or has been renamed."
         crumbs={[{ label: "Courses", href: "/courses" }]}
       />
       <section className="py-20 text-center">
-        <Button asChild className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+        <Button asChild className="rounded-full bg-ink font-semibold text-white hover:opacity-85">
           <a href="#/courses">
             <ArrowLeft className="mr-2 h-4 w-4" aria-hidden />
             Browse All Courses
@@ -367,23 +367,23 @@ export function CourseDetailPage({ slug }: { slug: string }) {
 
               {/* Instructor mini */}
               <Reveal delay={0.12}>
-                <Card className="mt-10 border-primary/20 bg-gradient-to-br from-[#1d1808] via-[#141419] to-[#141419]">
+                <Card className="mt-10 border-white/10 bg-gradient-to-br from-[#0B2E22] via-[#0C2E23] to-[#0C2E23]">
                   <CardContent className="flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center">
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient">
-                      <GraduationCap className="h-7 w-7 text-[#16120a]" aria-hidden />
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient">
+                      <GraduationCap className="h-7 w-7 text-white" aria-hidden />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-display text-lg font-bold text-foreground">
+                      <p className="font-display text-lg font-bold text-[#EAF4EE]">
                         Taught by Sadia Rahman
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#A9C6B6]">
                         Certified IELTS trainer · 9+ years · 5,983+ students mentored
                       </p>
                     </div>
                     <Button
                       asChild
                       variant="outline"
-                      className="shrink-0 border-primary/30 text-primary hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                      className="shrink-0 border-white/20 bg-transparent text-[#EAF4EE] hover:border-white/40 hover:bg-white/10 hover:text-white"
                     >
                       <a href="#/about">
                         About Sadia
@@ -421,53 +421,53 @@ export function CourseDetailPage({ slug }: { slug: string }) {
             {/* Sticky enroll card */}
             <div className="lg:sticky lg:top-28 lg:self-start">
               <Reveal delay={0.1}>
-                <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+                <Card className="overflow-hidden border-primary/25 shadow-[0_20px_60px_rgba(16,22,19,0.18)]">
                   {/* Gradient header */}
-                  <div className="relative bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6">
+                  <div className="relative bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6">
                     {/* 10MS live enrollment status */}
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-[#BFE6D4]">
                       <span
-                        className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+                        className="h-2 w-2 animate-pulse rounded-full bg-[#63D6A4]"
                         aria-hidden
                       />
                       ভর্তি চলমান
                     </span>
                     <div className="mt-4 flex items-start justify-between gap-3">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/25 bg-[#141419]/80">
-                        <Icon className="h-7 w-7 text-primary" aria-hidden />
+                      <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05]">
+                        <Icon className="h-7 w-7 text-[#63D6A4]" aria-hidden />
                       </span>
-                      <Badge className="border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
+                      <Badge className="border-white/10 bg-white/10 text-[#BFE6D4] hover:bg-white/10">
                         {course.tag}
                       </Badge>
                     </div>
                     <div className="mt-4">
                       {course.price === 0 ? (
-                        <p className="font-display text-3xl font-bold text-gold-gradient">
+                        <p className="font-display text-3xl font-bold text-[#63D6A4]">
                           100% Free
                         </p>
                       ) : course.price === null ? (
                         <>
-                          <p className="font-display text-2xl font-bold text-foreground">
+                          <p className="font-display text-2xl font-bold text-[#EAF4EE]">
                             {formatBDT(6000)}+
                           </p>
-                          <p className="mt-1 text-xs text-muted-foreground">
+                          <p className="mt-1 text-xs text-[#A9C6B6]">
                             Call for the current admission offer
                           </p>
                         </>
                       ) : (
                         <>
                           <div className="flex items-baseline gap-2">
-                            <p className="font-display text-3xl font-bold text-gold-gradient">
+                            <p className="font-display text-3xl font-bold text-[#63D6A4]">
                               {formatBDT(course.price)}
                             </p>
                             {course.oldPrice ? (
-                              <p className="text-sm text-muted-foreground line-through">
+                              <p className="text-sm text-[#7FA091] line-through">
                                 {formatBDT(course.oldPrice)}
                               </p>
                             ) : null}
                           </div>
                           {discount ? (
-                            <p className="mt-1 text-xs font-semibold text-emerald-400">
+                            <p className="mt-1 text-xs font-semibold text-[#63D6A4]">
                               {discount} admission offer — limited seats
                             </p>
                           ) : null}
@@ -486,7 +486,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                             {batchLabel} — {course.seatsLeft}/{course.seatsTotal} seats left
                           </span>
                           {course.seatsLeft <= 5 ? (
-                            <span className="font-semibold text-red-400">
+                            <span className="font-semibold text-destructive">
                               মাত্র {course.seatsLeft} সিট বাকি!
                             </span>
                           ) : null}
@@ -549,7 +549,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                     {course.price === null ? (
                       <Button
                         asChild
-                        className="w-full bg-gold-gradient py-6 text-base font-semibold text-[#16120a] hover:opacity-90"
+                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
                       >
                         <a href={site.phoneHref}>
                           <Phone className="mr-2 h-5 w-5" aria-hidden />
@@ -559,7 +559,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                     ) : (
                       <Button
                         asChild
-                        className="w-full bg-gold-gradient py-6 text-base font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
+                        className="w-full rounded-full bg-ink py-6 text-base font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
                       >
                         <a href={`#/checkout?course=${course.slug}`}>
                           <GraduationCap className="mr-2 h-5 w-5" aria-hidden />
@@ -607,7 +607,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
             eyebrow="Keep Exploring"
             title={
               <>
-                Related <span className="text-gold-gradient">Courses</span>
+                Related <span className="text-brand-gradient">Courses</span>
               </>
             }
           />

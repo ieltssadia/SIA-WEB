@@ -62,13 +62,13 @@ export function HowItWorksSection() {
   const learners = stats.find((s) => s.label === "Successful Learners");
 
   return (
-    <section className="border-y border-primary/10 bg-[#0d0d10] py-16 md:py-24">
+    <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
           eyebrow="How It Works"
           title={
             <>
-              কীভাবে ক্লাস হয় — <span className="text-gold-gradient">Enrollment to Certificate</span>
+              কীভাবে ক্লাস হয় — <span className="text-brand-gradient">Enrollment to Certificate</span>
             </>
           }
           subtitle="Live Zoom ক্লাস, লেকচার শিট, সাপ্তাহিক এক্সাম আর ব্যক্তিগত ফিডব্যাক — একটি proven লার্নিং লুপে সাজানো, যাতে আপনি শুধু ফলাফলে ফোকাস করেন।"
@@ -84,9 +84,9 @@ export function HowItWorksSection() {
             const Icon = step.icon;
             return (
               <Reveal key={step.title} delay={i * 0.08}>
-                <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(212,175,55,0.08)]">
+                <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(16,138,96,0.08)]">
                   <div className="flex items-center justify-between">
-                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/25 bg-gold-gradient/10 transition-transform duration-300 group-hover:scale-105">
+                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 transition-transform duration-300 group-hover:scale-105">
                       <Icon className="h-8 w-8 text-primary" aria-hidden />
                     </span>
                     <span
@@ -125,16 +125,16 @@ export function HowItWorksSection() {
 
         {/* Proof strip */}
         <Reveal delay={0.15}>
-          <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-[#1d1808] via-[#141419] to-[#1d1808] px-6 py-5 text-center sm:flex-row sm:text-left">
-            <p className="text-sm text-muted-foreground">
-              <span className="font-display text-lg font-bold text-foreground">
+          <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] px-6 py-5 text-center sm:flex-row sm:text-left">
+            <p className="text-sm text-[#A9C6B6]">
+              <span className="font-display text-lg font-bold text-[#EAF4EE]">
                 {learners ? `${learners.value.toLocaleString("en-US")}${learners.suffix}` : "5,983+"}
               </span>{" "}
               শিক্ষার্থীর প্রমাণিত রুটিন — প্রতি সপ্তাহে নতুন ব্যাচ শুরু হয়।
             </p>
             <Button
               asChild
-              className="shrink-0 bg-gold-gradient font-semibold text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)] hover:opacity-90"
+              className="shrink-0 rounded-full bg-brand-gradient font-semibold text-white shadow-[0_4px_20px_rgba(16,138,96,0.25)] hover:opacity-90"
             >
               <a href="#/courses">
                 <GraduationCap className="mr-1.5 h-4 w-4" aria-hidden />

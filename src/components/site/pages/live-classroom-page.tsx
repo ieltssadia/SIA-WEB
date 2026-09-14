@@ -52,7 +52,7 @@ export function LiveClassroomPage({ slug }: { slug: string }) {
         <p className="mt-2 text-sm text-muted-foreground">
           লিংকটি পুরোনো হতে পারে — লাইভ হাব থেকে বর্তমান ক্লাসগুলো দেখুন।
         </p>
-        <Button asChild className="mt-6 bg-gold-gradient font-semibold text-[#16120a]">
+        <Button asChild className="mt-6 rounded-full bg-ink font-semibold text-white hover:opacity-85">
           <a href="#/live">
             <ArrowLeft className="mr-1.5 h-4 w-4" aria-hidden />
             লাইভ হাব
@@ -101,7 +101,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
 
   return (
     <div className="mx-auto max-w-lg px-4 py-12">
-      <div className="rounded-2xl border border-primary/15 bg-card p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-8">
+      <div className="rounded-2xl border border-primary/15 bg-card p-6 shadow-[0_20px_60px_rgba(16,22,19,0.16)] sm:p-8">
         {/* Status chip */}
         <div className="mb-4">
           {meta.status === "live" ? (
@@ -133,12 +133,12 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
         ) : null}
 
         {meta.status === "ended" && !gateOpen ? (
-          <div className="mt-6 rounded-xl border border-primary/10 bg-[#101014] px-4 py-5 text-center">
+          <div className="mt-6 rounded-xl border border-border bg-muted/50 px-4 py-5 text-center">
             <p className="text-sm text-muted-foreground">
               এই ক্লাস শেষ হয়ে গেছে — রেকর্ডিং শীঘ্রই স্টুডেন্ট পোর্টালে যুক্ত হবে।
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
-              <Button asChild className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90">
+              <Button asChild className="rounded-full bg-ink font-semibold text-white hover:opacity-85">
                 <a href="#/live">লাইভ হাবে ফিরে যান</a>
               </Button>
               <Button
@@ -173,10 +173,10 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
                 placeholder="যেমন: রাফি আহমেদ"
                 aria-invalid={nameError}
                 maxLength={40}
-                className="h-11 border-primary/20 bg-[#131317]"
+                className="h-11 border-input bg-muted/50"
               />
               {nameError ? (
-                <p role="alert" className="text-xs text-red-400">
+                <p role="alert" className="text-xs text-destructive">
                   ক্লাসরুমে ঢুকতে নাম লিখুন।
                 </p>
               ) : null}
@@ -208,7 +208,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
                   value={hostKey}
                   onChange={(e) => setHostKey(e.target.value)}
                   placeholder="SADIA-LIVE-2024"
-                  className="h-11 border-primary/20 bg-[#131317] font-mono"
+                  className="h-11 border-input bg-muted/50 font-mono"
                   autoComplete="off"
                 />
                 <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
@@ -218,7 +218,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
               </div>
             ) : null}
 
-            <Button type="submit" className="h-11 w-full bg-gold-gradient font-bold text-[#16120a] hover:opacity-90">
+            <Button type="submit" className="h-11 w-full rounded-full bg-ink font-bold text-white hover:opacity-85">
               {meta.status === "live" ? "লাইভ ক্লাসে জয়েন করুন" : "ওয়েটিং রুমে ঢুকুন"}
             </Button>
             <p className="text-center text-[11px] text-muted-foreground">

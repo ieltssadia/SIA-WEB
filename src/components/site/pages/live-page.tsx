@@ -29,7 +29,7 @@ export function LivePage() {
         eyebrow="Live Learning Hub"
         title={
           <>
-            লাইভ <span className="text-gold-gradient">ক্লাস</span> — সরাসরি ক্লাসরুমে
+            লাইভ <span className="text-brand-gradient">ক্লাস</span> — সরাসরি ক্লাসরুমে
           </>
         }
         subtitle="সময়মতো ঢুকে পড়ুন, চ্যাটে প্রশ্ন করুন, পোলে ভোট দিন — স্লাইড আর ক্লাস সবার স্ক্রিনে একসাথে সিঙ্ক হয়। প্রতিটি কোর্সের স্টুডেন্টরা নিয়মিত লাইভ ক্লাস পান।"

@@ -34,7 +34,7 @@ export function useToday(): string {
 const modeMeta: Record<RoutineClass["mode"], { icon: React.ElementType; className: string }> = {
   "Online Live": {
     icon: Video,
-    className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+    className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
   },
   Campus: {
     icon: Building2,
@@ -61,9 +61,9 @@ export function ModeBadge({ mode }: { mode: RoutineClass["mode"] }) {
 function TypeBadge({ type }: { type: RoutineClass["type"] }) {
   const highlight =
     type === "Free Live Class"
-      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700"
       : type === "Mock Test"
-        ? "border-amber-500/30 bg-amber-500/10 text-amber-400"
+        ? "border-amber-500/30 bg-amber-500/10 text-amber-700"
         : type === "Speaking Club"
           ? "border-primary/40 bg-primary/10 text-primary"
           : "border-border bg-transparent text-muted-foreground";
@@ -109,7 +109,7 @@ function RoutineRows({
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
                 {row.batch}
                 {mine ? (
-                  <span className="rounded-full bg-gold-gradient px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-[#16120a]">
+                  <span className="rounded-full bg-brand-gradient px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-white">
                     My batch
                   </span>
                 ) : null}
@@ -141,7 +141,7 @@ export function RoutineTable({
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
       <Table>
         <TableHeader>
-          <TableRow className="border-border/80 bg-[#0d0d11] hover:bg-[#0d0d11]">
+          <TableRow className="border-border/80 bg-secondary hover:bg-secondary">
             <TableHead className="w-28 text-xs uppercase tracking-wider text-muted-foreground">
               Time
             </TableHead>
@@ -209,18 +209,18 @@ export function WeeklyRoutine() {
               aria-pressed={isActive}
               className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 isActive
-                  ? "border-primary/60 bg-gold-gradient text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)]"
+                  ? "border-ink/10 bg-ink text-white shadow-[0_4px_16px_rgba(16,22,19,0.18)]"
                   : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary"
               }`}
             >
               {day.slice(0, 3)}
               {isToday ? (
                 <span
-                  className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-[#16120a]" : "bg-emerald-400"}`}
+                  className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-white" : "bg-emerald-500"}`}
                   title="Today"
                 />
               ) : null}
-              <span className={`text-[11px] ${isActive ? "text-[#16120a]/70" : "text-muted-foreground/70"}`}>
+              <span className={`text-[11px] ${isActive ? "text-white/70" : "text-muted-foreground/70"}`}>
                 {count}
               </span>
             </button>
@@ -265,7 +265,7 @@ export function CourseRoutineTable({ courseSlug }: { courseSlug: string }) {
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
       <Table>
         <TableHeader>
-          <TableRow className="border-border/80 bg-[#0d0d11] hover:bg-[#0d0d11]">
+          <TableRow className="border-border/80 bg-secondary hover:bg-secondary">
             <TableHead className="w-28 text-xs uppercase tracking-wider text-muted-foreground">
               Day
             </TableHead>

@@ -39,7 +39,7 @@ function ExamChip({
   const mounted = useMounted();
   if (!examDate) {
     return targetBand ? (
-      <Badge variant="outline" className="border-primary/40 bg-primary/10 font-medium text-primary">
+      <Badge variant="outline" className="border-white/10 bg-white/10 font-medium text-[#BFE6D4]">
         <Target className="mr-1 h-3 w-3" aria-hidden />
         Target band {targetBand}
       </Badge>
@@ -47,7 +47,7 @@ function ExamChip({
   }
   if (!mounted) {
     return (
-      <span className="inline-block h-5.5 w-28 animate-pulse rounded-full bg-primary/10" aria-hidden />
+      <span className="inline-block h-5.5 w-28 animate-pulse rounded-full bg-white/10" aria-hidden />
     );
   }
   const days = daysUntil(examDate);
@@ -137,12 +137,12 @@ function ContinueLearning({
               }`}
             >
               {done ? (
-                <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-gold-gradient">
+                <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-brand-gradient">
                   <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" aria-hidden>
                     <path
                       d="M1.5 5.5 4 8 8.5 2.5"
                       fill="none"
-                      stroke="#16120a"
+                      stroke="#ffffff"
                       strokeWidth="1.8"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -159,7 +159,7 @@ function ContinueLearning({
               )}
               <span className={done ? "line-through decoration-primary/40" : undefined}>{item}</span>
               {current ? (
-                <Badge className="ml-auto shrink-0 bg-gold-gradient text-[10px] font-bold text-[#16120a] hover:bg-gold-gradient">
+                <Badge className="ml-auto shrink-0 bg-brand-gradient text-[10px] font-bold text-white hover:bg-brand-gradient">
                   Up next
                 </Badge>
               ) : null}
@@ -169,7 +169,7 @@ function ContinueLearning({
       </ol>
       <Button
         onClick={() => onNavigate("course")}
-        className="mt-4 w-full bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+        className="mt-4 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
       >
         Open My Course
         <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
@@ -213,24 +213,24 @@ function RecentMock({
       </div>
       {latest ? (
         <div className="mt-4 flex flex-1 items-center gap-5">
-          <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-2xl border border-primary/25 bg-gradient-to-br from-[#33290f] to-[#141419]">
-            <span className="font-display text-3xl font-bold leading-none text-gold-gradient">
+          <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-[#114430] to-[#0C2E23]">
+            <span className="font-display text-3xl font-bold leading-none text-[#63D6A4]">
               {latest.overall.toFixed(1)}
             </span>
-            <span className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">band</span>
+            <span className="mt-1 text-[10px] uppercase tracking-wider text-[#7FA091]">band</span>
           </div>
           <div className="min-w-0 space-y-2 text-sm">
             <p className="font-semibold text-foreground">{latest.label}</p>
             <p className="text-xs text-muted-foreground">{latest.date} · L {latest.listening} · R {latest.reading} · W {latest.writing} · S {latest.speaking}</p>
             <div className="flex flex-wrap gap-1.5">
               {delta !== null && delta > 0 ? (
-                <Badge variant="outline" className="border-emerald-500/40 bg-emerald-500/10 text-xs text-emerald-400">
+                <Badge variant="outline" className="border-emerald-600/40 bg-emerald-500/10 text-xs text-emerald-700">
                   <TrendingUp className="mr-1 h-3 w-3" aria-hidden />+{delta.toFixed(1)} vs last
                 </Badge>
               ) : null}
               {toTarget !== null ? (
                 toTarget <= 0 ? (
-                  <Badge variant="outline" className="border-emerald-500/40 bg-emerald-500/10 text-xs text-emerald-400">
+                  <Badge variant="outline" className="border-emerald-600/40 bg-emerald-500/10 text-xs text-emerald-700">
                     <Trophy className="mr-1 h-3 w-3" aria-hidden />
                     Target achieved!
                   </Badge>
@@ -281,30 +281,30 @@ export function OverviewSection({
     <div className="space-y-6">
       {/* Welcome band */}
       <Reveal y={12}>
-        <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-[#33290f] via-[#1d1808] to-[#141419] p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#114430] via-[#0B2E22] to-[#0C2E23] p-6 md:p-8">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-radial-glow blur-2xl"
           />
           <div className="relative flex flex-wrap items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gold-gradient font-display text-2xl font-bold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.3)]">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-[0_8px_30px_rgba(16,138,96,0.3)]">
               {user.name.charAt(0)}
             </span>
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-[0.25em] text-primary">Student Dashboard</p>
-              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
+              <p className="text-xs uppercase tracking-[0.25em] text-[#63D6A4]">Student Dashboard</p>
+              <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-[#EAF4EE] md:text-3xl">
                 Assalamu Alaikum, {firstName}!
               </h1>
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="border-primary/40 bg-primary/10 font-medium text-primary">
+                <Badge variant="outline" className="border-white/10 bg-white/10 font-medium text-[#BFE6D4]">
                   <GraduationCap className="mr-1 h-3 w-3" aria-hidden />
                   {primary.batch}
                 </Badge>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-[#A9C6B6]">
                   {course?.title ?? primary.courseSlug}
                 </span>
                 {enrollments.length > 1 ? (
-                  <Badge variant="outline" className="border-border text-muted-foreground">
+                  <Badge variant="outline" className="border-white/10 bg-white/10 text-[#BFE6D4]">
                     +{enrollments.length - 1} more course{enrollments.length > 2 ? "s" : ""}
                   </Badge>
                 ) : null}
@@ -364,7 +364,7 @@ export function OverviewSection({
             {next ? (
               <>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-gradient px-3 py-1 text-[11px] font-bold text-[#16120a]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1 text-[11px] font-bold text-white">
                     <CalendarClock className="h-3 w-3" aria-hidden />
                     Next class · {next.label}
                   </span>
@@ -430,7 +430,7 @@ export function OverviewSection({
                   key={n.title}
                   type="button"
                   onClick={() => onNavigate("notices")}
-                  className="block w-full rounded-xl border border-border bg-[#101014] p-3.5 text-left transition-colors hover:border-primary/40"
+                  className="block w-full rounded-xl border border-border bg-muted/50 p-3.5 text-left transition-colors hover:border-primary/40"
                 >
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className="border-primary/40 bg-primary/10 text-[10px] text-primary">

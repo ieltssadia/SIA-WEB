@@ -12,7 +12,7 @@ export function AboutPage() {
         eyebrow="About Us"
         title={
           <>
-            Meet <span className="text-gold-gradient">Sadia Rahman</span> &amp; Her Mission
+            Meet <span className="text-brand-gradient">Sadia Rahman</span> &amp; Her Mission
           </>
         }
         subtitle="৯ বছরের অভিজ্ঞতা, ৩১৬+ ব্যাচ আর ৫,৯৮৩+ সফল শিক্ষার্থী — Sreemangal-এর সবচেয়ে বিশ্বস্ত IELTS কোচিং সেন্টারের গল্প।"

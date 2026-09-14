@@ -15,7 +15,7 @@ export function InstructorSection() {
   return (
     <section
       id="instructor"
-      className="scroll-mt-24 border-y border-primary/10 bg-[#0d0d10] py-16 md:py-24"
+      className="scroll-mt-24 py-16 md:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
@@ -23,9 +23,9 @@ export function InstructorSection() {
           <Reveal className="relative mx-auto w-full max-w-sm lg:max-w-md">
             <div
               aria-hidden
-              className="absolute -inset-3 rounded-[2rem] bg-gold-gradient opacity-20 blur-2xl"
+              className="absolute -inset-3 rounded-[2rem] bg-brand-gradient opacity-20 blur-2xl"
             />
-            <div className="relative overflow-hidden rounded-3xl border border-primary/25 shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
+            <div className="relative overflow-hidden rounded-3xl border border-primary/25 shadow-[0_30px_80px_rgba(16,22,19,0.18)]">
               <Image
                 src="/images/instructor-sadia.png"
                 alt="Sadia Rahman — founder and lead IELTS instructor at Sadia's IELTS"
@@ -35,11 +35,11 @@ export function InstructorSection() {
               />
               <div
                 aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"
+                className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent"
               />
-              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-primary/25 bg-black/60 px-4 py-3 backdrop-blur">
-                <p className="font-display text-lg font-bold text-foreground">Sadia Rahman</p>
-                <p className="text-xs text-primary">Founder & Lead IELTS Instructor</p>
+              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-forest/80 px-4 py-3 backdrop-blur">
+                <p className="font-display text-lg font-bold text-[#EAF4EE]">Sadia Rahman</p>
+                <p className="text-xs text-[#63D6A4]">Founder & Lead IELTS Instructor</p>
               </div>
             </div>
           </Reveal>
@@ -52,7 +52,7 @@ export function InstructorSection() {
                 Meet Your Mentor
               </span>
               <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">
-                Learn from the <span className="text-gold-gradient italic">Best in Sylhet</span>
+                Learn from the <span className="text-brand-gradient italic">Best in Sylhet</span>
               </h2>
               <p className="mt-5 leading-relaxed text-muted-foreground">
                 <span className="text-foreground">Sadia Rahman</span> — Cambridge, IDP &amp; TKT
@@ -88,7 +88,7 @@ export function InstructorSection() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                  className="rounded-full bg-ink font-semibold text-white hover:opacity-85"
                 >
                   <a href="#/contact">
                     <Sparkles className="mr-1.5 h-4.5 w-4.5" aria-hidden />
@@ -99,7 +99,7 @@ export function InstructorSection() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-primary/30 bg-transparent hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                  className="rounded-full border-border bg-card text-foreground hover:border-primary/50 hover:text-primary"
                 >
                   <a href="#/courses">View Courses</a>
                 </Button>

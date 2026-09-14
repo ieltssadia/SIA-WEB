@@ -27,7 +27,7 @@ export function WhyUsSection() {
           eyebrow="Why Sadia's IELTS"
           title={
             <>
-              Limitless Learning, <span className="text-gold-gradient">More Possibilities</span>
+              Limitless Learning, <span className="text-brand-gradient">More Possibilities</span>
             </>
           }
           subtitle="শুধু পরীক্ষা নয় — আপনার পুরো ভবিষ্যৎ তৈরি করুন আমাদের সাথে।"
@@ -36,7 +36,7 @@ export function WhyUsSection() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Image side */}
           <Reveal className="relative order-2 lg:order-1">
-            <div className="relative overflow-hidden rounded-3xl border border-primary/20 shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
+            <div className="relative overflow-hidden rounded-3xl border border-primary/20 shadow-[0_30px_80px_rgba(16,22,19,0.16)]">
               <Image
                 src="/images/classroom.png"
                 alt="Students learning together in a Sadia's IELTS classroom"
@@ -49,11 +49,11 @@ export function WhyUsSection() {
                 className="absolute inset-0 bg-gradient-to-tr from-background/60 via-transparent to-transparent"
               />
             </div>
-            <div className="absolute -bottom-5 left-6 right-6 rounded-2xl border border-primary/25 bg-[#141419]/95 px-5 py-4 shadow-xl backdrop-blur sm:left-10 sm:right-auto">
-              <p className="font-display text-lg font-bold text-foreground">
+            <div className="absolute -bottom-5 left-6 right-6 rounded-2xl border border-white/10 bg-[#0C2E23]/95 px-5 py-4 shadow-xl backdrop-blur sm:left-10 sm:right-auto">
+              <p className="font-display text-lg font-bold text-[#EAF4EE]">
                 Small batches · Personal attention
               </p>
-              <p className="mt-0.5 text-xs text-muted-foreground">
+              <p className="mt-0.5 text-xs text-[#A9C6B6]">
                 Every student gets individually tracked progress reports
               </p>
             </div>
@@ -84,7 +84,7 @@ export function WhyUsSection() {
               <Button
                 asChild
                 variant="outline"
-                className="border-primary/30 bg-transparent hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                className="rounded-full border-border bg-card text-foreground hover:border-primary/50 hover:text-primary"
               >
                 <a href="#/contact">
                   Start Your Journey

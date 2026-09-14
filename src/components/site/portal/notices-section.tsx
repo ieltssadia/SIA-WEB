@@ -15,8 +15,8 @@ import { portalNotices, routineNote, site } from "@/lib/site-data";
 
 const tagStyles: Record<string, string> = {
   "Class Update": "border-primary/40 bg-primary/10 text-primary",
-  "Mock Test": "border-amber-500/40 bg-amber-500/10 text-amber-400",
-  "Speaking Club": "border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
+  "Mock Test": "border-amber-600/40 bg-amber-500/10 text-amber-700",
+  "Speaking Club": "border-emerald-600/40 bg-emerald-500/10 text-emerald-700",
   Notice: "border-border bg-accent text-muted-foreground",
 };
 
@@ -64,7 +64,7 @@ export function NoticesSection() {
             {portalNotices.map((n, i) => (
               <article
                 key={n.title}
-                className="relative flex gap-4 rounded-2xl border border-border bg-[#101014] p-4"
+                className="relative flex gap-4 rounded-2xl border border-border bg-muted/50 p-4"
               >
                 {/* Timeline dot */}
                 <div className="flex flex-col items-center">
@@ -115,7 +115,7 @@ export function NoticesSection() {
                 key={label}
                 href={href}
                 {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="flex items-center gap-3 rounded-xl border border-border bg-[#101014] p-3 transition-colors hover:border-primary/40"
+                className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 transition-colors hover:border-primary/40"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                   <Icon className="h-4 w-4 text-primary" aria-hidden />

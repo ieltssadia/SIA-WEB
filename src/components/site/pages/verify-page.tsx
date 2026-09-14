@@ -123,7 +123,7 @@ export function VerifyPage() {
         eyebrow="Certificate Verification"
         title={
           <>
-            Verify a <span className="text-gold-gradient">Certificate</span>
+            Verify a <span className="text-brand-gradient">Certificate</span>
           </>
         }
         subtitle="সাদিয়া'স আইইএলটিস ইস্যুকৃত সার্টিফিকেট যাচাই করুন — যেকোনো নিয়োগকর্তা বা প্রতিষ্ঠান এখান থেকে নিশ্চিত হতে পারবেন।"
@@ -156,12 +156,12 @@ export function VerifyPage() {
                       onChange={(e) => setId(e.target.value)}
                       disabled={loading}
                       aria-describedby="certificate-id-hint"
-                      className="h-11 flex-1 bg-[#0d0d11] font-mono uppercase tracking-wider placeholder:tracking-normal placeholder:text-muted-foreground/60"
+                      className="h-11 flex-1 bg-muted font-mono uppercase tracking-wider placeholder:tracking-normal placeholder:text-muted-foreground/60"
                     />
                     <Button
                       type="submit"
                       disabled={loading}
-                      className="h-11 bg-gold-gradient px-6 font-semibold text-[#16120a] shadow-[0_8px_30px_rgba(212,175,55,0.25)] hover:opacity-90"
+                      className="h-11 rounded-full bg-ink px-6 font-semibold text-white shadow-[0_8px_30px_rgba(16,22,19,0.18)] hover:opacity-85"
                     >
                       {loading ? (
                         <>
@@ -208,68 +208,68 @@ export function VerifyPage() {
 
             {result ? (
               <div className="mt-10">
-                {/* Double-border gold certificate look */}
-                <div className="relative overflow-hidden rounded-2xl border-2 border-primary/40 bg-gradient-to-b from-[#191307] via-[#111116] to-[#0c0c0f] p-2 shadow-[0_20px_60px_rgba(212,175,55,0.14)]">
+                {/* Double-border certificate frame */}
+                <div className="relative overflow-hidden rounded-2xl border-2 border-[#2fbf8a] bg-gradient-to-b from-[#0A241B] via-[#0A241B] to-[#071B14] p-2 shadow-[0_20px_60px_rgba(16,138,96,0.14)]">
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-radial-glow blur-2xl"
                   />
-                  <div className="relative rounded-xl border border-primary/20 px-6 py-10 text-center md:px-10">
+                  <div className="relative rounded-xl border border-[#2fbf8a] px-6 py-10 text-center md:px-10">
                     <div className="flex justify-center">
                       <Image
                         src="/sadia-logo.png"
                         alt="Sadia's IELTS logo"
                         width={56}
                         height={56}
-                        className="h-14 w-14 rounded-full ring-1 ring-primary/30"
+                        className="h-14 w-14 rounded-full ring-1 ring-white/20"
                       />
                     </div>
                     <p className="mt-3 font-display text-lg font-bold tracking-wide">
-                      <span className="text-gold-gradient">
+                      <span className="text-[#63D6A4]">
                         Sadia&apos;s IELTS
                       </span>
                     </p>
-                    <p className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">
+                    <p className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#63D6A4]">
                       <Award className="h-3.5 w-3.5" aria-hidden />
                       Certificate of Achievement
                     </p>
-                    <p className="mt-2 font-mono text-[11px] tracking-wider text-muted-foreground">
+                    <p className="mt-2 font-mono text-[11px] tracking-wider text-[#A9C6B6]">
                       ID: {result.id}
                     </p>
 
-                    <h2 className="mt-5 font-display text-3xl font-bold leading-tight text-foreground">
+                    <h2 className="mt-5 font-display text-3xl font-bold leading-tight text-[#EAF4EE]">
                       {result.name}
                     </h2>
-                    <p className="mt-2 text-sm italic text-muted-foreground">
+                    <p className="mt-2 text-sm italic text-[#A9C6B6]">
                       has successfully completed
                     </p>
-                    <p className="mt-3 font-semibold text-foreground">
+                    <p className="mt-3 font-semibold text-[#EAF4EE]">
                       {result.course}
                     </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-sm text-[#A9C6B6]">
                       {result.batch}
                     </p>
 
                     <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
-                      <Badge className="border-transparent bg-gold-gradient px-3 py-1 text-xs font-bold text-[#16120a]">
+                      <Badge className="border-transparent bg-brand-gradient px-3 py-1 text-xs font-bold text-white">
                         Overall Band {result.band}
                       </Badge>
                       <Badge
                         variant="outline"
-                        className="border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-foreground/80"
+                        className="border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-[#BFE6D4]"
                       >
                         Issued {result.issued}
                       </Badge>
                     </div>
 
                     {/* Verified strip */}
-                    <div className="mt-8 flex flex-col items-center justify-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-emerald-300 sm:flex-row sm:gap-4">
+                    <div className="mt-8 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-[#63D6A4] sm:flex-row sm:gap-4">
                       <p className="flex items-center gap-2 text-sm font-medium">
                         <BadgeCheck className="h-5 w-5 shrink-0" aria-hidden />
                         ✓ Verified — এই সার্টিফিকেটটি আমাদের রেকর্ডে সঠিক পাওয়া
                         গেছে
                       </p>
-                      <p className="text-xs text-emerald-300/80">
+                      <p className="text-xs text-[#A9C6B6]">
                         Verified on {verifiedOn}
                       </p>
                       <Button
@@ -277,7 +277,7 @@ export function VerifyPage() {
                         variant="outline"
                         size="sm"
                         onClick={handleCopy}
-                        className="border-emerald-500/40 bg-transparent text-emerald-300 hover:bg-emerald-500/10 hover:text-emerald-200"
+                        className="border-white/20 bg-transparent text-[#EAF4EE] hover:bg-white/10 hover:text-white"
                       >
                         {copied ? (
                           <Check className="mr-1.5 h-3.5 w-3.5" aria-hidden />

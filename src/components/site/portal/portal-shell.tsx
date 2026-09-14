@@ -66,7 +66,7 @@ export function PortalShell({
                     className={cn(
                       "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                       active
-                        ? "bg-gold-gradient text-[#16120a] shadow-[0_4px_20px_rgba(212,175,55,0.25)]"
+                        ? "bg-primary/10 text-primary"
                         : "text-muted-foreground hover:bg-accent hover:text-primary"
                     )}
                   >
@@ -78,20 +78,20 @@ export function PortalShell({
             </nav>
 
             {/* User block */}
-            <div className="mt-4 rounded-2xl border border-primary/15 bg-[#101014] p-3.5">
+            <div className="mt-4 rounded-2xl border border-white/10 bg-[#0A241B] p-3.5">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-gradient font-display text-base font-bold text-[#16120a]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gradient font-display text-base font-bold text-white">
                   {user.name.charAt(0)}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">{firstName}</p>
-                  <p className="truncate text-xs text-muted-foreground">{batchLabel}</p>
+                  <p className="truncate text-sm font-semibold text-[#EAF4EE]">{firstName}</p>
+                  <p className="truncate text-xs text-[#A9C6B6]">{batchLabel}</p>
                 </div>
               </div>
               <Button
                 variant="outline"
                 onClick={logout}
-                className="mt-3 w-full border-primary/20 text-xs font-medium hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
+                className="mt-3 w-full border-white/15 bg-transparent text-xs font-medium text-[#EAF4EE] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#f08c8c]"
               >
                 <LogOut className="mr-1.5 h-3.5 w-3.5" aria-hidden />
                 Log out
@@ -105,7 +105,7 @@ export function PortalShell({
           {/* Mobile top bar */}
           <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3 lg:hidden">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold-gradient font-display text-sm font-bold text-[#16120a]">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-gradient font-display text-sm font-bold text-white">
                 {user.name.charAt(0)}
               </span>
               <div className="min-w-0">
@@ -133,7 +133,7 @@ export function PortalShell({
       {/* Mobile bottom tab bar */}
       <nav
         aria-label="Portal sections"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/15 bg-[#0c0c10]/95 backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white/95 backdrop-blur-xl lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="grid grid-cols-5">
@@ -147,16 +147,16 @@ export function PortalShell({
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex min-h-[56px] flex-col items-center justify-center gap-1 py-2 text-[10px] font-semibold transition-colors",
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                  active ? "text-primary" : "text-muted-foreground hover:text-primary"
                 )}
               >
-                <Icon className={cn("h-5 w-5", active && "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]")} aria-hidden />
+                <Icon className="h-5 w-5" aria-hidden />
                 {short}
                 <span
                   aria-hidden
                   className={cn(
                     "h-0.5 w-6 rounded-full transition-all",
-                    active ? "bg-gold-gradient" : "bg-transparent"
+                    active ? "bg-primary" : "bg-transparent"
                   )}
                 />
               </button>

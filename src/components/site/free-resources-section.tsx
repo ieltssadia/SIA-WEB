@@ -28,7 +28,7 @@ export function FreeResourcesSection() {
           eyebrow="Start Free Today"
           title={
             <>
-              Free Classes &amp; <span className="text-gold-gradient">Resources</span>
+              Free Classes &amp; <span className="text-brand-gradient">Resources</span>
             </>
           }
           subtitle="কোর্সে ভর্তি হওয়ার আগে ফ্রি-তে শিখে নিন! ফ্রি ভিডিও লেসন, ফ্রি মক টেস্ট আর প্রমাণিত টিপস — সবই একদম বিনামূল্যে।"
@@ -49,7 +49,7 @@ export function FreeResourcesSection() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="mt-5 w-fit border-primary/30 font-semibold text-primary hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                  className="mt-5 w-fit rounded-full border-border bg-card font-semibold text-foreground hover:border-primary/50 hover:text-primary"
                 >
                   {res.cta}
                 </Button>
@@ -58,7 +58,7 @@ export function FreeResourcesSection() {
 
             return (
               <Reveal key={res.title} delay={i * 0.08} className="h-full">
-                <Card className="group h-full border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(212,175,55,0.08)]">
+                <Card className="group h-full border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(16,138,96,0.08)]">
                   <CardContent className="flex h-full flex-col p-6">
                     {res.external ? (
                       <a
@@ -84,9 +84,9 @@ export function FreeResourcesSection() {
 
         {/* Free-to-paid funnel strip — 10MS style */}
         <Reveal delay={0.15} className="mt-10">
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-[#1d1808] via-[#141419] to-[#1d1808] p-6 text-center md:flex-row md:text-left">
-            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-              <span className="font-display text-base font-bold text-foreground">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0B2E22] via-[#0C2E23] to-[#0B2E22] p-6 text-center md:flex-row md:text-left">
+            <p className="max-w-xl text-sm leading-relaxed text-[#A9C6B6]">
+              <span className="font-display text-base font-bold text-[#EAF4EE]">
                 প্রথমে ফ্রি-তে বিশ্বাস করুন, তারপর ভর্তি হন।
               </span>{" "}
               হাজারো শিক্ষার্থী আমাদের ফ্রি রিসোর্স দিয়ে শুরু করে এখন Band 7+ অর্জন করেছে —
@@ -95,14 +95,14 @@ export function FreeResourcesSection() {
             <div className="flex shrink-0 flex-wrap justify-center gap-3">
               <Button
                 asChild
-                className="bg-gold-gradient font-semibold text-[#16120a] hover:opacity-90"
+                className="rounded-full bg-brand-gradient font-semibold text-white hover:opacity-90"
               >
                 <a href="#/courses">See All Courses</a>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+                className="rounded-full border-white/20 bg-white/[0.05] font-medium text-[#EAF4EE] hover:border-white/40 hover:bg-white/10"
               >
                 <a
                   href={site.whatsapp}
