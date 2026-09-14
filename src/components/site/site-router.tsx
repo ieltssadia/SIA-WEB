@@ -12,6 +12,9 @@ import { PartnerStrip } from "@/components/site/partner-strip";
 import { FloatingCta } from "@/components/site/floating-cta";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { HomePage } from "@/components/site/pages/home-page";
+import CambridgePage from "@/components/site/pages/cambridge-page";
+import BookDetail from "@/components/site/cambridge/book-detail";
+import TestPlayer from "@/components/site/cambridge/test-player";
 import { CoursesPage } from "@/components/site/pages/courses-page";
 import { CourseDetailPage } from "@/components/site/pages/course-detail-page";
 import { RoutinePage } from "@/components/site/pages/routine-page";
@@ -120,6 +123,26 @@ export function SiteRouter() {
     page = <ContactPage />;
   } else if (segments[0] === "portal") {
     page = <PortalPage />;
+  } else if (segments[0] === "cambridge" && segments[1] === "test" && segments[2]) {
+    page = (
+      <TestPlayer
+        testId={segments[2]}
+        skill={
+          segments[3] === "reading" || segments[3] === "writing" || segments[3] === "speaking"
+            ? segments[3]
+            : "listening"
+        }
+      />
+    );
+  } else if (segments[0] === "cambridge" && segments[1] === "book" && segments[2]) {
+    page = (
+      <BookDetail
+        bookNumber={Number(segments[2])}
+        module={query.get("module") === "general" ? "general" : "academic"}
+      />
+    );
+  } else if (segments[0] === "cambridge") {
+    page = <CambridgePage />;
   } else if (segments[0] === "checkout") {
     page = <CheckoutPage initialCourse={query.get("course")} />;
   } else if (segments[0] === "verify") {

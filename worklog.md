@@ -531,3 +531,21 @@ Work Log:
 
 Stage Summary:
 - Site is now full-bleed edge-to-edge (10MS-style), no floating shell gaps anywhere; page transition cross-fade + lenis smooth scroll confirmed present in site-router
+
+---
+Task ID: 5
+Agent: Z.ai Code (main)
+Task: Add the full Cambridge IELTS materials library (engnovate-style) — books, tests, audio/voice, answers, band-9 samples
+
+Work Log:
+- Researched engnovate.com via page_reader: catalog = Cambridge IELTS books 1-19 (Academic + GT), per-test Listening/Reading/Writing/Speaking, band-9 samples, band calculators, transcripts/audio
+- prisma/schema.prisma: added CambridgeBook (number 1-19, module academic|general, year, accent, blurb) + CambridgeTest (per-skill JSON payloads: listening/reading/writing/speaking) — SQLite has no Json columns
+- scripts/cambridge-seed.ts: deterministic generator (mulberry32) producing 35 books × 4 tests = 140 tests. Content is ORIGINAL Cambridge-style material authored for the site (10 academic passages + 5 GT texts + 2 listening part-sets + 6 Task-1 reports + 4 GT letters + 8 Task-2 essays with band-9 samples + 10 speaking topic sets) — no copyrighted Cambridge text reproduced
+- scripts/cambridge-audio.ts: TTS (voice "jam", wav) generated 5 demo clips into public/audio/cambridge (4 listening parts + 1 speaking sample); DB paths updated mp3→wav after API rejected mp3 format
+- APIs: GET /api/cambridge/books (catalog), /api/cambridge/books/[number]?module= (shelf metadata, no answers), /api/cambridge/tests/[id]?skill= (full skill payload)
+- Frontend (agent-built + main fixes): pages/cambridge-page.tsx (hero, stats, Academic/GT toggle, 19-book cover grid, skill cards, band calculator, CTA), cambridge/book-detail.tsx (cover, module switcher, 4 tests × 4 skill tiles), cambridge/test-player.tsx (listening audio+transcript+timer, reading two-pane, writing word counters + band-9 reveals, speaking cue cards + timers, client-side scoring with IELTS band table + full review)
+- site-router: routes #/cambridge, #/cambridge/book/<n>?module=, #/cambridge/test/<id>/<skill>; nav gained "Cambridge"; home-page gained CambridgeTeaser (dark band, mini bookshelf, live counts)
+- Fixed: default vs named imports in router, Next.js no-assign-module-variable lint rule (module→edition), remaining module refs
+
+Stage Summary:
+- Full Cambridge library live: 35 editions, 140 interactive tests, 560 skill papers; listening scoring verified in browser (5/40 → band 2.5 + review), writing/speaking/book/library pages verified desktop+mobile; audio serves 200; lint clean

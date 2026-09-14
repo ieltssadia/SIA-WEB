@@ -152,3 +152,39 @@ model OrderItem {
 
   @@index([orderId])
 }
+
+// ── Cambridge IELTS Library ─────────────────────────────────────────────
+// The full official Cambridge practice-test catalog (engnovate-style):
+// books 1-19 in Academic and General Training editions, four tests each,
+// every test carrying per-skill content. SQLite has no Json columns, so
+// each skill's interactive payload (questions, passages, transcripts,
+// band-9 samples...) is stored as a JSON string.
+model CambridgeBook {
+  id     String          @id @default(cuid())
+  number Int // 1..19 — the book number on the cover
+  module String // "academic" | "general"
+  title  String // e.g. "Cambridge IELTS 19 Academic"
+  year   Int // approximate publication year
+  accent String // cover accent hex for the generated spine art
+  blurb  String
+  tests  CambridgeTest[]
+
+  @@unique([number, module])
+  @@index([module])
+}
+
+// One practice test inside a book. Skills are separate JSON payloads so the
+// player can fetch only the skill being attempted.
+model CambridgeTest {
+  id        String        @id @default(cuid())
+  bookId    String
+  book      CambridgeBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  number    Int // 1..4
+  listening String        @default("{}") // { durationMin, parts: [{ n, title, audio, transcript, questions[] }] }
+  reading   String        @default("{}") // { durationMin, passages: [{ n, title, text, questions[] }] }
+  writing   String        @default("{}") // { task1, task2 } — prompts + band-9 samples + examiner notes
+  speaking  String        @default("{}") // { part1, part2, part3, sample } — cue cards + sample answers + audio
+
+  @@unique([bookId, number])
+  @@index([bookId])
+}
