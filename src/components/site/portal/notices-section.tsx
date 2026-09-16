@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
   CalendarClock,
@@ -17,6 +17,9 @@ import { cn } from "@/lib/utils";
 import { PortalSectionHeader } from "@/components/site/portal/portal-shell";
 import { bnNum } from "@/components/site/portal/portal-utils";
 import { portalNotices, routineNote, site } from "@/lib/site-data";
+
+/** Notice shape served by /api/catalog (matches the static portalNotices rows). */
+type CatalogNotice = { date: string; tag: string; title: string; body: string };
 
 const tagStyles: Record<string, string> = {
   "Class Update": "border-primary/40 bg-primary/10 text-primary",
@@ -81,10 +84,29 @@ const supportItems = [
 
 export function NoticesSection() {
   const [filter, setFilter] = useState<(typeof filterTags)[number]>("সব");
+  const [catalog, setCatalog] = useState<{ notices: CatalogNotice[] }>({
+    notices: portalNotices,
+  });
+
+  /* CMS-managed notices — static import paints first, then /api/catalog swaps in. */
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setCatalog({ notices: d.notices as CatalogNotice[] });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const allNotices = catalog.notices;
 
   const notices = useMemo(
-    () => (filter === "সব" ? portalNotices : portalNotices.filter((n) => n.tag === filter)),
-    [filter]
+    () => (filter === "সব" ? allNotices : allNotices.filter((n) => n.tag === filter)),
+    [allNotices, filter]
   );
 
   return (
@@ -97,7 +119,7 @@ export function NoticesSection() {
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <Bell className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-              {bnNum(portalNotices.length)} টি নোটিশ
+              {bnNum(allNotices.length)} টি নোটিশ
             </Badge>
           }
         />
@@ -108,7 +130,7 @@ export function NoticesSection() {
         <div className="flex flex-wrap gap-2" role="tablist" aria-label="নোটিশ ক্যাটাগরি">
           {filterTags.map((tag) => {
             const active = filter === tag;
-            const count = tag === "সব" ? portalNotices.length : portalNotices.filter((n) => n.tag === tag).length;
+            const count = tag === "সব" ? allNotices.length : allNotices.filter((n) => n.tag === tag).length;
             return (
               <button
                 key={tag}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowLeft,
@@ -180,7 +181,23 @@ function CourseNotFound() {
 }
 
 export function CourseDetailPage({ slug }: { slug: string }) {
-  const course = courses.find((c) => c.slug === slug);
+  /* CMS-managed course list — static import paints first, then /api/catalog swaps in. */
+  const [catalog, setCatalog] = useState<{ courses: Course[] }>({ courses });
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setCatalog({ courses: d.courses as Course[] });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const course = catalog.courses.find((c) => c.slug === slug);
 
   if (!course) return <CourseNotFound />;
 
@@ -200,12 +217,12 @@ export function CourseDetailPage({ slug }: { slug: string }) {
       : [...ownStories, ...stories.filter((s) => s.course !== course.title)]
   ).slice(0, 3);
 
-  const sameCategory = courses.filter(
+  const sameCategory = catalog.courses.filter(
     (c) => c.slug !== course.slug && c.category === course.category
   );
   const related: Course[] = (sameCategory.length
     ? sameCategory
-    : courses.filter((c) => c.slug !== course.slug)
+    : catalog.courses.filter((c) => c.slug !== course.slug)
   ).slice(0, 3);
 
   return (

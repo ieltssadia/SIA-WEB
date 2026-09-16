@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BadgeCheck,
   BookOpenCheck,
@@ -96,18 +96,35 @@ function DownloadCard({ item }: { item: PortalDownload }) {
 export function DownloadsSection() {
   const [category, setCategory] = useState<string>("all");
   const [query, setQuery] = useState("");
+  // CMS-managed resources (admin panel) — static site-data is the fallback.
+  const [resources, setResources] = useState<PortalDownload[]>(portalDownloads);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok && Array.isArray(d.resources)) {
+          setResources(d.resources as PortalDownload[]);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const counts = useMemo(() => {
     const map = new Map<string, number>();
-    for (const d of portalDownloads) {
+    for (const d of resources) {
       map.set(d.category, (map.get(d.category) ?? 0) + 1);
     }
     return map;
-  }, []);
+  }, [resources]);
 
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return portalDownloads.filter((d) => {
+    return resources.filter((d) => {
       const inCategory = category === "all" || d.category === category;
       const inQuery =
         q.length === 0 ||
@@ -115,9 +132,9 @@ export function DownloadsSection() {
         d.desc.toLowerCase().includes(q);
       return inCategory && inQuery;
     });
-  }, [category, query]);
+  }, [category, query, resources]);
 
-  const totalSizeKb = portalDownloads.reduce(
+  const totalSizeKb = resources.reduce(
     (sum, d) => sum + (parseFloat(d.size) || 0),
     0
   );
@@ -132,7 +149,7 @@ export function DownloadsSection() {
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <FolderDown className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-              {bnNum(portalDownloads.length)} টি ফাইল
+              {bnNum(resources.length)} টি ফাইল
             </Badge>
           }
         />
@@ -142,7 +159,7 @@ export function DownloadsSection() {
       <Reveal y={12} delay={0.03}>
         <div className="grid grid-cols-3 gap-3">
           {[
-            { icon: FileText, value: String(portalDownloads.length), label: "ফাইল" },
+            { icon: FileText, value: String(resources.length), label: "ফাইল" },
             { icon: Layers, value: String(portalDownloadCategories.length - 1), label: "ক্যাটাগরি" },
             { icon: Download, value: `${Math.round(totalSizeKb)} KB`, label: "সাইজ" },
           ].map(({ icon: Icon, value, label }) => (
@@ -184,7 +201,7 @@ export function DownloadsSection() {
             <div className="flex flex-wrap gap-2" role="tablist" aria-label="ক্যাটাগরি ফিল্টার">
               {portalDownloadCategories.map((c) => {
                 const active = category === c.id;
-                const count = c.id === "all" ? portalDownloads.length : (counts.get(c.id) ?? 0);
+                const count = c.id === "all" ? resources.length : (counts.get(c.id) ?? 0);
                 return (
                   <button
                     key={c.id}

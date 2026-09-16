@@ -1,12 +1,14 @@
 /**
- * Seed demo student accounts + enrollments + mock test results for the
- * Student Portal. Run: bun prisma/seed.ts
+ * Seed demo data: student accounts + enrollments + mock results, admin team
+ * members (owner/admin/teacher) and the managed CMS catalog (courses, shop
+ * books, portal resources, notices). Run: bun prisma/seed.ts
  *
  * Accounts are created at enrollment time (phone + password). Rakib Hasan has
  * an account but NO enrollment — his portal is intentionally empty.
  */
 import { PrismaClient } from "@prisma/client";
 import { createHash } from "crypto";
+import { books, courses, portalDownloads, portalNotices } from "../src/lib/site-data";
 
 const db = new PrismaClient();
 
@@ -15,7 +17,20 @@ function hashPassword(phone: string, password: string): string {
   return createHash("sha256").update(`${phone}:${password}`).digest("hex");
 }
 
+/** Must match hashAdminPassword() in src/lib/admin-auth.ts */
+function hashAdminPassword(email: string, password: string): string {
+  return createHash("sha256").update(`${email}:${password}`).digest("hex");
+}
+
 const DEMO_PASSWORD = "sadia123";
+
+// Admin CMS team — roles: owner (everything), admin (no team mgmt),
+// teacher (classes/students/certs/notices). Upserts keep edited logins.
+const team = [
+  { name: "Sadia Rahman", email: "sadia@team.com", password: "owner123", role: "owner" },
+  { name: "Rezaul Karim", email: "admin@team.com", password: "admin123", role: "admin" },
+  { name: "Tanvir Ahmed", email: "teacher@team.com", password: "teacher123", role: "teacher" },
+];
 
 type SeedStudent = {
   name: string;
@@ -232,13 +247,120 @@ async function main() {
     }
   }
 
+  // ── Admin CMS team ────────────────────────────────────────────────────
+  for (const m of team) {
+    await db.adminUser.upsert({
+      where: { email: m.email },
+      update: { name: m.name, role: m.role, status: "active" },
+      create: {
+        name: m.name,
+        email: m.email,
+        passwordHash: hashAdminPassword(m.email, m.password),
+        role: m.role,
+        status: "active",
+      },
+    });
+  }
+
+  // ── Managed catalog: courses / books / resources / notices ────────────
+  // Upserts — admin edits survive reseeds; only missing defaults return.
+  let i = 0;
+  for (const c of courses) {
+    const data = {
+      slug: c.slug,
+      title: c.title,
+      titleBn: c.titleBn,
+      desc: c.desc,
+      lessons: c.lessons,
+      duration: c.duration,
+      price: c.price,
+      oldPrice: c.oldPrice ?? null,
+      tag: c.tag,
+      icon: c.icon,
+      features: JSON.stringify(c.features),
+      category: c.category,
+      rating: c.rating,
+      students: c.students,
+      nextBatch: c.nextBatch,
+      mode: c.mode,
+      scheduleNote: c.scheduleNote,
+      seatsLeft: c.seatsLeft ?? null,
+      seatsTotal: c.seatsTotal ?? null,
+      accessPeriod: c.accessPeriod ?? null,
+      syllabus: JSON.stringify(c.syllabus),
+      published: true,
+      createdAt: new Date(Date.now() - (courses.length - i) * 86_400_000),
+    };
+    await db.course.upsert({ where: { slug: c.slug }, update: data, create: data });
+    i++;
+  }
+
+  i = 0;
+  for (const b of books) {
+    const data = {
+      slug: b.slug,
+      title: b.title,
+      titleBn: b.titleBn,
+      author: b.author,
+      desc: b.desc,
+      price: b.price,
+      oldPrice: b.oldPrice ?? null,
+      category: b.category,
+      cover: b.cover,
+      tag: b.tag ?? null,
+      pages: b.pages,
+      highlights: JSON.stringify(b.highlights),
+      listed: true,
+      createdAt: new Date(Date.now() - (books.length - i) * 86_400_000),
+    };
+    await db.book.upsert({ where: { slug: b.slug }, update: data, create: data });
+    i++;
+  }
+
+  for (const d of portalDownloads) {
+    const data = {
+      id: d.id,
+      title: d.title,
+      desc: d.desc,
+      category: d.category,
+      type: d.type,
+      size: d.size,
+      href: d.href,
+      published: true,
+    };
+    await db.downloadResource.upsert({ where: { id: d.id }, update: data, create: data });
+  }
+
+  // Notices: explicit ids + staggered createdAt so "newest first" matches
+  // the static portalNotices order (10 Sep → 01 Sep).
+  const noticeSeeds = portalNotices.map((n, idx) => ({
+    id: `seed-notice-${idx + 1}`,
+    date: n.date,
+    tag: n.tag,
+    title: n.title,
+    body: n.body,
+    createdAt: new Date(Date.now() - idx * 86_400_000),
+  }));
+  for (const n of noticeSeeds) {
+    await db.notice.upsert({ where: { id: n.id }, update: n, create: n });
+  }
+
   const [students_, enrollments_, mocks_] = await Promise.all([
     db.student.count(),
     db.enrollment.count(),
     db.mockResult.count(),
   ]);
+  const [team_, courses_, books_, resources_, notices_] = await Promise.all([
+    db.adminUser.count(),
+    db.course.count(),
+    db.book.count(),
+    db.downloadResource.count(),
+    db.notice.count(),
+  ]);
   console.log(
-    `Seeded ${students_} students, ${enrollments_} enrollments, ${mocks_} mock results.`
+    `Seeded ${students_} students, ${enrollments_} enrollments, ${mocks_} mock results; ` +
+      `team ${team_} (owner/admin/teacher), courses ${courses_}, books ${books_}, ` +
+      `resources ${resources_}, notices ${notices_}.`
   );
 }
 

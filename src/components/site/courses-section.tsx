@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -392,11 +392,30 @@ function CounselingTile({ span2 }: { span2: boolean }) {
  */
 export function CoursesSection({ featured = false }: { featured?: boolean }) {
   const [category, setCategory] = useState<string>("all");
+  const [catalog, setCatalog] = useState<{ courses: Course[] }>({ courses });
+
+  /* CMS-managed course list — static import paints first, then /api/catalog swaps in. */
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setCatalog({ courses: d.courses as Course[] });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const allCourses = catalog.courses;
 
   const filtered = useMemo(() => {
-    if (featured) return courses.slice(0, 3);
-    return category === "all" ? courses : courses.filter((c) => c.category === category);
-  }, [category, featured]);
+    if (featured) return allCourses.slice(0, 3);
+    return category === "all"
+      ? allCourses
+      : allCourses.filter((c) => c.category === category);
+  }, [allCourses, category, featured]);
 
   /* Which positions become large horizontal bento cards (span 2 cols). */
   const featuredPositions = useMemo(() => {

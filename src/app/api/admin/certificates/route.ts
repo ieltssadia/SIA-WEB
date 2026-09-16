@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized, badRequest } from "@/lib/admin-auth";
+import { getAuth, unauthorized, badRequest } from "@/lib/admin-auth";
 import type { AdminCertificate } from "@/lib/admin-types";
 
 const issueSchema = z.object({
@@ -29,7 +29,7 @@ function makeCertId(): string {
 
 /** GET /api/admin/certificates — all issued certificates, newest first. */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const rows = await db.certificate.findMany({
@@ -63,7 +63,7 @@ export async function GET(req: Request) {
  * a rare unique-key collision).
  */
 export async function POST(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const body = await req.json().catch(() => null);

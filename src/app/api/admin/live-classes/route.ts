@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized, badRequest } from "@/lib/admin-auth";
+import { getAuth, unauthorized, badRequest } from "@/lib/admin-auth";
 import { ADMIN_LIVE_STATUSES } from "@/lib/admin-types";
 import type { AdminLiveClass } from "@/lib/admin-types";
 
@@ -35,7 +35,7 @@ export const liveClassSchema = z.object({
 
 /** GET /api/admin/live-classes — full schedule (with ids), ascending by startsAt. */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const rows = await db.liveClass.findMany({
@@ -67,7 +67,7 @@ export async function GET(req: Request) {
 
 /** POST /api/admin/live-classes — schedule a new live class. */
 export async function POST(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const body = await req.json().catch(() => null);

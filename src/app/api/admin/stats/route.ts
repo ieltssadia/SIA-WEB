@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized } from "@/lib/admin-auth";
+import { getAuth, unauthorized } from "@/lib/admin-auth";
 import type {
   AdminOrderLite,
   AdminOrderStatus,
@@ -35,10 +35,16 @@ function dhakaWeekday(d: Date): string {
  * GET /api/admin/stats — dashboard totals for the admin home:
  * orders (+ byStatus, revenue), students, leads (new vs contacted),
  * enrollments, live classes (live/upcoming/ended), certificates issued,
- * latest 5 orders and 7-day revenue series (Asia/Dhaka).
+ * catalog + team counts, latest 5 orders and 7-day revenue series
+ * (Asia/Dhaka).
+ *
+ * Teachers get operational stats but never financials: revenue is zeroed
+ * and recent orders are omitted.
  */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  const auth = await getAuth(req);
+  if (!auth) return unauthorized();
+  const isTeacher = auth.role === "teacher";
 
   try {
     const [
@@ -52,6 +58,15 @@ export async function GET(req: Request) {
       certificateCount,
       recentOrdersRaw,
       paidRecent,
+      courseTotal,
+      publishedCourses,
+      bookTotal,
+      listedBooks,
+      resourceTotal,
+      noticeTotal,
+      teamOwners,
+      teamAdmins,
+      teamTeachers,
     ] = await Promise.all([
       db.order.count(),
       db.order.groupBy({ by: ["status"], _count: { _all: true } }),
@@ -67,19 +82,32 @@ export async function GET(req: Request) {
       db.enrollment.count(),
       db.liveClass.groupBy({ by: ["status"], _count: { _all: true } }),
       db.certificate.count(),
-      db.order.findMany({
-        orderBy: { createdAt: "desc" },
-        take: 5,
-        include: { _count: { select: { items: true } } },
-      }),
-      db.order.findMany({
-        where: {
-          paymentStatus: { in: REVENUE_PAYMENT_STATUSES },
-          status: { not: "cancelled" },
-          createdAt: { gte: new Date(Date.now() - 6 * 86_400_000) },
-        },
-        select: { createdAt: true, total: true },
-      }),
+      isTeacher
+        ? Promise.resolve([])
+        : db.order.findMany({
+            orderBy: { createdAt: "desc" },
+            take: 5,
+            include: { _count: { select: { items: true } } },
+          }),
+      isTeacher
+        ? Promise.resolve([])
+        : db.order.findMany({
+            where: {
+              paymentStatus: { in: REVENUE_PAYMENT_STATUSES },
+              status: { not: "cancelled" },
+              createdAt: { gte: new Date(Date.now() - 6 * 86_400_000) },
+            },
+            select: { createdAt: true, total: true },
+          }),
+      db.course.count(),
+      db.course.count({ where: { published: true } }),
+      db.book.count(),
+      db.book.count({ where: { listed: true } }),
+      db.downloadResource.count(),
+      db.notice.count(),
+      db.adminUser.count({ where: { role: "owner" } }),
+      db.adminUser.count({ where: { role: "admin" } }),
+      db.adminUser.count({ where: { role: "teacher" } }),
     ]);
 
     // Orders by status — always emit every schema status (0 default).
@@ -131,8 +159,9 @@ export async function GET(req: Request) {
     }));
 
     const stats: AdminStats = {
+      role: auth.role,
       orders: { total: orderTotal, byStatus },
-      revenue: revenueAgg._sum.total ?? 0,
+      revenue: isTeacher ? 0 : (revenueAgg._sum.total ?? 0),
       students: studentCount,
       leads: {
         total: leadsTotal,
@@ -149,6 +178,20 @@ export async function GET(req: Request) {
         ended: liveCount("ended"),
       },
       certificates: certificateCount,
+      catalog: {
+        courses: courseTotal,
+        publishedCourses,
+        books: bookTotal,
+        listedBooks,
+        resources: resourceTotal,
+        notices: noticeTotal,
+      },
+      team: {
+        total: teamOwners + teamAdmins + teamTeachers,
+        owners: teamOwners,
+        admins: teamAdmins,
+        teachers: teamTeachers,
+      },
       recentOrders,
       revenueByDay,
     };

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized } from "@/lib/admin-auth";
+import { getAuth, unauthorized } from "@/lib/admin-auth";
 import type { AdminEnrollmentLite, AdminStudentRow } from "@/lib/admin-types";
 
 function toEnrollmentLite(e: {
@@ -32,7 +32,7 @@ function toEnrollmentLite(e: {
  * student's most recent enrollment. `passwordHash` is never returned.
  */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const students = await db.student.findMany({

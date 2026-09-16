@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized } from "@/lib/admin-auth";
+import { getAuth, unauthorized } from "@/lib/admin-auth";
 import type {
   AdminEnrollmentLite,
   AdminMockLite,
@@ -15,7 +15,7 @@ export async function GET(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const { id } = await ctx.params;

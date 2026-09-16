@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { isAuthorized, unauthorized, badRequest } from "@/lib/admin-auth";
+import { getAuth, unauthorized, badRequest } from "@/lib/admin-auth";
 import { ADMIN_LIVE_STATUSES } from "@/lib/admin-types";
 import type { AdminLiveClass } from "@/lib/admin-types";
 
@@ -29,7 +29,7 @@ export async function PATCH(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const { id } = await ctx.params;
@@ -99,7 +99,7 @@ export async function DELETE(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await getAuth(req))) return unauthorized();
 
   try {
     const { id } = await ctx.params;

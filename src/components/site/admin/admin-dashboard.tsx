@@ -3,17 +3,23 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Award,
+  BookOpen,
+  FolderDown,
   GraduationCap,
+  Library,
+  Megaphone,
   Radio,
   ReceiptText,
   ShoppingBag,
   UserPlus,
+  Users,
   Wallet,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { AdminStats } from "@/lib/admin-types";
 import { useAdminStore } from "@/lib/admin-store";
+import type { AdminSectionKey } from "@/components/site/pages/admin-page";
 import {
   EmptyState,
   ErrorState,
@@ -25,18 +31,12 @@ import {
   SectionHeading,
 } from "@/components/site/admin/admin-shared";
 
-export type AdminSectionKey =
-  | "dashboard"
-  | "orders"
-  | "live-classes"
-  | "leads"
-  | "students"
-  | "certificates";
-
 /**
- * Admin Dashboard — totals row, 7-day revenue bars (pure CSS), latest 5
- * orders and quick links. Bubbles the live-class count to the shell via
- * `onStats` so the top bar can show the pulse chip.
+ * Admin Dashboard — totals row, catalog row, 7-day revenue bars (pure CSS),
+ * latest 5 orders and quick links. Bubbles the live-class count to the shell
+ * via `onStats` so the top bar can show the pulse chip. Role-aware: teachers
+ * get the sales surfaces hidden (server zeroes them anyway) and the Team
+ * quick action only appears for owners.
  */
 export function AdminDashboard({
   onStats,
@@ -82,6 +82,8 @@ export function AdminDashboard({
   const maxRevenue = stats
     ? Math.max(...stats.revenueByDay.map((d) => d.total), 1)
     : 1;
+  const isTeacher = stats?.role === "teacher";
+  const isOwner = stats?.role === "owner";
 
   return (
     <div className="space-y-6">
@@ -93,33 +95,39 @@ export function AdminDashboard({
         <>
           {/* Stat cards */}
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-            <StatCard
-              icon={Wallet}
-              label="Revenue — আয়"
-              sub="paid + verified"
-              value={formatBDT(stats.revenue)}
-              tone="emerald"
-            />
-            <StatCard
-              icon={ShoppingBag}
-              label="Orders — অর্ডার"
-              sub={`${stats.orders.byStatus.placed} placed`}
-              value={stats.orders.total}
-              tone="sky"
-            />
+            {!isTeacher ? (
+              <StatCard
+                icon={Wallet}
+                label="Revenue — আয়"
+                sub="paid + verified"
+                value={formatBDT(stats.revenue)}
+                tone="emerald"
+              />
+            ) : null}
+            {!isTeacher ? (
+              <StatCard
+                icon={ShoppingBag}
+                label="Orders — অর্ডার"
+                sub={`${stats.orders.byStatus.placed} placed`}
+                value={stats.orders.total}
+                tone="sky"
+              />
+            ) : null}
             <StatCard
               icon={GraduationCap}
               label="Students — শিক্ষার্থী"
               value={stats.students}
               tone="blue"
             />
-            <StatCard
-              icon={UserPlus}
-              label="New Leads — নতুন লিড"
-              sub={`${stats.leads.contacted} contacted`}
-              value={stats.leads.new}
-              tone="amber"
-            />
+            {!isTeacher ? (
+              <StatCard
+                icon={UserPlus}
+                label="New Leads — নতুন লিড"
+                sub={`${stats.leads.contacted} contacted`}
+                value={stats.leads.new}
+                tone="amber"
+              />
+            ) : null}
             <StatCard
               icon={Radio}
               label="Live Now — চলছে"
@@ -135,107 +143,197 @@ export function AdminDashboard({
             />
           </div>
 
-          {/* Revenue chart + recent orders */}
-          <div className="grid gap-4 lg:grid-cols-5">
-            <Card className="rounded-2xl border-border bg-card lg:col-span-3">
-              <CardContent className="p-4 sm:p-6">
-                <SectionHeading
-                  title="Revenue — শেষ ৭ দিন"
-                  sub="paid + verified orders, Asia/Dhaka"
-                />
-                <div className="mt-6 flex h-44 items-end gap-2 sm:gap-3" role="img" aria-label="Last 7 days revenue bar chart">
-                  {stats.revenueByDay.map((d) => {
-                    const pct = Math.round((d.total / maxRevenue) * 100);
-                    return (
-                      <div key={d.date} className="flex h-full flex-1 flex-col items-center justify-end gap-2">
-                        <span className="text-[10px] font-semibold text-muted-foreground sm:text-xs">
-                          {d.total > 0 ? formatBDT(d.total) : ""}
-                        </span>
-                        <div
-                          className="w-full rounded-t-lg bg-primary/85 transition-all hover:bg-primary"
-                          style={{ height: `${Math.max(pct, d.total > 0 ? 6 : 2)}%` }}
-                          title={`${d.label}: ${formatBDT(d.total)}`}
-                        />
-                        <span className="text-[10px] font-medium text-muted-foreground sm:text-xs">
-                          {d.label}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-2xl border-border bg-card lg:col-span-2">
-              <CardContent className="p-4 sm:p-6">
-                <SectionHeading title="Recent Orders — সাম্প্রতিক" />
-                {stats.recentOrders.length === 0 ? (
-                  <div className="mt-4">
-                    <EmptyState
-                      icon={ReceiptText}
-                      title="এখনো কোনো অর্ডার নেই"
-                      hint="Book Shop checkout থেকে প্রথম অর্ডারটি এখানে দেখা যাবে।"
-                    />
-                  </div>
-                ) : (
-                  <ul className="mt-4 max-h-96 space-y-3 overflow-y-auto pr-1">
-                    {stats.recentOrders.map((o) => (
-                      <li
-                        key={o.id}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/40 p-3"
-                      >
-                        <div className="min-w-0">
-                          <p className="truncate font-mono text-xs font-semibold text-foreground">
-                            {o.orderNo}
-                          </p>
-                          <p className="truncate text-xs text-muted-foreground">
-                            {o.name} · {o.itemCount} item{o.itemCount === 1 ? "" : "s"} ·{" "}
-                            {formatDate(o.createdAt)}
-                          </p>
-                        </div>
-                        <div className="flex shrink-0 flex-col items-end gap-1">
-                          <span className="text-sm font-bold text-foreground">
-                            {formatBDT(o.total)}
-                          </span>
-                          <StatusChip status={o.status} toneMap={ORDER_STATUS_TONE} />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </CardContent>
-            </Card>
+          {/* Catalog row (CMS content health) + team card for owners */}
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+            <StatCard
+              icon={BookOpen}
+              label="Courses — কোর্স"
+              sub={`${stats.catalog.publishedCourses} published`}
+              value={stats.catalog.courses}
+              tone="blue"
+            />
+            <StatCard
+              icon={Library}
+              label="Shop Books — বই"
+              sub={`${stats.catalog.listedBooks} listed`}
+              value={stats.catalog.books}
+              tone="amber"
+            />
+            <StatCard
+              icon={FolderDown}
+              label="Resources — রিসোর্স"
+              value={stats.catalog.resources}
+              tone="sky"
+            />
+            <StatCard
+              icon={Megaphone}
+              label="Notices — নোটিশ"
+              value={stats.catalog.notices}
+              tone="emerald"
+            />
+            {isOwner ? (
+              <StatCard
+                icon={Users}
+                label="Team — টিম"
+                sub={`${stats.team.owners} owner · ${stats.team.admins} admin · ${stats.team.teachers} teacher`}
+                value={stats.team.total}
+                tone="muted"
+              />
+            ) : null}
           </div>
+
+          {/* Revenue chart + recent orders (sales roles only) */}
+          {!isTeacher ? (
+            <div className="grid gap-4 lg:grid-cols-5">
+              <Card className="rounded-2xl border-border bg-card lg:col-span-3">
+                <CardContent className="p-4 sm:p-6">
+                  <SectionHeading
+                    title="Revenue — শেষ ৭ দিন"
+                    sub="paid + verified orders, Asia/Dhaka"
+                  />
+                  <div
+                    className="mt-6 flex h-44 items-end gap-2 sm:gap-3"
+                    role="img"
+                    aria-label="Last 7 days revenue bar chart"
+                  >
+                    {stats.revenueByDay.map((d) => {
+                      const pct = Math.round((d.total / maxRevenue) * 100);
+                      return (
+                        <div
+                          key={d.date}
+                          className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+                        >
+                          <span className="text-[10px] font-semibold text-muted-foreground sm:text-xs">
+                            {d.total > 0 ? formatBDT(d.total) : ""}
+                          </span>
+                          <div
+                            className="w-full rounded-t-lg bg-primary/85 transition-all hover:bg-primary"
+                            style={{ height: `${Math.max(pct, d.total > 0 ? 6 : 2)}%` }}
+                            title={`${d.label}: ${formatBDT(d.total)}`}
+                          />
+                          <span className="text-[10px] font-medium text-muted-foreground sm:text-xs">
+                            {d.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-2xl border-border bg-card lg:col-span-2">
+                <CardContent className="p-4 sm:p-6">
+                  <SectionHeading title="Recent Orders — সাম্প্রতিক" />
+                  {stats.recentOrders.length === 0 ? (
+                    <div className="mt-4">
+                      <EmptyState
+                        icon={ReceiptText}
+                        title="এখনো কোনো অর্ডার নেই"
+                        hint="Book Shop checkout থেকে প্রথম অর্ডারটি এখানে দেখা যাবে।"
+                      />
+                    </div>
+                  ) : (
+                    <ul className="mt-4 max-h-96 space-y-3 overflow-y-auto pr-1">
+                      {stats.recentOrders.map((o) => (
+                        <li
+                          key={o.id}
+                          className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/40 p-3"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate font-mono text-xs font-semibold text-foreground">
+                              {o.orderNo}
+                            </p>
+                            <p className="truncate text-xs text-muted-foreground">
+                              {o.name} · {o.itemCount} item{o.itemCount === 1 ? "" : "s"} ·{" "}
+                              {formatDate(o.createdAt)}
+                            </p>
+                          </div>
+                          <div className="flex shrink-0 flex-col items-end gap-1">
+                            <span className="text-sm font-bold text-foreground">
+                              {formatBDT(o.total)}
+                            </span>
+                            <StatusChip status={o.status} toneMap={ORDER_STATUS_TONE} />
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          ) : null}
 
           {/* Quick links */}
           <Card className="rounded-2xl border-border bg-card">
             <CardContent className="p-4 sm:p-6">
               <SectionHeading title="Quick Actions — দ্রুত কাজ" />
               <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={BookOpen}
+                    title="Manage Courses"
+                    sub="কোর্স ক্যাটালগ"
+                    onClick={() => onNavigate?.("courses")}
+                  />
+                ) : null}
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={Library}
+                    title="Shop Books"
+                    sub="বই লিস্ট করুন"
+                    onClick={() => onNavigate?.("books")}
+                  />
+                ) : null}
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={FolderDown}
+                    title="Resources"
+                    sub="ডাউনলোডস ম্যানেজ"
+                    onClick={() => onNavigate?.("resources")}
+                  />
+                ) : null}
                 <QuickLink
-                  icon={ShoppingBag}
-                  title="Manage Orders"
-                  sub="স্ট্যাটাস আপডেট করুন"
-                  onClick={() => onNavigate?.("orders")}
+                  icon={Megaphone}
+                  title="Post Notice"
+                  sub="নোটিশ দিন"
+                  onClick={() => onNavigate?.("notices")}
                 />
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={ShoppingBag}
+                    title="Manage Orders"
+                    sub="স্ট্যাটাস আপডেট করুন"
+                    onClick={() => onNavigate?.("orders")}
+                  />
+                ) : null}
                 <QuickLink
                   icon={Radio}
                   title="Schedule Class"
                   sub="লাইভ ক্লাস যোগ করুন"
                   onClick={() => onNavigate?.("live-classes")}
                 />
-                <QuickLink
-                  icon={UserPlus}
-                  title="Review Leads"
-                  sub="লিড ফলো-আপ"
-                  onClick={() => onNavigate?.("leads")}
-                />
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={UserPlus}
+                    title="Review Leads"
+                    sub="লিড ফলো-আপ"
+                    onClick={() => onNavigate?.("leads")}
+                  />
+                ) : null}
                 <QuickLink
                   icon={Award}
                   title="Issue Certificate"
                   sub="সার্টিফিকেট ইস্যু"
                   onClick={() => onNavigate?.("certificates")}
                 />
+                {isOwner ? (
+                  <QuickLink
+                    icon={Users}
+                    title="Team"
+                    sub="সদস্য যোগ/এডিট"
+                    onClick={() => onNavigate?.("team")}
+                  />
+                ) : null}
               </div>
             </CardContent>
           </Card>
@@ -280,6 +378,11 @@ function DashboardSkeleton() {
     <div className="space-y-6" aria-busy="true">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-[74px] rounded-2xl" />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-[74px] rounded-2xl" />
         ))}
       </div>

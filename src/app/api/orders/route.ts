@@ -119,7 +119,20 @@ export async function POST(req: Request) {
       );
     }
 
-    // Server-side pricing — the single source of truth is the catalog.
+    // Server-side pricing — the single source of truth is the catalog. Books
+    // managed in the admin CMS (DB) win; static site-data is the fallback.
+    // Delisted books can no longer be ordered.
+    const dbBooks = await db.book.findMany();
+    const findBook = (slug: string) => {
+      const managed = dbBooks.find((b) => b.slug === slug);
+      if (managed) {
+        return managed.listed
+          ? { slug: managed.slug, title: managed.title, price: managed.price }
+          : null;
+      }
+      const fallback = books.find((b) => b.slug === slug);
+      return fallback ? { slug: fallback.slug, title: fallback.title, price: fallback.price } : null;
+    };
     const lines: {
       kind: "book";
       slug: string;
@@ -129,7 +142,7 @@ export async function POST(req: Request) {
       lineTotal: number;
     }[] = [];
     for (const item of data.items) {
-      const book = books.find((b) => b.slug === item.slug);
+      const book = findBook(item.slug);
       if (!book) {
         return NextResponse.json(
           { error: `"${item.slug}" is no longer available — please refresh your cart.` },

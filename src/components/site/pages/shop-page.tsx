@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import {
   Banknote,
@@ -194,11 +194,36 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
 export function ShopPage() {
   const [category, setCategory] = useState<string>("all");
   const [selected, setSelected] = useState<Book | null>(null);
+  const [catalog, setCatalog] = useState<{ books: Book[] }>({ books });
   const addToCart = useAddToCart();
 
+  /* CMS-managed book list — static import paints first, then /api/catalog swaps in. */
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setCatalog({ books: d.books as Book[] });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const catalogBooks = catalog.books;
+  const bundleBook = catalogBooks.length ? catalogBooks[catalogBooks.length - 1] : books[0];
+  const bundleTotal = catalogBooks.reduce(
+    (s, b) => s + (b.slug === "complete-bundle" ? 0 : b.price),
+    0
+  );
+
   const filtered = useMemo(
-    () => (category === "all" ? books : books.filter((b) => b.category === category)),
-    [category]
+    () =>
+      category === "all"
+        ? catalogBooks
+        : catalogBooks.filter((b) => b.category === category),
+    [category, catalogBooks]
   );
 
   return (
@@ -261,7 +286,7 @@ export function ShopPage() {
             <div className="relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#15120b] via-[#16130c] to-[#15120b] p-6 md:p-8">
               <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
                 <div className="relative h-36 w-28 shrink-0">
-                  <BookCover book={books[books.length - 1]} className="h-full w-full shadow-2xl" />
+                  <BookCover book={bundleBook} className="h-full w-full shadow-2xl" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <Badge className="border-white/10 bg-white/10 text-[#e4d5ae] hover:bg-white/10">
@@ -275,7 +300,7 @@ export function ShopPage() {
                     Reading Tricks + Writing Handbook + Speaking Bank + Vocabulary Builder +
                     Listening Workbook + 10 Mock Tests —{" "}
                     <span className="font-semibold text-[#f6ecd4]">
-                      আলাদা কিনলে ৳{books.reduce((s, b) => s + (b.slug === "complete-bundle" ? 0 : b.price), 0).toLocaleString("en-US")}
+                      আলাদা কিনলে ৳{bundleTotal.toLocaleString("en-US")}
                     </span>
                     , bundle-এ মাত্র ৳2,200. Free delivery in Sreemangal!
                   </p>
@@ -283,7 +308,7 @@ export function ShopPage() {
                 <Button
                   size="lg"
                   className="shrink-0 bg-brand-gradient font-bold text-white hover:opacity-90"
-                  onClick={() => addToCart(books[books.length - 1])}
+                  onClick={() => addToCart(bundleBook)}
                 >
                   <ShoppingBag className="mr-1.5 h-4 w-4" aria-hidden />
                   Add Bundle to Cart
@@ -294,7 +319,7 @@ export function ShopPage() {
                   variant="outline"
                   className="shrink-0 border-white/20 bg-transparent font-semibold text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
-                  <a href={waLink(books[books.length - 1])} target="_blank" rel="noopener noreferrer">
+                  <a href={waLink(bundleBook)} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="mr-1.5 h-4 w-4" aria-hidden />
                     WhatsApp
                   </a>

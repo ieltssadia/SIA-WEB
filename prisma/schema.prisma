@@ -153,6 +153,96 @@ model OrderItem {
   @@index([orderId])
 }
 
+// Team members who run the admin CMS. Roles gate every admin API + section:
+//   owner  → everything, including Team management
+//   admin  → everything except Team management
+//   teacher→ live classes, students (view), certificates (issue), notices
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique // canonical lowercase
+  passwordHash String // sha256("<email>:<password>")
+  role         String   @default("teacher") // owner | admin | teacher
+  status       String   @default("active") // active | disabled
+  createdAt    DateTime @default(now())
+}
+
+// Managed course catalog — seeded from site-data defaults, then editable from
+// the admin CMS (price, seats, syllabus, publish/delist). Public pages read
+// /api/catalog which serves DB rows with site-data as the fallback.
+model Course {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  titleBn      String   @default("")
+  desc         String   @default("")
+  lessons      Int      @default(10)
+  duration     String   @default("")
+  price        Int? // null → "call for price"
+  oldPrice     Int?
+  tag          String   @default("")
+  icon         String   @default("book")
+  features     String   @default("[]") // JSON string[]
+  category     String   @default("complete") // complete | beginner | exam
+  rating       Float    @default(4.8)
+  students     Int      @default(0)
+  nextBatch    String   @default("")
+  mode         String   @default("Online")
+  scheduleNote String   @default("")
+  seatsLeft    Int?
+  seatsTotal   Int?
+  accessPeriod String?
+  syllabus     String   @default("[]") // JSON string[]
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Book Shop catalog — admin can add/edit price, delist (hide from shop) etc.
+// Order pricing reads this table first (site-data stays the fallback).
+model Book {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  titleBn    String   @default("")
+  author     String   @default("Sadia Rahman")
+  desc       String   @default("")
+  price      Int // BDT
+  oldPrice   Int?
+  category   String   @default("reading")
+  cover      String   @default("/images/books/reading-tricks.png")
+  tag        String?
+  pages      Int      @default(0)
+  highlights String   @default("[]") // JSON string[]
+  listed     Boolean  @default(true) // false → hidden from the shop grid
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Student-portal downloadable resources (files live in /public/downloads/).
+model DownloadResource {
+  id        String   @id @default(cuid())
+  title     String
+  desc      String   @default("")
+  category  String   @default("writing") // writing | speaking | vocabulary | mock-tools
+  type      String   @default("PDF")
+  size      String   @default("")
+  href      String // e.g. /downloads/writing-task-2-structures.pdf
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Student-portal notice board entries. `date` is a display string ("10 Sep").
+model Notice {
+  id        String   @id @default(cuid())
+  date      String // display date, e.g. "10 Sep"
+  tag       String   @default("Notice") // Class Update | Mock Test | Speaking Club | Notice
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+}
+
 // ── Cambridge IELTS Library ─────────────────────────────────────────────
 // The full official Cambridge practice-test catalog (engnovate-style):
 // books 1-19 in Academic and General Training editions, four tests each,
