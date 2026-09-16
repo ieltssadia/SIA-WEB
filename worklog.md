@@ -705,3 +705,16 @@ Work Log:
 
 Stage Summary:
 - Course cards can no longer self-overlap in any state (rest or hover). Same component serves home + catalog, so both surfaces are fixed.
+---
+Task ID: 12-c
+Agent: Z.ai Code (main)
+Task: User pasted a "Training Library" dashboard reference — student portal's dashboard/live-class options should follow that UI/UX.
+
+Work Log:
+- Mapped reference → portal: big video-player hero → featured LIVE-class hero card; Recent Videos rows → live/upcoming class rows; Learning Path Progress donut + Continue → course progress donut + "পড়া চালিয়ে যান"; Path Modules checklist → syllabus module checklist (done green check / current gold ring + চলবে / numbered future); Your Stats → attendance/mock-avg/weekly/target icon rows; sidebar + bottom tabs already existed in PortalShell.
+- Rewrote portal/overview.tsx: removed the 4-tile stat grid; new layout = greeting band → xl two-column (main: LiveHero poster card w/ pulsing LIVE badge or আসন্ন countdown or routine fallback + gold/white CTA into #/live/<slug>, LiveClassRows from /api/live-classes 30s refresh w/ Join|রুম actions + routine fallback rows, MyCourse + RecentMock pair; right rail: ProgressDonut (SVG gold ring), ModuleChecklist (max-h-72 scroll), StatsCard pastel chips, notices mini-card).
+- Hydration-safe: all Date-dependent UI behind useMounted/rAF setState (lint's cascading-render rule); live fetch keeps last snapshot on failure; portal-less/empty flows untouched; LiveGate still guards #/live routes.
+- Verified via agent-browser on :81 with demo login (01712000001/sadia123 → Anika): dashboard renders with a REAL live class (Speaking Cue Card Marathon, red লাইভ chips), countdown rows (4 দিন 14 ঘণ্টা বাকি), donut 68%, checklist 4/6 with item-5 current, stats (92% / 7.5 / 14 / 8.0); hero Join click → #/live/speaking-cue-card-marathon join page; zero console/page errors; mobile 390x844 stacks cleanly with bottom tab bar; lint clean; committed abf00da. (dev.log hero-cinematic 404s are stale pre-fallback lines; grep confirms zero source references.)
+
+Stage Summary:
+- Student portal dashboard now mirrors the pasted learning-hub reference in Gilded Court branding (gold/ivory, not orange/white), with live-class options as the centerpiece: hero + rows + hub link. The #/live hub and classroom pages keep their existing (already verified) UI.
