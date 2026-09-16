@@ -55,23 +55,23 @@ const navGroups: NavGroup[] = [
   {
     label: "শেখা",
     items: [
-      { id: "overview", label: "Overview", short: "Home", icon: LayoutDashboard },
-      { id: "routine", label: "My Routine", short: "Routine", icon: CalendarDays },
-      { id: "course", label: "My Course", short: "Course", icon: BookOpen },
+      { id: "overview", label: "ড্যাশবোর্ড", short: "হোম", icon: LayoutDashboard },
+      { id: "routine", label: "আমার রুটিন", short: "রুটিন", icon: CalendarDays },
+      { id: "course", label: "আমার কোর্স", short: "কোর্স", icon: BookOpen },
     ],
   },
   {
     label: "প্রোগ্রেস",
     items: [
-      { id: "scores", label: "Mock Scores", short: "Scores", icon: BarChart3 },
-      { id: "certificates", label: "Certificates", short: "Certs", icon: Award },
+      { id: "scores", label: "মক স্কোর", short: "স্কোর", icon: BarChart3 },
+      { id: "certificates", label: "সার্টিফিকেট", short: "সার্ট", icon: Award },
     ],
   },
   {
     label: "লাইব্রেরি",
     items: [
-      { id: "downloads", label: "Downloads", short: "Files", icon: FolderDown },
-      { id: "notices", label: "Notices", short: "Notices", icon: Bell },
+      { id: "downloads", label: "ডাউনলোডস", short: "ফাইল", icon: FolderDown },
+      { id: "notices", label: "নোটিশ", short: "নোটিশ", icon: Bell },
     ],
   },
 ];
@@ -127,7 +127,7 @@ function LiveClassLink() {
           className="absolute -right-1 -top-0.5 h-1.5 w-1.5 animate-pulse rounded-full bg-red-600"
         />
       </span>
-      Live Classes
+      লাইভ ক্লাস
       <ChevronRight
         className="ml-auto h-3.5 w-3.5 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5"
         aria-hidden
@@ -233,7 +233,7 @@ export function PortalShell({
         className="mt-3 w-full border-white/15 bg-transparent text-xs font-medium text-[#f6ecd4] hover:border-red-500/50 hover:bg-red-500/10 hover:text-[#d98487]"
       >
         <LogOut className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-        Log out
+        লগ আউট
       </Button>
     </div>
   );
@@ -293,7 +293,7 @@ export function PortalShell({
               variant="outline"
               size="icon"
               onClick={logout}
-              aria-label="Log out"
+              aria-label="লগ আউট"
               className="h-9 w-9 shrink-0 border-primary/20 hover:border-destructive/50 hover:text-destructive"
             >
               <LogOut className="h-4 w-4" aria-hidden />
@@ -356,7 +356,7 @@ export function PortalShell({
                 />
               ) : null}
             </span>
-            More
+            আরও
             <span
               aria-hidden
               className={cn(
@@ -411,7 +411,7 @@ export function PortalShell({
               className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-primary"
             >
               <Radio className="h-4.5 w-4.5 shrink-0" aria-hidden />
-              Live Classes
+              লাইভ ক্লাস
               <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/60" aria-hidden />
             </a>
             <div className="my-2 border-t border-border" aria-hidden />
@@ -424,7 +424,7 @@ export function PortalShell({
               className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/10"
             >
               <LogOut className="h-4.5 w-4.5 shrink-0" aria-hidden />
-              Log out
+              লগ আউট
               <span className="ml-auto flex items-center gap-1 text-[10px] font-medium text-muted-foreground">
                 <HelpCircle className="h-3.5 w-3.5" aria-hidden />
                 {user.phone}

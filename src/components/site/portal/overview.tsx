@@ -43,6 +43,7 @@ import type {
 } from "@/lib/portal-store";
 import type { PortalSection } from "@/components/site/portal/portal-shell";
 import {
+  bnNum,
   classesThisWeek,
   daysUntil,
   findNextClass,
@@ -683,14 +684,14 @@ function MyCourseCard({
       <Progress value={enrollment.progress} className="mt-4 h-2" />
       {nextLesson ? (
         <p className="mt-1.5 line-clamp-1 text-[11px] text-muted-foreground">
-          Up next: {nextLesson}
+          পরবর্তী: {nextLesson}
         </p>
       ) : null}
       <Button
         onClick={() => onNavigate("course")}
         className="mt-auto h-11 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
       >
-        <span className="sr-only">Open My Course — </span>Continue
+        <span className="sr-only">আমার কোর্স খুলুন — </span>চালিয়ে যান
         <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
       </Button>
     </div>
@@ -726,7 +727,7 @@ function RecentMock({
           onClick={() => onNavigate("scores")}
           className="text-xs font-semibold text-primary hover:bg-primary/10 hover:text-primary"
         >
-          View all
+          সব দেখুন
           <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
         </Button>
       </div>
@@ -899,7 +900,7 @@ export function OverviewSection({
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-foreground">
                       {certificates.length > 0
-                        ? `${certificates.length}টি সার্টিফিকেট ইস্যু হয়েছে`
+                        ? `${bnNum(certificates.length)}টি সার্টিফিকেট ইস্যু হয়েছে`
                         : "সার্টিফিকেট — কোর্স শেষে ইস্যু"}
                     </span>
                     <span className="block text-xs text-muted-foreground">
@@ -920,10 +921,10 @@ export function OverviewSection({
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-foreground">
-                      ডাউনলোড কর্নার — {portalDownloads.length} ফাইল
+                      ডাউনলোড কর্নার — {bnNum(portalDownloads.length)} ফাইল
                     </span>
                     <span className="block text-xs text-muted-foreground">
-                      Notes, templates, answer sheet, checklist
+                      নোটস, টেমপ্লেট, answer sheet, চেকলিস্ট
                     </span>
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
@@ -945,7 +946,7 @@ export function OverviewSection({
                   onClick={() => onNavigate("notices")}
                   className="text-xs font-semibold text-primary hover:bg-primary/10 hover:text-primary"
                 >
-                  View all
+                  সব দেখুন
                   <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
                 </Button>
               </div>

@@ -80,3 +80,10 @@ export function mockAverage(overalls: number[]): number | null {
   const avg = overalls.reduce((sum, v) => sum + v, 0) / overalls.length;
   return Math.round(avg * 10) / 10;
 }
+
+const BN_DIGITS = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+
+/** Deterministic Bengali numerals — safe for SSR (no Intl/locale variance). */
+export function bnNum(value: number | string): string {
+  return String(value).replace(/\d/g, (d) => BN_DIGITS[Number(d)]);
+}

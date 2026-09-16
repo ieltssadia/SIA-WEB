@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
 import { PortalSectionHeader } from "@/components/site/portal/portal-shell";
+import { bnNum } from "@/components/site/portal/portal-utils";
 import {
   portalDownloadCategories,
   portalDownloads,
@@ -131,7 +132,7 @@ export function DownloadsSection() {
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <FolderDown className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-              {portalDownloads.length} files
+              {bnNum(portalDownloads.length)} টি ফাইল
             </Badge>
           }
         />

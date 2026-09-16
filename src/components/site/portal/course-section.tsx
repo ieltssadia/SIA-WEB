@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Reveal } from "@/components/site/reveal";
+import { PortalSectionHeader } from "@/components/site/portal/portal-shell";
+import { bnNum } from "@/components/site/portal/portal-utils";
 import { courses, portalDownloads } from "@/lib/site-data";
 import type { PortalEnrollment } from "@/lib/portal-store";
 
@@ -43,7 +45,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
                   <GraduationCap className="h-6 w-6 text-white" aria-hidden />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">My Course</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#d9b75c]">Enrolled Course</p>
                   <h1 className="mt-1 font-display text-xl font-bold leading-tight text-[#f6ecd4] md:text-2xl">
                     {course?.title ?? enrollment.courseSlug}
                   </h1>
@@ -58,7 +60,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
                 className="border-white/20 bg-transparent font-medium text-[#f6ecd4] hover:border-white/40 hover:bg-white/10 hover:text-white"
               >
                 <a href={`#/courses/${enrollment.courseSlug}`}>
-                  Course details
+                  ডিটেইলস দেখুন
                   <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
                 </a>
               </Button>
@@ -72,7 +74,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
                 <>
                   <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     <Layers className="mr-1 h-3 w-3" aria-hidden />
-                    {course.lessons} lessons
+                    {bnNum(course.lessons)} টি লেসন
                   </Badge>
                   <Badge variant="outline" className="border-white/10 bg-white/10 text-[#e4d5ae]">
                     <Clock className="mr-1 h-3 w-3" aria-hidden />
@@ -95,12 +97,12 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
             {/* Progress */}
             <div className="mt-5">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium text-[#f6ecd4]">Course progress</span>
-                <span className="font-display font-bold text-[#d9b75c]">{enrollment.progress}%</span>
+                <span className="font-medium text-[#f6ecd4]">কোর্স প্রোগ্রেস</span>
+                <span className="font-display font-bold text-[#d9b75c]">{bnNum(enrollment.progress)}%</span>
               </div>
               <Progress value={enrollment.progress} className="mt-2 h-2.5 bg-white/10 [&>div]:bg-[#d9b75c]" />
               <p className="mt-2 text-xs text-[#c6b995]">
-                {lessonsDone} of {course?.lessons ?? "—"} lessons completed · keep going!
+                {bnNum(lessonsDone)}/{bnNum(course?.lessons ?? "—")} টি লেসন শেষ — এভাবেই চালিয়ে যান!
               </p>
             </div>
           </div>
@@ -111,9 +113,9 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
         {/* Syllabus checklist */}
         <Reveal y={12} delay={0.04}>
           <div className="h-full rounded-3xl border border-border bg-card p-6">
-            <h2 className="font-display text-lg font-bold text-foreground">Course Outline</h2>
+            <h2 className="font-display text-lg font-bold text-foreground">কোর্স আউটলাইন</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Progress bar-এর সাথে সিলেবাস অটো-আপডেট হয়।
+              প্রোগ্রেস বারের সাথে সিলেবাস অটো-আপডেট হয়।
             </p>
             <ol className="mt-4 space-y-2.5">
               {syllabus.map((item, i) => {
@@ -144,7 +146,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
                     <span className={done ? "line-through decoration-primary/40" : undefined}>{item}</span>
                     {current ? (
                       <Badge className="ml-auto shrink-0 bg-brand-gradient text-[10px] font-bold text-white hover:bg-brand-gradient">
-                        Up next
+                        পরবর্তী
                       </Badge>
                     ) : null}
                   </li>
@@ -157,9 +159,9 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
         {/* Materials library — real files, direct download */}
         <Reveal y={12} delay={0.08}>
           <div className="h-full rounded-3xl border border-border bg-card p-6">
-            <h2 className="font-display text-lg font-bold text-foreground">Study Materials</h2>
+            <h2 className="font-display text-lg font-bold text-foreground">স্টাডি ম্যাটেরিয়ালস</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি Downloads সেকশনে।
+              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি ডাউনলোডস সেকশনে।
             </p>
             <div className="mt-4 space-y-2.5">
               {portalDownloads.slice(0, 4).map(({ id, title, desc, href }) => (
@@ -191,11 +193,19 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
 export function CourseSection({ enrollments }: { enrollments: PortalEnrollment[] }) {
   return (
     <div className="space-y-6">
+      <Reveal y={12}>
+        <PortalSectionHeader
+          eyebrow="Learning"
+          title="আমার কোর্স"
+          desc="ভর্তি হওয়া প্রতিটি কোর্সের প্রোগ্রেস, সিলেবাস আর স্টাডি ম্যাটেরিয়ালস — যা কিনেছেন শুধু সেটাই এখানে খোলা।"
+        />
+      </Reveal>
+
       {/* Quick jump between enrolled courses (multi-enrollment accounts) */}
       {enrollments.length > 1 ? (
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card p-3">
           <p className="px-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            My Courses ({enrollments.length})
+            আমার কোর্সসমূহ ({bnNum(enrollments.length)})
           </p>
           {enrollments.map((e) => {
             const c = courses.find((x) => x.slug === e.courseSlug);
@@ -224,7 +234,7 @@ export function CourseSection({ enrollments }: { enrollments: PortalEnrollment[]
         <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/40 text-primary">
           <Plus className="h-4 w-4" aria-hidden />
         </span>
-        Enroll in another course — নতুন কোর্স যোগ করুন
+        নতুন কোর্স যোগ করুন
         <ArrowRight className="h-4 w-4" aria-hidden />
       </a>
     </div>
