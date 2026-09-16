@@ -11,22 +11,31 @@ import { site } from "@/lib/site-data";
  */
 export function FloatingCta() {
   const [visible, setVisible] = useState(false);
+  const [inPortal, setInPortal] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 480);
-    const raf = requestAnimationFrame(onScroll);
+    const readRoute = () => setInPortal(window.location.hash.startsWith("#/portal"));
+    const raf = requestAnimationFrame(() => {
+      onScroll();
+      readRoute();
+    });
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", readRoute);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", readRoute);
     };
   }, []);
 
+  const show = visible && !inPortal;
+
   return (
     <div
-      aria-hidden={!visible}
+      aria-hidden={!show}
       className={`fixed bottom-5 right-4 z-40 flex flex-col gap-2 rounded-3xl border border-border bg-card p-2 shadow-[0_10px_30px_rgba(30,27,20,0.14)] transition-all duration-300 sm:bottom-6 sm:right-6 ${
-        visible
+        show
           ? "pointer-events-auto translate-y-0 opacity-100"
           : "pointer-events-none translate-y-4 opacity-0"
       }`}

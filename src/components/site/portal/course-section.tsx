@@ -159,7 +159,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
           <div className="h-full rounded-3xl border border-border bg-card p-6">
             <h2 className="font-display text-lg font-bold text-foreground">Study Materials</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি Resources সেকশনে।
+              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি Downloads সেকশনে।
             </p>
             <div className="mt-4 space-y-2.5">
               {portalDownloads.slice(0, 4).map(({ id, title, desc, href }) => (

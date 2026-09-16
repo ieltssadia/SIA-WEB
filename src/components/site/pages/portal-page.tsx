@@ -12,7 +12,8 @@ import { OverviewSection } from "@/components/site/portal/overview";
 import { RoutineSection } from "@/components/site/portal/routine-section";
 import { CourseSection } from "@/components/site/portal/course-section";
 import { ScoresSection } from "@/components/site/portal/scores-section";
-import { ResourcesSection } from "@/components/site/portal/resources-section";
+import { CertificatesSection } from "@/components/site/portal/certificates-section";
+import { DownloadsSection } from "@/components/site/portal/downloads-section";
 import { NoticesSection } from "@/components/site/portal/notices-section";
 import { usePortalStore } from "@/lib/portal-store";
 
@@ -145,9 +146,14 @@ export function PortalPage() {
       {section === "scores" ? (
         <ScoresSection mocks={mocks} targetBand={primary.targetBand} />
       ) : null}
-      {section === "resources" ? (
-        <ResourcesSection certificates={certificates} primary={primary} />
+      {section === "certificates" ? (
+        <CertificatesSection
+          userName={user.name}
+          certificates={certificates}
+          primary={primary}
+        />
       ) : null}
+      {section === "downloads" ? <DownloadsSection /> : null}
       {section === "notices" ? <NoticesSection /> : null}
     </PortalShell>
   );

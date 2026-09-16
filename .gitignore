@@ -55,4 +55,5 @@ server.log
 
 # Host sync mount (ossfs) — app code never reads it; scanning it can wedge
 # git/dev-server when the backend stalls
-/upload/
+/upload/.shots/
+tool-results/

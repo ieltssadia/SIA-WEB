@@ -885,12 +885,12 @@ export function OverviewSection({
             <div className="rounded-3xl border border-[#d9b75c]/30 bg-[#d9b75c]/[0.07] p-5">
               <h3 className="flex items-center gap-2 font-display text-base font-bold text-foreground">
                 <Award className="h-4 w-4 text-[#8a7a4d]" aria-hidden />
-                সার্টিফিকেট ও ডাউনলোড
+                অর্জন ও রিসোর্স
               </h3>
               <div className="mt-3 space-y-2">
                 <button
                   type="button"
-                  onClick={() => onNavigate("resources")}
+                  onClick={() => onNavigate("certificates")}
                   className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors hover:border-[#d9b75c]/60"
                 >
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#d9b75c]/15">
@@ -912,7 +912,7 @@ export function OverviewSection({
                 </button>
                 <button
                   type="button"
-                  onClick={() => onNavigate("resources")}
+                  onClick={() => onNavigate("downloads")}
                   className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors hover:border-[#d9b75c]/60"
                 >
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#d9b75c]/15">
