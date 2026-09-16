@@ -771,3 +771,17 @@ Work Log:
 
 Stage Summary:
 - Portal now reads as one coherent Bengali-first EdTech app: every section shares the same header system, numbering, and voice; routine and scores got real LMS-grade data UX (week planner + countdown, radar + deltas + coaching tips); notices became a filterable board. English retained only where it is the natural noun in BD EdTech speech. Next optional: server-side weekly attendance log, per-module history sparklines when real mock history accumulates.
+---
+Task ID: 16
+Agent: Z.ai Code (main)
+Task: (a) Footer-এ ছোট "Developed by Tasbir Kabir" credit + tasbirkabir.me লিংক; (b) Cambridge বইগুলোতে fake CSS cover-এর বদলে real cover ছবি।
+
+Work Log:
+- Footer: site-footer.tsx-এর bottom bar-এর নিচে 11px সাবডু ক্রেডিট লাইন যোগ — "Developed by Tasbir Kabir" (নাম = https://tasbirkabir.me, target=_blank, rel=noopener, hover gold)। প্রথমে right-aligned ছিল, কিন্তু fixed WhatsApp float bottom-right-এ ওভারল্যাপ করত — center করা হয়েছে।
+- Real covers sourcing (z-ai image-search, gl=us): 19 editions (Cambridge IELTS 1–19)-এর জন্য multi-round search। শিক্ষা: CLI-তে প্যারালাল বার্স্ট প্রসেস চুপচাপ মারা যায় (19টার 18টা), sequential ~15s/call স্থিতিশীল; `--no-rank` + `-o` কম্বো CLI-তে বাগ (exit 2, stdout-এ JSON) — stdout redirect দিয়ে সমাধান; r4-এ প্রথম ডাউনলোডগুলো সব fail → curl fallback।
+- Caption-based auto-scoring এক রাউন্ডেই অনেক ভুল পিক দিয়েছিল (listening-test thumbnail, ad banner, Official Cambridge Guide, ভিন্ন নম্বরের বই) — তাই per-candidate contact-sheet (PIL montage) বানিয়ে ভিজ্যুয়ালি বাছাই করা হয়েছে (r2/r3/r4 sheets)। ফাইনাল: বই 1,11,14 (round-1), 2,3,4,5,12,13,16,19 (r2 picks), 6,15,17,18 (r3), 7 (r5 — আগেরটা ভুল বই ছিল), 8+10 হাতে/দামি দৃশ্যের রিয়েল ফটো থেকে PIL fraction-crop। সব 19টি public/images/cambridge/cambridge-{n}.jpg (≤900px, q85, ~2.5MB total)।
+- নতুন shared component src/components/site/cambridge/book-cover.tsx: BookCover = real cover next/image fill object-cover + spine-shading/depth overlay; image fail হলে আগের CSS art fallback (onError state) — শেলফ কখনো ভাঙা দেখাবে না। তিন call-site আপডেট: pages/cambridge-page.tsx গ্রিড (লোকাল BookCoverArt ডিলিট), cambridge/book-detail.tsx (বড় কভার), cambridge-teaser.tsx হোম mini-bookshelf (accent-bg + Image + number overlay, skeleton আগের মতো)। Duplicate import ডিডুপ।
+- Browser-verified (gateway :81): Cambridge grid — 19 Academic (red), 18, 17, 16 (white), 15 (blue), 14, 13, 12, 11, 10, 9, 8, 7, 6, 5 সব রিয়েল কভার; book-detail 19 Academic-এ বড় রিয়েল কভার; হোম টিজার শেলফে 7টি থাম্বনেইল; footer ক্রেডিট "Developed by Tasbir Kabir" → tasbirkabir.me (eval-এ href+target নিশ্চিত)। Zero console/page errors; lint clean; committed 58a0916।
+
+Stage Summary:
+- সাইটে এখন ব্র্যান্ডেড ডেভেলপার ক্রেডিট আছে এবং Cambridge লাইব্রেরি (গ্রিড + ডিটেইল + হোম শেলফ) আসল বইয়ের কভার দেখায়, fallback সহ। কভারগুলো লোকাল অ্যাসেট — CDN নির্ভরতা নেই। বই 8/10 সামান্য ফটো-ক্রপড (রিয়েল ক্লিন স্ক্যান পাওয়া যায়নি), চাইলে ক্লায়েন্ট অফিসিয়াল স্ক্যান দিলে replace করা যাবে; Book 13/16-এ Academic-এর বদলে GT/অন্য প্রিন্টের কভার ব্যবহৃত (ডিজাইন একই ঘরানার)।
