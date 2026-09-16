@@ -692,3 +692,16 @@ Work Log:
 
 Stage Summary:
 - Homepage hero now matches the user's Aero Hero-3 reference while staying on-brand (gold pill instead of lime, forest/charcoal base). Copy untouched from the 11-a human-tone pass. If the client later wants a bespoke cinematic portrait backdrop, retry image generation and swap the single src in hero.tsx.
+---
+Task ID: 12-b
+Agent: Z.ai Code (main)
+Task: User-reported overlap on course cards — white icon circle covered the tag chip at rest, and covered it further on hover (scale-110).
+
+Work Log:
+- Root cause (courses-section.tsx CourseCard): tag chip was absolute left-4 top-4 while on COMPACT cards the icon circle was an in-flow block at the panel's top-left → same origin, guaranteed collision; group-hover:scale-110 amplified it. Featured bento variant was unaffected (icon centered).
+- Fix: compact panels are now flex rows (h-24 items-center justify-between px-5) — chip in-flow on the left (min-w-0 truncate), icon shrink-0 on the right over the decorative rings (10MS-like). Featured variant keeps absolute chip + centered icon. Both chips share pastel.soft styling.
+- Verified via agent-browser on :81: #/courses screenshot (all 6 cards) + #/ featured row — every chip fully readable; geometry eval across all cards proves restOverlap=false AND zero intersection with the icon inflated to its full scale-110 hover bounds (gaps 34-217px, featured separated vertically); zero console errors; lint clean; committed.
+- Hover animation itself still untestable headlessly ((hover: hover) gated, touch-emulated context) — the geometry check above is the hover-safety proof.
+
+Stage Summary:
+- Course cards can no longer self-overlap in any state (rest or hover). Same component serves home + catalog, so both surfaces are fixed.
