@@ -638,3 +638,21 @@ Work Log:
 
 Stage Summary:
 - Nothing was lost this time: recovery + bento + home + dashboard work is committed to git (the failure mode that started this session is now impossible for this work). Site preview stays hung until the host mount thaws; dev auto-restarts on thaw.
+---
+Task ID: 10-a
+Agent: Z.ai Code (main)
+Task: User report — "Live" must not be a public nav item / public classroom. Live = enrolled students only, inside the portal.
+
+Work Log:
+- site-data.ts: navPrimary now Home / Courses / Cambridge / Free Tips; navMore now About / Stories / Shop / Contact; deleted dead `navLinks` export (contained Live, zero references).
+- site-header.tsx: removed the 60s liveNow polling effect and both pulsing-dot indicator blocks (desktop + mobile).
+- site-footer.tsx: "Live Classes" → "Student Portal" (#/portal).
+- NEW src/components/site/live-gate.tsx: hydration-safe portal-auth guard — spinner until session restores, locked card ("লাইভ ক্লাস শুধু এনরোল্ড স্টুডেন্টদের জন্য" + portal login CTA) for visitors, children only for authed users.
+- pages/live-page.tsx: entire hub wrapped in LiveGate; eyebrow now "Student Portal — Live Learning Hub".
+- pages/live-classroom-page.tsx: wrapped in LiveGate (inner ClassroomPageInner); REMOVED host-key leak — page no longer prints demo key `SADIA-LIVE-2024` (hint text + placeholder neutralized).
+- admin-live-classes.tsx: copy now says students join from the portal's live section (no public #/live references).
+- Verified with agent-browser: desktop nav pills + More dropdown correct; logged-out #/live and #/live/<slug> show gate; demo login 01712000001/sadia123 → portal Join rows → live hub renders → classroom joins (socket connected, chat/participants live). NOTE: localhost:3000 testing bypasses the Caddy gateway so XTransformPort sockets hang there — gateway :81 handshake confirmed OK (preview path unaffected).
+- Mobile sheet nav verified (no Live). Lint clean. Committed 722e67a.
+
+Stage Summary:
+- Public site is a coaching-brand site again: no Live tab, no public classroom, no leaked host key. Live classes reachable only via portal auth (gate → hub → join). Next: user feedback on gate wording, then remaining 10MS refactor polish if requested.
