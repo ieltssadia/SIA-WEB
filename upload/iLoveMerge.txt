@@ -1,0 +1,1868 @@
+../../../src/ui-ux-pro-max/scripts
+import React from 'react';
+import styled from 'styled-components';
+
+const Form = () => {
+  return (
+    <StyledWrapper>
+      <form className="form">
+        <div className="flex-column">
+          <label>Email </label></div>
+        <div className="inputForm">
+          <svg height={20} viewBox="0 0 32 32" width={20} xmlns="http://www.w3.org/2000/svg"><g id="Layer_3" data-name="Layer 3"><path d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z" /></g></svg>
+          <input type="text" className="input" placeholder="Enter your Email" />
+        </div>
+        <div className="flex-column">
+          <label>Password </label></div>
+        <div className="inputForm">
+          <svg height={20} viewBox="-64 0 512 512" width={20} xmlns="http://www.w3.org/2000/svg"><path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0" /><path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" /></svg>        
+          <input type="password" className="input" placeholder="Enter your Password" />
+          <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" /></svg>
+        </div>
+        <div className="flex-row">
+          <div>
+            <input type="checkbox" />
+            <label>Remember me </label>
+          </div>
+          <span className="span">Forgot password?</span>
+        </div>
+        <button className="button-submit">Sign In</button>
+        <p className="p">Don't have an account? <span className="span">Sign Up</span>
+        </p><p className="p line">Or With</p>
+        <div className="flex-row">
+          <button className="btn google">
+            <svg version="1.1" width={20} id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style={{enableBackground: 'new 0 0 512 512'}} xmlSpace="preserve">
+              <path style={{fill: '#FBBB00'}} d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
+      	c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456
+      	C103.821,274.792,107.225,292.797,113.47,309.408z" />
+              <path style={{fill: '#518EF8'}} d="M507.527,208.176C510.467,223.662,512,239.655,512,256c0,18.328-1.927,36.206-5.598,53.451
+      	c-12.462,58.683-45.025,109.925-90.134,146.187l-0.014-0.014l-73.044-3.727l-10.338-64.535
+      	c29.932-17.554,53.324-45.025,65.646-77.911h-136.89V208.176h138.887L507.527,208.176L507.527,208.176z" />
+              <path style={{fill: '#28B446'}} d="M416.253,455.624l0.014,0.014C372.396,490.901,316.666,512,256,512
+      	c-97.491,0-182.252-54.491-225.491-134.681l82.961-67.91c21.619,57.698,77.278,98.771,142.53,98.771
+      	c28.047,0,54.323-7.582,76.87-20.818L416.253,455.624z" />
+              <path style={{fill: '#F14336'}} d="M419.404,58.936l-82.933,67.896c-23.335-14.586-50.919-23.012-80.471-23.012
+      	c-66.729,0-123.429,42.957-143.965,102.724l-83.397-68.276h-0.014C71.23,56.123,157.06,0,256,0
+      	C318.115,0,375.068,22.126,419.404,58.936z" />
+            </svg>
+            Google 
+          </button><button className="btn apple">
+            <svg version="1.1" height={20} width={20} id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22.773 22.773" style={{enableBackground: 'new 0 0 22.773 22.773'}} xmlSpace="preserve"> <g> <g> <path d="M15.769,0c0.053,0,0.106,0,0.162,0c0.13,1.606-0.483,2.806-1.228,3.675c-0.731,0.863-1.732,1.7-3.351,1.573 c-0.108-1.583,0.506-2.694,1.25-3.561C13.292,0.879,14.557,0.16,15.769,0z" /> <path d="M20.67,16.716c0,0.016,0,0.03,0,0.045c-0.455,1.378-1.104,2.559-1.896,3.655c-0.723,0.995-1.609,2.334-3.191,2.334 c-1.367,0-2.275-0.879-3.676-0.903c-1.482-0.024-2.297,0.735-3.652,0.926c-0.155,0-0.31,0-0.462,0 c-0.995-0.144-1.798-0.932-2.383-1.642c-1.725-2.098-3.058-4.808-3.306-8.276c0-0.34,0-0.679,0-1.019 c0.105-2.482,1.311-4.5,2.914-5.478c0.846-0.52,2.009-0.963,3.304-0.765c0.555,0.086,1.122,0.276,1.619,0.464 c0.471,0.181,1.06,0.502,1.618,0.485c0.378-0.011,0.754-0.208,1.135-0.347c1.116-0.403,2.21-0.865,3.652-0.648 c1.733,0.262,2.963,1.032,3.723,2.22c-1.466,0.933-2.625,2.339-2.427,4.74C17.818,14.688,19.086,15.964,20.67,16.716z" /> </g></g></svg>
+            Apple 
+          </button></div></form>
+    </StyledWrapper>
+  );
+}
+
+const StyledWrapper = styled.div`
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 30px;
+    width: 450px;
+    border-radius: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  ::placeholder {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .form button {
+    align-self: flex-end;
+  }
+
+  .flex-column > label {
+    color: #151717;
+    font-weight: 600;
+  }
+
+  .inputForm {
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    transition: 0.2s ease-in-out;
+  }
+
+  .input {
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 85%;
+    height: 100%;
+  }
+
+  .input:focus {
+    outline: none;
+  }
+
+  .inputForm:focus-within {
+    border: 1.5px solid #2d79f3;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .flex-row > div > label {
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+  }
+
+  .span {
+    font-size: 14px;
+    margin-left: 5px;
+    color: #2d79f3;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .button-submit {
+    margin: 20px 0 10px 0;
+    background-color: #151717;
+    border: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .button-submit:hover {
+    background-color: #252727;
+  }
+
+  .p {
+    text-align: center;
+    color: black;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+
+  .btn {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    gap: 10px;
+    border: 1px solid #ededef;
+    background-color: white;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+
+  .btn:hover {
+    border: 1px solid #2d79f3;
+    ;
+  }`;
+
+export default Form;
+
+"use client";
+
+import * as React from "react";
+import { motion } from "motion/react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  BubbleChatIcon,
+  CommandIcon,
+  InboxIcon,
+  Menu01Icon,
+  PencilEdit01Icon,
+  Share08Icon,
+  ToggleOnIcon,
+} from "@hugeicons/core-free-icons";
+import { cn } from "@/lib/utils";
+
+/**
+ * Toolbar Dock — Vercel-style floating icon dock.
+ *
+ * A dark pill of icon buttons. One continuous tooltip rail lives above the
+ * dock: on hover it slides (x) and clip-paths itself so only the active label
+ * is revealed, sitting perfectly above the hovered icon.
+ *
+ * One item is marked `toggle` and stays pinned on the right. Clicking it
+ * collapses the dock to JUST that button and back — the icon strip is an
+ * overflow-clipped region whose width springs between 0 and its measured size,
+ * so the icons slide out FROM the toggle and tuck back INTO it. The toggle
+ * never moves: the wrapper reserves the expanded width as a constant footprint,
+ * so the centered pill can't recenter as it resizes.
+ *
+ * Movement craft:
+ *  - Tooltip `x` and `clipPath` are spring-driven by Motion in the SAME rAF
+ *    tick, so the slide and the reveal window never desync.
+ *  - The collapse width is one spring on a tiny element → cheap, 60fps.
+ *  - Geometry is read from layout (offsetLeft / offsetWidth), transform-
+ *    independent, so nothing fights an in-flight animation.
+ */
+
+export interface ToolbarDockItem {
+  /** Stable identifier. */
+  id: string;
+  /** Accessible label, shown in the tooltip rail. */
+  label: string;
+  /** Icon node — rendered inside the circular button. */
+  icon: React.ReactNode;
+  /** Keyboard hint chips, e.g. ["⌘", "K"] or ["C"]. */
+  shortcut?: string[];
+  /** Show a small notification dot on the button. */
+  badge?: boolean;
+  /** Marks this button as the collapse/expand toggle (pinned, never moves). */
+  toggle?: boolean;
+  /** Click handler (ignored when `toggle` is set). */
+  onClick?: () => void;
+}
+
+interface ToolbarDockProps {
+  items?: ToolbarDockItem[];
+  className?: string;
+  /** Start collapsed — only the toggle button is visible. */
+  defaultCollapsed?: boolean;
+}
+
+/* Springs tuned per role. Clip is near-critically damped (no overshoot); x is a
+   touch livelier; the collapse width is smooth with a hint of settle. */
+const SPRING_X = {
+  type: "spring" as const,
+  stiffness: 650,
+  damping: 44,
+  mass: 0.7,
+};
+const SPRING_CLIP = {
+  type: "spring" as const,
+  stiffness: 720,
+  damping: 52,
+  mass: 0.7,
+};
+const COLLAPSE_SPRING = {
+  type: "spring" as const,
+  stiffness: 460,
+  damping: 42,
+  mass: 0.9,
+};
+
+const ICON_PROPS = { className: "h-full w-full", strokeWidth: 2 } as const;
+
+const DEFAULT_ITEMS: ToolbarDockItem[] = [
+  {
+    id: "comment",
+    label: "Comment",
+    icon: <HugeiconsIcon icon={BubbleChatIcon} {...ICON_PROPS} />,
+    shortcut: ["C"],
+  },
+  {
+    id: "inbox",
+    label: "Inbox",
+    icon: <HugeiconsIcon icon={InboxIcon} {...ICON_PROPS} />,
+    badge: true,
+  },
+  {
+    id: "flags",
+    label: "Feature Flags",
+    icon: <HugeiconsIcon icon={ToggleOnIcon} {...ICON_PROPS} />,
+  },
+  {
+    id: "draft",
+    label: "Draft Mode",
+    icon: <HugeiconsIcon icon={PencilEdit01Icon} {...ICON_PROPS} />,
+  },
+  {
+    id: "share",
+    label: "Share",
+    icon: <HugeiconsIcon icon={Share08Icon} {...ICON_PROPS} />,
+  },
+  {
+    id: "menu",
+    label: "Menu",
+    icon: <HugeiconsIcon icon={Menu01Icon} {...ICON_PROPS} />,
+    badge: true,
+    toggle: true,
+  },
+];
+
+/** Sum offsetLeft up the offsetParent chain until `ancestor`. Transform-independent. */
+function offsetLeftWithin(
+  el: HTMLElement | null,
+  ancestor: HTMLElement | null,
+): number {
+  let x = 0;
+  let node: HTMLElement | null = el;
+  while (node && node !== ancestor) {
+    x += node.offsetLeft;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return x;
+}
+
+const HIDDEN_CLIP = "inset(0px 100% 0px 0px round 10px)";
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+
+export function ToolbarDock({
+  items = DEFAULT_ITEMS,
+  className,
+  defaultCollapsed = false,
+}: ToolbarDockProps) {
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const railRef = React.useRef<HTMLDivElement>(null);
+  const stripRef = React.useRef<HTMLDivElement>(null);
+  const segRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+  const btnRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
+  /* Tooltip rail state. */
+  const visibleRef = React.useRef(false);
+  const appearingRef = React.useRef(true);
+  const [visible, setVisible] = React.useState(false);
+  const [pos, setPos] = React.useState({ x: 0, clip: HIDDEN_CLIP });
+
+  /* Collapse state + measured geometry (strip width + constant footprint). */
+  const [collapsed, setCollapsed] = React.useState(defaultCollapsed);
+  const [metrics, setMetrics] = React.useState<{
+    strip: number;
+    footprint: number;
+  } | null>(null);
+
+  /* Measure the icon strip (always full width — content is absolutely placed)
+     and the pill's expanded footprint, before paint. */
+  useIsoLayoutEffect(() => {
+    const strip = stripRef.current?.offsetWidth ?? 0;
+    const footprint = wrapperRef.current?.offsetWidth ?? 0;
+    setMetrics({ strip, footprint });
+  }, [items]);
+
+  const reveal = React.useCallback((index: number) => {
+    const rail = railRef.current;
+    const seg = segRefs.current[index];
+    const btn = btnRefs.current[index];
+    const wrapper = wrapperRef.current;
+    if (!rail || !seg || !btn || !wrapper) return;
+
+    const railWidth = rail.offsetWidth || 1;
+    const left = seg.offsetLeft;
+    const right = railWidth - seg.offsetLeft - seg.offsetWidth;
+    const leftPct = (left / railWidth) * 100;
+    const rightPct = (right / railWidth) * 100;
+
+    const segCenter = offsetLeftWithin(seg, wrapper) + seg.offsetWidth / 2;
+    const btnCenter = offsetLeftWithin(btn, wrapper) + btn.offsetWidth / 2;
+    const dx = btnCenter - segCenter;
+
+    appearingRef.current = !visibleRef.current;
+    visibleRef.current = true;
+
+    setVisible(true);
+    setPos({
+      x: dx,
+      clip: `inset(0px ${rightPct}% 0px ${leftPct}% round 10px)`,
+    });
+  }, []);
+
+  const hideTooltip = React.useCallback(() => {
+    visibleRef.current = false;
+    setVisible(false);
+  }, []);
+
+  const handleItem = React.useCallback(
+    (item: ToolbarDockItem) => {
+      if (item.toggle) {
+        hideTooltip();
+        setCollapsed((c) => !c);
+      } else {
+        item.onClick?.();
+      }
+    },
+    [hideTooltip],
+  );
+
+  const appearing = appearingRef.current;
+
+  const indexed = items.map((item, index) => ({ item, index }));
+  const toggleEntries = indexed.filter((e) => e.item.toggle);
+  const iconEntries = indexed.filter((e) => !e.item.toggle);
+
+  const renderButton = (item: ToolbarDockItem, index: number) => {
+    const isToggle = !!item.toggle;
+    return (
+      <button
+        key={item.id}
+        ref={(el) => {
+          btnRefs.current[index] = el;
+        }}
+        type="button"
+        aria-expanded={isToggle ? !collapsed : undefined}
+        aria-label={
+          isToggle
+            ? collapsed
+              ? "Expand toolbar"
+              : "Collapse toolbar"
+            : undefined
+        }
+        tabIndex={!isToggle && collapsed ? -1 : undefined}
+        onClick={() => handleItem(item)}
+        onMouseEnter={() => reveal(index)}
+        onFocus={() => reveal(index)}
+        className="flex items-center justify-center outline-none"
+      >
+        <div className="group relative flex size-8 items-center justify-center rounded-full p-1.5 transition-colors hover:bg-accent">
+          <span className="h-full w-full [&>svg]:h-full [&>svg]:w-full">
+            {item.icon}
+          </span>
+          {item.badge && (
+            <span className="absolute right-1.5 top-1.5 size-2 rounded-full border-[1.7px] border-background bg-primary transition-colors group-hover:border-accent" />
+          )}
+        </div>
+        <span className="sr-only">{item.label}</span>
+      </button>
+    );
+  };
+
+  return (
+    <div
+      ref={wrapperRef}
+      style={metrics ? { width: metrics.footprint } : undefined}
+      className={cn(
+        "relative inline-flex h-12 items-center justify-end text-foreground",
+        className,
+      )}
+    >
+      {/* ── Tooltip rail — one surface that slides + clips ── */}
+      <div className="pointer-events-none absolute bottom-full left-0 z-20 mb-3">
+        <motion.div
+          ref={railRef}
+          initial={false}
+          animate={{ x: pos.x, clipPath: pos.clip, opacity: visible ? 1 : 0 }}
+          transition={{
+            opacity: { duration: 0.18, ease: [0.22, 1, 0.36, 1] },
+            x: appearing ? { duration: 0 } : SPRING_X,
+            clipPath: appearing ? { duration: 0 } : SPRING_CLIP,
+          }}
+          style={{ willChange: "transform, clip-path, opacity" }}
+          className="relative flex w-max rounded-[10px] bg-primary text-primary-foreground shadow-xl"
+        >
+          {items.map((item, i) => (
+            <div
+              key={item.id}
+              ref={(el) => {
+                segRefs.current[i] = el;
+              }}
+              className="z-[1] inline-flex h-8 items-center justify-center"
+            >
+              <div className="flex items-center justify-center gap-2 whitespace-nowrap px-3 text-[13px] font-medium leading-tight tracking-[-0.01em] text-primary-foreground">
+                {item.label}
+                {item.shortcut && (
+                  <span className="flex items-center justify-center gap-1">
+                    {item.shortcut.map((key, k) => (
+                      <kbd
+                        key={k}
+                        className="inline-flex size-5 items-center justify-center rounded-sm border border-primary-foreground/30 p-0.5 text-xs text-primary-foreground"
+                      >
+                        {key === "⌘" ? (
+                          <HugeiconsIcon
+                            icon={CommandIcon}
+                            size={12}
+                            strokeWidth={2}
+                          />
+                        ) : (
+                          key
+                        )}
+                      </kbd>
+                    ))}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── Pill — right-aligned in the constant footprint, so it can shrink
+             to the toggle without the toggle ever moving ── */}
+      <div
+        onMouseLeave={hideTooltip}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) hideTooltip();
+        }}
+        className="relative z-10 flex h-12 items-center rounded-full border border-border bg-background/95 p-2 shadow-lg backdrop-blur"
+      >
+        {/* Icon strip — overflow-clipped; width springs 0 ⇄ measured. Content is
+            right-anchored so it reveals/retracts from the toggle side. */}
+        <motion.div
+          className="relative h-8 overflow-hidden"
+          initial={false}
+          animate={
+            metrics
+              ? {
+                  width: collapsed ? 0 : metrics.strip,
+                  opacity: collapsed ? 0 : 1,
+                }
+              : undefined
+          }
+          style={metrics ? undefined : { width: "auto" }}
+          transition={{
+            width: COLLAPSE_SPRING,
+            opacity: { duration: 0.18, ease: [0.22, 1, 0.36, 1] },
+          }}
+        >
+          <div
+            ref={stripRef}
+            className="absolute right-0 top-0 flex h-8 items-center gap-0.5 pr-0.5"
+          >
+            {iconEntries.map(({ item, index }) => renderButton(item, index))}
+          </div>
+        </motion.div>
+
+        {/* Pinned toggle — the anchor everything opens/closes from. */}
+        {toggleEntries.map(({ item, index }) => (
+          <div key={item.id} className="shrink-0">
+            {renderButton(item, index)}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default ToolbarDock;
+
+import NumberFlow from '@number-flow/react'
+import React from "react";
+
+export function PricingInteraction ({
+  starterMonth,
+  starterAnnual,
+  proMonth,
+  proAnnual,
+}:{
+  starterMonth: number;
+  starterAnnual: number;
+  proMonth: number;
+  proAnnual: number;
+}) {
+  const [active, setActive] = React.useState(0);
+  const [period, setPeriod] = React.useState(0);
+  const handleChangePlan = (index: number) => {
+    setActive(index);
+  };
+  const handleChangePeriod = (index: number) => {
+    setPeriod(index);
+    if (index === 0) {
+      setStarter(starterMonth);
+      setPro(proMonth);
+    } else {
+      setStarter(starterAnnual);
+      setPro(proAnnual);
+    }
+  };
+  const [starter, setStarter] = React.useState(starterMonth);
+  const [pro, setPro] = React.useState(proMonth);
+
+  return (
+    <div className="border-2 rounded-[32px] p-3 shadow-md max-w-sm w-full flex flex-col items-center gap-3 bg-white">
+        <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
+          <button
+            className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20"
+            onClick={() => handleChangePeriod(0)}
+          >
+            Monthly
+          </button>
+          <button
+            className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20"
+            onClick={() => handleChangePeriod(1)}
+          >
+            Yearly
+          </button>
+          <div
+            className="p-1.5 flex items-cnter justify-center absolute inset-0 w-1/2 z-10"
+            style={{
+              transform: `translateX(${period * 100}%)`,
+              transition: "transform 0.3s",
+            }}
+          >
+            <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
+          </div>
+        </div>
+        <div className="w-full relative flex flex-col items-center justify-center gap-3">
+          <div
+            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-4 rounded-2xl"
+            onClick={() => handleChangePlan(0)}
+          >
+            <div className="flex flex-col items-start">
+              <p className="font-semibold text-xl text-gray-950">Free</p>
+              <p className="text-slate-500 text-md">
+                <span className="text-black font-medium">$0.00</span>/month
+              </p>
+            </div>
+            <div
+              className="border-2 border-slate-500 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center"
+              style={{
+                borderColor: `${active === 0 ? "#000" : "#64748b"}`,
+                transition: "border-color 0.3s",
+              }}
+            >
+              <div
+                className="size-3 bg-black rounded-full"
+                style={{
+                  opacity: `${active === 0 ? 1 : 0}`,
+                  transition: "opacity 0.3s",
+                }}
+              ></div>
+            </div>
+          </div>
+          <div
+            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-4 rounded-2xl"
+            onClick={() => handleChangePlan(1)}
+          >
+            <div className="flex flex-col items-start">
+              <p className="font-semibold text-xl flex items-center gap-2 text-gray-950">
+                Starter{" "}
+                <span className="py-1 px-2 block rounded-lg bg-yellow-100 text-yellow-950 text-sm">
+                  Popular
+                </span>
+              </p>
+              <p className="text-slate-500 text-md flex">
+                <span className="text-black font-medium flex items-center">
+                  ${" "}
+                  <NumberFlow
+                    className="text-black font-medium"
+                    value={starter}
+                  />
+                </span>
+                /month
+              </p>
+            </div>
+            <div
+              className="border-2 border-slate-500 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center"
+              style={{
+                borderColor: `${active === 1 ? "#000" : "#64748b"}`,
+                transition: "border-color 0.3s",
+              }}
+            >
+              <div
+                className="size-3 bg-black rounded-full"
+                style={{
+                  opacity: `${active === 1 ? 1 : 0}`,
+                  transition: "opacity 0.3s",
+                }}
+              ></div>
+            </div>
+          </div>
+          <div
+            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-4 rounded-2xl"
+            onClick={() => handleChangePlan(2)}
+          >
+            <div className="flex flex-col items-start">
+              <p className="font-semibold text-xl text-gray-950">Pro</p>
+              <p className="text-slate-500 text-md flex">
+                <span className="text-black font-medium flex items-center">
+                  ${" "}
+                  <NumberFlow
+                    className="text-black font-medium"
+                    value={pro}
+                  />
+                </span>
+                /month
+              </p>
+            </div>
+            <div
+              className="border-2 border-slate-500 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center"
+              style={{
+                borderColor: `${active === 2 ? "#000" : "#64748b"}`,
+                transition: "border-color 0.3s",
+              }}
+            >
+              <div
+                className="size-3 bg-black rounded-full"
+                style={{
+                  opacity: `${active === 2 ? 1 : 0}`,
+                  transition: "opacity 0.3s",
+                }}
+              ></div>
+            </div>
+          </div>
+          <div
+            className={`w-full h-[88px] absolute top-0 border-[3px] border-black rounded-2xl`}
+            style={{
+              transform: `translateY(${active * 88 + 12 * active}px)`,
+              transition: "transform 0.3s",
+            }}
+          ></div>
+        </div>
+        <button className="rounded-full bg-black text-lg text-white w-full p-3 active:scale-95 transition-transform duration-300">
+          Get Started
+        </button>
+      </div>
+  );
+};
+
+
+AI Agency Prompt Pack
+
+1. Cold outreach email generator
+2. Discovery call qualifier
+3. Proposal writer
+4. SOP generator
+...24 prompts total
+
+AI Agency Rate Card
+
+Starter: $300+
+Core: $999-$2.5k
+Premium: $5k+
+
+"use client";
+
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import * as React from "react";
+
+import { cn } from "@/lib/utils";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+
+const Accordion = AccordionPrimitive.Root;
+
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Item
+    ref={ref}
+    className={cn("border-b border-border", className)}
+    {...props}
+  />
+));
+AccordionItem.displayName = "AccordionItem";
+
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex flex-1 items-center justify-between py-4 text-left font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <ChevronDownIcon
+        width={16}
+        height={16}
+        strokeWidth={2}
+        className="shrink-0 opacity-60 transition-transform duration-200"
+        aria-hidden="true"
+      />
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+));
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+
+const AccordionContent = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Content
+    ref={ref}
+    className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+    {...props}
+  >
+    <div className={cn("pb-4 pt-0", className)}>{children}</div>
+  </AccordionPrimitive.Content>
+));
+
+AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };
+
+"use client"
+
+import { cn } from "@/lib/utils"
+
+interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: "sm" | "md" | "lg"
+}
+
+export function Spinner({ className, size = "md", ...props }: SpinnerProps) {
+  return (
+    <div
+      className={cn(
+        "relative inline-block",
+        size === "sm" && "h-3 w-3",
+        size === "md" && "h-4 w-4",
+        size === "lg" && "h-6 w-6",
+        className
+      )}
+      {...props}
+    >
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div key={i} className="spinner-blade" />
+      ))}
+    </div>
+  )
+}
+"use client";
+
+import * as React from "react"
+import { Bell, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+
+interface NotificationItem {
+  id: string
+  title: string
+  description: string
+  time: string
+}
+
+interface NotificationsProps {
+  items?: NotificationItem[]
+  placement?: "top" | "bottom" | "left" | "right"
+}
+
+const defaultNotifications: NotificationItem[] = [
+  {
+    id: "1",
+    title: "🎉 Welcome",
+    description: "Thanks for checking out the carousel notifications!",
+    time: "just now",
+  },
+  {
+    id: "2",
+    title: "⚡ System Update",
+    description: "A new feature has been rolled out to your account.",
+    time: "1h ago",
+  },
+  {
+    id: "3",
+    title: "⏰ Reminder",
+    description: "Don’t forget to complete your profile setup.",
+    time: "3h ago",
+  },
+  {
+    id: "4",
+    title: "📊 Weekly Report",
+    description: "Your weekly report is now available.",
+    time: "1d ago",
+  },
+]
+
+export default function NotificationsCarousel({
+  items = defaultNotifications,
+  placement = "bottom",
+}: NotificationsProps) {
+  const [index, setIndex] = React.useState(0)
+
+  const next = () => setIndex((prev) => (prev + 1) % items.length)
+  const prev = () =>
+    setIndex((prev) => (prev - 1 + items.length) % items.length)
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="relative inline-flex items-center justify-center rounded-full p-2 hover:bg-muted">
+          <Bell className="h-5 w-5" />
+          {items.length > 0 && (
+            <Badge
+              variant="default"
+              className="absolute -top-1 -right-1 text-xs px-1.5 py-0"
+            >
+              {items.length}
+            </Badge>
+          )}
+        </button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        side={placement}
+        align="center"
+        className="w-80 p-0 flex flex-col items-center"
+      >
+        {items.length === 0 ? (
+          <div className="p-4 text-sm text-muted-foreground text-center">
+            No notifications
+          </div>
+        ) : (
+          <div className="relative flex items-center w-full">
+            {/* Prev button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-0 z-10"
+              onClick={prev}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+
+            {/* Notification card */}
+            <Card className="w-full mx-8 p-4 flex flex-col items-start text-left transition-all duration-300 shadow-none border-0">
+              <div className="flex justify-between w-full items-center mb-2">
+                <span className="font-medium text-sm">{items[index].title}</span>
+                <span className="text-xs text-muted-foreground">{items[index].time}</span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {items[index].description}
+              </p>
+            </Card>
+
+            {/* Next button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 z-10"
+              onClick={next}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, CheckCircle2, AlertCircle, XCircle } from "lucide-react";
+
+import { cn } from "@/lib/utils"; // Assuming you have a `cn` utility from shadcn
+
+// Variants for the banner container and icon
+const alertBannerVariants = cva(
+  "group relative flex w-full items-start gap-4 overflow-hidden rounded-lg border p-4 shadow-md",
+  {
+    variants: {
+      variant: {
+        default: "border-border bg-background text-foreground",
+        success: "border-green-200/60 bg-background text-foreground dark:border-green-900/60",
+        destructive: "border-red-200/60 bg-background text-foreground dark:border-red-900/60",
+        warning: "border-yellow-200/60 bg-background text-foreground dark:border-yellow-900/60",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+const iconVariants = cva("mt-0.5 size-6 flex-shrink-0", {
+  variants: {
+    variant: {
+      default: "text-foreground",
+      success: "text-green-500",
+      destructive: "text-red-500",
+      warning: "text-yellow-500",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+// Define props for the component
+export interface AlertBannerProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertBannerVariants> {
+  title: string;
+  description?: React.ReactNode;
+  icon?: React.ReactNode;
+  onDismiss: () => void;
+  primaryAction?: {
+    label: string;
+    onClick: () => void;
+  };
+  secondaryAction?: {
+    label: string;
+    onClick: () => void;
+  };
+}
+
+const AlertBanner = React.forwardRef<HTMLDivElement, AlertBannerProps>(
+  ({ className, variant, title, description, icon, onDismiss, primaryAction, secondaryAction, ...props }, ref) => {
+    
+    // Default icons based on variant
+    const DefaultIcon = {
+      success: <CheckCircle2 />,
+      destructive: <XCircle />,
+      warning: <AlertCircle />,
+      default: <CheckCircle2 />,
+    }[variant || "default"];
+
+    return (
+      <motion.div
+        ref={ref}
+        role="alert"
+        aria-live="assertive"
+        className={cn(alertBannerVariants({ variant }), className)}
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        {...props}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onDismiss}
+          aria-label="Dismiss notification"
+          className="absolute right-3 top-3 rounded-md p-1 text-muted-foreground opacity-60 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          <X className="size-4" />
+        </button>
+        
+        {/* Icon */}
+        <div className={cn(iconVariants({ variant }))}>
+            {icon || DefaultIcon}
+        </div>
+
+        {/* Content & Actions */}
+        <div className="flex flex-1 flex-col pr-6">
+          <h3 className="font-semibold text-foreground">{title}</h3>
+          {description && <div className="mt-1 text-sm text-muted-foreground">{description}</div>}
+          
+          {(primaryAction || secondaryAction) && (
+            <div className="mt-4 flex items-center gap-4">
+              {secondaryAction && (
+                <button
+                  onClick={secondaryAction.onClick}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  {secondaryAction.label}
+                </button>
+              )}
+              {primaryAction && (
+                <button
+                  onClick={primaryAction.onClick}
+                  className="text-sm font-medium text-primary transition-colors hover:text-primary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  {primaryAction.label}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
+    );
+  }
+);
+AlertBanner.displayName = "AlertBanner";
+
+export { AlertBanner };
+import * as React from "react"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { Check, ChevronRight, Circle } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const DropdownMenu = DropdownMenuPrimitive.Root
+
+const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
+const DropdownMenuGroup = DropdownMenuPrimitive.Group
+
+const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+
+const DropdownMenuSub = DropdownMenuPrimitive.Sub
+
+const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+
+const DropdownMenuSubTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
+    inset?: boolean
+  }
+>(({ className, inset, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubTrigger
+    ref={ref}
+    className={cn(
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+    <ChevronRight className="ml-auto h-4 w-4" />
+  </DropdownMenuPrimitive.SubTrigger>
+))
+DropdownMenuSubTrigger.displayName =
+  DropdownMenuPrimitive.SubTrigger.displayName
+
+const DropdownMenuSubContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubContent
+    ref={ref}
+    className={cn(
+      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuSubContent.displayName =
+  DropdownMenuPrimitive.SubContent.displayName
+
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+>(({ className, sideOffset = 4, ...props }, ref) => (
+  <DropdownMenuPrimitive.Portal>
+    <DropdownMenuPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        className,
+      )}
+      {...props}
+    />
+  </DropdownMenuPrimitive.Portal>
+))
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+>(({ className, children, checked, ...props }, ref) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    checked={checked}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Check className="h-4 w-4" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.CheckboxItem>
+))
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName
+
+const DropdownMenuRadioItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Circle className="h-2 w-2 fill-current" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.RadioItem>
+))
+DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
+
+const DropdownMenuLabel = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      "px-2 py-1.5 text-sm font-semibold",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
+
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+))
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
+
+const DropdownMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (
+    <span
+      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+      {...props}
+    />
+  )
+}
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+}
+
+../../../src/ui-ux-pro-max/data
+"use client"
+
+import * as React from "react"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { Check, ChevronRight, Circle } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const DropdownMenu = DropdownMenuPrimitive.Root
+
+const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
+const DropdownMenuGroup = DropdownMenuPrimitive.Group
+
+const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+
+const DropdownMenuSub = DropdownMenuPrimitive.Sub
+
+const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+
+const DropdownMenuSubTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
+    inset?: boolean
+  }
+>(({ className, inset, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubTrigger
+    ref={ref}
+    className={cn(
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+    <ChevronRight className="ml-auto h-4 w-4" />
+  </DropdownMenuPrimitive.SubTrigger>
+))
+DropdownMenuSubTrigger.displayName =
+  DropdownMenuPrimitive.SubTrigger.displayName
+
+const DropdownMenuSubContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubContent
+    ref={ref}
+    className={cn(
+      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuSubContent.displayName =
+  DropdownMenuPrimitive.SubContent.displayName
+
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+>(({ className, sideOffset = 4, ...props }, ref) => (
+  <DropdownMenuPrimitive.Portal>
+    <DropdownMenuPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        className,
+      )}
+      {...props}
+    />
+  </DropdownMenuPrimitive.Portal>
+))
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+>(({ className, children, checked, ...props }, ref) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    checked={checked}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Check className="h-4 w-4" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.CheckboxItem>
+))
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName
+
+const DropdownMenuRadioItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Circle className="h-2 w-2 fill-current" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.RadioItem>
+))
+DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
+
+const DropdownMenuLabel = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      "px-2 py-1.5 text-sm font-semibold",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+))
+DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
+
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+))
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
+
+const DropdownMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (
+    <span
+      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+      {...props}
+    />
+  )
+}
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+}
+
+"use client"
+
+import React from "react"
+import { cx } from "class-variance-authority"
+import { AnimatePresence, motion } from "motion/react"
+
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
+interface OrbProps {
+  dimension?: string
+  className?: string
+  tones?: {
+    base?: string
+    accent1?: string
+    accent2?: string
+    accent3?: string
+  }
+  spinDuration?: number
+}
+
+const ColorOrb: React.FC<OrbProps> = ({
+  dimension = "192px",
+  className,
+  tones,
+  spinDuration = 20,
+}) => {
+  const fallbackTones = {
+    base: "oklch(95% 0.02 264.695)",
+    accent1: "oklch(75% 0.15 350)",
+    accent2: "oklch(80% 0.12 200)",
+    accent3: "oklch(78% 0.14 280)",
+  }
+
+  const palette = { ...fallbackTones, ...tones }
+
+  const dimValue = parseInt(dimension.replace("px", ""), 10)
+
+  const blurStrength =
+    dimValue < 50 ? Math.max(dimValue * 0.008, 1) : Math.max(dimValue * 0.015, 4)
+
+  const contrastStrength =
+    dimValue < 50 ? Math.max(dimValue * 0.004, 1.2) : Math.max(dimValue * 0.008, 1.5)
+
+  const pixelDot = dimValue < 50 ? Math.max(dimValue * 0.004, 0.05) : Math.max(dimValue * 0.008, 0.1)
+
+  const shadowRange = dimValue < 50 ? Math.max(dimValue * 0.004, 0.5) : Math.max(dimValue * 0.008, 2)
+
+  const maskRadius =
+    dimValue < 30 ? "0%" : dimValue < 50 ? "5%" : dimValue < 100 ? "15%" : "25%"
+
+  const adjustedContrast =
+    dimValue < 30 ? 1.1 : dimValue < 50 ? Math.max(contrastStrength * 1.2, 1.3) : contrastStrength
+
+  return (
+    <div
+      className={cn("color-orb", className)}
+      style={{
+        width: dimension,
+        height: dimension,
+        "--base": palette.base,
+        "--accent1": palette.accent1,
+        "--accent2": palette.accent2,
+        "--accent3": palette.accent3,
+        "--spin-duration": `${spinDuration}s`,
+        "--blur": `${blurStrength}px`,
+        "--contrast": adjustedContrast,
+        "--dot": `${pixelDot}px`,
+        "--shadow": `${shadowRange}px`,
+        "--mask": maskRadius,
+      } as React.CSSProperties}
+    >
+      <style jsx>{`
+        @property --angle {
+          syntax: "<angle>";
+          inherits: false;
+          initial-value: 0deg;
+        }
+
+        .color-orb {
+          display: grid;
+          grid-template-areas: "stack";
+          overflow: hidden;
+          border-radius: 50%;
+          position: relative;
+          transform: scale(1.1);
+        }
+
+        .color-orb::before,
+        .color-orb::after {
+          content: "";
+          display: block;
+          grid-area: stack;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          transform: translateZ(0);
+        }
+
+        .color-orb::before {
+          background:
+            conic-gradient(
+              from calc(var(--angle) * 2) at 25% 70%,
+              var(--accent3),
+              transparent 20% 80%,
+              var(--accent3)
+            ),
+            conic-gradient(
+              from calc(var(--angle) * 2) at 45% 75%,
+              var(--accent2),
+              transparent 30% 60%,
+              var(--accent2)
+            ),
+            conic-gradient(
+              from calc(var(--angle) * -3) at 80% 20%,
+              var(--accent1),
+              transparent 40% 60%,
+              var(--accent1)
+            ),
+            conic-gradient(
+              from calc(var(--angle) * 2) at 15% 5%,
+              var(--accent2),
+              transparent 10% 90%,
+              var(--accent2)
+            ),
+            conic-gradient(
+              from calc(var(--angle) * 1) at 20% 80%,
+              var(--accent1),
+              transparent 10% 90%,
+              var(--accent1)
+            ),
+            conic-gradient(
+              from calc(var(--angle) * -2) at 85% 10%,
+              var(--accent3),
+              transparent 20% 80%,
+              var(--accent3)
+            );
+          box-shadow: inset var(--base) 0 0 var(--shadow) calc(var(--shadow) * 0.2);
+          filter: blur(var(--blur)) contrast(var(--contrast));
+          animation: spin var(--spin-duration) linear infinite;
+        }
+
+        .color-orb::after {
+          background-image: radial-gradient(
+            circle at center,
+            var(--base) var(--dot),
+            transparent var(--dot)
+          );
+          background-size: calc(var(--dot) * 2) calc(var(--dot) * 2);
+          backdrop-filter: blur(calc(var(--blur) * 2)) contrast(calc(var(--contrast) * 2));
+          mix-blend-mode: overlay;
+        }
+
+        .color-orb[style*="--mask: 0%"]::after {
+          mask-image: none;
+        }
+
+        .color-orb:not([style*="--mask: 0%"])::after {
+          mask-image: radial-gradient(black var(--mask), transparent 75%);
+        }
+
+        @keyframes spin {
+          to {
+            --angle: 360deg;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .color-orb::before {
+            animation: none;
+          }
+        }
+      `}</style>
+    </div>
+  )
+}
+
+const SPEED_FACTOR = 1
+
+interface ContextShape {
+  showForm: boolean
+  successFlag: boolean
+  triggerOpen: () => void
+  triggerClose: () => void
+}
+
+const FormContext = React.createContext({} as ContextShape)
+const useFormContext = () => React.useContext(FormContext)
+
+export function MorphPanel() {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const textareaRef = React.useRef<HTMLTextAreaElement | null>(null)
+
+  const [showForm, setShowForm] = React.useState(false)
+  const [successFlag, setSuccessFlag] = React.useState(false)
+
+  const triggerClose = React.useCallback(() => {
+    setShowForm(false)
+    textareaRef.current?.blur()
+  }, [])
+
+  const triggerOpen = React.useCallback(() => {
+    setShowForm(true)
+    setTimeout(() => {
+      textareaRef.current?.focus()
+    })
+  }, [])
+
+  const handleSuccess = React.useCallback(() => {
+    triggerClose()
+    setSuccessFlag(true)
+    setTimeout(() => setSuccessFlag(false), 1500)
+  }, [triggerClose])
+
+  React.useEffect(() => {
+    function clickOutsideHandler(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node) && showForm) {
+        triggerClose()
+      }
+    }
+    document.addEventListener("mousedown", clickOutsideHandler)
+    return () => document.removeEventListener("mousedown", clickOutsideHandler)
+  }, [showForm, triggerClose])
+
+  const ctx = React.useMemo(
+    () => ({ showForm, successFlag, triggerOpen, triggerClose }),
+    [showForm, successFlag, triggerOpen, triggerClose]
+  )
+
+  return (
+    <div className="flex items-center justify-center" style={{ width: FORM_WIDTH, height: FORM_HEIGHT }}>
+      <motion.div
+        ref={wrapperRef}
+        data-panel
+        className={cx(
+          "bg-background relative bottom-8 z-3 flex flex-col items-center overflow-hidden border max-sm:bottom-5"
+        )}
+        initial={false}
+        animate={{
+          width: showForm ? FORM_WIDTH : "auto",
+          height: showForm ? FORM_HEIGHT : 44,
+          borderRadius: showForm ? 14 : 20,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 550 / SPEED_FACTOR,
+          damping: 45,
+          mass: 0.7,
+          delay: showForm ? 0 : 0.08,
+        }}
+      >
+        <FormContext.Provider value={ctx}>
+          <DockBar />
+          <InputForm ref={textareaRef} onSuccess={handleSuccess} />
+        </FormContext.Provider>
+      </motion.div>
+    </div>
+  )
+}
+
+function DockBar() {
+  const { showForm, triggerOpen } = useFormContext()
+  return (
+    <footer className="mt-auto flex h-[44px] items-center justify-center whitespace-nowrap select-none">
+      <div className="flex items-center justify-center gap-2 px-3 max-sm:h-10 max-sm:px-2">
+        <div className="flex w-fit items-center gap-2">
+          <AnimatePresence mode="wait">
+            {showForm ? (
+              <motion.div
+                key="blank"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0 }}
+                exit={{ opacity: 0 }}
+                className="h-5 w-5"
+              />
+            ) : (
+              <motion.div
+                key="orb"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ColorOrb dimension="24px" tones={{ base: "oklch(22.64% 0 0)" }} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <Button
+          type="button"
+          className="flex h-fit flex-1 justify-end rounded-full px-2 !py-0.5"
+          variant="ghost"
+          onClick={triggerOpen}
+        >
+          <span className="truncate">Ask AI</span>
+        </Button>
+      </div>
+    </footer>
+  )
+}
+
+const FORM_WIDTH = 360
+const FORM_HEIGHT = 200
+
+function InputForm({ ref, onSuccess }: { ref: React.Ref<HTMLTextAreaElement>; onSuccess: () => void }) {
+  const { triggerClose, showForm } = useFormContext()
+  const btnRef = React.useRef<HTMLButtonElement>(null)
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    onSuccess()
+  }
+
+  function handleKeys(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Escape") triggerClose()
+    if (e.key === "Enter" && e.metaKey) {
+      e.preventDefault()
+      btnRef.current?.click()
+    }
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="absolute bottom-0"
+      style={{ width: FORM_WIDTH, height: FORM_HEIGHT, pointerEvents: showForm ? "all" : "none" }}
+    >
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 550 / SPEED_FACTOR, damping: 45, mass: 0.7 }}
+            className="flex h-full flex-col p-1"
+          >
+            <div className="flex justify-between py-1">
+              <p className="text-foreground z-2 ml-[38px] flex items-center gap-[6px] select-none">
+                AI Input
+              </p>
+              <button
+                type="submit"
+                ref={btnRef}
+                className="text-foreground right-4 mt-1 flex -translate-y-[3px] cursor-pointer items-center justify-center gap-1 rounded-[12px] bg-transparent pr-1 text-center select-none"
+              >
+                <KeyHint>⌘</KeyHint>
+                <KeyHint className="w-fit">Enter</KeyHint>
+              </button>
+            </div>
+            <textarea
+              ref={ref}
+              placeholder="Ask me anything..."
+              name="message"
+              className="h-full w-full resize-none scroll-py-2 rounded-md p-4 outline-0"
+              required
+              onKeyDown={handleKeys}
+              spellCheck={false}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-2 left-3"
+          >
+            <ColorOrb dimension="24px" tones={{ base: "oklch(22.64% 0 0)" }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </form>
+  )
+}
+
+const SPRING_LOGO = { type: "spring", stiffness: 350 / SPEED_FACTOR, damping: 35 } as const
+
+function KeyHint({ children, className }: { children: string; className?: string }) {
+  return (
+    <kbd
+      className={cx(
+        "text-foreground flex h-6 w-fit items-center justify-center rounded-sm border px-[6px] font-sans",
+        className
+      )}
+    >
+      {children}
+    </kbd>
+  )
+}
+
+export default MorphPanel
+

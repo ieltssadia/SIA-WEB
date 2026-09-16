@@ -737,3 +737,20 @@ Work Log:
 
 Stage Summary:
 - Portal now delivers both requested features end-to-end: earned certificates are downloadable as high-res brand PNGs (and printable to PDF) and verify publicly; all study materials are real one-click downloads. Demo logins: Anika shows the earned certificate, Fariha the locked state. Optional next: per-course resource tagging when the client supplies real materials, and PDF (not PNG) certificate export server-side if volume demands.
+
+---
+Task ID: 14
+Agent: Z.ai Code (main)
+Task: User asked "CERTIFICATE DOWNLOADS EK JAYGAY KENO? STUDENT PORTAL TA THIK KORE PROFESSIONALLY BANAO EDTECH PLATFORM ER JEMON HOUAR KOTHA OMON" — split Certificate & Downloads into separate pages and professionalize the whole student portal.
+
+Work Log:
+- Rewrote portal-shell.tsx: PortalSection expanded to 7 (certificates + downloads split from resources); desktop sidebar now grouped (শেখা: Overview/My Routine/My Course, প্রোগ্রেস: Mock Scores/Certificates, লাইব্রেরি: Downloads/Notices) with gold left-rail active indicator, Live Classes link (red pulse dot), WhatsApp support card, kept dark user card; mobile bottom bar reduced from 6 cramped tabs to 5 primary (Home/Routine/Course/Scores/More) with More bottom-sheet holding Certificates/Downloads/Notices/Live/Logout (+phone), active dot on More; shared PortalSectionHeader (eyebrow/title/desc/action) exported for coherent page headers.
+- New certificates-section.tsx (moved canvas PNG renderer + print + CertificateCard intact from deleted resources-section.tsx): earned state = cert card + "সার্টিফিকেট কীভাবে পাবেন" 4-step pipeline timeline (completed/current states live from enrollment) + unlock-progress card + employer-verification link; locked state = REAL CSS miniature certificate preview (brand gold double border, student name, batch, seal+signature) behind blurred lock veil + same timeline + live progress/attendance checklist.
+- New downloads-section.tsx: PortalSectionHeader + stats strip (files/categories/total KB) + search input (Bengali placeholder) + category chips with counts + 3-col file cards (pastel category icons, PDF·size badge, hover lift + gold fill ডাউনলোড button) + honest empty state (SearchX, filter-reset button) + Cambridge cross-sell strip.
+- portal-page.tsx routes certificates/downloads; overview quick-links card retitled "অর্জন ও রিসোর্স" and wires the two buttons to the two separate sections; course-section materials copy points to Downloads; resources-section.tsx deleted.
+- Bug fixed en route: FloatingCta (fixed bottom-5 right-4 z-40) covered the More tab on mobile portal — now hides when location.hash starts with #/portal (hashchange-aware); portal has its own support surfaces.
+- Also fixed Radix aria-describedby warning on the More SheetContent.
+- Verified via agent-browser on :81: Anika (01712000001, earned cert) desktop — grouped sidebar renders, cert page shows SIE-CERT-2455 card + timeline step-1 "চলবে" + unlock 68%/92% attendance; downloads stats 6/4/41KB, search "cue"→1, "zzz"→empty state + reset, Mock Tools filter works, PNG render path error-free; Fariha (01712000002, no cert) — locked preview page with Batch 319 55%; mobile 390×844 — bottom bar 5 tabs fully visible post-CTA-fix, More sheet opens with এখানে badge and navigates to Downloads; all sidebar sections click-through OK; console clean, dev.log clean, lint clean; committed 50125bc.
+
+Stage Summary:
+- Certificates and Downloads are now independent, professional EdTech-grade pages; the portal shell reads like a real LMS (grouped nav, coherent headers, More-sheet mobile pattern). Demo: Anika shows earned + locked flows' data variety; Fariha shows the locked preview. FloatingCta overlap permanently excluded on portal routes.
