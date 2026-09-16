@@ -48,7 +48,7 @@ import {
 import { useAdminStore } from "@/lib/admin-store";
 import { courses } from "@/lib/site-data";
 
-const SITE_URL_HINT = "Students join at #/live/<slug> — ক্লাস রুম লিংক";
+const SITE_URL_HINT = "শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করে — লিংক শেয়ারের দরকার নেই";
 
 type FormState = {
   slug: string;
@@ -259,7 +259,7 @@ export function AdminLiveClasses() {
     <div className="space-y-4">
       <SectionHeading
         title="Live Classes — লাইভ ক্লাস"
-        sub="ক্লাস শিডিউল করুন — শিক্ষার্থীরা #/live পেজ থেকে জয়েন করবে"
+        sub="ক্লাস শিডিউল করুন — এনরোল্ড শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করবে"
       />
 
       {/* Schedule / edit form */}
@@ -469,7 +469,7 @@ export function AdminLiveClasses() {
           <AlertDialogHeader>
             <AlertDialogTitle>ক্লাসটি মুছে ফেলবেন? (Delete this class?)</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — এটি আর public #/live পেজে দেখা যাবে না। এটি ফেরানো যাবে না।
+              {deleteTarget?.title} — এটি আর পোর্টালের লাইভ সেকশনে দেখা যাবে না। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

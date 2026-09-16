@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LiveClassroom, type LiveIdentity } from "@/components/site/live-classroom";
+import { LiveGate } from "@/components/site/live-gate";
 import type { LiveClassDetail } from "@/lib/live-types";
 
 const dhakaFull = new Intl.DateTimeFormat("en-GB", {
@@ -20,10 +21,19 @@ const dhakaFull = new Intl.DateTimeFormat("en-GB", {
 });
 
 /**
- * #/live/<slug> — join gate (name + optional teacher host key) followed by
- * the real-time classroom. Class metadata comes from /api/live-classes/<slug>.
+ * #/live/<slug> — portal-only. Enrolled students pass the auth gate, then the
+ * join gate (name + teacher host key) into the real-time classroom. Class
+ * metadata comes from /api/live-classes/<slug>.
  */
 export function LiveClassroomPage({ slug }: { slug: string }) {
+  return (
+    <LiveGate>
+      <ClassroomPageInner slug={slug} />
+    </LiveGate>
+  );
+}
+
+function ClassroomPageInner({ slug }: { slug: string }) {
   const [meta, setMeta] = useState<LiveClassDetail | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [identity, setIdentity] = useState<LiveIdentity | null>(null);
@@ -207,13 +217,13 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
                   id="join-hostkey"
                   value={hostKey}
                   onChange={(e) => setHostKey(e.target.value)}
-                  placeholder="SADIA-LIVE-2024"
+                  placeholder="শিক্ষকের host key"
                   className="h-11 border-input bg-muted/50 font-mono"
                   autoComplete="off"
                 />
                 <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
                   <Info className="mt-0.5 h-3 w-3 shrink-0 text-primary" aria-hidden />
-                  ডেমো host key: <code className="rounded bg-muted px-1 py-px font-mono text-[11px]">SADIA-LIVE-2024</code> — এটি দিয়েই শিক্ষক কন্ট্রোল পাবেন।
+                  Host key শুধু শিক্ষকের জন্য — ক্লাসে জয়েন করতে "স্টুডেন্ট" সিলেক্ট করে সরাসরি ঢুকুন।
                 </p>
               </div>
             ) : null}

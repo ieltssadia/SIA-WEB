@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/site/page-header";
+import { LiveGate } from "@/components/site/live-gate";
 import { LiveSchedule } from "@/components/site/live-schedule";
 import { MousePointerClick, MessageSquare, Vote } from "lucide-react";
 
@@ -24,9 +25,9 @@ const STEPS = [
 
 export function LivePage() {
   return (
-    <>
+    <LiveGate>
       <PageHeader
-        eyebrow="Live Learning Hub"
+        eyebrow="Student Portal — Live Learning Hub"
         title={
           <>
             লাইভ <span className="text-brand-gradient">ক্লাস</span> — সরাসরি ক্লাসরুমে
@@ -53,6 +54,6 @@ export function LivePage() {
           ))}
         </div>
       </section>
-    </>
+    </LiveGate>
   );
 }
