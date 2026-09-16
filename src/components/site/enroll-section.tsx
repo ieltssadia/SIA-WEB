@@ -65,7 +65,7 @@ export function EnrollSection() {
       }
       setStatus("success");
       toast({
-        title: "🎉 Enrollment request received!",
+        title: "Enrollment request পেয়েছি",
         description:
           "ধন্যবাদ! Our team will call you within 24 hours with batch details.",
       });

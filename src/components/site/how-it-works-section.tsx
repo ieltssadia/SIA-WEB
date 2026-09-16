@@ -63,10 +63,10 @@ export function HowItWorksSection() {
           eyebrow="How It Works"
           title={
             <>
-              কীভাবে ক্লাস হয় — <span className="text-brand-gradient">Enrollment to Certificate</span>
+              ভর্তি থেকে <span className="text-brand-gradient">সার্টিফিকেট</span> — চারটি ধাপ
             </>
           }
-          subtitle="ভর্তি থেকে সার্টিফিকেট — proven লার্নিং লুপে সাজানো।"
+          subtitle="কোনো ধাপে একা থাকতে হবে না — প্রতিটি ধাপে গাইডলাইন, সাপোর্ট আর পরিষ্কার উত্তর।"
         />
 
         <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

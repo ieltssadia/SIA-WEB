@@ -18,6 +18,7 @@ const columns = [
     title: "Company",
     links: [
       { label: "About", href: "#/about" },
+      { label: "Team", href: "#/team" },
       { label: "Blog", href: "#/tips" },
       { label: "Contact", href: "#/contact" },
       { label: "Become a Teacher", href: whatsappTeacher, external: true },

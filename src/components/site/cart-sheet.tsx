@@ -68,7 +68,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
           ) : (
             <p className="mx-4 mt-4 flex items-center gap-2 rounded-xl border border-[#2e7d5b]/20 bg-[#2e7d5b]/10 px-3 py-2 text-[11px] font-semibold text-[#225941]">
               <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              অভিনন্দন! কুরিয়ার ডেলিভারি এখন ফ্রি 🎉
+              এই অর্ডারে কুরিয়ার ডেলিভারি ফ্রি
             </p>
           )}
 

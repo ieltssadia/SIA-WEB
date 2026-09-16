@@ -34,16 +34,17 @@ export const navPrimary = [
 
 /** Secondary links grouped under the "More" dropdown in the desktop nav. */
 export const navMore = [
+  { label: "Team", href: "#/team", desc: "যাঁরা আপনাকে পড়াবেন" },
   { label: "About", href: "#/about", desc: "Sadia's story, mission & team" },
   { label: "Stories", href: "#/stories", desc: "Band 8+ success stories" },
   { label: "Shop", href: "#/shop", desc: "Books & mock test bundles" },
   { label: "Contact", href: "#/contact", desc: "Visit us or drop a message" },
 ];
 
-/** Dismissible promo strip above the nav — 10MS-style announcement bar. */
+/** Dismissible promo strip above the nav — honest, no exclamation-mark noise. */
 export const promoBar = {
-  message: "🎉 নতুন ব্যাচে ভর্তি চলছে! Admission offer — up to 33% off on all courses",
-  ctaLabel: "Enroll Now",
+  message: "নতুন ব্যাচে ভর্তি চলছে — সেপ্টেম্বরের শেষ পর্যন্ত সব কোর্সে ৩৩% পর্যন্ত ছাড়",
+  ctaLabel: "ভর্তি হোন",
   ctaHref: "#/checkout",
 };
 
@@ -116,10 +117,10 @@ export const certificateSeeds = [
 ];
 
 export const stats = [
-  { value: 9, suffix: "+", label: "Years of Experience" },
-  { value: 316, suffix: "+", label: "Batches Completed" },
-  { value: 5983, suffix: "+", label: "Successful Learners" },
-  { value: 17, suffix: "", label: "Courses Published" },
+  { value: 9, suffix: "+", label: "বছরের শেখানোর অভিজ্ঞতা" },
+  { value: 316, suffix: "+", label: "ব্যাচ সফলভাবে শেষ" },
+  { value: 5000, suffix: "+", label: "শিক্ষার্থী পরীক্ষা দিয়েছে" },
+  { value: 17, suffix: "", label: "কোর্স ও স্টাডি প্ল্যান" },
 ];
 
 export type Course = {
@@ -619,6 +620,158 @@ export const freeLiveClasses = [
     ctaLabel: "Register Free",
     href: "#/contact",
     external: false,
+  },
+];
+
+/**
+ * The people behind the results — team page (#/team), member profiles
+ * (#/team/<slug>) and the moving team strip on the home page.
+ * Portraits are studio-style placeholders; swap the files in /public/images/team
+ * and update bios without touching layout.
+ */
+export type TeamMember = {
+  slug: string;
+  name: string;
+  role: string;
+  /** One-liner shown on the moving card + profile header. */
+  tagline: string;
+  photo: string;
+  /** Pastel chip classes for the specialty pills. */
+  chip: string;
+  /** 2–3 short paragraphs — the story, in a human voice. */
+  bio: string[];
+  specialties: string[];
+  credentials: string[];
+  stats: { value: string; label: string }[];
+  quote: string;
+};
+
+export const teamMembers: TeamMember[] = [
+  {
+    slug: "sadia-rahman",
+    name: "Sadia Rahman",
+    role: "Founder & Lead IELTS Instructor",
+    tagline: "Cambridge & IDP certified — ৯ বছরে ৩,০০০-র বেশি শিক্ষার্থীর নিজের হাতে প্রস্তুতি।",
+    photo: "/images/instructor-sadia.png",
+    chip: "bg-pastel-butter text-[#7a5a16]",
+    bio: [
+      "২০১৬ সালে Sreemangal-এর একটা ছোট রুম দিয়ে শুরু — তখন ছয়জন শিক্ষার্থী। আজ ৩১৬-র বেশি ব্যাচ শেষ হয়েছে, কিন্তু নিয়ম একটাই: প্রতিটি শিক্ষার্থীর mock test-এর খাতা নিজের হাতে দেখা, আর পরীক্ষার আগে শেষ কথাটা নিজে বলা।",
+      "নিজের Band 8.5, Reading আর Listening-এ পুরো 9.0 — কিন্তু ক্লাসে এই কথা দ্বিতীয়বার আসে না। প্রথম দিন থেকে আসে একটাই প্রশ্ন: আপনার টার্গেট কত, আর কোথায় আটকে আছেন? সেই উত্তরটাই আপনার পুরো রুটিন সাজিয়ে দেয়।",
+      "Sreemangal-এ থেকে বড় শহরে না গিয়েও শিক্ষার্থীরা প্রমাণ করেছে — সঠিক গাইডলাইন থাকলে Band 7+ শহর-মহল্লা দেখে না। এটাই Sadia's IELTS-এর ভিত।",
+    ],
+    specialties: ["Writing Task 2", "Mock Assessment", "Study Plan", "Speaking Feedback"],
+    credentials: [
+      "Cambridge & IDP Certified IELTS Trainer",
+      "TKT & TTT Certified (University of Cambridge)",
+      "Personal Band 8.5 — perfect 9.0 in Reading & Listening",
+      "9+ years teaching, 316+ batches completed",
+    ],
+    stats: [
+      { value: "9+", label: "Years teaching" },
+      { value: "3,000+", label: "Students mentored" },
+      { value: "8.5", label: "Personal band" },
+    ],
+    quote: "IELTS-এ লুকোচুরি চলে না — যে দুর্বলতা আপনি স্বীকার করবেন, সেটাই আমরা প্রথমে ঠিক করব।",
+  },
+  {
+    slug: "farhana-yeasmin",
+    name: "Farhana Yeasmin",
+    role: "Speaking & Listening Coach",
+    tagline: "পরীক্ষার হলে কাঁপা গলা, ক্লাসে হাসিমুখ — কথা বলার সাহসটা তৈরি করেন তিনিই।",
+    photo: "/images/team/farhana.png",
+    chip: "bg-pastel-green text-[#1f5c40]",
+    bio: [
+      "বেশিরভাগ শিক্ষার্থীর লেখা ভালো, কিন্তু মাইক্রোফোনের সামনে দাঁড়ালেই গলা চুপ — Farhana ম্যাম-এর ক্লাস ওই ভয়টাই ভাঙার জন্য। প্রথম সপ্তাহে ভুল নিয়ে লজ্জা নেই, এই নিয়ম প্রতিষ্ঠা করে তিনি ক্লাসের ভয়ঙ্কর-চেনা পরিবেশটা গুঁড়িয়ে দেন।",
+      "প্রতি সপ্তাহে Speaking Club-এ এক-একটা real exam situation — cue card, follow-up, আর তাৎক্ষণিক feedback। কোন শব্দে আটকাচ্ছেন, কোথায় অযথা থেমে যাচ্ছেন — রেকর্ডিং শুনিয়ে ধরিয়ে দেন।",
+      "Listening-এর band drop বেশিরভাগ সময় spelling আর concentration নয় — ভয়। প্রতিদিনের ২০ মিনিটের dictation drill-এ সেই ভয়টাই অভ্যাস হয়ে যায়।",
+    ],
+    specialties: ["Speaking Part 1–3", "Listening Strategy", "Pronunciation", "Weekly Speaking Club"],
+    credentials: [
+      "IELTS Band 8.0 (Speaking 8.5)",
+      "MA in English Literature",
+      "6+ years coaching Speaking & Listening",
+    ],
+    stats: [
+      { value: "6+", label: "Years teaching" },
+      { value: "1,200+", label: "Speaking sessions" },
+      { value: "8.5", label: "Speaking band" },
+    ],
+    quote: "ভুল করা মানে অক্ষম না — মানে প্রস্তুতি এখনো চলছে। Speaking-এ সাহসই আসল স্কোর।",
+  },
+  {
+    slug: "tanvir-ahmed",
+    name: "Tanvir Ahmed",
+    role: "Writing Coach & Feedback Lead",
+    tagline: "Writing-এ ৫.৫ ঘুরে ৬.৫+ হওয়ার পেছনের কঠিন, পরিষ্কার feedback-এর মানুষ।",
+    photo: "/images/team/tanvir.png",
+    chip: "bg-pastel-sky text-[#2c4f8a]",
+    bio: [
+      "Writing-ই একমাত্র মডিউল যেখানে বাংলাদেশি শিক্ষার্থীদের band সবচেয়ে পিছিয়ে — আর এর একটাই কারণ: ভুল যেখানে, সেটা পরিষ্কার করে কেউ বলে না। Tanvir-এর কাজ ওই কথাটা বলা — প্রতিটি এসেতের পাশে ধরে ধরে।",
+      "Task 2-এর structure, idea bank, আর সবচেয়ে জরুরি — কোন ভুল band কমায়, কোনটা কমায় না। শিক্ষার্থীর খাতায় তাঁর লাল কথাগুলো ক্লাসের সবচেয়ে দামি অংশ হিসেবেই পরিচিত।",
+      "Weekly essay checking live-এ সাধারণ ভুলগুলো সবার সামনে ঠিক করেন — একজনের ভুল, পুরো ব্যাচের শিক্ষা।",
+    ],
+    specialties: ["Task 1 & 2 Structure", "Essay Feedback", "Idea Bank", "Vocabulary Building"],
+    credentials: [
+      "IELTS Band 8.0 (Writing 7.5)",
+      "BA & MA in English, Shahjalal University",
+      "5+ years, 4,000+ essays checked",
+    ],
+    stats: [
+      { value: "5+", label: "Years teaching" },
+      { value: "4,000+", label: "Essays checked" },
+      { value: "80%", label: "Hit 6.5+ Writing" },
+    ],
+    quote: "আপনার এসের সমস্যা ইংরেজি না — চিন্তা সাজানো। ওটা ঠিক হলে Writing দাঁড়িয়ে যায় তিন মাসে।",
+  },
+  {
+    slug: "nusrat-jahan",
+    name: "Nusrat Jahan",
+    role: "Reading Coach & Cambridge Coordinator",
+    tagline: "Cambridge 5 থেকে 19 — পুরো সিরিজের প্রশ্ন-প্যাটার্ন তাঁর হাতের তালুতে।",
+    photo: "/images/team/nusrat.png",
+    chip: "bg-pastel-orange text-[#7a4c12]",
+    bio: [
+      "Reading-এ সময় ফুরিয়ে যায় কোথায়? Nusrat ম্যাম-এর ক্লাসে প্রথম দিনেই এই প্রশ্নের উত্তর হয়ে যায় — skimming, keyword trapping, আর true/false/not given-এর ফাঁদগুলো চেনা।",
+      "সাইটের Cambridge Library-র পুরো টেস্ট সেট-আপ, লেভেল অনুযায়ী কে কোন বই দিয়ে প্র্যাকটিস করবে — এই পরিকল্পনাও তাঁর। প্রতিটি শিক্ষার্থীর প্রগ্রেস ট্র্যাক করে পরের টেস্ট ঠিক করে দেন।",
+      "Reading band 5.5 থেকে 7+ যাওয়া শিক্ষার্থীদের একটাই কমন কথা — প্যাটার্ন চিনলে প্রশ্ন ভয় দেখায় না।",
+    ],
+    specialties: ["Reading Speed", "T/F/NG Strategy", "Cambridge Tests", "Vocabulary in Context"],
+    credentials: [
+      "IELTS Band 8.5 (Reading 9.0)",
+      "BSc in English & Education",
+      "4+ years, Cambridge series specialist",
+    ],
+    stats: [
+      { value: "4+", label: "Years teaching" },
+      { value: "9.0", label: "Reading band" },
+      { value: "15", label: "Cambridge books mastered" },
+    ],
+    quote: "প্রশ্ন মিথ্যা বলে না — ফাঁদ দেখায় মাত্র। প্যাটার্ন চিনলে Reading-ই সবচেয়ে সহজ মডিউল।",
+  },
+  {
+    slug: "mahmudul-hasan",
+    name: "Mahmudul Hasan",
+    role: "Admissions & Student Success",
+    tagline: "ভর্তি থেকে ফলাফল — মাঝখানের প্রতিটি ঝামেলা যিনি নিজের কাঁধে নেন।",
+    photo: "/images/team/mahmudul.png",
+    chip: "bg-pastel-ruby text-[#7a2734]",
+    bio: [
+      "কোন কোর্সে ভর্তি হবেন, কোন ব্যাচের সময় আপনার রুটিনের সাথে মিলবে, ম্যাটেরিয়ালস কোরিয়ারে কোথায় — ক্লাসের বাইরের সব প্রশ্নের এক উত্তর: Mahmudul-কে ফোন দিন।",
+      "পোর্টালে লগইন, মকের রেজাল্ট বোঝা, কোর্স শেষে সার্টিফিকেট — প্রযুক্তিগত আর প্রশাসনিক যেকোনো আটকে যাওয়া জায়গায় তিনিই প্রথম মানুষ।",
+      "একবার ভর্তি হলে কোর্স শেষ হওয়ার আগ পর্যন্ত তিনি মাসে অন্তত একবার ফোনে নিশ্চিত হন — সব ঠিক চলছে তো?",
+    ],
+    specialties: ["Admission Guidance", "Batch Scheduling", "Student Support", "Certificate & Portal"],
+    credentials: [
+      "BBA, National University",
+      "Trained in student counselling & support",
+      "4+ years at Sadia's IELTS",
+    ],
+    stats: [
+      { value: "4+", label: "Years with us" },
+      { value: "5,000+", label: "Students assisted" },
+      { value: "1-day", label: "Support response" },
+    ],
+    quote: "ভর্তির আগে যত প্রশ্নই করুন — ফোন নম্বরটা আপনার জন্যই খোলা। ভর্তির পরেও।",
   },
 ];
 

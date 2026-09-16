@@ -3,7 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Lightbulb, Mail, Menu, Phone, MapPin, Quote, Users, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X, type LucideIcon } from "lucide-react";
+import { Facebook, HeartHandshake, Lightbulb, Mail, Menu, Phone, MapPin, Quote, Users, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +27,8 @@ const emptySubscribe = () => () => {};
 
 /* "More" dropdown icon + jewel-pastel chip rotation (Gilded Court order) */
 const MORE_ICONS: Record<string, LucideIcon> = {
-  "#/about": Users,
+  "#/team": Users,
+  "#/about": HeartHandshake,
   "#/tips": Lightbulb,
   "#/stories": Quote,
   "#/shop": ShoppingBag,

@@ -51,7 +51,7 @@ export function Hero() {
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-pastel-green" aria-hidden>
               <Sparkles className="h-3 w-3 text-[#1f5c40]" />
             </span>
-            9+ Years of Excellence · {site.addressShort}
+            Sreemangal-এ ৯ বছর ধরে প্রস্তুতি করা হচ্ছে
           </motion.div>
 
           <motion.h1
@@ -60,8 +60,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.08, ease }}
             className="font-display text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-[4.1rem]"
           >
-            Unlock Your Future <br />
-            with <span className="text-brand-gradient">Sadia&apos;s IELTS</span>
+            Target Band 7+?
+            <br />
+            <span className="text-brand-gradient">আমরা পৌঁছে দেব।</span>
           </motion.h1>
 
           <motion.p
@@ -70,8 +71,8 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.16, ease }}
             className="mt-4 max-w-lg text-pretty text-base leading-relaxed text-muted-foreground"
           >
-            From basic grammar to Band 7+ — proven tricks, weekly mock tests and
-            personal mentoring.
+            Basic grammar থেকে শুরু করে পরীক্ষার আগের শেষ mock পর্যন্ত — প্রতিটি ধাপে
+            একজন mentor, একটি পরিকল্পনা, আর নিজের খাতায় দেখা অগ্রগতি।
           </motion.p>
 
           <motion.div
@@ -108,9 +109,9 @@ export function Hero() {
             className="mt-10 grid max-w-lg grid-cols-3 gap-3 border-t border-border/80 pt-7"
           >
             {[
-              { icon: TrendingUp, value: "316+", label: "Batches Done", chip: "bg-pastel-green text-[#1f5c40]" },
-              { icon: Award, value: "7+", label: "Avg. Band Score", chip: "bg-pastel-orange text-[#7a4c12]" },
-              { icon: Star, value: "4.9/5", label: "Student Rating", chip: "bg-pastel-sky text-[#2c4f8a]" },
+              { icon: TrendingUp, value: "৩১৬+", label: "ব্যাচ শেষ হয়েছে", chip: "bg-pastel-green text-[#1f5c40]" },
+              { icon: Award, value: "৭.০+", label: "গড় band score", chip: "bg-pastel-orange text-[#7a4c12]" },
+              { icon: Star, value: "৪.৯/৫", label: "শিক্ষার্থীদের রেটিং", chip: "bg-pastel-sky text-[#2c4f8a]" },
             ].map(({ icon: Icon, value, label, chip }) => (
               <div
                 key={label}
@@ -160,7 +161,7 @@ export function Hero() {
             className="absolute -left-3 top-8 rounded-2xl border border-border bg-white/95 px-4 py-3 shadow-[0_16px_40px_rgba(30,27,20,0.14)] backdrop-blur sm:-left-8"
           >
             <p className="font-display text-2xl font-bold text-brand-gradient">Band 8.0</p>
-            <p className="text-[11px] text-muted-foreground">Latest Result 🎉</p>
+            <p className="text-[11px] text-muted-foreground">সাম্প্রতিক রেজাল্ট</p>
           </motion.div>
 
           {/* Floating badge: batches */}
@@ -174,10 +175,10 @@ export function Hero() {
             </span>
             <span>
               <span className="block font-display text-lg font-bold leading-none text-foreground">
-                316+ Batches
+                ৩১৬+ ব্যাচ
               </span>
               <span className="mt-0.5 block text-[11px] text-muted-foreground">
-                Completed
+                সফলভাবে শেষ
               </span>
             </span>
           </motion.div>

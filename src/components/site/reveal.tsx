@@ -46,7 +46,7 @@ export function SectionHeading({
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-3 text-balance text-muted-foreground">{subtitle}</p>
+        <p className="mt-3 text-balance text-[15px] leading-relaxed text-muted-foreground md:text-base">{subtitle}</p>
       ) : null}
     </Reveal>
   );

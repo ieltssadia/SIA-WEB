@@ -345,3 +345,32 @@ html.lenis body {
 .live-scroll::-webkit-scrollbar-thumb:hover {
   background: #d9b75c;
 }
+
+/* ── Team marquee — slow drift, pauses on hover, respects reduced motion ── */
+@keyframes team-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.team-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: team-marquee 46s linear infinite;
+  will-change: transform;
+}
+.team-marquee:hover .team-marquee-track,
+.team-marquee:focus-within .team-marquee-track {
+  animation-play-state: paused;
+}
+.team-marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-marquee-track {
+    animation: none;
+  }
+}

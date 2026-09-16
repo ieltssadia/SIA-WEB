@@ -27,7 +27,7 @@ export function StoriesPage() {
             Real Students, <span className="text-brand-gradient">Real Results</span>
           </>
         }
-        subtitle="আমাদের recent batches-এর শিক্ষার্থীদের সফলতার গল্প — Band 7+ এখন আর স্বপ্ন নয়।"
+        subtitle="recent batch-গুলোর শিক্ষার্থীরা নিজের ভাষায় বলেছেন — কোথায় আটকেছিলেন, কীভাবে উঠেছেন।"
         crumbs={[{ label: "Success Stories" }]}
       />
 

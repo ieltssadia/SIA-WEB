@@ -412,10 +412,10 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
             eyebrow="Our Courses"
             title={
               <>
-                Our Popular <span className="text-brand-gradient">Courses</span>
+                আপনার লেভেলের <span className="text-brand-gradient">কোর্সটি বেছে নিন</span>
               </>
             }
-            subtitle="Basic English থেকে Band 7+ পর্যন্ত — প্রতিটি লেভেলের জন্য সঠিক কোর্স। ৯ বছরের অভিজ্ঞতায় তৈরি কোর্স ডিজাইন।"
+            subtitle="একদম শুরু থেকে যাঁরা, থেকে শুধু টেস্টের আগে ধার মেলাতে চান — সবার জন্য আলাদা পরিকল্পনা। ৯ বছরের ক্লাসরুম অভিজ্ঞতায় সাজানো।"
           />
         ) : (
           <h2 className="sr-only">All Courses</h2>

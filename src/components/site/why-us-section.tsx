@@ -27,10 +27,10 @@ export function WhyUsSection() {
           eyebrow="Why Sadia's IELTS"
           title={
             <>
-              Limitless Learning, <span className="text-brand-gradient">More Possibilities</span>
+              পরীক্ষার হলে <span className="text-brand-gradient">নিজের উপর ভরসা</span>
             </>
           }
-          subtitle="শুধু পরীক্ষা নয় — আপনার পুরো ভবিষ্যৎ তৈরি করুন আমাদের সাথে।"
+          subtitle="শুধু সিলেবাস শেষ করা নয় — weak point ধরে ধরে ঠিক করা, প্রতি সপ্তাহের mock-এ অভ্যাস, আর পরীক্ষার আগে শান্ত মাথা।"
         />
 
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">

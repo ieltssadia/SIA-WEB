@@ -30,10 +30,10 @@ export function StoriesSection() {
           eyebrow="Success Stories"
           title={
             <>
-              What Our <span className="text-brand-gradient">Students Achieve</span>
+              Real Students. <span className="text-brand-gradient">Real Bands.</span>
             </>
           }
-          subtitle="Authentic experiences — আমাদের recent batches-এর শিক্ষার্থীদের সফলতার গল্প।"
+          subtitle="সাজানো কথা নয় — recent batch-এর শিক্ষার্থীরা নিজের ভাষায় নিজেদের গল্পটা বলেছেন।"
         />
 
         <Reveal>
@@ -80,7 +80,7 @@ export function StoriesSection() {
 
         <Reveal delay={0.15}>
           <p className="mt-8 text-center text-xs text-muted-foreground">
-            🎉 Real students from our recent batches — see more result celebrations on our{" "}
+            এরা সবাই recent batch-এর শিক্ষার্থী — ফলাফলের ছবি আর আরও গল্প আছে আমাদের{" "}
             <a
               href="https://www.facebook.com/Sadiasielts"
               target="_blank"
