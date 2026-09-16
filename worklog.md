@@ -718,3 +718,22 @@ Work Log:
 
 Stage Summary:
 - Student portal dashboard now mirrors the pasted learning-hub reference in Gilded Court branding (gold/ivory, not orange/white), with live-class options as the centerpiece: hero + rows + hub link. The #/live hub and classroom pages keep their existing (already verified) UI.
+
+---
+Task ID: 13
+Agent: Z.ai Code (main)
+Task: User asked "certificate, downloadables etc egula?" — add certificates and downloadable study materials to the student portal.
+
+Work Log:
+- Audited现状: portal had a FAKE "Study Materials" list (portalMaterials → WhatsApp request links) and zero certificate surface, despite a Certificate model + public /verify page + admin cert manager already existing.
+- Generated 6 REAL study-material PDFs via ReportLab (scripts/generate-downloads.py → public/downloads/): Task 2 essay structure bank, Academic Task 1 sentence bank, Speaking cue-card bank (24 topics), Band 7+ vocabulary/collocations, printable Listening & Reading answer sheet, mock-day checklist. English content (ReportLab core fonts can't shape Bengali), Gilded Court styling (charcoal header band, gold rules, striped ivory tables, tip boxes), metadata set; pdf_qa warnings reviewed — only benign (intentional ellipses in sentence frames; inset handout margins).
+- Backend: getPortalPayload now includes certificates where studentId matches (PortalCertificatePayload); portal-store v4 (certificates in state/partialize/logout); all setSession callers (portal-page refresh, portal-login, checkout enroll) pass data.certificates ?? [].
+- Demo data: Anika (01712000001) got a completed Pre-IELTS enrollment (Batch 311, 100%, past examDate, epoch-ms createdAt so it sorts first) + linked certificate SIE-CERT-2455 (Pre-IELTS Foundation · Batch 311 · Band 7.5) in live DB AND prisma/seed.ts (idempotent, links fresh studentIds on reseed). Public verify API resolves the new ID.
+- New portal section resources-section.tsx ("Certificate & Downloads", nav id "resources", FolderDown icon, 6-tab mobile bar):
+  * Certificate spotlight: charcoal/gold ornate card (double border, seal, gold-gradient Band badge, mono cert ID, issued date) + ডাউনলোড (PNG) via canvas render (1754×1240 A4 landscape; brand fonts resolved from next/font CSS vars on <body> incl. Hind Siliguri Bengali shaping — verified visually), প্রিন্ট / PDF via popup with A4-landscape image + auto window.print, পাবলিক ভেরিফিকেশন → #/verify. Locked state for cert-less students: dashed gold card, lock, live progress bar of primary enrollment, verify-any-old-ID link.
+  * ডাউনলোড কর্নার: filter chips (All/Writing/Speaking/Vocabulary/Mock Tools) + 6 download rows (type icon, Bengali desc, category badge, size, direct anchor download w/ hover gold fill).
+- My Course "Study Materials" card rewired to real direct downloads (first 4 files, FileText icons, WhatsApp flow removed). Dashboard right rail gained "সার্টিফিকেট ও ডাউনলোড" quick card (earned-count vs locked variants) linking into resources.
+- Browser-verified (agent-browser, gateway :81): login Anika → dashboard card "1টি সার্টিফিকেট ইস্যু হয়েছে" → resources: cert card renders; PNG download intercepted → 199KB canvas render screenshot-verified (fonts, Bengali conjuncts, seal, watermark, footer ID all correct); print popup opened with 271KB data-URL image (OS print dialog itself can't fire headless); Speaking filter → 1 row; PDF link click OK; Fariha login → locked state + dashboard locked-variant correct; mobile 390×844 stacks cleanly, 6-tab bar fits "Resources". Zero console errors, dev.log clean, lint clean. Fixed en route: bg-brand-gradient Band badge was charcoal-on-charcoal → switched to bg-gold-gradient + text-ink; removed unused roundRect/icon imports.
+
+Stage Summary:
+- Portal now delivers both requested features end-to-end: earned certificates are downloadable as high-res brand PNGs (and printable to PDF) and verify publicly; all study materials are real one-click downloads. Demo logins: Anika shows the earned certificate, Fariha the locked state. Optional next: per-course resource tagging when the client supplies real materials, and PDF (not PNG) certificate export server-side if volume demands.
