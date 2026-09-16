@@ -208,7 +208,7 @@ export function CourseCard({
           className={`relative shrink-0 ${pastel.panel} ${
             isFeatured
               ? "flex h-40 items-center justify-center sm:h-auto sm:min-h-[240px] sm:w-[42%]"
-              : "h-24"
+              : "flex h-24 items-center justify-between gap-3 px-5"
           }`}
         >
           {/* Decorative rings */}
@@ -221,14 +221,24 @@ export function CourseCard({
             className="absolute right-16 top-6 h-3 w-3 rounded-full bg-white/50"
           />
 
-          <span
-            className={`absolute left-4 top-4 rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
-          >
-            {course.tag}
-          </span>
+          {/* Tag chip — absolute on the bento panel, in-flow (left) on compact
+              cards so the hover-scaling icon can never cover the label */}
+          {isFeatured ? (
+            <span
+              className={`absolute left-4 top-4 rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
+            >
+              {course.tag}
+            </span>
+          ) : (
+            <span
+              className={`min-w-0 truncate rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
+            >
+              {course.tag}
+            </span>
+          )}
 
           <span
-            className={`flex items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(30,27,20,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink} ${
+            className={`flex shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(30,27,20,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink} ${
               isFeatured ? "h-20 w-20" : "h-14 w-14"
             }`}
           >
