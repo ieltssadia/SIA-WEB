@@ -1,0 +1,1181 @@
+     1→/**
+     2→ * Central content source for the Sadia's IELTS website.
+     3→ * Facts sourced from sadiasielts.com and the client's Facebook page.
+     4→ */
+     5→
+     6→export const site = {
+     7→  name: "Sadia's IELTS",
+     8→  tagline: "Unlock Your Future",
+     9→  subTagline: "Transform Your English Skills to Perfection",
+    10→  phone: "+880 1752-716238",
+    11→  phoneHref: "tel:+8801752716238",
+    12→  phone2: "+880 1746-466653",
+    13→  whatsapp: "https://wa.me/8801752716238?text=Assalamu%20Alaikum!%20I%20want%20to%20know%20about%20IELTS%20courses.",
+    14→  email: "support@sadiasielts.com",
+    15→  email2: "ieltsbysadianisha@gmail.com",
+    16→  address:
+    17→    "Syed Mujibur Rahman Market (2nd Floor), Chowmuhona, Sreemangal, Moulvibazar, Sylhet 3210",
+    18→  addressShort: "Sreemangal, Moulvibazar, Sylhet",
+    19→  facebook: "https://www.facebook.com/Sadiasielts",
+    20→  website: "https://sadiasielts.com",
+    21→};
+    22→
+    23→/**
+    24→ * Public nav — coaching-brand top bar (Home / Courses / Cambridge / Free Tips).
+    25→ * Live classes are NOT public: they are an enrolled-student feature that lives
+    26→ * inside the portal ("My Portal" CTA), like every real coaching brand.
+    27→ */
+    28→export const navPrimary = [
+    29→  { label: "Home", href: "#/" },
+    30→  { label: "Courses", href: "#/courses" },
+    31→  { label: "Cambridge", href: "#/cambridge" },
+    32→  { label: "Free Tips", href: "#/tips" },
+    33→];
+    34→
+    35→/** Secondary links grouped under the "More" dropdown in the desktop nav. */
+    36→export const navMore = [
+    37→  { label: "Team", href: "#/team", desc: "যাঁরা আপনাকে পড়াবেন" },
+    38→  { label: "About", href: "#/about", desc: "Sadia's story, mission & team" },
+    39→  { label: "Stories", href: "#/stories", desc: "Band 8+ success stories" },
+    40→  { label: "Shop", href: "#/shop", desc: "Books & mock test bundles" },
+    41→  { label: "Contact", href: "#/contact", desc: "Visit us or drop a message" },
+    42→];
+    43→
+    44→/** Dismissible promo strip above the nav — honest, no exclamation-mark noise. */
+    45→export const promoBar = {
+    46→  message: "নতুন ব্যাচে ভর্তি চলছে — সেপ্টেম্বরের শেষ পর্যন্ত সব কোর্সে ৩৩% পর্যন্ত ছাড়",
+    47→  ctaLabel: "ভর্তি হোন",
+    48→  ctaHref: "#/checkout",
+    49→};
+    50→
+    51→export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];
+    52→
+    53→/** 10MS-style popular searches shown in the header search dialog. */
+    54→export const popularSearches = [
+    55→  "Basic to IELTS",
+    56→  "Mock Test",
+    57→  "Speaking",
+    58→  "Crash Course",
+    59→  "Free Course",
+    60→  "Vocabulary",
+    61→];
+    62→
+    63→/**
+    64→ * Demo certificates for the public "Verify Certificate" page (10MS pattern —
+    65→ * 10minuteschool.com/certificate). Real issued certificates live in the DB;
+    66→ * these seeds are inserted on first boot so the page is demonstrable.
+    67→ */
+    68→export const certificateSeeds = [
+    69→  {
+    70→    id: "SIE-CERT-2417",
+    71→    name: "Mithila Akter",
+    72→    course: "Basic to IELTS — In Batch",
+    73→    batch: "Batch 315",
+    74→    band: "8.0",
+    75→    issued: "30 May 2025",
+    76→  },
+    77→  {
+    78→    id: "SIE-CERT-2402",
+    79→    name: "Anika Tasnim",
+    80→    course: "Basic to IELTS — Private Batch",
+    81→    batch: "Batch 312",
+    82→    band: "7.5",
+    83→    issued: "30 May 2025",
+    84→  },
+    85→  {
+    86→    id: "SIE-CERT-2406",
+    87→    name: "Raihan Ahmed",
+    88→    course: "IELTS Crash Course",
+    89→    batch: "Batch 314-C",
+    90→    band: "7.5",
+    91→    issued: "06 Jun 2025",
+    92→  },
+    93→  {
+    94→    id: "SIE-CERT-2395",
+    95→    name: "Fariha Islam",
+    96→    course: "Basic to IELTS — In Batch",
+    97→    batch: "Batch 311",
+    98→    band: "7.0",
+    99→    issued: "30 May 2025",
+   100→  },
+   101→  {
+   102→    id: "SIE-CERT-2388",
+   103→    name: "Milon Mahmud",
+   104→    course: "Basic to IELTS — One to One",
+   105→    batch: "1-on-1",
+   106→    band: "6.0",
+   107→    issued: "30 May 2025",
+   108→  },
+   109→  {
+   110→    id: "SIE-CERT-2411",
+   111→    name: "Emran Ahmed",
+   112→    course: "IELTS Crash Course",
+   113→    batch: "Batch 313-C",
+   114→    band: "6.0",
+   115→    issued: "30 May 2025",
+   116→  },
+   117→];
+   118→
+   119→export const stats = [
+   120→  { value: 9, suffix: "+", label: "বছরের শেখানোর অভিজ্ঞতা" },
+   121→  { value: 316, suffix: "+", label: "ব্যাচ সফলভাবে শেষ" },
+   122→  { value: 5000, suffix: "+", label: "শিক্ষার্থী পরীক্ষা দিয়েছে" },
+   123→  { value: 17, suffix: "", label: "কোর্স ও স্টাডি প্ল্যান" },
+   124→];
+   125→
+   126→export type Course = {
+   127→  slug: string;
+   128→  title: string;
+   129→  titleBn: string;
+   130→  desc: string;
+   131→  lessons: number;
+   132→  duration: string;
+   133→  price: number | null; // null => call for price
+   134→  oldPrice?: number;
+   135→  tag: string;
+   136→  icon: string; // key used by the courses section
+   137→  features: string[];
+   138→  category: "complete" | "beginner" | "exam";
+   139→  rating: number;
+   140→  students: number;
+   141→  nextBatch: string;
+   142→  mode: string;
+   143→  syllabus: string[];
+   144→  /** One-line weekly schedule summary shown on the course page. */
+   145→  scheduleNote: string;
+   146→  /** 10MS batch urgency — seats remaining in the currently enrolling batch. */
+   147→  seatsLeft?: number;
+   148→  seatsTotal?: number;
+   149→  /** 10MS-style access duration, e.g. "3 মাস" / "আজীবন". */
+   150→  accessPeriod?: string;
+   151→};
+   152→
+   153→export const courseCategories = [
+   154→  { value: "all", label: "All Courses" },
+   155→  { value: "complete", label: "Complete Preparation" },
+   156→  { value: "beginner", label: "For Beginners" },
+   157→  { value: "exam", label: "Exam Boosters" },
+   158→] as const;
+   159→
+   160→export const courses: Course[] = [
+   161→  {
+   162→    slug: "basic-to-ielts-in-batch",
+   163→    title: "Basic to IELTS — In Batch",
+   164→    titleBn: "বেসিক টু আইইএলটিস — ইন ব্যাচ",
+   165→    desc: "আপনার IELTS প্রস্তুতির সেরা কোর্স! Basic English থেকে IELTS পর্যন্ত সম্পূর্ণ প্রস্তুতি — ব্যাচের সাথে শিখুন, একসাথে এগিয়ে যান।",
+   166→    lessons: 36,
+   167→    duration: "3 Months",
+   168→    price: 8000,
+   169→    oldPrice: 12000,
+   170→    tag: "Best Seller",
+   171→    icon: "users",
+   172→    features: [
+   173→      "36 Live Classes",
+   174→      "Weekly Mock Tests",
+   175→      "Free Study Materials",
+   176→      "Speaking Club Access",
+   177→    ],
+   178→    category: "complete",
+   179→    rating: 4.9,
+   180→    students: 2140,
+   181→    nextBatch: "Every Sunday",
+   182→    mode: "Online + Offline",
+   183→    scheduleNote: "Sat – Thu · 10:00 AM – 11:30 AM + Thursday Weekly Mock",
+   184→    seatsLeft: 5,
+   185→    seatsTotal: 30,
+   186→    accessPeriod: "3 মাস + পরীক্ষা পর্যন্ত রেকর্ডেড অ্যাক্সেস",
+   187→    syllabus: [
+   188→      "Foundation: Grammar & Vocabulary (4 weeks)",
+   189→      "Listening: Accents, note-taking & practice tests",
+   190→      "Reading: Skimming, scanning & all question types",
+   191→      "Writing: Task 1 graphs to Band 7+ essays",
+   192→      "Speaking: Daily clubs, interviews & fluency drills",
+   193→      "Final week: Full mock tests with band reports",
+   194→    ],
+   195→  },
+   196→  {
+   197→    slug: "basic-to-ielts-private-batch",
+   198→    title: "Basic to IELTS — Private Batch",
+   199→    titleBn: "বেসিক টু আইইএলটিস — প্রাইভেট ব্যাচ",
+   200→    desc: "ছোট গ্রুপে মনোযোগী শেখার সুযোগ। প্রতিটি শিক্ষার্থীর জন্য ব্যক্তিগত মনোযোগ ও নিয়মিত ফিডব্যাক নিশ্চিত করা হয়।",
+   201→    lessons: 36,
+   202→    duration: "3 Months",
+   203→    price: 12000,
+   204→    oldPrice: 16500,
+   205→    tag: "Small Group",
+   206→    icon: "grad",
+   207→    features: [
+   208→      "Small Batch (Max 10)",
+   209→      "Personal Attention",
+   210→      "Weekly Mock Tests",
+   211→      "Free Study Materials",
+   212→    ],
+   213→    category: "complete",
+   214→    rating: 4.9,
+   215→    students: 1120,
+   216→    nextBatch: "Every Sunday",
+   217→    mode: "Online + Offline",
+   218→    scheduleNote: "Sun & Tue · 5:00 PM – 6:30 PM + Thursday Weekly Mock",
+   219→    seatsLeft: 4,
+   220→    seatsTotal: 10,
+   221→    accessPeriod: "3 মাস + পরীক্ষা পর্যন্ত রেকর্ডেড অ্যাক্সেস",
+   222→    syllabus: [
+   223→      "Foundation: Grammar & Vocabulary (4 weeks)",
+   224→      "All 4 modules with individual feedback",
+   225→      "Weekly progress tracking & parent report",
+   226→      "Final week: Full mock tests with band reports",
+   227→    ],
+   228→  },
+   229→  {
+   230→    slug: "basic-to-ielts-one-to-one",
+   231→    title: "Basic to IELTS — One to One",
+   232→    titleBn: "বেসিক টু আইইএলটিস — ওয়ান টু ওয়ান",
+   233→    desc: "সম্পূর্ণ ব্যক্তিগত ক্লাস — আপনার সময় অনুযায়ী ক্লাস, আপনার দুর্বলতা অনুযায়ী কোর্স প্ল্যান। দ্রুততম ফলাফলের জন্য সেরা।",
+   234→    lessons: 36,
+   235→    duration: "Flexible",
+   236→    price: 16000,
+   237→    oldPrice: 19500,
+   238→    tag: "Personalized",
+   239→    icon: "target",
+   240→    features: [
+   241→      "Flexible Schedule",
+   242→      "Custom Study Plan",
+   243→      "Direct Mentor Access",
+   244→      "Unlimited Speaking Practice",
+   245→    ],
+   246→    category: "complete",
+   247→    rating: 5.0,
+   248→    students: 640,
+   249→    nextBatch: "Any day you start",
+   250→    mode: "Online + Offline",
+   251→    scheduleNote: "Flexible — class times are fixed with your mentor at admission",
+   252→    seatsLeft: 3,
+   253→    seatsTotal: 8,
+   254→    accessPeriod: "6 মাস অ্যাক্সেস",
+   255→    syllabus: [
+   256→      "Level assessment & custom study plan",
+   257→      "All 4 modules at your own pace",
+   258→      "Unlimited one-to-one speaking practice",
+   259→      "Direct WhatsApp access to your mentor",
+   260→    ],
+   261→  },
+   262→  {
+   263→    slug: "pre-ielts",
+   264→    title: "Basic IELTS / Pre-IELTS Course",
+   265→    titleBn: "বেসিক আইইএলটিস / প্রি-আইইএলটিস",
+   266→    desc: "IELTS প্রস্তুতির পারফেক্ট শুরু! English একদম শূন্য থেকে শুরু করার জন্য ডিজাইন করা ফাউন্ডেশন কোর্স।",
+   267→    lessons: 12,
+   268→    duration: "1 Month",
+   269→    price: 4000,
+   270→    oldPrice: 4500,
+   271→    tag: "Beginner Friendly",
+   272→    icon: "book",
+   273→    features: [
+   274→      "Grammar Foundation",
+   275→      "Vocabulary Building",
+   276→      "Basic Writing Skills",
+   277→      "Daily Practice Sheets",
+   278→    ],
+   279→    category: "beginner",
+   280→    rating: 4.8,
+   281→    students: 1280,
+   282→    nextBatch: "1st of every month",
+   283→    mode: "Online + Offline",
+   284→    scheduleNote: "Mon & Wed · 4:00 PM – 5:30 PM",
+   285→    seatsLeft: 15,
+   286→    seatsTotal: 35,
+   287→    accessPeriod: "1 মাস অ্যাক্সেস",
+   288→    syllabus: [
+   289→      "English grammar from absolute basics",
+   290→      "Everyday & academic vocabulary building",
+   291→      "Sentence structure & paragraph writing",
+   292→      "Intro to the IELTS exam format",
+   293→    ],
+   294→  },
+   295→  {
+   296→    slug: "ielts-crash-course",
+   297→    title: "IELTS Crash Course",
+   298→    titleBn: "আইইএলটিস ক্র্যাশ কোর্স",
+   299→    desc: "Exam near? Fast-track your preparation with proven strategies, shortcuts and intensive mock tests for all 4 modules.",
+   300→    lessons: 18,
+   301→    duration: "4 Weeks",
+   302→    price: null,
+   303→    tag: "Fast Track",
+   304→    icon: "zap",
+   305→    features: [
+   306→      "Exam Strategies & Tricks",
+   307→      "Intensive Mock Tests",
+   308→      "Time Management Skills",
+   309→      "Band Booster Sessions",
+   310→    ],
+   311→    category: "exam",
+   312→    rating: 4.9,
+   313→    students: 803,
+   314→    nextBatch: "Every Monday",
+   315→    mode: "Online + Offline",
+   316→    scheduleNote: "Mon & Wed · 6:00 PM – 7:30 PM + Thursday Mock Review",
+   317→    seatsLeft: 8,
+   318→    seatsTotal: 25,
+   319→    accessPeriod: "1 মাস অ্যাক্সেস",
+   320→    syllabus: [
+   321→      "Week 1: All 4 module strategies & shortcuts",
+   322→      "Week 2: Question-type tricks (Reading & Listening)",
+   323→      "Week 3: Essay templates & speaking fluency",
+   324→      "Week 4: 4 full mock tests with band reports",
+   325→    ],
+   326→  },
+   327→  {
+   328→    slug: "free-course",
+   329→    title: "Free IELTS Foundation",
+   330→    titleBn: "ফ্রি আইইএলটিস ফাউন্ডেশন কোর্স",
+   331→    desc: "Access premium online lessons for free! Create your free account now and immediately start your IELTS journey.",
+   332→    lessons: 10,
+   333→    duration: "Self-paced",
+   334→    price: 0,
+   335→    tag: "100% Free",
+   336→    icon: "gift",
+   337→    features: [
+   338→      "Free Video Lessons",
+   339→      "Practice Materials",
+   340→      "Weekly Tips & Tricks",
+   341→      "Community Support",
+   342→    ],
+   343→    category: "beginner",
+   344→    rating: 4.8,
+   345→    students: 3560,
+   346→    nextBatch: "Start instantly",
+   347→    mode: "Online",
+   348→    scheduleNote: "Self-paced — learn anytime + join the weekly free live classes",
+   349→    accessPeriod: "আজীবন অ্যাক্সেস",
+   350→    syllabus: [
+   351→      "10 premium video lessons",
+   352→      "Downloadable practice materials",
+   353→      "Weekly IELTS tips & tricks",
+   354→      "Facebook learners community access",
+   355→    ],
+   356→  },
+   357→];
+   358→
+   359→/** 10MS-style free resources — free classes are a core part of the brand funnel. */
+   360→export const freeResources = [
+   361→  {
+   362→    icon: "video",
+   363→    title: "Free Video Lessons",
+   364→    desc: "IELTS মডিউল-ভিত্তিক ফ্রি ভিডিও ক্লাস — Facebook পেজে নিয়মিত আপলোড হয়। আজই দেখা শুরু করুন।",
+   365→    cta: "Watch on Facebook",
+   366→    href: site.facebook,
+   367→    external: true,
+   368→  },
+   369→  {
+   370→    icon: "clipboard",
+   371→    title: "Free Mock Test",
+   372→    desc: "ফুল-লেন্থ IELTS Mock Test ফ্রি! আপনার বর্তমান ব্যান্ড স্কোর জানতে ফ্রি অ্যাসেসমেন্টে রেজিস্টার করুন।",
+   373→    cta: "Book Free Mock Test",
+   374→    href: "#/contact",
+   375→    external: false,
+   376→  },
+   377→  {
+   378→    icon: "lightbulb",
+   379→    title: "Free Tips & Tricks",
+   380→    desc: "প্রতিটি প্রশ্ন টাইপের জন্য প্রমাণিত শর্টকাট — Reading, Listening, Writing ও Speaking টিপস পড়ুন।",
+   381→    cta: "Read the Tips",
+   382→    href: "#/tips",
+   383→    external: false,
+   384→  },
+   385→];
+   386→
+   387→/* ------------------------------------------------------------------ */
+   388→/* Online Class Routine — 10MS-style weekly schedule                   */
+   389→/* ------------------------------------------------------------------ */
+   390→
+   391→export const weekDays = [
+   392→  "Saturday",
+   393→  "Sunday",
+   394→  "Monday",
+   395→  "Tuesday",
+   396→  "Wednesday",
+   397→  "Thursday",
+   398→  "Friday",
+   399→] as const;
+   400→
+   401→export type WeekDay = (typeof weekDays)[number];
+   402→
+   403→export type RoutineClass = {
+   404→  day: WeekDay;
+   405→  start: string;
+   406→  end: string;
+   407→  courseSlug: string;
+   408→  /** Batch label, e.g. "Batch 317" or "All Students". */
+   409→  batch: string;
+   410→  topic: string;
+   411→  mode: "Online Live" | "Campus" | "Hybrid";
+   412→  type: "Regular Class" | "Speaking Club" | "Mock Test" | "Free Live Class" | "Feedback Session";
+   413→};
+   414→
+   415→/**
+   416→ * The running weekly schedule (Asia/Dhaka time). Batch numbers continue from
+   417→ * the 316+ batches already completed.
+   418→ */
+   419→export const classRoutine: RoutineClass[] = [
+   420→  // Saturday
+   421→  {
+   422→    day: "Saturday",
+   423→    start: "10:00 AM",
+   424→    end: "11:30 AM",
+   425→    courseSlug: "basic-to-ielts-in-batch",
+   426→    batch: "Batch 317",
+   427→    topic: "Writing Task 1 — Graphs & Charts",
+   428→    mode: "Hybrid",
+   429→    type: "Regular Class",
+   430→  },
+   431→  {
+   432→    day: "Saturday",
+   433→    start: "4:00 PM",
+   434→    end: "5:00 PM",
+   435→    courseSlug: "basic-to-ielts-in-batch",
+   436→    batch: "All Students",
+   437→    topic: "Free Speaking Club",
+   438→    mode: "Online Live",
+   439→    type: "Speaking Club",
+   440→  },
+   441→  // Sunday
+   442→  {
+   443→    day: "Sunday",
+   444→    start: "10:00 AM",
+   445→    end: "11:30 AM",
+   446→    courseSlug: "basic-to-ielts-in-batch",
+   447→    batch: "Batch 317",
+   448→    topic: "Listening — Accents & Note-taking",
+   449→    mode: "Hybrid",
+   450→    type: "Regular Class",
+   451→  },
+   452→  {
+   453→    day: "Sunday",
+   454→    start: "5:00 PM",
+   455→    end: "6:30 PM",
+   456→    courseSlug: "basic-to-ielts-private-batch",
+   457→    batch: "Batch 319",
+   458→    topic: "Grammar Boost + Individual Feedback",
+   459→    mode: "Hybrid",
+   460→    type: "Regular Class",
+   461→  },
+   462→  {
+   463→    day: "Sunday",
+   464→    start: "8:00 PM",
+   465→    end: "9:00 PM",
+   466→    courseSlug: "free-course",
+   467→    batch: "Everyone",
+   468→    topic: "Free Live Class — Reading Tricks",
+   469→    mode: "Online Live",
+   470→    type: "Free Live Class",
+   471→  },
+   472→  // Monday
+   473→  {
+   474→    day: "Monday",
+   475→    start: "10:00 AM",
+   476→    end: "11:30 AM",
+   477→    courseSlug: "basic-to-ielts-in-batch",
+   478→    batch: "Batch 317",
+   479→    topic: "Reading — Skimming & Scanning",
+   480→    mode: "Hybrid",
+   481→    type: "Regular Class",
+   482→  },
+   483→  {
+   484→    day: "Monday",
+   485→    start: "4:00 PM",
+   486→    end: "5:30 PM",
+   487→    courseSlug: "pre-ielts",
+   488→    batch: "Batch 320",
+   489→    topic: "Basic Grammar — Tenses Made Easy",
+   490→    mode: "Hybrid",
+   491→    type: "Regular Class",
+   492→  },
+   493→  {
+   494→    day: "Monday",
+   495→    start: "6:00 PM",
+   496→    end: "7:30 PM",
+   497→    courseSlug: "ielts-crash-course",
+   498→    batch: "Batch 318-C",
+   499→    topic: "Module Strategies & Shortcuts",
+   500→    mode: "Online Live",
+   501→    type: "Regular Class",
+   502→  },
+   503→  // Tuesday
+   504→  {
+   505→    day: "Tuesday",
+   506→    start: "10:00 AM",
+   507→    end: "11:30 AM",
+   508→    courseSlug: "basic-to-ielts-in-batch",
+   509→    batch: "Batch 317",
+   510→    topic: "Speaking — Cue Cards & Fluency",
+   511→    mode: "Hybrid",
+   512→    type: "Regular Class",
+   513→  },
+   514→  {
+   515→    day: "Tuesday",
+   516→    start: "5:00 PM",
+   517→    end: "6:30 PM",
+   518→    courseSlug: "basic-to-ielts-private-batch",
+   519→    batch: "Batch 319",
+   520→    topic: "Writing Task 2 Workshop",
+   521→    mode: "Hybrid",
+   522→    type: "Regular Class",
+   523→  },
+   524→  // Wednesday
+   525→  {
+   526→    day: "Wednesday",
+   527→    start: "10:00 AM",
+   528→    end: "11:30 AM",
+   529→    courseSlug: "basic-to-ielts-in-batch",
+   530→    batch: "Batch 317",
+   531→    topic: "Writing Task 2 — Band 7+ Essays",
+   532→    mode: "Hybrid",
+   533→    type: "Regular Class",
+   534→  },
+   535→  {
+   536→    day: "Wednesday",
+   537→    start: "4:00 PM",
+   538→    end: "5:30 PM",
+   539→    courseSlug: "pre-ielts",
+   540→    batch: "Batch 320",
+   541→    topic: "Vocabulary Builder",
+   542→    mode: "Hybrid",
+   543→    type: "Regular Class",
+   544→  },
+   545→  {
+   546→    day: "Wednesday",
+   547→    start: "6:00 PM",
+   548→    end: "7:30 PM",
+   549→    courseSlug: "ielts-crash-course",
+   550→    batch: "Batch 318-C",
+   551→    topic: "Question-type Tricks — Reading & Listening",
+   552→    mode: "Online Live",
+   553→    type: "Regular Class",
+   554→  },
+   555→  {
+   556→    day: "Wednesday",
+   557→    start: "8:00 PM",
+   558→    end: "9:00 PM",
+   559→    courseSlug: "free-course",
+   560→    batch: "Everyone",
+   561→    topic: "Free Live Class — Essay Checking Live",
+   562→    mode: "Online Live",
+   563→    type: "Free Live Class",
+   564→  },
+   565→  // Thursday
+   566→  {
+   567→    day: "Thursday",
+   568→    start: "10:00 AM",
+   569→    end: "12:00 PM",
+   570→    courseSlug: "basic-to-ielts-in-batch",
+   571→    batch: "All Batches",
+   572→    topic: "Weekly Full Mock Test",
+   573→    mode: "Hybrid",
+   574→    type: "Mock Test",
+   575→  },
+   576→  {
+   577→    day: "Thursday",
+   578→    start: "4:00 PM",
+   579→    end: "5:30 PM",
+   580→    courseSlug: "ielts-crash-course",
+   581→    batch: "Batch 318-C",
+   582→    topic: "Mock Review & Band Report",
+   583→    mode: "Online Live",
+   584→    type: "Feedback Session",
+   585→  },
+   586→  // Friday — weekly off
+   587→];
+   588→
+   589→export const routineNote = {
+   590→  title: "Routine পরিবর্তন হতে পারে",
+   591→  message:
+   592→    "Ramadan, সরকারি ছুটি বা বিশেষ অনুষ্ঠানের কারণে class time পরিবর্তন হলে আপনার WhatsApp গ্রুপে জানিয়ে দেওয়া হয়। Zoom/Facebook লিংক সবসময় গ্রুপে পাবেন।",
+   593→};
+   594→
+   595→/** 10MS-style free live classes funnel — open to everyone, no enrollment needed. */
+   596→export const freeLiveClasses = [
+   597→  {
+   598→    title: "Free Live Class — IELTS Reading Tricks",
+   599→    when: "Every Sunday, 8:00 PM",
+   600→    platform: "Facebook Live",
+   601→    host: "Sadia Rahman",
+   602→    ctaLabel: "Watch on Facebook",
+   603→    href: site.facebook,
+   604→    external: true,
+   605→  },
+   606→  {
+   607→    title: "Free Live Class — Essay Checking Live",
+   608→    when: "Every Wednesday, 8:00 PM",
+   609→    platform: "Facebook Live",
+   610→    host: "Sadia Rahman",
+   611→    ctaLabel: "Watch on Facebook",
+   612→    href: site.facebook,
+   613→    external: true,
+   614→  },
+   615→  {
+   616→    title: "Free Full Mock Test + Band Assessment",
+   617→    when: "Every Thursday, 10:00 AM",
+   618→    platform: "Zoom — register first",
+   619→    host: "Sadia's IELTS Team",
+   620→    ctaLabel: "Register Free",
+   621→    href: "#/contact",
+   622→    external: false,
+   623→  },
+   624→];
+   625→
+   626→/**
+   627→ * The people behind the results — team page (#/team), member profiles
+   628→ * (#/team/<slug>) and the moving team strip on the home page.
+   629→ * Portraits are studio-style placeholders; swap the files in /public/images/team
+   630→ * and update bios without touching layout.
+   631→ */
+   632→export type TeamMember = {
+   633→  slug: string;
+   634→  name: string;
+   635→  role: string;
+   636→  /** One-liner shown on the moving card + profile header. */
+   637→  tagline: string;
+   638→  photo: string;
+   639→  /** Pastel chip classes for the specialty pills. */
+   640→  chip: string;
+   641→  /** 2–3 short paragraphs — the story, in a human voice. */
+   642→  bio: string[];
+   643→  specialties: string[];
+   644→  credentials: string[];
+   645→  stats: { value: string; label: string }[];
+   646→  quote: string;
+   647→};
+   648→
+   649→export const teamMembers: TeamMember[] = [
+   650→  {
+   651→    slug: "sadia-rahman",
+   652→    name: "Sadia Rahman",
+   653→    role: "Founder & Lead IELTS Instructor",
+   654→    tagline: "Cambridge & IDP certified — ৯ বছরে ৩,০০০-র বেশি শিক্ষার্থীর নিজের হাতে প্রস্তুতি।",
+   655→    photo: "/images/instructor-sadia.png",
+   656→    chip: "bg-pastel-butter text-[#7a5a16]",
+   657→    bio: [
+   658→      "২০১৬ সালে Sreemangal-এর একটা ছোট রুম দিয়ে শুরু — তখন ছয়জন শিক্ষার্থী। আজ ৩১৬-র বেশি ব্যাচ শেষ হয়েছে, কিন্তু নিয়ম একটাই: প্রতিটি শিক্ষার্থীর mock test-এর খাতা নিজের হাতে দেখা, আর পরীক্ষার আগে শেষ কথাটা নিজে বলা।",
+   659→      "নিজের Band 8.5, Reading আর Listening-এ পুরো 9.0 — কিন্তু ক্লাসে এই কথা দ্বিতীয়বার আসে না। প্রথম দিন থেকে আসে একটাই প্রশ্ন: আপনার টার্গেট কত, আর কোথায় আটকে আছেন? সেই উত্তরটাই আপনার পুরো রুটিন সাজিয়ে দেয়।",
+   660→      "Sreemangal-এ থেকে বড় শহরে না গিয়েও শিক্ষার্থীরা প্রমাণ করেছে — সঠিক গাইডলাইন থাকলে Band 7+ শহর-মহল্লা দেখে না। এটাই Sadia's IELTS-এর ভিত।",
+   661→    ],
+   662→    specialties: ["Writing Task 2", "Mock Assessment", "Study Plan", "Speaking Feedback"],
+   663→    credentials: [
+   664→      "Cambridge & IDP Certified IELTS Trainer",
+   665→      "TKT & TTT Certified (University of Cambridge)",
+   666→      "Personal Band 8.5 — perfect 9.0 in Reading & Listening",
+   667→      "9+ years teaching, 316+ batches completed",
+   668→    ],
+   669→    stats: [
+   670→      { value: "9+", label: "Years teaching" },
+   671→      { value: "3,000+", label: "Students mentored" },
+   672→      { value: "8.5", label: "Personal band" },
+   673→    ],
+   674→    quote: "IELTS-এ লুকোচুরি চলে না — যে দুর্বলতা আপনি স্বীকার করবেন, সেটাই আমরা প্রথমে ঠিক করব।",
+   675→  },
+   676→  {
+   677→    slug: "farhana-yeasmin",
+   678→    name: "Farhana Yeasmin",
+   679→    role: "Speaking & Listening Coach",
+   680→    tagline: "পরীক্ষার হলে কাঁপা গলা, ক্লাসে হাসিমুখ — কথা বলার সাহসটা তৈরি করেন তিনিই।",
+   681→    photo: "/images/team/farhana.png",
+   682→    chip: "bg-pastel-green text-[#1f5c40]",
+   683→    bio: [
+   684→      "বেশিরভাগ শিক্ষার্থীর লেখা ভালো, কিন্তু মাইক্রোফোনের সামনে দাঁড়ালেই গলা চুপ — Farhana ম্যাম-এর ক্লাস ওই ভয়টাই ভাঙার জন্য। প্রথম সপ্তাহে ভুল নিয়ে লজ্জা নেই, এই নিয়ম প্রতিষ্ঠা করে তিনি ক্লাসের ভয়ঙ্কর-চেনা পরিবেশটা গুঁড়িয়ে দেন।",
+   685→      "প্রতি সপ্তাহে Speaking Club-এ এক-একটা real exam situation — cue card, follow-up, আর তাৎক্ষণিক feedback। কোন শব্দে আটকাচ্ছেন, কোথায় অযথা থেমে যাচ্ছেন — রেকর্ডিং শুনিয়ে ধরিয়ে দেন।",
+   686→      "Listening-এর band drop বেশিরভাগ সময় spelling আর concentration নয় — ভয়। প্রতিদিনের ২০ মিনিটের dictation drill-এ সেই ভয়টাই অভ্যাস হয়ে যায়।",
+   687→    ],
+   688→    specialties: ["Speaking Part 1–3", "Listening Strategy", "Pronunciation", "Weekly Speaking Club"],
+   689→    credentials: [
+   690→      "IELTS Band 8.0 (Speaking 8.5)",
+   691→      "MA in English Literature",
+   692→      "6+ years coaching Speaking & Listening",
+   693→    ],
+   694→    stats: [
+   695→      { value: "6+", label: "Years teaching" },
+   696→      { value: "1,200+", label: "Speaking sessions" },
+   697→      { value: "8.5", label: "Speaking band" },
+   698→    ],
+   699→    quote: "ভুল করা মানে অক্ষম না — মানে প্রস্তুতি এখনো চলছে। Speaking-এ সাহসই আসল স্কোর।",
+   700→  },
+   701→  {
+   702→    slug: "tanvir-ahmed",
+   703→    name: "Tanvir Ahmed",
+   704→    role: "Writing Coach & Feedback Lead",
+   705→    tagline: "Writing-এ ৫.৫ ঘুরে ৬.৫+ হওয়ার পেছনের কঠিন, পরিষ্কার feedback-এর মানুষ।",
+   706→    photo: "/images/team/tanvir.png",
+   707→    chip: "bg-pastel-sky text-[#2c4f8a]",
+   708→    bio: [
+   709→      "Writing-ই একমাত্র মডিউল যেখানে বাংলাদেশি শিক্ষার্থীদের band সবচেয়ে পিছিয়ে — আর এর একটাই কারণ: ভুল যেখানে, সেটা পরিষ্কার করে কেউ বলে না। Tanvir-এর কাজ ওই কথাটা বলা — প্রতিটি এসেতের পাশে ধরে ধরে।",
+   710→      "Task 2-এর structure, idea bank, আর সবচেয়ে জরুরি — কোন ভুল band কমায়, কোনটা কমায় না। শিক্ষার্থীর খাতায় তাঁর লাল কথাগুলো ক্লাসের সবচেয়ে দামি অংশ হিসেবেই পরিচিত।",
+   711→      "Weekly essay checking live-এ সাধারণ ভুলগুলো সবার সামনে ঠিক করেন — একজনের ভুল, পুরো ব্যাচের শিক্ষা।",
+   712→    ],
+   713→    specialties: ["Task 1 & 2 Structure", "Essay Feedback", "Idea Bank", "Vocabulary Building"],
+   714→    credentials: [
+   715→      "IELTS Band 8.0 (Writing 7.5)",
+   716→      "BA & MA in English, Shahjalal University",
+   717→      "5+ years, 4,000+ essays checked",
+   718→    ],
+   719→    stats: [
+   720→      { value: "5+", label: "Years teaching" },
+   721→      { value: "4,000+", label: "Essays checked" },
+   722→      { value: "80%", label: "Hit 6.5+ Writing" },
+   723→    ],
+   724→    quote: "আপনার এসের সমস্যা ইংরেজি না — চিন্তা সাজানো। ওটা ঠিক হলে Writing দাঁড়িয়ে যায় তিন মাসে।",
+   725→  },
+   726→  {
+   727→    slug: "nusrat-jahan",
+   728→    name: "Nusrat Jahan",
+   729→    role: "Reading Coach & Cambridge Coordinator",
+   730→    tagline: "Cambridge 5 থেকে 19 — পুরো সিরিজের প্রশ্ন-প্যাটার্ন তাঁর হাতের তালুতে।",
+   731→    photo: "/images/team/nusrat.png",
+   732→    chip: "bg-pastel-orange text-[#7a4c12]",
+   733→    bio: [
+   734→      "Reading-এ সময় ফুরিয়ে যায় কোথায়? Nusrat ম্যাম-এর ক্লাসে প্রথম দিনেই এই প্রশ্নের উত্তর হয়ে যায় — skimming, keyword trapping, আর true/false/not given-এর ফাঁদগুলো চেনা।",
+   735→      "সাইটের Cambridge Library-র পুরো টেস্ট সেট-আপ, লেভেল অনুযায়ী কে কোন বই দিয়ে প্র্যাকটিস করবে — এই পরিকল্পনাও তাঁর। প্রতিটি শিক্ষার্থীর প্রগ্রেস ট্র্যাক করে পরের টেস্ট ঠিক করে দেন।",
+   736→      "Reading band 5.5 থেকে 7+ যাওয়া শিক্ষার্থীদের একটাই কমন কথা — প্যাটার্ন চিনলে প্রশ্ন ভয় দেখায় না।",
+   737→    ],
+   738→    specialties: ["Reading Speed", "T/F/NG Strategy", "Cambridge Tests", "Vocabulary in Context"],
+   739→    credentials: [
+   740→      "IELTS Band 8.5 (Reading 9.0)",
+   741→      "BSc in English & Education",
+   742→      "4+ years, Cambridge series specialist",
+   743→    ],
+   744→    stats: [
+   745→      { value: "4+", label: "Years teaching" },
+   746→      { value: "9.0", label: "Reading band" },
+   747→      { value: "15", label: "Cambridge books mastered" },
+   748→    ],
+   749→    quote: "প্রশ্ন মিথ্যা বলে না — ফাঁদ দেখায় মাত্র। প্যাটার্ন চিনলে Reading-ই সবচেয়ে সহজ মডিউল।",
+   750→  },
+   751→  {
+   752→    slug: "mahmudul-hasan",
+   753→    name: "Mahmudul Hasan",
+   754→    role: "Admissions & Student Success",
+   755→    tagline: "ভর্তি থেকে ফলাফল — মাঝখানের প্রতিটি ঝামেলা যিনি নিজের কাঁধে নেন।",
+   756→    photo: "/images/team/mahmudul.png",
+   757→    chip: "bg-pastel-ruby text-[#7a2734]",
+   758→    bio: [
+   759→      "কোন কোর্সে ভর্তি হবেন, কোন ব্যাচের সময় আপনার রুটিনের সাথে মিলবে, ম্যাটেরিয়ালস কোরিয়ারে কোথায় — ক্লাসের বাইরের সব প্রশ্নের এক উত্তর: Mahmudul-কে ফোন দিন।",
+   760→      "পোর্টালে লগইন, মকের রেজাল্ট বোঝা, কোর্স শেষে সার্টিফিকেট — প্রযুক্তিগত আর প্রশাসনিক যেকোনো আটকে যাওয়া জায়গায় তিনিই প্রথম মানুষ।",
+   761→      "একবার ভর্তি হলে কোর্স শেষ হওয়ার আগ পর্যন্ত তিনি মাসে অন্তত একবার ফোনে নিশ্চিত হন — সব ঠিক চলছে তো?",
+   762→    ],
+   763→    specialties: ["Admission Guidance", "Batch Scheduling", "Student Support", "Certificate & Portal"],
+   764→    credentials: [
+   765→      "BBA, National University",
+   766→      "Trained in student counselling & support",
+   767→      "4+ years at Sadia's IELTS",
+   768→    ],
+   769→    stats: [
+   770→      { value: "4+", label: "Years with us" },
+   771→      { value: "5,000+", label: "Students assisted" },
+   772→      { value: "1-day", label: "Support response" },
+   773→    ],
+   774→    quote: "ভর্তির আগে যত প্রশ্নই করুন — ফোন নম্বরটা আপনার জন্যই খোলা। ভর্তির পরেও।",
+   775→  },
+   776→];
+   777→
+   778→/** 10MS "choose your batch" board — next admission batches per course. */
+   779→export const upcomingBatches = [
+   780→  {
+   781→    courseSlug: "basic-to-ielts-in-batch",
+   782→    course: "Basic to IELTS — In Batch",
+   783→    batch: "Batch 318",
+   784→    starts: "Every Sunday",
+   785→    time: "10:00 AM – 11:30 AM",
+   786→    seats: "12 seats left",
+   787→    mode: "Online + Offline",
+   788→  },
+   789→  {
+   790→    courseSlug: "basic-to-ielts-private-batch",
+   791→    course: "Basic to IELTS — Private Batch",
+   792→    batch: "Batch 319",
+   793→    starts: "Every Sunday",
+   794→    time: "5:00 PM – 6:30 PM",
+   795→    seats: "4 seats left",
+   796→    mode: "Online + Offline",
+   797→  },
+   798→  {
+   799→    courseSlug: "ielts-crash-course",
+   800→    course: "IELTS Crash Course",
+   801→    batch: "Batch 320-C",
+   802→    starts: "Every Monday",
+   803→    time: "6:00 PM – 7:30 PM",
+   804→    seats: "8 seats left",
+   805→    mode: "Online",
+   806→  },
+   807→  {
+   808→    courseSlug: "pre-ielts",
+   809→    course: "Basic IELTS / Pre-IELTS",
+   810→    batch: "Batch 321",
+   811→    starts: "1st of every month",
+   812→    time: "4:00 PM – 5:30 PM",
+   813→    seats: "15 seats left",
+   814→    mode: "Online + Offline",
+   815→  },
+   816→];
+   817→
+   818→/**
+   819→ * Student Portal — batch notices shown in the portal "Notices" section.
+   820→ * Latest first. (Static demo content — a production build would manage
+   821→ * these from an admin panel.)
+   822→ */
+   823→export const portalNotices = [
+   824→  {
+   825→    date: "10 Sep",
+   826→    tag: "Class Update",
+   827→    title: "Sunday 10 AM class shifted to 11:00 AM",
+   828→    body: "Batch 317-এর Sunday regular class আগামী সপ্তাহ থেকে সকাল ১১টায় হবে। Zoom লিংক WhatsApp গ্রুপে পাবেন।",
+   829→  },
+   830→  {
+   831→    date: "08 Sep",
+   832→    tag: "Mock Test",
+   833→    title: "Weekly full mock — Thursday, 10:00 AM",
+   834→    body: "প্রতি বৃহস্পতিবার ফুল-লেন্থ mock test (10 AM – 12 PM)। উপস্থিত থাকা আবশ্যক — band report ক্লাসেই আলোচনা করা হবে।",
+   835→  },
+   836→  {
+   837→    date: "05 Sep",
+   838→    tag: "Speaking Club",
+   839→    title: "Saturday Speaking Club — সব ব্যাচের জন্য খোলা",
+   840→    body: "প্রতি শনিবার বিকাল ৪টায় free speaking club-এ এখন সব ব্যাচের শিক্ষার্থী অংশ নিতে পারবে। Fluency বাড়াতে নিয়মিত জয়েন করুন।",
+   841→  },
+   842→  {
+   843→    date: "01 Sep",
+   844→    tag: "Notice",
+   845→    title: "Course materials আপডেট হয়েছে",
+   846→    body: "Writing Task 2 templates ও Speaking cue card bank-এর নতুন সংস্করণ My Course → Materials সেকশনে যোগ হয়েছে।",
+   847→  },
+   848→];
+   849→
+   850→/** Student Portal — downloadable class materials (demo library). */
+   851→export const portalMaterials = [
+   852→  { icon: "file-text", label: "Class Notes & Slide Deck", meta: "PDF · 4.2 MB" },
+   853→  { icon: "headphones", label: "Listening Practice Pack 1–5", meta: "Audio · ZIP" },
+   854→  { icon: "book-open", label: "Reading Passage Collection", meta: "PDF · 6.8 MB" },
+   855→  { icon: "pen", label: "Writing Task 1 & 2 Templates", meta: "PDF · 1.1 MB" },
+   856→  { icon: "mic", label: "Speaking Cue Card Bank", meta: "PDF · 2.3 MB" },
+   857→  { icon: "clipboard-check", label: "Mock Test Question Bank", meta: "PDF · 3.0 MB" },
+   858→];
+   859→
+   860→export const skills = [
+   861→  {
+   862→    icon: "headphones",
+   863→    title: "Listening",
+   864→    bn: "উন্নত করুন: নিয়মিত অনুশীলন, ফোকাস, কৌশল, শব্দভাণ্ডার ও ধারাবাহিক প্রচেষ্টার মাধ্যমে সফলতা নিশ্চিত করুন।",
+   865→    en: "Train your ears with real accents, note-taking drills and focused practice tests.",
+   866→  },
+   867→  {
+   868→    icon: "book",
+   869→    title: "Reading",
+   870→    bn: "স্কিল বাড়ানোর সবচেয়ে ভালো উপায় হলো নিয়মিত অনুশীলন। প্রতিদিন IELTS Reading প্যাসেজ পড়ে প্রশ্নের উত্তর দেওয়ার চেষ্টা করো।",
+   871→    en: "Skimming, scanning and time-management techniques for every question type.",
+   872→  },
+   873→  {
+   874→    icon: "pen",
+   875→    title: "Writing",
+   876→    bn: "বিভিন্ন ধরনের sentence structure ব্যবহার করো। একই শব্দ বারবার না লিখে synonym ব্যবহার করো। বানান ও tense ঠিক রাখো।",
+   877→    en: "From Task 1 graphs to Band 7+ essays — structured feedback on every writing.",
+   878→  },
+   879→  {
+   880→    icon: "mic",
+   881→    title: "Speaking",
+   882→    bn: "প্র্যাকটিস, আত্মবিশ্বাস, সাবলীলতা ও নিয়মিত ফিডব্যাকের মাধ্যমে উন্নত করুন আপনার IELTS Speaking দক্ষতা।",
+   883→    en: "Daily speaking clubs, mock interviews and personalized fluency feedback.",
+   884→  },
+   885→];
+   886→
+   887→export const whyUs = [
+   888→  {
+   889→    icon: "globe",
+   890→    title: "Global Higher Education",
+   891→    desc: "Get the band score that opens doors to universities in the UK, USA, Canada, Australia and beyond.",
+   892→  },
+   893→  {
+   894→    icon: "award",
+   895→    title: "Scholarship Opportunities",
+   896→    desc: "A higher IELTS score means bigger scholarships — we prepare you to win them.",
+   897→  },
+   898→  {
+   899→    icon: "briefcase",
+   900→    title: "Enhanced Career Prospects",
+   901→    desc: "IELTS certification boosts your CV and career both at home and abroad.",
+   902→  },
+   903→  {
+   904→    icon: "message",
+   905→    title: "Confidence in Communication",
+   906→    desc: "Beyond the exam — speak English with confidence in real life, interviews and workplace.",
+   907→  },
+   908→];
+   909→
+   910→export const tips = [
+   911→  {
+   912→    icon: "lightbulb",
+   913→    category: "IELTS Reading",
+   914→    title: "List of Headings — Top 10 Short Tricks",
+   915→    excerpt:
+   916→      "প্রথমে সবগুলো Heading ভালোভাবে পড়ে নিন passage পড়ার আগেই — তাহলে বুঝবেন কোন ধরনের information খুঁজতে হবে।",
+   917→  },
+   918→  {
+   919→    icon: "target",
+   920→    category: "IELTS Reading",
+   921→    title: "MCQ — Top 10 Short Tricks",
+   922→    excerpt:
+   923→      "Question First, Passage Later! প্রথমে প্রশ্ন পড়ুন, তারপর passage-এ যান — অপ্রয়োজনীয় তথ্য এড়িয়ে সময় বাঁচান।",
+   924→  },
+   925→  {
+   926→    icon: "zap",
+   927→    category: "IELTS Reading",
+   928→    title: "Short Answer Questions — Top 10 Tricks",
+   929→    excerpt:
+   930→      "আগে সব প্রশ্ন পড়ুন, তারপর passage স্ক্যান করুন target-wise — সঠিক কীওয়ার্ড খুঁজে দ্রুত উত্তর লিখুন।",
+   931→  },
+   932→];
+   933→
+   934→/**
+   935→ * Real success stories from sadiasielts.com result posts (May–June 2025).
+   936→ * Band scores are the published "IELTS Overall Band Score" values.
+   937→ */
+   938→export const stories = [
+   939→  {
+   940→    name: "Mithila Akter",
+   941→    band: "Band 8.0",
+   942→    score: 8.0,
+   943→    course: "Basic to IELTS — In Batch",
+   944→    date: "30 May 2025",
+   945→    quote:
+   946→      "আমার জীবনের সেরা সিদ্ধান্ত ছিল Sadia's IELTS-এ ভর্তি হওয়া। Your commitment and consistent effort have led to this amazing achievement — this is what my teacher told me, and it's true!",
+   947→  },
+   948→  {
+   949→    name: "Anika Tasnim",
+   950→    band: "Band 7.5",
+   951→    score: 7.5,
+   952→    course: "Basic to IELTS — Private Batch",
+   953→    date: "30 May 2025",
+   954→    quote:
+   955→      "Sadia apa's Reading short tricks saved me so much time in the exam. The personal feedback on every writing was priceless — Band 7.5 became possible.",
+   956→  },
+   957→  {
+   958→    name: "Raihan Ahmed (Emon)",
+   959→    band: "Band 7.5",
+   960→    score: 7.5,
+   961→    course: "IELTS Crash Course",
+   962→    date: "06 Jun 2025",
+   963→    quote:
+   964→      "The weekly mock tests and speaking club completely changed my confidence. I never imagined Band 7.5 on my first attempt!",
+   965→  },
+   966→  {
+   967→    name: "Fariha Islam",
+   968→    band: "Band 7.0",
+   969→    score: 7.0,
+   970→    course: "Basic to IELTS — In Batch",
+   971→    date: "30 May 2025",
+   972→    quote:
+   973→      "From basic grammar to Band 7 — the journey was structured step by step. ব্যাচের সবাই একসাথে এগিয়ে যাওয়ায় motivation কখনো কমেনি।",
+   974→  },
+   975→  {
+   976→    name: "Mahmuda Akter Eva",
+   977→    band: "Band 7.0",
+   978→    score: 7.0,
+   979→    course: "Basic to IELTS — In Batch",
+   980→    date: "06 Jun 2025",
+   981→    quote:
+   982→      "One-to-one feedback on my essays fixed mistakes I never knew I made. We are proud to be a part of your journey — and I am proud to be their student.",
+   983→  },
+   984→  {
+   985→    name: "Emran Ahmed",
+   986→    band: "Band 6.0",
+   987→    score: 6.0,
+   988→    course: "IELTS Crash Course",
+   989→    date: "30 May 2025",
+   990→    quote:
+   991→      "I had only one month before my exam. The crash course strategies and time-management tricks helped me hit my target on the first attempt.",
+   992→  },
+   993→  {
+   994→    name: "Milon Mahmud",
+   995→    band: "Band 6.0",
+   996→    score: 6.0,
+   997→    course: "Basic to IELTS — One to One",
+   998→    date: "30 May 2025",
+   999→    quote:
+  1000→      "One-to-one classes fit perfectly around my job. Flexible timing and a mentor who truly cares about your result.",
+  1001→  },
+  1002→];
+  1003→
+  1004→/* ------------------------------------------------------------------ */
+  1005→/* Book Shop — IELTS study materials & guides (sadiasielts.com/shop)   */
+  1006→/* ------------------------------------------------------------------ */
+  1007→
+  1008→export const bookCategories = [
+  1009→  { value: "all", label: "All Books" },
+  1010→  { value: "reading", label: "Reading" },
+  1011→  { value: "writing", label: "Writing" },
+  1012→  { value: "speaking", label: "Speaking" },
+  1013→  { value: "listening", label: "Listening" },
+  1014→  { value: "vocabulary", label: "Vocabulary" },
+  1015→  { value: "mock", label: "Mock Tests" },
+  1016→] as const;
+  1017→
+  1018→export type Book = {
+  1019→  slug: string;
+  1020→  title: string;
+  1021→  titleBn: string;
+  1022→  author: string;
+  1023→  desc: string;
+  1024→  price: number;
+  1025→  oldPrice?: number;
+  1026→  category: (typeof bookCategories)[number]["value"];
+  1027→  cover: string; // path under /public
+  1028→  tag?: string;
+  1029→  pages: number;
+  1030→  highlights: string[];
+  1031→};
+  1032→
+  1033→export const books: Book[] = [
+  1034→  {
+  1035→    slug: "reading-short-tricks",
+  1036→    title: "IELTS Reading — Top 10 Short Tricks",
+  1037→    titleBn: "আইইএলটিস রিডিং — টপ ১০ শর্ট ট্রিকস",
+  1038→    author: "Sadia Rahman",
+  1039→    desc:
+  1040→      "List of Headings, MCQ, Short Answer — প্রতিটি question type-এর জন্য প্রমাণিত shortcut ও time-management কৌশল, বাংলা ব্যাখ্যাসহ।",
+  1041→    price: 450,
+  1042→    oldPrice: 600,
+  1043→    category: "reading",
+  1044→    cover: "/images/books/reading-tricks.png",
+  1045→    tag: "Bestseller",
+  1046→    pages: 96,
+  1047→    highlights: ["All 14 question types covered", "Bengali explanations", "60+ solved examples"],
+  1048→  },
+  1049→  {
+  1050→    slug: "writing-task-2-handbook",
+  1051→    title: "IELTS Writing Task 2 — Band 7+ Handbook",
+  1052→    titleBn: "রাইটিং টাস্ক ২ — ব্যান্ড ৭+ হ্যান্ডবুক",
+  1053→    author: "Sadia Rahman",
+  1054→    desc:
+  1055→      "Essay structure, idea generation থেকে Band 7+ linking words — ready-made templates ও 40+ checked model essays সহ।",
+  1056→    price: 550,
+  1057→    oldPrice: 700,
+  1058→    category: "writing",
+  1059→    cover: "/images/books/writing-handbook.png",
+  1060→    tag: "Top Rated",
+  1061→    pages: 120,
+  1062→    highlights: ["25 essay templates", "40+ model answers", "Common mistake list"],
+  1063→  },
+  1064→  {
+  1065→    slug: "speaking-cue-card-bank",
+  1066→    title: "IELTS Speaking — Cue Card Bank & Fluency Guide",
+  1067→    titleBn: "স্পিকিং — কিউ কার্ড ব্যাংক ও ফ্লুয়েন্সি গাইড",
+  1068→    author: "Sadia Rahman",
+  1069→    desc:
+  1070→      "Latest cue card bank (Part 1–3), sample answers ও fluency drills — follow-up questions এর সহজ উত্তর কৌশলসহ।",
+  1071→    price: 400,
+  1072→    category: "speaking",
+  1073→    cover: "/images/books/speaking-bank.png",
+  1074→    pages: 88,
+  1075→    highlights: ["150+ cue cards", "Part 1–3 samples", "Fluency drill plan"],
+  1076→  },
+  1077→  {
+  1078→    slug: "vocabulary-builder",
+  1079→    title: "IELTS Vocabulary Builder — 3000+ Academic Words",
+  1080→    titleBn: "ভোকাবুলারি বিল্ডার — ৩০০০+ একাডেমিক শব্দ",
+  1081→    author: "Sadia Rahman",
+  1082→    desc:
+  1083→      "Topic-wise academic word list, synonym banks ও collocations — Writing ও Speaking-এ band বাড়ানোর সবচেয়ে কার্যকর অস্ত্র।",
+  1084→    price: 500,
+  1085→    oldPrice: 650,
+  1086→    category: "vocabulary",
+  1087→    cover: "/images/books/vocabulary.png",
+  1088→    pages: 140,
+  1089→    highlights: ["3000+ words", "Topic-wise synonym bank", "Collocation lists"],
+  1090→  },
+  1091→  {
+  1092→    slug: "listening-workbook",
+  1093→    title: "IELTS Listening — Accent & Note-taking Workbook",
+  1094→    titleBn: "লিসেনিং — অ্যাকসেন্ট ও নোট-টেকিং ওয়ার্কবুক",
+  1095→    author: "Sadia Rahman",
+  1096→    desc:
+  1097→      "British/Australian accent training, spelling traps ও map-labelling practice — প্রতিটি section-এর জন্য step-by-step strategy।",
+  1098→    price: 450,
+  1099→    category: "listening",
+  1100→    cover: "/images/books/listening.png",
+  1101→    pages: 104,
+  1102→    highlights: ["Accent training audio list", "Map & diagram practice", "Spelling trap guide"],
+  1103→  },
+  1104→  {
+  1105→    slug: "grammar-foundation",
+  1106→    title: "Basic Grammar Foundation — Pre-IELTS Starter",
+  1107→    titleBn: "বেসিক গ্রামার ফাউন্ডেশন — প্রি-আইইএলটিস",
+  1108→    author: "Sadia Rahman",
+  1109→    desc:
+  1110→      "একদম শূন্য থেকে English grammar — tense, sentence structure ও daily practice sheets, IELTS-এর আগে ভিত মজবুত করার জন্য।",
+  1111→    price: 350,
+  1112→    category: "vocabulary",
+  1113→    cover: "/images/books/grammar.png",
+  1114→    tag: "Beginner",
+  1115→    pages: 76,
+  1116→    highlights: ["Tense made easy", "Daily practice sheets", "Bengali instruction"],
+  1117→  },
+  1118→  {
+  1119→    slug: "mock-test-pack",
+  1120→    title: "IELTS Mock Test Pack — 10 Full Tests",
+  1121→    titleBn: "মক টেস্ট প্যাক — ১০টি ফুল টেস্ট",
+  1122→    author: "Sadia's IELTS Team",
+  1123→    desc:
+  1124→      "10 full-length mock tests with answer keys ও self-band-assessment guide — পরীক্ষার হলের অভ্যাস বাড়িতেই।",
+  1125→    price: 600,
+  1126→    oldPrice: 800,
+  1127→    category: "mock",
+  1128→    cover: "/images/books/mock-pack.png",
+  1129→    tag: "Sale",
+  1130→    pages: 180,
+  1131→    highlights: ["10 full tests", "Answer keys + explanations", "Band assessment sheet"],
+  1132→  },
+  1133→  {
+  1134→    slug: "complete-bundle",
+  1135→    title: "Complete IELTS Bundle — All 5 Books + Mock Pack",
+  1136→    titleBn: "কমপ্লিট আইইএলটিস বান্ডেল — সব বই একসাথে",
+  1137→    author: "Sadia Rahman",
+  1138→    desc:
+  1139→      "Reading, Writing, Speaking, Listening, Vocabulary + Mock Pack — সম্পূর্ণ প্রস্তুতি এক প্যাকেজে। বান্ডেলে সবচেয়ে বেশি সাশ্রয়!",
+  1140→    price: 2200,
+  1141→    oldPrice: 3300,
+  1142→    category: "mock",
+  1143→    cover: "/images/books/bundle.png",
+  1144→    tag: "Save ৳1,100",
+  1145→    pages: 720,
+  1146→    highlights: ["All 6 books together", "Free delivery in Sreemangal", "Best value pack"],
+  1147→  },
+  1148→];
+  1149→
+  1150→export const faqs = [
+  1151→  {
+  1152→    q: "IELTS কী এবং কেন এটি গুরুত্বপূর্ণ?",
+  1153→    a: "IELTS (International English Language Testing System) হলো বিশ্বের সবচেয়ে জনপ্রিয় English দক্ষতা পরীক্ষা। উচ্চ শিক্ষা, স্কলারশিপ, ইমিগ্রেশন এবং ক্যারিয়ারের জন্য এটি প্রয়োজন। ভালো IELTS স্কোর আপনার স্বপ্নের দেশে পৌঁছানোর দরজা খুলে দেয়।",
+  1154→  },
+  1155→  {
+  1156→    q: "আমার English একদম basic — আমি কি ভর্তি হতে পারব?",
+  1157→    a: "অবশ্যই! এজন্যই আমাদের 'Basic IELTS / Pre-IELTS' ও 'Basic to IELTS' কোর্স। ৯ বছরে হাজারো শিক্ষার্থী একদম শূন্য থেকে Band 7+ অর্জন করেছে। আপনার current level বুঝতে ফ্রি assessment-এ যোগ দিন।",
+  1158→  },
+  1159→  {
+  1160→    q: "ক্লাসগুলো কি অনলাইনে নাকি অফলাইনে হয়?",
+  1161→    a: "দুটোই! আমাদের ক্যাম্পাসে অফলাইন ব্যাচ চলে (Sreemangal, Chowmuhona), এবং সারাদেশ থেকে অনলাইনে ক্লাসে অংশ নেওয়া যায়। One-to-One কোর্সে আপনার সুবিধামতো সময় বেছে নিতে পারবেন।",
+  1162→  },
+  1163→  {
+  1164→    q: "কোর্স ফি কত এবং কীভাবে পরিশোধ করব?",
+  1165→    a: "In Batch ৳৮,০০০, Private Batch ৳১২,০০০, One-to-One ৳১৬,০০০ এবং Pre-IELTS ৳৪,০০০ (ভর্তি মূল্য)। bKash/Nagad/Bank Transfer-এ পরিশোধ করা যায়। বিস্তারিত জানতে কল করুন +880 1752-716238।",
+  1166→  },
+  1167→  {
+  1168→    q: "Mock Test কি কোর্সের মধ্যে অন্তর্ভুক্ত?",
+  1169→    a: "হ্যাঁ! প্রতিটি কোর্সে নিয়মিত ফুল-লেন্থ Mock Test, লিখিত feedback এবং band score report অন্তর্ভুক্ত। পরীক্ষার আগে আমরা guarantee multiple full mocks করিয়ে থাকি।",
+  1170→  },
+  1171→  {
+  1172→    q: "ভর্তি হতে চাইলে কী করতে হবে?",
+  1173→    a: "খুব সহজ! নিচের enrollment ফর্মটি পূরণ করুন অথবা সরাসরি কল করুন +880 1752-716238 নম্বরে। আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করবে এবং ব্যাচের সময়সূচি জানিয়ে দেবে।",
+  1174→  },
+  1175→];
+  1176→
+  1177→export const enrollCourseOptions = [
+  1178→  { value: "not-sure", label: "Not sure yet — need counseling" },
+  1179→  ...courses.map((c) => ({ value: c.slug, label: c.title })),
+  1180→];
+  1181→

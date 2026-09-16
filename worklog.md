@@ -673,3 +673,22 @@ Work Log:
 
 Stage Summary:
 - Team surfaces complete and clickable end-to-end; copy across public site is now slop-free, human-tone Bengali with clear head/body/para hierarchy. Remaining optional: swap placeholder portraits/names with real staff data when the client provides them.
+---
+Task ID: 12-a
+Agent: Z.ai Code (main)
+Task: User pasted the 21st.dev "Aero Hero-3" hero (code + screenshot) as a design reference — rebuild the homepage hero in that aesthetic.
+
+Work Log:
+- Interpreted the paste: the counter "Component" file was a copy-all-files artifact; the real intent is the Hero demo (full-bleed photo, vertical hairline grid, huge centered display heading, pill CTA + arrow disc with sliding-arrow hover).
+- Attempted a custom cinematic 1440x720 backdrop via z-ai image CLI — service hung/died across two retry loops (~10 min, same silent-death as earlier rate-limit incidents). FELL BACK to existing /images/classroom.png (1344x768, dark charcoal walls + warm gold lamps) which fits Gilded Court perfectly; hero-cinematic.png retry never landed, src points at classroom.png.
+- Rewrote src/components/site/hero.tsx (was light two-column squiggle layout):
+  * section min-h calc(100svh - 7rem/9.5rem header offset), bg-forest, full-bleed Image fill + black/45 scrim + forest gradient to seat the trust bar.
+  * Hairline grid: hidden md:grid, 12-col with 1/3/4/3/1 spans, divide-x divide-white/10 (aria-hidden).
+  * Copy: gold uppercase eyebrow "SADIA'S IELTS — SREEMANGAL, SYLHET"; display heading "Target Band 7? / আমরা পৌঁছে দেব।" (font-medium, up to 5.4rem); light white/85 sub (kept human-tone copy from 11-a); staggered framer-motion fade-ups.
+  * Two-piece CTA (Aero pattern): gold #d9b75c pill "ভর্তি হোন" + 52px arrow disc, group-hover swaps both to #171410 with gold text over 500ms; two ArrowUpRight icons slide through the overflow-hidden disc (left-1/2 base, translate-x-10 exit / calc(50%+2.5rem) entry). Secondary quiet link "আগে কোর্স ও ফি দেখে নিন" → #/courses.
+  * Bottom trust bar: 3-col divided dl (৩১৬+ ব্যাচ / ৭.০+ গড় band / ৪.৯/৫ রেটিং) on border-white/10 + black/25 blur.
+- Verified via agent-browser on gateway :81: desktop 1440x900 hero matches reference composition; mobile 390x844 correct (grid hidden, everything legible); hero→StatsStrip dark seam → ivory courses flows well; zero console/page errors; lint clean; committed bac15a5.
+- HOVER CAVEAT (verified, not assumed): group-hover rules ARE generated (confirmed in CSSOM: .group-hover\:bg-\[\#171410\] etc.) but Tailwind v4 gates them behind @media (hover: hover) and agent-browser's context reports hover:none/pointer:coarse (only mobile device emulation available). So the arrow-slide + color-swap could not be exercised headlessly; the class chain is identical to the reference's proven pattern and will fire on real desktop pointers. Same root cause as the partner-marquee plain-CSS decision from Task 9.
+
+Stage Summary:
+- Homepage hero now matches the user's Aero Hero-3 reference while staying on-brand (gold pill instead of lime, forest/charcoal base). Copy untouched from the 11-a human-tone pass. If the client later wants a bespoke cinematic portrait backdrop, retry image generation and swap the single src in hero.tsx.
