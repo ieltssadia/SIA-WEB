@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Reveal } from "@/components/site/reveal";
+import { BookCover } from "@/components/site/cambridge/book-cover";
 
 /* ── Payload types — GET /api/cambridge/books/{number}?module=… ───────── */
 
@@ -52,43 +53,6 @@ interface BookResponse {
 
 function moduleLabel(module: CambridgeModule): string {
   return module === "academic" ? "Academic" : "General Training";
-}
-
-/* Same CSS-generated cover art as the library grid, scaled up. */
-function BookCoverArt({
-  bookNumber,
-  module: bookModule,
-  year,
-  accent,
-}: {
-  bookNumber: number;
-  module: CambridgeModule;
-  year: number;
-  accent: string;
-}) {
-  return (
-    <div
-      className="relative aspect-[3/4] w-full overflow-hidden rounded-xl shadow-[0_14px_40px_rgba(11,42,32,0.22)]"
-      style={{ backgroundColor: accent }}
-    >
-      <div aria-hidden className="absolute inset-2.5 rounded-lg border border-white/20" />
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/45 via-black/10 to-transparent"
-      />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-white/10" />
-      <div className="absolute inset-0 flex flex-col justify-between p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/85">Cambridge IELTS</p>
-        <p className="text-center font-display text-8xl font-bold leading-none text-white drop-shadow-md">
-          {bookNumber}
-        </p>
-        <div className="flex items-end justify-between text-[10px] font-semibold uppercase tracking-[0.16em] text-white/85">
-          <span>{moduleLabel(bookModule)}</span>
-          <span>{year}</span>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function skillTiles(test: BookTestMeta): Array<{ key: SkillKey; icon: LucideIcon; name: string; meta: string }> {
@@ -311,7 +275,7 @@ export default function BookDetail({
             <Reveal>
               <div className="mt-8 flex flex-col gap-6 md:flex-row">
                 <div className="w-40 shrink-0 sm:w-48">
-                  <BookCoverArt
+                  <BookCover
                     bookNumber={book.number}
                     module={book.module}
                     year={book.year}

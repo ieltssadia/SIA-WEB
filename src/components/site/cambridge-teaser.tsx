@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { ArrowRight, BookOpenCheck, Headphones, Mic, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,16 +112,36 @@ export function CambridgeTeaser() {
                         className="group relative flex-1"
                       >
                         <div
-                          className="flex aspect-[3/4.6] items-end justify-center rounded-md p-1.5 ring-1 ring-white/15 transition-transform duration-300 group-hover:-translate-y-2 group-hover:rotate-[-2deg]"
+                          className="relative flex aspect-[3/4.6] items-end justify-center overflow-hidden rounded-md ring-1 ring-white/15 transition-transform duration-300 group-hover:-translate-y-2 group-hover:rotate-[-2deg]"
                           style={{
                             background: b
-                              ? `linear-gradient(160deg, ${b.accent}, rgba(0,0,0,0.55))`
+                              ? b.accent
                               : "linear-gradient(160deg,#1d1810,rgba(0,0,0,0.55))",
                           }}
                         >
-                          <span className="font-display text-sm font-extrabold text-white/95 sm:text-lg">
-                            {b ? b.number : "·"}
-                          </span>
+                          {b ? (
+                            <>
+                              <Image
+                                src={`/images/cambridge/cambridge-${b.number}.jpg`}
+                                alt=""
+                                aria-hidden
+                                fill
+                                sizes="90px"
+                                className="object-cover"
+                              />
+                              <span
+                                aria-hidden
+                                className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10"
+                              />
+                              <span className="relative pb-1 font-display text-sm font-extrabold text-white drop-shadow sm:text-lg">
+                                {b.number}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="font-display text-sm font-extrabold text-white/60 sm:text-lg">
+                              ·
+                            </span>
+                          )}
                         </div>
                         <span aria-hidden className="mt-1 block h-[3px] rounded-full bg-white/20" />
                       </a>

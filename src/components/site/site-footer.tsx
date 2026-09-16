@@ -164,6 +164,19 @@ export function SiteFooter() {
               </span>
             </p>
           </div>
+
+          {/* Developer credit — small and unobtrusive */}
+          <p className="mt-4 text-center text-[11px] text-[#8a7f63]">
+            Developed by{" "}
+            <a
+              href="https://tasbirkabir.me"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[#a89c78] transition-colors hover:text-[#d9b75c]"
+            >
+              Tasbir Kabir
+            </a>
+          </p>
         </div>
       </footer>
   );

@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
+import { BookCover } from "@/components/site/cambridge/book-cover";
 
 /* ── Payload types — GET /api/cambridge/books ─────────────────────────── */
 
@@ -72,57 +73,6 @@ function parseRawScore(value: string): number | null {
 
 function moduleLabel(module: CambridgeModule): string {
   return module === "academic" ? "Academic" : "General Training";
-}
-
-/* ── CSS-generated Cambridge cover (no images needed) ─────────────────── */
-
-function BookCoverArt({
-  bookNumber,
-  module: bookModule,
-  year,
-  accent,
-  large = false,
-}: {
-  bookNumber: number;
-  module: CambridgeModule;
-  year: number;
-  accent: string;
-  large?: boolean;
-}) {
-  return (
-    <div
-      className="relative aspect-[3/4] w-full overflow-hidden rounded-xl shadow-[0_10px_30px_rgba(11,42,32,0.18)]"
-      style={{ backgroundColor: accent }}
-    >
-      {/* inner frame ring */}
-      <div aria-hidden className="absolute inset-2 rounded-lg border border-white/20" />
-      {/* spine shading on the left edge */}
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-0 w-2.5 bg-gradient-to-r from-black/45 via-black/10 to-transparent"
-      />
-      {/* depth gradient */}
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-white/10" />
-      <div className={`absolute inset-0 flex flex-col justify-between ${large ? "p-5" : "p-3.5"}`}>
-        <p
-          className={`font-bold uppercase tracking-[0.3em] text-white/85 ${large ? "text-[10px]" : "text-[9px]"}`}
-        >
-          Cambridge IELTS
-        </p>
-        <p
-          className={`text-center font-display font-bold leading-none text-white drop-shadow-md ${
-            large ? "text-8xl" : "text-7xl"
-          }`}
-        >
-          {bookNumber}
-        </p>
-        <div className="flex items-end justify-between text-[9px] font-semibold uppercase tracking-[0.16em] text-white/85">
-          <span>{moduleLabel(bookModule)}</span>
-          <span>{year}</span>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 /* ── Stat card ────────────────────────────────────────────────────────── */
@@ -357,7 +307,7 @@ export default function CambridgePage() {
                       aria-label={`Open Cambridge IELTS ${moduleLabel(book.module)} Book ${book.number}`}
                     >
                       <Card className="h-full gap-4 p-4 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_44px_rgba(11,42,32,0.16)]">
-                        <BookCoverArt
+                        <BookCover
                           bookNumber={book.number}
                           module={book.module}
                           year={book.year}
