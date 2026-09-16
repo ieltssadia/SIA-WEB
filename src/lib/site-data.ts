@@ -847,15 +847,81 @@ export const portalNotices = [
   },
 ];
 
-/** Student Portal — downloadable class materials (demo library). */
-export const portalMaterials = [
-  { icon: "file-text", label: "Class Notes & Slide Deck", meta: "PDF · 4.2 MB" },
-  { icon: "headphones", label: "Listening Practice Pack 1–5", meta: "Audio · ZIP" },
-  { icon: "book-open", label: "Reading Passage Collection", meta: "PDF · 6.8 MB" },
-  { icon: "pen", label: "Writing Task 1 & 2 Templates", meta: "PDF · 1.1 MB" },
-  { icon: "mic", label: "Speaking Cue Card Bank", meta: "PDF · 2.3 MB" },
-  { icon: "clipboard-check", label: "Mock Test Question Bank", meta: "PDF · 3.0 MB" },
+/** Student Portal — real downloadable resources (files live in /public/downloads/). */
+export type PortalDownload = {
+  id: string;
+  title: string;
+  desc: string;
+  category: "writing" | "speaking" | "vocabulary" | "mock-tools";
+  type: "PDF";
+  size: string;
+  href: string;
+};
+
+export const portalDownloads: PortalDownload[] = [
+  {
+    id: "task2-structures",
+    title: "Writing Task 2 — Essay Structure Bank",
+    desc: "চার ধরনের প্রশ্নের জন্য রেডি স্কেলিটন আর band 7+ সেন্টেন্স ফ্রেম।",
+    category: "writing",
+    type: "PDF",
+    size: "10 KB",
+    href: "/downloads/writing-task-2-structures.pdf",
+  },
+  {
+    id: "task1-sentences",
+    title: "Academic Task 1 — Sentence Bank",
+    desc: "Introduction, overview আর trend-language — যেকোনো চার্টে মানিয়ে নেওয়ার মতো।",
+    category: "writing",
+    type: "PDF",
+    size: "6 KB",
+    href: "/downloads/academic-task-1-sentence-bank.pdf",
+  },
+  {
+    id: "speaking-cue-cards",
+    title: "Speaking Cue Card Bank — 24 Topics",
+    desc: "প্রতিদিন একটা করে কার্ড প্র্যাকটিস করুন — ৬০ সেকেন্ডের প্ল্যানিং ফ্রেমসহ।",
+    category: "speaking",
+    type: "PDF",
+    size: "7 KB",
+    href: "/downloads/speaking-cue-card-bank.pdf",
+  },
+  {
+    id: "band7-vocab",
+    title: "Band 7+ Vocabulary & Collocations",
+    desc: "টপিক-ভিত্তিক কোলোকেশন আর মডেল সেন্টেন্স — শব্দ নয়, চাঙ্ক শিখুন।",
+    category: "vocabulary",
+    type: "PDF",
+    size: "7 KB",
+    href: "/downloads/band-7-vocabulary-collocations.pdf",
+  },
+  {
+    id: "answer-sheet",
+    title: "Listening & Reading Answer Sheet",
+    desc: "প্রিন্ট করে প্রতি mock-এ ব্যবহার করুন — অফিসিয়াল লেআউটে ৪০টা করে ঘর।",
+    category: "mock-tools",
+    type: "PDF",
+    size: "6 KB",
+    href: "/downloads/listening-reading-answer-sheet.pdf",
+  },
+  {
+    id: "mock-day-checklist",
+    title: "Mock Day Checklist & Timing Plan",
+    desc: "টেস্টের আগের রাত থেকে শেষ চেকিং পর্যন্ত — band 8+ শিক্ষার্থীদের রুটিন।",
+    category: "mock-tools",
+    type: "PDF",
+    size: "5 KB",
+    href: "/downloads/mock-day-checklist.pdf",
+  },
 ];
+
+export const portalDownloadCategories = [
+  { id: "all", label: "All" },
+  { id: "writing", label: "Writing" },
+  { id: "speaking", label: "Speaking" },
+  { id: "vocabulary", label: "Vocabulary" },
+  { id: "mock-tools", label: "Mock Tools" },
+] as const;
 
 export const skills = [
   {

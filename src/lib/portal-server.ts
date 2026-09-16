@@ -101,15 +101,25 @@ export type PortalMockPayload = {
   overall: number;
 };
 
+export type PortalCertificatePayload = {
+  id: string; // human ID, e.g. "SIE-CERT-2455"
+  name: string;
+  course: string;
+  batch: string;
+  band: string;
+  issued: string;
+};
+
 /**
  * Load the full portal payload for an account: profile + course enrollments
- * + mock results. Students with no enrollment still log in successfully —
- * their portal is simply empty until they join a batch.
+ * + mock results + issued certificates. Students with no enrollment still
+ * log in successfully — their portal is simply empty until they join a batch.
  */
 export async function getPortalPayload(phone: string): Promise<{
   user: PortalUserPayload;
   enrollments: PortalEnrollmentPayload[];
   mocks: PortalMockPayload[];
+  certificates: PortalCertificatePayload[];
 } | null> {
   const student = await db.student.findUnique({
     where: { phone },
@@ -120,6 +130,14 @@ export async function getPortalPayload(phone: string): Promise<{
   });
 
   if (!student) return null;
+
+  // Certificates carry an optional studentId link (no FK) — issued certs
+  // appear in the portal Resources section only when they point at this
+  // student's account.
+  const certs = await db.certificate.findMany({
+    where: { studentId: student.id },
+    orderBy: { createdAt: "asc" },
+  });
 
   return {
     user: { name: student.name, phone: student.phone },
@@ -142,6 +160,14 @@ export async function getPortalPayload(phone: string): Promise<{
       writing: m.writing,
       speaking: m.speaking,
       overall: m.overall,
+    })),
+    certificates: certs.map((c) => ({
+      id: c.id,
+      name: c.name,
+      course: c.course,
+      batch: c.batch,
+      band: c.band,
+      issued: c.issued,
     })),
   };
 }

@@ -12,6 +12,7 @@ import { OverviewSection } from "@/components/site/portal/overview";
 import { RoutineSection } from "@/components/site/portal/routine-section";
 import { CourseSection } from "@/components/site/portal/course-section";
 import { ScoresSection } from "@/components/site/portal/scores-section";
+import { ResourcesSection } from "@/components/site/portal/resources-section";
 import { NoticesSection } from "@/components/site/portal/notices-section";
 import { usePortalStore } from "@/lib/portal-store";
 
@@ -25,6 +26,7 @@ export function PortalPage() {
   const user = usePortalStore((s) => s.user);
   const enrollments = usePortalStore((s) => s.enrollments);
   const mocks = usePortalStore((s) => s.mocks);
+  const certificates = usePortalStore((s) => s.certificates);
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
   const setSession = usePortalStore((s) => s.setSession);
   const logout = usePortalStore((s) => s.logout);
@@ -40,7 +42,13 @@ export function PortalPage() {
       .then(({ ok, data }) => {
         if (cancelled) return;
         if (ok && data?.user) {
-          setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token);
+          setSession(
+            data.user,
+            data.enrollments ?? [],
+            data.mocks ?? [],
+            data.token,
+            data.certificates ?? []
+          );
         } else if (!ok) {
           // Account no longer exists — force re-login
           logout();
@@ -126,6 +134,7 @@ export function PortalPage() {
           user={user}
           enrollments={enrollments}
           mocks={mocks}
+          certificates={certificates}
           onNavigate={handleSectionChange}
         />
       ) : null}
@@ -135,6 +144,9 @@ export function PortalPage() {
       {section === "course" ? <CourseSection enrollments={enrollments} /> : null}
       {section === "scores" ? (
         <ScoresSection mocks={mocks} targetBand={primary.targetBand} />
+      ) : null}
+      {section === "resources" ? (
+        <ResourcesSection certificates={certificates} primary={primary} />
       ) : null}
       {section === "notices" ? <NoticesSection /> : null}
     </PortalShell>

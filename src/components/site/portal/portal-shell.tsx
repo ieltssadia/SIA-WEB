@@ -6,6 +6,7 @@ import {
   Bell,
   BookOpen,
   CalendarDays,
+  FolderDown,
   LayoutDashboard,
   LogOut,
   type LucideIcon,
@@ -14,13 +15,20 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { usePortalStore, type PortalUser } from "@/lib/portal-store";
 
-export type PortalSection = "overview" | "routine" | "course" | "scores" | "notices";
+export type PortalSection =
+  | "overview"
+  | "routine"
+  | "course"
+  | "scores"
+  | "resources"
+  | "notices";
 
 const navItems: { id: PortalSection; label: string; short: string; icon: LucideIcon }[] = [
   { id: "overview", label: "Overview", short: "Home", icon: LayoutDashboard },
   { id: "routine", label: "My Routine", short: "Routine", icon: CalendarDays },
   { id: "course", label: "My Course", short: "Course", icon: BookOpen },
   { id: "scores", label: "Mock Scores", short: "Scores", icon: BarChart3 },
+  { id: "resources", label: "Certificate & Downloads", short: "Resources", icon: FolderDown },
   { id: "notices", label: "Notices", short: "Notices", icon: Bell },
 ];
 
@@ -136,7 +144,7 @@ export function PortalShell({
         className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white/95 backdrop-blur-xl lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-6">
           {navItems.map(({ id, short, icon: Icon }) => {
             const active = section === id;
             return (

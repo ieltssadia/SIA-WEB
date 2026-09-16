@@ -30,11 +30,22 @@ export type PortalMock = {
   overall: number;
 };
 
+export type PortalCertificate = {
+  id: string; // human ID, e.g. "SIE-CERT-2455"
+  name: string;
+  course: string;
+  batch: string;
+  band: string;
+  issued: string;
+};
+
 type PortalState = {
   user: PortalUser | null;
   /** Paid course enrollments — the portal only shows content for these. */
   enrollments: PortalEnrollment[];
   mocks: PortalMock[];
+  /** Certificates issued to this account (Resources section). */
+  certificates: PortalCertificate[];
   /** HMAC session token — authorizes checkout enrollment calls. */
   token: string | null;
   /** True once the persisted session has been restored on the client. */
@@ -43,7 +54,8 @@ type PortalState = {
     user: PortalUser,
     enrollments: PortalEnrollment[],
     mocks: PortalMock[],
-    token?: string | null
+    token?: string | null,
+    certificates?: PortalCertificate[]
   ) => void;
   setMocks: (mocks: PortalMock[]) => void;
   logout: () => void;
@@ -64,30 +76,33 @@ export const usePortalStore = create<PortalState>()(
       user: null,
       enrollments: [],
       mocks: [],
+      certificates: [],
       token: null,
       hasHydrated: false,
-      setSession: (user, enrollments, mocks, token) =>
+      setSession: (user, enrollments, mocks, token, certificates) =>
         set((state) => ({
           user,
           enrollments,
           mocks,
+          certificates: certificates === undefined ? state.certificates : certificates,
           token: token === undefined ? state.token : token,
         })),
       setMocks: (mocks) => set({ mocks }),
       logout: () =>
-        set({ user: null, enrollments: [], mocks: [], token: null }),
+        set({ user: null, enrollments: [], mocks: [], certificates: [], token: null }),
       setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
-      // v3 = adds session token (checkout enrollment); bumps discard
-      // pre-v3 sessions
-      version: 3,
+      // v4 = adds issued certificates (portal Resources section); bumps
+      // discard pre-v4 sessions
+      version: 4,
       name: "sadias-ielts-portal",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         enrollments: state.enrollments,
         mocks: state.mocks,
+        certificates: state.certificates,
         token: state.token,
       }),
       // SSR safety: restore via an explicit mount-effect rehydrate()

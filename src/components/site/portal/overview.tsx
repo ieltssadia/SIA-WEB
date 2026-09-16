@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
+  Award,
   BarChart3,
   BookOpen,
   CalendarCheck2,
   CalendarClock,
   CheckCircle2,
   Flame,
+  FolderDown,
   ListChecks,
   Play,
   Radio,
@@ -26,13 +28,19 @@ import { courseIconMap } from "@/components/site/courses-section";
 import {
   classRoutine,
   courses,
+  portalDownloads,
   portalNotices,
   weekDays,
   type RoutineClass,
   type WeekDay,
 } from "@/lib/site-data";
 import type { LiveClassListItem } from "@/lib/live-types";
-import type { PortalEnrollment, PortalMock, PortalUser } from "@/lib/portal-store";
+import type {
+  PortalCertificate,
+  PortalEnrollment,
+  PortalMock,
+  PortalUser,
+} from "@/lib/portal-store";
 import type { PortalSection } from "@/components/site/portal/portal-shell";
 import {
   classesThisWeek,
@@ -766,11 +774,13 @@ export function OverviewSection({
   user,
   enrollments,
   mocks,
+  certificates,
   onNavigate,
 }: {
   user: PortalUser;
   enrollments: PortalEnrollment[];
   mocks: PortalMock[];
+  certificates: PortalCertificate[];
   onNavigate: (s: PortalSection) => void;
 }) {
   const liveClasses = useLiveClasses();
@@ -869,6 +879,57 @@ export function OverviewSection({
               weekly={weekly}
               targetBand={primary.targetBand}
             />
+          </Reveal>
+
+          <Reveal y={12} delay={0.14}>
+            <div className="rounded-3xl border border-[#d9b75c]/30 bg-[#d9b75c]/[0.07] p-5">
+              <h3 className="flex items-center gap-2 font-display text-base font-bold text-foreground">
+                <Award className="h-4 w-4 text-[#8a7a4d]" aria-hidden />
+                সার্টিফিকেট ও ডাউনলোড
+              </h3>
+              <div className="mt-3 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => onNavigate("resources")}
+                  className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors hover:border-[#d9b75c]/60"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#d9b75c]/15">
+                    <Award className="h-4.5 w-4.5 text-[#8a7a4d]" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-foreground">
+                      {certificates.length > 0
+                        ? `${certificates.length}টি সার্টিফিকেট ইস্যু হয়েছে`
+                        : "সার্টিফিকেট — কোর্স শেষে ইস্যু"}
+                    </span>
+                    <span className="block text-xs text-muted-foreground">
+                      {certificates.length > 0
+                        ? "ডাউনলোড বা প্রিন্ট করুন"
+                        : "১০০% সম্পন্ন হলেই খুলে যাবে"}
+                    </span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onNavigate("resources")}
+                  className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors hover:border-[#d9b75c]/60"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#d9b75c]/15">
+                    <FolderDown className="h-4.5 w-4.5 text-[#8a7a4d]" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-foreground">
+                      ডাউনলোড কর্নার — {portalDownloads.length} ফাইল
+                    </span>
+                    <span className="block text-xs text-muted-foreground">
+                      Notes, templates, answer sheet, checklist
+                    </span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                </button>
+              </div>
+            </div>
           </Reveal>
 
           <Reveal y={12} delay={0.16}>

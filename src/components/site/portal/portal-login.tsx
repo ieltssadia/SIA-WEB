@@ -69,7 +69,13 @@ export function PortalLogin() {
     if (!res.ok || !data?.user) {
       return { ok: false, error: data?.error ?? "Something went wrong — please try again." };
     }
-    setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token ?? null);
+    setSession(
+      data.user,
+      data.enrollments ?? [],
+      data.mocks ?? [],
+      data.token ?? null,
+      data.certificates ?? []
+    );
     return { ok: true };
   }
 

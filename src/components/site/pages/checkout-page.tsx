@@ -422,7 +422,7 @@ function PaymentStep({
         setError(data?.error ?? "Enrollment failed — please try again.");
         return;
       }
-      setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token ?? null);
+      setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token ?? null, data.certificates ?? []);
       onEnrolled(batch);
     } catch {
       setError("Could not reach the server — check your connection.");

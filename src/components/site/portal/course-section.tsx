@@ -2,35 +2,20 @@
 
 import {
   ArrowRight,
-  BookOpen,
   CalendarDays,
-  ClipboardCheck,
   Clock,
   Download,
   FileText,
   GraduationCap,
-  Headphones,
   Layers,
-  Mic,
-  PenLine,
   Plus,
-  type LucideIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Reveal } from "@/components/site/reveal";
-import { courses, portalMaterials, site } from "@/lib/site-data";
+import { courses, portalDownloads } from "@/lib/site-data";
 import type { PortalEnrollment } from "@/lib/portal-store";
-
-const materialIcons: Record<string, LucideIcon> = {
-  "file-text": FileText,
-  headphones: Headphones,
-  "book-open": BookOpen,
-  pen: PenLine,
-  mic: Mic,
-  "clipboard-check": ClipboardCheck,
-};
 
 /** One enrolled course card — hero, progress, outline and materials. */
 function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
@@ -169,38 +154,31 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
           </div>
         </Reveal>
 
-        {/* Materials library */}
+        {/* Materials library — real files, direct download */}
         <Reveal y={12} delay={0.08}>
           <div className="h-full rounded-3xl border border-border bg-card p-6">
             <h2 className="font-display text-lg font-bold text-foreground">Study Materials</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              ক্লিক করলে WhatsApp গ্রুপে রিকোয়েস্ট যাবে — ফাইল সেখানে শেয়ার করা হয়।
+              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি Resources সেকশনে।
             </p>
             <div className="mt-4 space-y-2.5">
-              {portalMaterials.map(({ icon, label, meta }) => {
-                const Icon = materialIcons[icon] ?? FileText;
-                const waText = encodeURIComponent(
-                  `Assalamu Alaikum! I need the "${label}" material (${enrollment.batch}).`
-                );
-                return (
-                  <a
-                    key={label}
-                    href={`${site.whatsapp.split("?")[0]}?text=${waText}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 transition-colors hover:border-primary/40"
-                  >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <Icon className="h-4 w-4 text-primary" aria-hidden />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-medium text-foreground">{label}</span>
-                      <span className="block text-xs text-muted-foreground">{meta}</span>
-                    </span>
-                    <Download className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-                  </a>
-                );
-              })}
+              {portalDownloads.slice(0, 4).map(({ id, title, desc, href }) => (
+                <a
+                  key={id}
+                  href={href}
+                  download
+                  className="flex items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 transition-colors hover:border-primary/40"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <FileText className="h-4 w-4 text-primary" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium text-foreground">{title}</span>
+                    <span className="block truncate text-xs text-muted-foreground">{desc}</span>
+                  </span>
+                  <Download className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                </a>
+              ))}
             </div>
           </div>
         </Reveal>

@@ -17,18 +17,59 @@ function hashPassword(phone: string, password: string): string {
 
 const DEMO_PASSWORD = "sadia123";
 
+type SeedStudent = {
+  name: string;
+  phone: string;
+  enrollments: {
+    courseSlug: string;
+    batch: string;
+    targetBand: string | null;
+    examDate: string | null;
+    progress: number;
+    attendance: number;
+    status: string;
+  }[];
+  mocks: {
+    label: string;
+    date: string;
+    listening: number;
+    reading: number;
+    writing: number;
+    speaking: number;
+    overall: number;
+  }[];
+  /** Optional completion certificate issued to this account. */
+  certificate?: {
+    id: string;
+    course: string;
+    batch: string;
+    band: string;
+    issued: string;
+  };
+};
+
 function daysFromNow(days: number): string {
   const d = new Date();
   d.setDate(d.getDate() + days);
   return d.toISOString().slice(0, 10);
 }
 
-const students = [
+const students: SeedStudent[] = [
   {
     name: "Anika Tasnim",
     phone: "01712000001",
-    // Two active enrollments — multi-course portal demo
+    // Completed foundation course (earns her portal certificate) + two
+    // active enrollments — multi-course portal demo
     enrollments: [
+      {
+        courseSlug: "pre-ielts",
+        batch: "Batch 311",
+        targetBand: "7.5",
+        examDate: "2025-03-18",
+        progress: 100,
+        attendance: 96,
+        status: "completed",
+      },
       {
         courseSlug: "basic-to-ielts-in-batch",
         batch: "Batch 317",
@@ -53,6 +94,13 @@ const students = [
       { label: "Mock Test 2", date: "29 Aug", listening: 8.0, reading: 7.5, writing: 6.5, speaking: 7.5, overall: 7.5 },
       { label: "Mock Test 3", date: "05 Sep", listening: 8.5, reading: 8.0, writing: 7.0, speaking: 8.0, overall: 8.0 },
     ],
+    certificate: {
+      id: "SIE-CERT-2455",
+      course: "Pre-IELTS Foundation",
+      batch: "Batch 311",
+      band: "7.5",
+      issued: "18 Mar 2025",
+    },
   },
   {
     name: "Fariha Islam",
@@ -146,9 +194,21 @@ async function main() {
   await db.mockResult.deleteMany({});
   await db.enrollment.deleteMany({});
   await db.student.deleteMany({});
+  // Demo certificates link to seeded studentIds (cuids change every run) —
+  // drop our own demo cert rows so they can be recreated with fresh links.
+  await db.certificate.deleteMany({
+    where: {
+      id: {
+        in: students
+          .filter((s) => s.certificate)
+          .map((s) => s.certificate!.id),
+      },
+    },
+  });
 
   for (const s of students) {
-    await db.student.create({
+    const { certificate } = s;
+    const student = await db.student.create({
       data: {
         name: s.name,
         phone: s.phone,
@@ -157,6 +217,19 @@ async function main() {
         mockResults: { create: s.mocks },
       },
     });
+    if (certificate) {
+      await db.certificate.create({
+        data: {
+          id: certificate.id,
+          name: s.name,
+          course: certificate.course,
+          batch: certificate.batch,
+          band: certificate.band,
+          issued: certificate.issued,
+          studentId: student.id,
+        },
+      });
+    }
   }
 
   const [students_, enrollments_, mocks_] = await Promise.all([
