@@ -656,3 +656,20 @@ Work Log:
 
 Stage Summary:
 - Public site is a coaching-brand site again: no Live tab, no public classroom, no leaked host key. Live classes reachable only via portal auth (gate → hub → join). Next: user feedback on gate wording, then remaining 10MS refactor polish if requested.
+---
+Task ID: 11-a
+Agent: Z.ai Code (main)
+Task: Team page with moving member carousel (home + #/team), click-through profile pages (#/team/<slug>), plus site-wide copywriting overhaul (remove emoji slop, human-tone Bengali copy, head/body/para weight hierarchy).
+
+Work Log:
+- Generated 4 studio portraits via image-generation CLI (farhana/tanvir/nusrat/mahmudul.png, 864x1152, warm-dark studio style matched to existing instructor-sadia.png; 429 rate-limits retried via background script).
+- site-data.ts: added TeamMember type + teamMembers (5 members: Sadia + 4 coaches, each with slug/tagline/bio paras/specialties/credentials/stats/quote/pastel chip); navMore now leads with Team; footer Company column + Team link; promoBar rewritten (no emoji, honest deadline copy); stats labels localized + 5983 -> 5000 (credible).
+- NEW team-marquee.tsx: seamless CSS marquee (translateX -50% loop, 46s, pause on hover/focus, edge mask, reduced-motion off), grayscale portraits -> colour on hover, name plates, every card -> #/team/<slug>.
+- NEW pages/team-page.tsx (#/team): agency-style hero (pill badge, big Bengali headline with gold gradient, human sub, phone + courses CTA), marquee, trust stat bar (5,000+ / 9 yrs / 4.9), full profile directory grid, helper band.
+- NEW pages/team-member-page.tsx (#/team/<slug>): portrait w/ name plate, role chip, display name, tagline, stats row, specialty chips, gold enroll CTA + WhatsApp CTA, bio section ("পড়ানোর ধরন, নিজের ভাষায়"), quote block, credentials card, other-members grid; unknown slug -> friendly 404 card.
+- site-router.tsx: team + team/<slug> routes; home-page.tsx: TeamStrip section after Stories (heading + marquee + link to #/team); site-header MORE_ICONS: team=Users, about=HeartHandshake.
+- Copy pass (human tone, no slop): hero ("Target Band 7+? আমরা পৌঁছে দেব।" + badge/sub/chips localized, 🎉 removed), why-us ("পরীক্ষার হলে নিজের উপর ভরসা" — killed "Limitless Learning"), courses ("আপনার লেভেলের কোর্সটি বেছে নিন"), how-it-works (jargon "proven লার্নিং লুপ" gone), stories ("Real Students. Real Bands." + de-emoji note), HomeCta ("পরের সাফল্যের গল্পটা আপনার হোক"), BookShopTeaser, enroll toast + cart free-delivery lines, stories/about page headers; SectionHeading subtitle weight bumped (15px/16px, leading-relaxed).
+- Browser-verified (agent-browser via gateway :81): home marquee renders + click navigates to #/team/farhana-yeasmin; profile page fully renders; #/team hero + marquee + directory ok; More dropdown + mobile sheet include Team; lint clean; committed 692c322.
+
+Stage Summary:
+- Team surfaces complete and clickable end-to-end; copy across public site is now slop-free, human-tone Bengali with clear head/body/para hierarchy. Remaining optional: swap placeholder portraits/names with real staff data when the client provides them.
