@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Download,
   FileCheck2,
+  FileDown,
   GraduationCap,
   Lock,
   Printer,
@@ -378,6 +379,18 @@ function CertificateCard({ cert }: { cert: PortalCertificate }) {
               <Printer className="mr-1.5 h-4 w-4" aria-hidden />
               প্রিন্ট / PDF
             </Button>
+            {cert.fileUrl ? (
+              <Button
+                asChild
+                variant="outline"
+                className="h-10 rounded-full border-[#d9b75c]/40 bg-transparent px-5 font-semibold text-[#e4d5ae] hover:border-[#d9b75c] hover:bg-[#d9b75c]/10 hover:text-[#f0d894]"
+              >
+                <a href={cert.fileUrl} target="_blank" rel="noopener noreferrer" download>
+                  <FileDown className="mr-1.5 h-4 w-4" aria-hidden />
+                  সার্টিফিকেট ডাউনলোড
+                </a>
+              </Button>
+            ) : null}
             <a
               href="#/verify"
               className="inline-flex h-10 items-center gap-1 rounded-full px-3 text-sm font-semibold text-[#d9b75c] transition-colors hover:text-[#f0d894]"

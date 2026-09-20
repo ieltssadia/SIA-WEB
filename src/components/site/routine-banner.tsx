@@ -4,7 +4,7 @@ import { CalendarRange, Clock, LockKeyhole, LogIn, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal } from "@/components/site/reveal";
-import { ModeBadge, useToday, todaysClasses } from "@/components/site/weekly-routine";
+import { ModeBadge, useCatalogRoutine, useToday, todaysClasses } from "@/components/site/weekly-routine";
 import { usePortalStore } from "@/lib/portal-store";
 
 /**
@@ -19,7 +19,8 @@ export function RoutineBanner() {
   const hasHydrated = usePortalStore((s) => s.hasHydrated);
   // Schedule content is for logged-in students WITH an enrollment only
   const enrolled = hasHydrated && !!user && enrollments.length > 0;
-  const rows = todaysClasses(today).slice(0, 4);
+  const routine = useCatalogRoutine();
+  const rows = todaysClasses(today, routine).slice(0, 4);
   const isOff = today === "Friday";
 
   return (

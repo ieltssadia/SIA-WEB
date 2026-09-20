@@ -8,7 +8,15 @@
  */
 import { PrismaClient } from "@prisma/client";
 import { createHash } from "crypto";
-import { books, courses, portalDownloads, portalNotices } from "../src/lib/site-data";
+import {
+  books,
+  classRoutine,
+  courses,
+  portalDownloads,
+  portalNotices,
+  teamMembers,
+  tips,
+} from "../src/lib/site-data";
 
 const db = new PrismaClient();
 
@@ -345,6 +353,77 @@ async function main() {
     await db.notice.upsert({ where: { id: n.id }, update: n, create: n });
   }
 
+  // ── Task 21 no-code collections: tips / website team / routine ─────────
+  for (const t of tips) {
+    const data = {
+      title: t.title,
+      excerpt: t.excerpt,
+      category: t.category,
+      icon: t.icon,
+      published: true,
+    };
+    const existing = await db.tip.findFirst({ where: { title: t.title } });
+    if (existing) await db.tip.update({ where: { id: existing.id }, data });
+    else await db.tip.create({ data });
+  }
+
+  for (const m of teamMembers) {
+    const data = {
+      slug: m.slug,
+      name: m.name,
+      role: m.role,
+      tagline: m.tagline,
+      photo: m.photo,
+      chip: m.chip,
+      bio: JSON.stringify(m.bio),
+      specialties: JSON.stringify(m.specialties),
+      credentials: JSON.stringify(m.credentials),
+      stats: JSON.stringify(m.stats),
+      quote: m.quote,
+      published: true,
+    };
+    await db.siteTeamMember.upsert({ where: { slug: m.slug }, update: data, create: data });
+  }
+
+  // Routine rows: staggered createdAt keeps the admin list stable by day.
+  const routineCount = await db.routineSlot.count();
+  if (routineCount === 0) {
+    let ri = 0;
+    for (const r of classRoutine) {
+      await db.routineSlot.create({
+        data: {
+          day: r.day,
+          start: r.start,
+          end: r.end,
+          courseSlug: r.courseSlug,
+          batch: r.batch,
+          topic: r.topic,
+          mode: r.mode,
+          type: r.type,
+          published: true,
+          createdAt: new Date(Date.now() - ri * 60_000),
+        },
+      });
+      ri++;
+    }
+  }
+
+  // The first Suggestion — the fully branded Listening Test 27 exam page
+  // (Task 20). Admin can add more uploads from the CMS any time.
+  await db.suggestion.upsert({
+    where: { id: "seed-suggestion-listening-27" },
+    update: {},
+    create: {
+      id: "seed-suggestion-listening-27",
+      title: "Listening Test 27 — Full Practice",
+      desc: "৪০টি প্রশ্নের ফুল লেনিং টেস্ট — archive.org অডিও, ইনস্ট্যান্ট ব্যান্ড স্কোর ও ট্রান্সক্রিপ্ট রিভিউ সহ।",
+      category: "Listening",
+      fileUrl: "/suggestions/listening-test-27.html",
+      kind: "html",
+      published: true,
+    },
+  });
+
   const [students_, enrollments_, mocks_] = await Promise.all([
     db.student.count(),
     db.enrollment.count(),
@@ -357,10 +436,17 @@ async function main() {
     db.downloadResource.count(),
     db.notice.count(),
   ]);
+  const [tips_, siteTeam_, routine_, suggestions_] = await Promise.all([
+    db.tip.count(),
+    db.siteTeamMember.count(),
+    db.routineSlot.count(),
+    db.suggestion.count(),
+  ]);
   console.log(
     `Seeded ${students_} students, ${enrollments_} enrollments, ${mocks_} mock results; ` +
       `team ${team_} (owner/admin/teacher), courses ${courses_}, books ${books_}, ` +
-      `resources ${resources_}, notices ${notices_}.`
+      `resources ${resources_}, notices ${notices_}; ` +
+      `tips ${tips_}, site team ${siteTeam_}, routine ${routine_}, suggestions ${suggestions_}.`
   );
 }
 

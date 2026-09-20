@@ -5,13 +5,17 @@ import Image from "next/image";
 import {
   Award,
   BookOpen,
+  CalendarDays,
   ExternalLink,
   Eye,
   EyeOff,
+  FileUp,
   FolderDown,
   GraduationCap,
+  IdCard,
   LayoutDashboard,
   Library,
+  Lightbulb,
   Loader2,
   LogOut,
   Megaphone,
@@ -49,6 +53,10 @@ import { AdminCourses } from "@/components/site/admin/admin-courses";
 import { AdminBooks } from "@/components/site/admin/admin-books";
 import { AdminResources } from "@/components/site/admin/admin-resources";
 import { AdminNotices } from "@/components/site/admin/admin-notices";
+import { AdminTips } from "@/components/site/admin/admin-tips";
+import { AdminSiteTeam } from "@/components/site/admin/admin-site-team";
+import { AdminRoutine } from "@/components/site/admin/admin-routine";
+import { AdminSuggestions } from "@/components/site/admin/admin-suggestions";
 
 /** Every switchable panel of the admin shell (nav + section router). */
 export type AdminSectionKey =
@@ -62,7 +70,11 @@ export type AdminSectionKey =
   | "books"
   | "resources"
   | "notices"
-  | "team";
+  | "team"
+  | "tips"
+  | "site-team"
+  | "routine"
+  | "suggestions";
 
 const ALL_ROLES: AdminRole[] = ["owner", "admin", "teacher"];
 
@@ -92,8 +104,11 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Learning",
     items: [
       { key: "live-classes", label: "Live Classes — লাইভ ক্লাস", icon: Radio, roles: ALL_ROLES },
+      { key: "routine", label: "Routine — রুটিন", icon: CalendarDays, roles: ALL_ROLES },
       { key: "students", label: "Students — শিক্ষার্থী", icon: GraduationCap, roles: ALL_ROLES },
       { key: "certificates", label: "Certificates — সার্টিফিকেট", icon: Award, roles: ALL_ROLES },
+      { key: "tips", label: "Free Tips — টিপস", icon: Lightbulb, roles: ALL_ROLES },
+      { key: "suggestions", label: "Suggestions — সাজেশন", icon: FileUp, roles: ALL_ROLES },
     ],
   },
   {
@@ -101,6 +116,12 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { key: "resources", label: "Resources — রিসোর্স", icon: FolderDown, roles: ["owner", "admin"] },
       { key: "notices", label: "Notices — নোটিশ", icon: Megaphone, roles: ALL_ROLES },
+      {
+        key: "site-team",
+        label: "Website Team — ওয়েবসাইট টিম",
+        icon: IdCard,
+        roles: ["owner", "admin"],
+      },
     ],
   },
   {
@@ -128,6 +149,10 @@ const SECTION_TITLE: Record<AdminSectionKey, string> = {
   resources: "Resources — রিসোর্স",
   notices: "Notices — নোটিশ",
   team: "Team — টিম",
+  tips: "Free Tips — টিপস",
+  "site-team": "Website Team — ওয়েবসাইট টিম",
+  routine: "Routine — রুটিন",
+  suggestions: "Suggestions — সাজেশন",
 };
 
 const ROLE_TONE: Record<AdminRole, Tone> = {
@@ -460,6 +485,10 @@ function AdminShell({
           {section === "books" ? <AdminBooks /> : null}
           {section === "resources" ? <AdminResources /> : null}
           {section === "notices" ? <AdminNotices /> : null}
+          {section === "tips" ? <AdminTips /> : null}
+          {section === "site-team" ? <AdminSiteTeam /> : null}
+          {section === "routine" ? <AdminRoutine /> : null}
+          {section === "suggestions" ? <AdminSuggestions /> : null}
         </main>
       </div>
 

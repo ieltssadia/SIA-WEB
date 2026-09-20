@@ -221,3 +221,128 @@ export function resourceToPublic(row: DownloadResource) {
 export function noticeToPublic(row: Notice) {
   return { date: row.date, tag: row.tag, title: row.title, body: row.body };
 }
+
+// ---------------------------------------------------------------------------
+// Task 21 no-code collections
+// ---------------------------------------------------------------------------
+
+function parseJsonStats(raw: string): { value: string; label: string }[] {
+  try {
+    const value = JSON.parse(raw);
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((v) => v && typeof v === "object")
+      .map((v) => ({ value: String((v as { value: unknown }).value ?? ""), label: String((v as { label: unknown }).label ?? "") }))
+      .filter((v) => v.value && v.label);
+  } catch {
+    return [];
+  }
+}
+
+import type {
+  RoutineSlot as DbRoutineSlot,
+  SiteTeamMember as DbSiteTeamMember,
+  Suggestion as DbSuggestion,
+  Tip as DbTip,
+} from "@prisma/client";
+import type {
+  AdminRoutineRow,
+  AdminSiteTeamRow,
+  AdminSuggestionRow,
+  AdminTipRow,
+} from "@/lib/admin-types";
+
+export function serializeAdminTip(row: DbTip): AdminTipRow {
+  return {
+    id: row.id,
+    title: row.title,
+    excerpt: row.excerpt,
+    category: row.category,
+    icon: row.icon,
+    published: row.published,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export function serializeAdminSiteTeamMember(row: DbSiteTeamMember): AdminSiteTeamRow {
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    role: row.role,
+    tagline: row.tagline,
+    photo: row.photo,
+    chip: row.chip,
+    bio: parseJsonArray(row.bio),
+    specialties: parseJsonArray(row.specialties),
+    credentials: parseJsonArray(row.credentials),
+    stats: parseJsonStats(row.stats),
+    quote: row.quote,
+    published: row.published,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export function serializeAdminRoutine(row: DbRoutineSlot): AdminRoutineRow {
+  return {
+    id: row.id,
+    day: row.day,
+    start: row.start,
+    end: row.end,
+    courseSlug: row.courseSlug,
+    batch: row.batch,
+    topic: row.topic,
+    mode: row.mode,
+    type: row.type,
+    published: row.published,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export function serializeAdminSuggestion(row: DbSuggestion): AdminSuggestionRow {
+  return {
+    id: row.id,
+    title: row.title,
+    desc: row.desc,
+    category: row.category,
+    fileUrl: row.fileUrl,
+    kind: row.kind,
+    published: row.published,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+// Public catalog shapes (served by /api/catalog with static fallbacks)
+
+export function tipToPublic(row: DbTip) {
+  return { icon: row.icon, category: row.category, title: row.title, excerpt: row.excerpt };
+}
+
+export function siteTeamToPublic(row: DbSiteTeamMember) {
+  return {
+    slug: row.slug,
+    name: row.name,
+    role: row.role,
+    tagline: row.tagline,
+    photo: row.photo,
+    chip: row.chip,
+    bio: parseJsonArray(row.bio),
+    specialties: parseJsonArray(row.specialties),
+    credentials: parseJsonArray(row.credentials),
+    stats: parseJsonStats(row.stats),
+    quote: row.quote,
+  };
+}
+
+export function routineToPublic(row: DbRoutineSlot) {
+  return {
+    day: row.day,
+    start: row.start,
+    end: row.end,
+    courseSlug: row.courseSlug,
+    batch: row.batch,
+    topic: row.topic,
+    mode: row.mode,
+    type: row.type,
+  };
+}

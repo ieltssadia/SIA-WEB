@@ -1,0 +1,110 @@
+/**
+ * Server-side file uploads for the admin CMS — the "WordPress media library"
+ * primitive. Files land under /public/uploads/<folder>/ and are served
+ * statically by Next, so an uploaded suggestion test or certificate PDF is
+ * immediately addressable by URL with zero extra plumbing.
+ *
+ * Security: extension whitelist, folder whitelist, ASCII-safe unique names,
+ * hard size cap. Callers must authenticate BEFORE calling saveUploadedFile.
+ */
+import { mkdir, writeFile } from "fs/promises";
+import path from "path";
+import crypto from "crypto";
+
+export const UPLOAD_FOLDERS = [
+  "suggestions",
+  "certificates",
+  "resources",
+  "team",
+  "general",
+] as const;
+export type UploadFolder = (typeof UPLOAD_FOLDERS)[number];
+
+export const MAX_UPLOAD_BYTES = 60 * 1024 * 1024; // 60 MB
+
+const EXT_WHITELIST = new Set([
+  "html", "htm", "pdf", "mp3", "mp4", "png", "jpg", "jpeg", "webp", "gif",
+  "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "csv", "zip",
+]);
+
+export type SavedUpload = {
+  url: string; // public path, e.g. /uploads/suggestions/xxx.html
+  name: string; // original client filename
+  bytes: number;
+  sizeLabel: string;
+  ext: string;
+  folder: UploadFolder;
+};
+
+export class UploadError extends Error {}
+
+function sizeLabel(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes >= 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${bytes} B`;
+}
+
+function slugifyBase(name: string): string {
+  const base = name.replace(/\.[^.]+$/, "");
+  const ascii = base
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9-_]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 60);
+  return ascii || "file";
+}
+
+/** Validate + persist one uploaded file. Throws UploadError on any problem. */
+export async function saveUploadedFile(
+  file: File,
+  folderRaw: string
+): Promise<SavedUpload> {
+  const folder = (UPLOAD_FOLDERS as readonly string[]).includes(folderRaw)
+    ? (folderRaw as UploadFolder)
+    : "general";
+
+  if (!file || typeof file.arrayBuffer !== "function") {
+    throw new UploadError("ফাইল পাওয়া যায়নি — আবার সিলেক্ট করুন।");
+  }
+  if (file.size === 0) throw new UploadError("ফাইলটি খালি।");
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new UploadError("ফাইল খুব বড় — সর্বোচ্চ ৬০ MB আপলোড করা যাবে।");
+  }
+
+  const rawName = (file.name || "file").slice(0, 120);
+  const ext = (rawName.split(".").pop() ?? "").toLowerCase();
+  if (!ext || !EXT_WHITELIST.has(ext)) {
+    throw new UploadError(
+      "এই ধরনের ফাইল আপলোড করা যাবে না — HTML, PDF, MP3, ছবি বা Office ফাইল দিন।"
+    );
+  }
+
+  const stamp = new Date().toISOString().slice(0, 7).replace("-", ""); // 202509
+  const uniq = crypto.randomBytes(4).toString("hex");
+  const filename = `${stamp}-${uniq}-${slugifyBase(rawName)}.${ext}`;
+
+  const dir = path.join(process.cwd(), "public", "uploads", folder);
+  await mkdir(dir, { recursive: true });
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await writeFile(path.join(dir, filename), buffer);
+
+  return {
+    url: `/uploads/${folder}/${filename}`,
+    name: rawName,
+    bytes: file.size,
+    sizeLabel: sizeLabel(file.size),
+    ext,
+    folder,
+  };
+}
+
+/** Kind derivation for suggestion rows from the file extension. */
+export function kindFromExt(ext: string): string {
+  if (ext === "html" || ext === "htm") return "html";
+  if (ext === "pdf") return "pdf";
+  if (ext === "mp3") return "audio";
+  if (ext === "mp4") return "video";
+  return "link";
+}

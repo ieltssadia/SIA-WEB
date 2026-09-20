@@ -54,7 +54,7 @@ function serializeOrder(
  * customer name or phone; `status` filters by the schema status enum.
  */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await isAuthorized(req))) return unauthorized();
 
   try {
     const url = new URL(req.url);

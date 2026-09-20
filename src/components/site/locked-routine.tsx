@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, GraduationCap, LockKeyhole, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RoutineTable } from "@/components/site/weekly-routine";
-import { classRoutine } from "@/lib/site-data";
+import { RoutineTable, useCatalogRoutine } from "@/components/site/weekly-routine";
 
 /**
  * Compact "members only" teaser used on course pages & the home banner —
@@ -51,7 +50,8 @@ export function LockedRoutineCard({ title, desc }: { title: string; desc: string
  * readers can't extract the gated schedule either.
  */
 export function LockedRoutineSection() {
-  const previewRows = classRoutine.filter((r) => r.day === "Saturday");
+  const routine = useCatalogRoutine();
+  const previewRows = routine.filter((r) => r.day === "Saturday");
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-card">

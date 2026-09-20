@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import {
   Coffee,
   MonitorSmartphone,
@@ -29,6 +29,30 @@ export function useToday(): string {
     () => new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(new Date()),
     () => ""
   );
+}
+
+/**
+ * CMS-managed weekly routine — the static seed paints first, then /api/catalog
+ * swaps in the DB rows. Shared by every public routine surface (routine page
+ * table, today banners, course-detail tables, locked preview).
+ */
+export function useCatalogRoutine(): RoutineClass[] {
+  const [routine, setRoutine] = useState<RoutineClass[]>(classRoutine);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setRoutine(d.routine as RoutineClass[]);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  return routine;
 }
 
 const modeMeta: Record<RoutineClass["mode"], { icon: React.ElementType; className: string }> = {
@@ -185,20 +209,21 @@ function FridayOff() {
  */
 export function WeeklyRoutine() {
   const today = useToday();
+  const routine = useCatalogRoutine();
   const [selected, setSelected] = useState<WeekDay | null>(null);
 
   const activeDay: WeekDay =
     selected ??
     ((weekDays as readonly string[]).includes(today) ? (today as WeekDay) : "Saturday");
 
-  const rows = classRoutine.filter((r) => r.day === activeDay);
+  const rows = routine.filter((r) => r.day === activeDay);
 
   return (
     <div>
       {/* Day tabs */}
       <Reveal className="mb-6 flex flex-wrap justify-center gap-2">
         {weekDays.map((day) => {
-          const count = classRoutine.filter((r) => r.day === day).length;
+          const count = routine.filter((r) => r.day === day).length;
           const isToday = today === day;
           const isActive = activeDay === day;
           return (
@@ -251,7 +276,8 @@ export function WeeklyRoutine() {
  * no fixed weekly classes (flexible / self-paced courses).
  */
 export function CourseRoutineTable({ courseSlug }: { courseSlug: string }) {
-  const rows = classRoutine
+  const routine = useCatalogRoutine();
+  const rows = routine
     .filter((r) => r.courseSlug === courseSlug)
     .sort(
       (a, b) =>
@@ -307,6 +333,9 @@ export function CourseRoutineTable({ courseSlug }: { courseSlug: string }) {
 }
 
 /** Today's schedule rows — used by the home banner and routine page hero card. */
-export function todaysClasses(today: string): RoutineClass[] {
-  return classRoutine.filter((r) => r.day === today);
+export function todaysClasses(
+  today: string,
+  routine: RoutineClass[] = classRoutine
+): RoutineClass[] {
+  return routine.filter((r) => r.day === today);
 }

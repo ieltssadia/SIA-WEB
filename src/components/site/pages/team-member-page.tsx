@@ -1,17 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, BadgeCheck, GraduationCap, MessageCircle, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
-import { site, teamMembers } from "@/lib/site-data";
+import { site, teamMembers, type TeamMember } from "@/lib/site-data";
 
 /**
  * #/team/<slug> — one member's full profile: portrait, story, credentials,
  * specialties and stats, then the rest of the team to continue exploring.
  */
 export function TeamMemberPage({ slug }: { slug: string }) {
-  const member = teamMembers.find((m) => m.slug === slug);
+  /* CMS-managed team — fetched BEFORE the not-found early return so hooks stay
+     unconditional (same pattern as course-detail-page). Static paints first. */
+  const [team, setTeam] = useState<TeamMember[]>(teamMembers);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setTeam(d.team as TeamMember[]);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const member = team.find((m) => m.slug === slug);
 
   if (!member) {
     return (
@@ -30,7 +48,7 @@ export function TeamMemberPage({ slug }: { slug: string }) {
     );
   }
 
-  const others = teamMembers.filter((m) => m.slug !== slug);
+  const others = team.filter((m) => m.slug !== slug);
 
   return (
     <>

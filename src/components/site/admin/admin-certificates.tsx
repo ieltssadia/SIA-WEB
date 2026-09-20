@@ -1,7 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Award, Check, Copy, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Award,
+  Check,
+  Copy,
+  Download,
+  ExternalLink,
+  Loader2,
+  Paperclip,
+  Trash2,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -32,6 +42,7 @@ import {
   SectionHeading,
   dateInputToDisplay,
   formatDate,
+  uploadAdminFile,
 } from "@/components/site/admin/admin-shared";
 import { useAdminStore } from "@/lib/admin-store";
 import { courses } from "@/lib/site-data";
@@ -57,6 +68,10 @@ const emptyIssue: IssueForm = {
 /**
  * Admin Certificates — issue (auto "SIE-CERT-XXXX" ID when absent), list with
  * copy-ID and delete. Holders verify publicly at #/verify.
+ *
+ * Certificate FILES are never generated — the team uploads the real signed
+ * document (PDF/image) via /api/admin/upload (folder=certificates) and it is
+ * attached to the issued certificate for the portal download button.
  */
 export function AdminCertificates() {
   const token = useAdminStore((s) => s.token);
@@ -69,6 +84,18 @@ export function AdminCertificates() {
   const [saving, setSaving] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminCertificate | null>(null);
+
+  // Issue-form certificate file upload (the signed document itself)
+  const [issueFile, setIssueFile] = useState<{ url: string; name: string; sizeLabel: string } | null>(
+    null
+  );
+  const [issueUploading, setIssueUploading] = useState(false);
+  const issueFileRef = useRef<HTMLInputElement>(null);
+
+  // Per-row attach/clear (PATCH fileUrl)
+  const [attachTarget, setAttachTarget] = useState<AdminCertificate | null>(null);
+  const [attachBusyId, setAttachBusyId] = useState<string | null>(null);
+  const attachRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -117,6 +144,7 @@ export function AdminCertificates() {
           batch: form.batch,
           band: form.band,
           issued: dateInputToDisplay(form.issued),
+          ...(issueFile?.url ? { fileUrl: issueFile.url } : {}),
         }),
       });
       const data = (await res.json().catch(() => null)) as
@@ -125,6 +153,7 @@ export function AdminCertificates() {
       if (res.ok && data?.ok) {
         toast.success(`Issued ${data.certificate?.id ?? "certificate"}`);
         setForm(emptyIssue);
+        setIssueFile(null);
         void load();
       } else {
         toast.error(data?.error ?? "ইস্যু করা যায়নি।");
@@ -133,6 +162,75 @@ export function AdminCertificates() {
       toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
+    }
+  }
+
+  /** Upload the signed document and attach it to an issued certificate. */
+  async function handleAttach(file: File) {
+    if (!token || !attachTarget) return;
+    const cert = attachTarget;
+    setAttachBusyId(cert.id);
+    const result = await uploadAdminFile(token, file, "certificates");
+    if (!result.ok || !result.upload) {
+      setAttachBusyId(null);
+      toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
+      return;
+    }
+    try {
+      const res = await fetch(`/api/admin/certificates/${encodeURIComponent(cert.id)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-key": token },
+        body: JSON.stringify({ fileUrl: result.upload.url }),
+      });
+      const data = (await res.json().catch(() => null)) as
+        | { ok?: boolean; error?: string }
+        | null;
+      if (res.ok && data?.ok) {
+        setCerts((prev) =>
+          prev
+            ? prev.map((c) =>
+                c.id === cert.id ? { ...c, fileUrl: result.upload!.url } : c
+              )
+            : prev
+        );
+        toast.success(
+          `${cert.id} — সার্টিফিকেট ফাইল যুক্ত হয়েছে (${result.upload.sizeLabel})। (File attached.)`
+        );
+      } else {
+        toast.error(data?.error ?? "ফাইল যুক্ত করা যায়নি।");
+      }
+    } catch {
+      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+    } finally {
+      setAttachBusyId(null);
+    }
+  }
+
+  /** Detach the certificate file (PATCH fileUrl: "") — re-attachable anytime. */
+  async function clearFile(cert: AdminCertificate) {
+    if (!token) return;
+    setAttachBusyId(cert.id);
+    try {
+      const res = await fetch(`/api/admin/certificates/${encodeURIComponent(cert.id)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-key": token },
+        body: JSON.stringify({ fileUrl: "" }),
+      });
+      const data = (await res.json().catch(() => null)) as
+        | { ok?: boolean; error?: string }
+        | null;
+      if (res.ok && data?.ok) {
+        setCerts((prev) =>
+          prev ? prev.map((c) => (c.id === cert.id ? { ...c, fileUrl: null } : c)) : prev
+        );
+        toast.success(`${cert.id} — ফাইল সরানো হয়েছে। (File detached.)`);
+      } else {
+        toast.error(data?.error ?? "সরানো যায়নি।");
+      }
+    } catch {
+      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+    } finally {
+      setAttachBusyId(null);
     }
   }
 
@@ -263,6 +361,78 @@ export function AdminCertificates() {
                 />
               </div>
             </div>
+
+            {/* Signed certificate file — uploaded, NEVER generated */}
+            <div className="space-y-1.5 rounded-xl border border-dashed border-border bg-muted/30 p-3">
+              <Label>সার্টিফিকেট ফাইল (optional)</Label>
+              <input
+                ref={issueFileRef}
+                type="file"
+                accept=".pdf,image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!file || !token) return;
+                  setIssueUploading(true);
+                  uploadAdminFile(token, file, "certificates").then((result) => {
+                    setIssueUploading(false);
+                    if (result.ok && result.upload) {
+                      setIssueFile({
+                        url: result.upload.url,
+                        name: result.upload.name,
+                        sizeLabel: result.upload.sizeLabel,
+                      });
+                      toast.success(
+                        `ফাইল আপলোড হয়েছে — ${result.upload.name} (${result.upload.sizeLabel})।`
+                      );
+                    } else {
+                      toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
+                    }
+                  });
+                }}
+              />
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={issueUploading}
+                  onClick={() => issueFileRef.current?.click()}
+                  className="min-h-11 rounded-full border-border bg-card"
+                >
+                  {issueUploading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <Paperclip className="h-4 w-4" aria-hidden="true" />
+                  )}
+                  {issueUploading ? "Uploading…" : "Upload file · ফাইল বাছুন"}
+                </Button>
+                {issueFile ? (
+                  <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+                    <span className="rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                      {issueFile.sizeLabel}
+                    </span>
+                    <span className="max-w-56 truncate text-xs text-muted-foreground">
+                      {issueFile.name}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 rounded-full border-border bg-card"
+                      onClick={() => setIssueFile(null)}
+                      aria-label="আপলোড করা ফাইল বাদ দিন"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </Button>
+                  </span>
+                ) : null}
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                স্বাক্ষরিত সার্টিফিকেট ফাইল আপলোড করুন (PDF/ছবি) — সিস্টেম নিজে সার্টিফিকেট তৈরি
+                করে না। পোর্টালে শিক্ষার্থী ডাউনলোড বাটন পাবে।
+              </p>
+            </div>
             <Button
               type="submit"
               disabled={saving}
@@ -306,7 +476,54 @@ export function AdminCertificates() {
                     {c.course} · {c.batch} · Band {c.band} · {c.issued}
                   </p>
                 </div>
-                <div className="flex shrink-0 gap-1.5">
+                <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                  {/* Attach / replace the signed certificate file */}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    disabled={attachBusyId === c.id}
+                    className="h-10 w-10 rounded-full border-border bg-card"
+                    onClick={() => {
+                      setAttachTarget(c);
+                      attachRef.current?.click();
+                    }}
+                    aria-label={c.fileUrl ? `Replace file ${c.id}` : `Attach file ${c.id}`}
+                  >
+                    {attachBusyId === c.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Paperclip className="h-4 w-4" />
+                    )}
+                  </Button>
+                  {c.fileUrl ? (
+                    <>
+                      <a
+                        href={c.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-muted"
+                        aria-label={`Download file ${c.id}`}
+                      >
+                        {c.fileUrl.toLowerCase().endsWith(".pdf") ? (
+                          <ExternalLink className="h-4 w-4" />
+                        ) : (
+                          <Download className="h-4 w-4" />
+                        )}
+                      </a>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        disabled={attachBusyId === c.id}
+                        className="h-10 w-10 rounded-full border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        onClick={() => void clearFile(c)}
+                        aria-label={`Detach file ${c.id}`}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </>
+                  ) : null}
                   <Button
                     type="button"
                     variant="outline"
@@ -337,6 +554,20 @@ export function AdminCertificates() {
           </ul>
         )
       ) : null}
+
+      {/* Shared hidden input — attach a signed file to the selected row */}
+      <input
+        ref={attachRef}
+        type="file"
+        accept=".pdf,image/png,image/jpeg,image/webp"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          e.target.value = "";
+          if (file) void handleAttach(file);
+          setAttachTarget(null);
+        }}
+      />
 
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <AlertDialogContent className="rounded-2xl">

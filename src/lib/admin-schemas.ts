@@ -122,3 +122,101 @@ export function noticeDateToDisplay(value: string): string {
   if (Number.isNaN(d.getTime())) return value;
   return `${d.getUTCDate()} ${d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" })}`;
 }
+
+// ---------------------------------------------------------------------------
+// Free tips (#/tips page)
+// ---------------------------------------------------------------------------
+
+export const tipSchema = z.object({
+  title: z.string().trim().min(4, "টিপসের শিরোনাম দিন।").max(160),
+  excerpt: z.string().trim().min(4, "টিপসের বিবরণ দিন।").max(800),
+  category: z
+    .string()
+    .trim()
+    .min(2, "ক্যাটাগরি দিন।")
+    .max(40)
+    .default("IELTS Reading"),
+  icon: z.string().trim().max(24).default("lightbulb"),
+  published: z.boolean().default(true),
+});
+
+// ---------------------------------------------------------------------------
+// Website team members (#/team — NOT admin accounts)
+// ---------------------------------------------------------------------------
+
+export const siteTeamSchema = z.object({
+  slug: z
+    .string()
+    .trim()
+    .min(2, "স্লাগ কমপক্ষে ২ অক্ষরের।")
+    .max(60)
+    .regex(/^[a-z0-9-]+$/, "স্লাগে ছোট হাতের a-z, 0-9 ও ড্যাশ (-) ব্যবহার করুন।"),
+  name: z.string().trim().min(2, "নাম দিন।").max(80),
+  role: z.string().trim().max(80).default(""),
+  tagline: z.string().trim().max(200).default(""),
+  photo: z
+    .string()
+    .trim()
+    .max(300)
+    .regex(/^\//, "ছবির লিংক সাইটের ভেতরের পাথ হতে হবে (যেমন /uploads/team/...)।")
+    .default(""),
+  chip: z.string().trim().max(80).default("bg-pastel-sky text-[#2c4f8a]"),
+  bio: z.array(z.string().trim().max(600)).max(6).default([]),
+  specialties: z.array(z.string().trim().max(60)).max(8).default([]),
+  credentials: z.array(z.string().trim().max(120)).max(8).default([]),
+  stats: z
+    .array(
+      z.object({
+        value: z.string().trim().min(1).max(12),
+        label: z.string().trim().min(1).max(40),
+      })
+    )
+    .max(4)
+    .default([]),
+  quote: z.string().trim().max(300).default(""),
+  published: z.boolean().default(true),
+});
+
+// ---------------------------------------------------------------------------
+// Weekly class routine
+// ---------------------------------------------------------------------------
+
+export const routineSchema = z.object({
+  day: z.enum([
+    "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+  ]),
+  start: z.string().trim().min(1, "শুরুর সময় দিন।").max(20),
+  end: z.string().trim().max(20).default(""),
+  courseSlug: z.string().trim().max(80).default(""),
+  batch: z.string().trim().max(40).default(""),
+  topic: z.string().trim().max(160).default(""),
+  mode: z.enum(["Online Live", "Hybrid", "Onsite"]).default("Hybrid"),
+  type: z.string().trim().max(60).default("Regular Class"),
+  published: z.boolean().default(true),
+});
+
+// ---------------------------------------------------------------------------
+// Suggestions (admin-uploaded practice files for paid students)
+// ---------------------------------------------------------------------------
+
+export const suggestionSchema = z.object({
+  title: z.string().trim().min(3, "শিরোনাম দিন।").max(160),
+  desc: z.string().trim().max(400).default(""),
+  category: z
+    .enum(["Practice", "Listening", "Reading", "Writing", "Speaking", "Vocabulary"])
+    .default("Practice"),
+  fileUrl: z
+    .string()
+    .trim()
+    .min(2, "ফাইল আপলোড করুন বা লিংক দিন।")
+    .max(300)
+    .regex(/^\//, "লিংকটি সাইটের ভেতরের পাথ হতে হবে (যেমন /uploads/suggestions/...)।"),
+  kind: z.enum(["html", "pdf", "audio", "video", "link"]).default("html"),
+  published: z.boolean().default(true),
+});

@@ -171,6 +171,7 @@ export type AdminCertificate = {
   band: string;
   issued: string; // display date, e.g. "30 May 2025"
   studentId: string | null;
+  fileUrl: string | null; // admin-uploaded certificate file (portal download)
   createdAt: string; // ISO
 };
 
@@ -357,4 +358,68 @@ export type AdminStats = {
   };
   recentOrders: AdminOrderLite[];
   revenueByDay: AdminRevenuePoint[]; // last 7 days, oldest → today
+};
+
+// ── Task 21 no-code collections ───────────────────────────────────────────
+
+export type AdminTipRow = {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  icon: string;
+  published: boolean;
+  createdAt: string; // ISO
+};
+
+export type AdminSiteTeamRow = {
+  id: string;
+  slug: string;
+  name: string;
+  role: string;
+  tagline: string;
+  photo: string;
+  chip: string;
+  bio: string[];
+  specialties: string[];
+  credentials: string[];
+  stats: { value: string; label: string }[];
+  quote: string;
+  published: boolean;
+  createdAt: string; // ISO
+};
+
+export type AdminRoutineRow = {
+  id: string;
+  day: string;
+  start: string;
+  end: string;
+  courseSlug: string;
+  batch: string;
+  topic: string;
+  mode: string;
+  type: string;
+  published: boolean;
+  createdAt: string; // ISO
+};
+
+export type AdminSuggestionRow = {
+  id: string;
+  title: string;
+  desc: string;
+  category: string;
+  fileUrl: string;
+  kind: string;
+  published: boolean;
+  createdAt: string; // ISO
+};
+
+export type AdminUploadInfo = {
+  url: string;
+  name: string;
+  bytes: number;
+  sizeLabel: string;
+  ext: string;
+  folder: string;
+  kind: string;
 };

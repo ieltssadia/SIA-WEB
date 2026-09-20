@@ -14,6 +14,7 @@ import { CourseSection } from "@/components/site/portal/course-section";
 import { ScoresSection } from "@/components/site/portal/scores-section";
 import { CertificatesSection } from "@/components/site/portal/certificates-section";
 import { DownloadsSection } from "@/components/site/portal/downloads-section";
+import { SuggestionsSection } from "@/components/site/portal/suggestions-section";
 import { NoticesSection } from "@/components/site/portal/notices-section";
 import { usePortalStore } from "@/lib/portal-store";
 
@@ -154,6 +155,7 @@ export function PortalPage() {
         />
       ) : null}
       {section === "downloads" ? <DownloadsSection /> : null}
+      {section === "suggestions" ? <SuggestionsSection /> : null}
       {section === "notices" ? <NoticesSection /> : null}
     </PortalShell>
   );

@@ -8,7 +8,7 @@ import type { AdminLead } from "@/lib/admin-types";
  * Statuses (schema): new | contacted | enrolled | closed.
  */
 export async function GET(req: Request) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await isAuthorized(req))) return unauthorized();
 
   try {
     const leads = await db.lead.findMany({

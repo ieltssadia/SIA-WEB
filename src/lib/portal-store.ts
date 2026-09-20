@@ -37,6 +37,8 @@ export type PortalCertificate = {
   batch: string;
   band: string;
   issued: string;
+  /** Admin-uploaded signed certificate file — null until the team attaches one. */
+  fileUrl: string | null;
 };
 
 type PortalState = {

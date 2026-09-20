@@ -21,6 +21,13 @@ const issueSchema = z.object({
     .regex(/^\d(?:\.\d)?$/, "Overall band যেমন 7.5 বা 8"),
   issued: z.string().trim().min(3, "ইস্যুর তারিখ দিন।").max(40),
   studentId: z.string().trim().max(40).optional().or(z.literal("")),
+  fileUrl: z
+    .string()
+    .trim()
+    .max(300)
+    .regex(/^\//, "সার্টিফিকেট ফাইলের লিংক সাইটের ভেতরের পাথ হতে হবে।")
+    .optional()
+    .or(z.literal("")),
 });
 
 function makeCertId(): string {
@@ -44,6 +51,7 @@ export async function GET(req: Request) {
       band: c.band,
       issued: c.issued,
       studentId: c.studentId,
+      fileUrl: c.fileUrl,
       createdAt: c.createdAt.toISOString(),
     }));
 
@@ -88,6 +96,7 @@ export async function POST(req: Request) {
             band: data.band,
             issued: data.issued,
             studentId: data.studentId || null,
+            fileUrl: data.fileUrl || null,
           },
         });
       } catch (error) {
@@ -113,6 +122,7 @@ export async function POST(req: Request) {
       band: cert.band,
       issued: cert.issued,
       studentId: cert.studentId,
+      fileUrl: cert.fileUrl,
       createdAt: cert.createdAt.toISOString(),
     };
 

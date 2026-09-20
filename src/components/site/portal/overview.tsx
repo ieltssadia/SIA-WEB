@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Flame,
   FolderDown,
+  Lightbulb,
   ListChecks,
   Play,
   Radio,
@@ -925,6 +926,24 @@ export function OverviewSection({
                     </span>
                     <span className="block text-xs text-muted-foreground">
                       নোটস, টেমপ্লেট, answer sheet, চেকলিস্ট
+                    </span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onNavigate("suggestions")}
+                  className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-colors hover:border-[#d9b75c]/60"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#d9b75c]/15">
+                    <Lightbulb className="h-4.5 w-4.5 text-[#8a7a4d]" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-foreground">
+                      সাজেশন ও প্র্যাকটিস টেস্ট
+                    </span>
+                    <span className="block text-xs text-muted-foreground">
+                      কোর্সের সাজেশন আর ফুল প্র্যাকটিস টেস্ট — এক ক্লিকে
                     </span>
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />

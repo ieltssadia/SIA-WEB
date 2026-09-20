@@ -111,6 +111,7 @@ model Certificate {
   band     String // overall band score, e.g. "8.0"
   issued   String // display date, e.g. "30 May 2025"
   studentId String? // optional link to the portal Student account
+  fileUrl  String? // admin-uploaded certificate file (PDF/image) — portal download
   createdAt DateTime @default(now())
 
   @@index([name])
@@ -277,4 +278,72 @@ model CambridgeTest {
 
   @@unique([bookId, number])
   @@index([bookId])
+}
+
+// ── WordPress-style no-code content (Task 21) ────────────────────────────
+
+// Free IELTS tips shown on the #/tips page — fully admin-editable.
+model Tip {
+  id        String   @id @default(cuid())
+  title     String
+  excerpt   String   @default("")
+  category  String   @default("IELTS Reading")
+  icon      String   @default("lightbulb")
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Public team members rendered on #/team, #/team/<slug> and the home marquee.
+// (NOT admin accounts — those live in AdminUser.) JSON columns hold the
+// profile arrays because SQLite has no Json type.
+model SiteTeamMember {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  role        String   @default("")
+  tagline     String   @default("")
+  photo       String   @default("")
+  chip        String   @default("bg-pastel-sky text-[#2c4f8a]")
+  bio         String   @default("[]") // JSON string[]
+  specialties String   @default("[]") // JSON string[]
+  credentials String   @default("[]") // JSON string[]
+  stats       String   @default("[]") // JSON [{ value, label }]
+  quote       String   @default("")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Weekly class routine rows (#/routine, home RoutineBanner, portal planner).
+// start/end are display strings ("10:00 AM") exactly like the static data.
+model RoutineSlot {
+  id         String   @id @default(cuid())
+  day        String // Sunday..Saturday
+  start      String   @default("")
+  end        String   @default("")
+  courseSlug String   @default("")
+  batch      String   @default("")
+  topic      String   @default("")
+  mode       String   @default("Hybrid")
+  type       String   @default("Regular Class")
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Admin-uploaded suggestion/practice material (interactive HTML tests, PDFs,
+// audio...) — served through the portal "Suggestions" section to students
+// enrolled in at least one PAID course. Uploading a file auto-creates the row
+// (or is attached from the pick-list), so publishing is a one-step action.
+model Suggestion {
+  id        String   @id @default(cuid())
+  title     String
+  desc      String   @default("")
+  category  String   @default("Practice")
+  fileUrl   String // e.g. /uploads/suggestions/listening-test-28.html
+  kind      String   @default("html") // html | pdf | audio | video | link
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
-import { ModeBadge, WeeklyRoutine, useToday, todaysClasses } from "@/components/site/weekly-routine";
+import { ModeBadge, WeeklyRoutine, useCatalogRoutine, useToday, todaysClasses } from "@/components/site/weekly-routine";
 import { LockedRoutineSection } from "@/components/site/locked-routine";
 import {
   freeLiveClasses,
@@ -49,7 +49,8 @@ function useTodayDate(): string {
 function TodayBanner() {
   const today = useToday();
   const dateLabel = useTodayDate();
-  const rows = todaysClasses(today);
+  const routine = useCatalogRoutine();
+  const rows = todaysClasses(today, routine);
   const isOff = today === "Friday";
 
   return (

@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BadgeCheck, Phone, ShieldCheck, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TeamMarquee } from "@/components/site/team-marquee";
 import { Reveal } from "@/components/site/reveal";
-import { site, teamMembers } from "@/lib/site-data";
+import { site, teamMembers, type TeamMember } from "@/lib/site-data";
 
 /**
  * #/team — "The People Behind the Bands."
@@ -13,6 +14,22 @@ import { site, teamMembers } from "@/lib/site-data";
  * portrait strip, and a trust row — every card opens the member's profile.
  */
 export function TeamPage() {
+  /* CMS-managed team — static import paints first, then /api/catalog swaps in. */
+  const [team, setTeam] = useState<TeamMember[]>(teamMembers);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setTeam(d.team as TeamMember[]);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   return (
     <>
       {/* Hero — reference-style: small pill, big bold statement, single CTA */}
@@ -109,7 +126,7 @@ export function TeamPage() {
             </h2>
           </Reveal>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member, i) => (
+            {team.map((member, i) => (
               <Reveal key={member.slug} delay={i * 0.06}>
                 <a
                   href={`#/team/${member.slug}`}

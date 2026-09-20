@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import type { AdminUploadInfo } from "@/lib/admin-types";
 import {
   ADMIN_LEAD_STATUSES,
   ADMIN_LIVE_STATUSES,
@@ -18,6 +19,42 @@ import type {
   AdminEnrollmentStatus,
   AdminPaymentStatus,
 } from "@/lib/admin-types";
+
+// ---------------------------------------------------------------------------
+// File upload — POST /api/admin/upload (multipart) shared by upload dialogs
+// ---------------------------------------------------------------------------
+
+/** Folders the server whitelist accepts (mirrors src/lib/upload-server.ts). */
+export type AdminUploadFolder = "suggestions" | "certificates" | "resources" | "team" | "general";
+
+/**
+ * Upload one file through POST /api/admin/upload — returns the public URL
+ * plus metadata (sizeLabel, ext, kind) WITHOUT creating any DB row; the
+ * caller attaches `upload.url` to the relevant collection on save.
+ */
+export async function uploadAdminFile(
+  token: string,
+  file: File,
+  folder: AdminUploadFolder
+): Promise<{ ok: boolean; upload?: AdminUploadInfo; error?: string }> {
+  const body = new FormData();
+  body.append("file", file);
+  body.append("folder", folder);
+  try {
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      headers: { "x-admin-key": token },
+      body,
+    });
+    const data = (await res.json().catch(() => null)) as
+      | { ok?: boolean; upload?: AdminUploadInfo; error?: string }
+      | null;
+    if (res.ok && data?.ok && data.upload) return { ok: true, upload: data.upload };
+    return { ok: false, error: data?.error ?? "ফাইল আপলোড করা যায়নি।" };
+  } catch {
+    return { ok: false, error: "নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।" };
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Formatting

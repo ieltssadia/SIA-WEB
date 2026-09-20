@@ -10,6 +10,7 @@ import {
   FolderDown,
   HelpCircle,
   LayoutDashboard,
+  Lightbulb,
   LifeBuoy,
   LogOut,
   Menu,
@@ -36,6 +37,7 @@ export type PortalSection =
   | "scores"
   | "certificates"
   | "downloads"
+  | "suggestions"
   | "notices";
 
 type NavItem = {
@@ -71,13 +73,14 @@ const navGroups: NavGroup[] = [
     label: "লাইব্রেরি",
     items: [
       { id: "downloads", label: "ডাউনলোডস", short: "ফাইল", icon: FolderDown },
+      { id: "suggestions", label: "সাজেশন", short: "সাজেশন", icon: Lightbulb },
       { id: "notices", label: "নোটিশ", short: "নোটিশ", icon: Bell },
     ],
   },
 ];
 
 const allNavItems: NavItem[] = navGroups.flatMap((g) => g.items);
-const moreSections: PortalSection[] = ["certificates", "downloads", "notices"];
+const moreSections: PortalSection[] = ["certificates", "downloads", "suggestions", "notices"];
 
 function NavButton({
   item,

@@ -108,6 +108,7 @@ export type PortalCertificatePayload = {
   batch: string;
   band: string;
   issued: string;
+  fileUrl: string | null; // admin-uploaded certificate file — portal download
 };
 
 /**
@@ -168,6 +169,7 @@ export async function getPortalPayload(phone: string): Promise<{
       batch: c.batch,
       band: c.band,
       issued: c.issued,
+      fileUrl: c.fileUrl,
     })),
   };
 }

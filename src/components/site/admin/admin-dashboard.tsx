@@ -4,9 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import {
   Award,
   BookOpen,
+  CalendarDays,
+  FileUp,
   FolderDown,
   GraduationCap,
+  IdCard,
   Library,
+  Lightbulb,
   Megaphone,
   Radio,
   ReceiptText,
@@ -312,6 +316,36 @@ export function AdminDashboard({
                   sub="লাইভ ক্লাস যোগ করুন"
                   onClick={() => onNavigate?.("live-classes")}
                 />
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={CalendarDays}
+                    title="Class Routine"
+                    sub="সাপ্তাহিক রুটিন"
+                    onClick={() => onNavigate?.("routine")}
+                  />
+                ) : null}
+                <QuickLink
+                  icon={Lightbulb}
+                  title="Free Tips"
+                  sub="টিপস লিখুন"
+                  onClick={() => onNavigate?.("tips")}
+                />
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={FileUp}
+                    title="Upload Suggestion"
+                    sub="প্র্যাকটিস ফাইল দিন"
+                    onClick={() => onNavigate?.("suggestions")}
+                  />
+                ) : null}
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={IdCard}
+                    title="Website Team"
+                    sub="#/team পেজ সাজান"
+                    onClick={() => onNavigate?.("site-team")}
+                  />
+                ) : null}
                 {!isTeacher ? (
                   <QuickLink
                     icon={UserPlus}

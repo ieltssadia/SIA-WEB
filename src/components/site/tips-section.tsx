@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Facebook, Lightbulb, Target, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,22 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export function TipsSection() {
+  /* CMS-managed tips — static import paints first, then /api/catalog swaps in. */
+  const [tipList, setTipList] = useState(tips);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setTipList(d.tips as typeof tips);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   return (
     <section
       id="tips"
@@ -31,7 +48,7 @@ export function TipsSection() {
         />
 
         <div className="grid gap-6 md:grid-cols-3">
-          {tips.map((tip, i) => {
+          {tipList.map((tip, i) => {
             const Icon = iconMap[tip.icon] ?? Lightbulb;
             return (
               <Reveal key={tip.title} delay={i * 0.08} className="h-full">

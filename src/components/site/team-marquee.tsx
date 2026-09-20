@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { teamMembers } from "@/lib/site-data";
+import { teamMembers, type TeamMember } from "@/lib/site-data";
 import { Reveal } from "@/components/site/reveal";
 
 /**
@@ -10,7 +11,7 @@ import { Reveal } from "@/components/site/reveal";
  * links to the member's profile page (#/team/<slug>).
  */
 
-function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
+function TeamCard({ member }: { member: TeamMember }) {
   return (
     <a
       href={`#/team/${member.slug}`}
@@ -40,14 +41,30 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
 }
 
 export function TeamMarquee() {
+  /* CMS-managed team — static import paints first, then /api/catalog swaps in. */
+  const [team, setTeam] = useState<TeamMember[]>(teamMembers);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/catalog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.ok) setTeam(d.team as TeamMember[]);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   // Track = two copies of the list; translating -50% loops seamlessly.
-  const loop = [...teamMembers, ...teamMembers];
+  const loop = [...team, ...team];
   return (
     <Reveal>
       <div className="team-marquee team-marquee-mask overflow-hidden py-2" aria-label="Our team members">
         <ul className="team-marquee-track m-0 list-none p-0">
           {loop.map((member, i) => (
-            <li key={`${member.slug}-${i}`} aria-hidden={i >= teamMembers.length} className="flex-none">
+            <li key={`${member.slug}-${i}`} aria-hidden={i >= team.length} className="flex-none">
               <TeamCard member={member} />
             </li>
           ))}

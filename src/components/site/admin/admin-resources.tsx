@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FileText, FolderDown, Pencil, PlusCircle, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FileText, FolderDown, Loader2, Pencil, PlusCircle, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -43,6 +43,7 @@ import {
   SectionHeading,
   StatCard,
   ToneBadge,
+  uploadAdminFile,
   type Tone,
 } from "@/components/site/admin/admin-shared";
 import { useAdminStore } from "@/lib/admin-store";
@@ -103,10 +104,20 @@ function toForm(r: AdminResourceRow, files: AdminFileOption[]): ResourceForm {
   };
 }
 
+/** Upload ext → resource type chip (pdf→PDF, docx→DOCX, png→IMG, …). */
+function typeFromExt(ext: string, fallback: string): string {
+  const e = ext.toLowerCase();
+  if (e === "pdf") return "PDF";
+  if (e === "zip") return "ZIP";
+  if (["doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "csv"].includes(e)) return "DOCX";
+  if (["png", "jpg", "jpeg", "webp", "gif"].includes(e)) return "IMG";
+  return fallback;
+}
+
 /**
  * Admin Resources — portal downloadable materials. Publish toggle patches
- * instantly; the dialog picks a file from /public/downloads (with real
- * sizes) or falls back to a custom internal link.
+ * instantly; the dialog picks a file from /public/downloads, uploads a new
+ * one through /api/admin/upload, or falls back to a custom internal link.
  */
 export function AdminResources() {
   const token = useAdminStore((s) => s.token);
@@ -402,9 +413,17 @@ function ResourceDialog({
   const token = useAdminStore((s) => s.token);
   const [form, setForm] = useState<ResourceForm>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploaded, setUploaded] = useState<{ url: string; name: string; sizeLabel: string } | null>(
+    null
+  );
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) setForm(editing ? toForm(editing, files) : emptyForm());
+    if (open) {
+      setForm(editing ? toForm(editing, files) : emptyForm());
+      setUploaded(null);
+    }
     // Re-seed whenever the dialog opens (files list may have refreshed).
   }, [open, editing, files]);
 
@@ -424,6 +443,32 @@ function ResourceDialog({
       size: file?.size ?? f.size,
       customHref: "", // the explicit pick wins over a stale custom link
     }));
+    setUploaded(null);
+  }
+
+  /** Upload a fresh file — the returned URL fills href (custom wins), plus
+   * auto-fills the size label and the type chip from the extension. */
+  async function handleUpload(file: File) {
+    if (!token) return;
+    setUploading(true);
+    const result = await uploadAdminFile(token, file, "resources");
+    setUploading(false);
+    if (result.ok && result.upload) {
+      const up = result.upload;
+      setUploaded({ url: up.url, name: up.name, sizeLabel: up.sizeLabel });
+      setForm((f) => ({
+        ...f,
+        customHref: up.url, // custom wins over the pick-list
+        pickedHref: NONE_FILE,
+        size: up.sizeLabel,
+        type: typeFromExt(up.ext, f.type),
+      }));
+      toast.success(
+        `ফাইল আপলোড হয়েছে — ${up.name} (${up.sizeLabel})। সেভ করলে পোর্টালে যুক্ত হবে。`
+      );
+    } else {
+      toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
+    }
   }
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -569,6 +614,55 @@ function ResourceDialog({
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Fresh upload — fills href + size + type automatically */}
+          <div className="space-y-1.5 rounded-xl border border-dashed border-border bg-muted/30 p-3">
+            <Label>অথবা নতুন ফাইল আপলোড করুন</Label>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".pdf,.zip,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv,image/png,image/jpeg,image/webp,image/gif"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                if (file) void handleUpload(file);
+              }}
+            />
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={uploading}
+                onClick={() => fileRef.current?.click()}
+                className="min-h-11 rounded-full border-border bg-card"
+              >
+                {uploading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Upload className="h-4 w-4" aria-hidden="true" />
+                )}
+                {uploading ? "Uploading…" : "Upload file · আপলোড"}
+              </Button>
+              {uploaded ? (
+                <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+                  <span className="rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                    {uploaded.sizeLabel}
+                  </span>
+                  <span className="max-w-52 truncate text-xs text-muted-foreground">
+                    {uploaded.name}
+                  </span>
+                </span>
+              ) : null}
+            </div>
+            {uploaded ? (
+              <p className="truncate font-mono text-[11px] text-muted-foreground">{uploaded.url}</p>
+            ) : (
+              <p className="text-[11px] text-muted-foreground">
+                আপলোড করলে লিংক, size আর type নিজে থেকেই বসে যাবে।
+              </p>
+            )}
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">

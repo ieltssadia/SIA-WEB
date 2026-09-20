@@ -19,7 +19,7 @@ export async function PATCH(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  if (!isAuthorized(req)) return unauthorized();
+  if (!(await isAuthorized(req))) return unauthorized();
 
   try {
     const { id } = await ctx.params;
