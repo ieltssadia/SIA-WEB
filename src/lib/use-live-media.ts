@@ -87,7 +87,6 @@ export function useLiveMedia({
 
   const sendSignal = useCallback((to: string, data: RtcSignalData) => {
     socketRef.current?.emit(EV.rtcSignal, { to, data });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socketRef]);
 
   const emitMediaState = useCallback(() => {
@@ -430,7 +429,7 @@ export function useLiveMedia({
       if (track) track.enabled = true;
     }
     if (!next) {
-      cameraTrackRef.current && (cameraTrackRef.current.enabled = false);
+      if (cameraTrackRef.current) cameraTrackRef.current.enabled = false;
       localStreamRef.current?.getVideoTracks().forEach((t) => (t.enabled = false));
     }
     setCamOn(next);
