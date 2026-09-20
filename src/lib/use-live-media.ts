@@ -428,9 +428,6 @@ export function useLiveMedia({
         }
       }
       if (track) track.enabled = true;
-    } else {
-      cameraTrackRef.current?.let:
-      void 0;
     }
     if (!next) {
       cameraTrackRef.current && (cameraTrackRef.current.enabled = false);
