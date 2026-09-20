@@ -6,6 +6,29 @@ function normalize(hash: string): string {
   if (!hash || hash === "#") return "/";
   // App routes look like "#/courses/<slug>" or "#/checkout?course=<slug>"
   if (hash.startsWith("#/")) return hash.slice(1).split("?")[0] || "/";
+  if (hash.startsWith("#")) {
+    const raw = hash.slice(1).split("?")[0];
+    const firstSegment = raw.split("/")[0];
+    const appRoutes = [
+      "admin",
+      "courses",
+      "live",
+      "team",
+      "routine",
+      "about",
+      "tips",
+      "stories",
+      "shop",
+      "contact",
+      "portal",
+      "cambridge",
+      "checkout",
+      "verify",
+    ];
+    if (appRoutes.includes(firstSegment)) {
+      return `/${raw}`;
+    }
+  }
   // Legacy section anchors (e.g. "#faq") stay on home and scroll
   return "/";
 }
