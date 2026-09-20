@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     }
 
     const student = await db.student.findUnique({ where: { phone } });
-    if (!student || student.status !== "active") {
+    if (!student) {
       return NextResponse.json(
         {
           error:

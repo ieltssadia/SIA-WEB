@@ -1,6 +1,8 @@
 import { createHash, createHmac, timingSafeEqual } from "crypto";
 import { db } from "@/lib/db";
 
+export const DEMO_OTP = "123456";
+
 /* ------------------------------------------------------------------ */
 /* Password hashing — sha256("<phone>:<password>")                     */
 /* Demo-grade auth; a production build would use bcrypt/argon2.        */
