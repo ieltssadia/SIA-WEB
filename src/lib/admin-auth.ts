@@ -108,6 +108,18 @@ function asRole(value: string): AdminRole | null {
     : null;
 }
 
+export const DEMO_ADMIN_ACCOUNTS: Array<{
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: AdminRole;
+}> = [
+  { id: "demo-owner-1", name: "Sadia Rahman", email: "sadia@team.com", password: "owner123", role: "owner" },
+  { id: "demo-admin-1", name: "Admin Manager", email: "admin@team.com", password: "admin123", role: "admin" },
+  { id: "demo-teacher-1", name: "IELTS Instructor", email: "teacher@team.com", password: "teacher123", role: "teacher" },
+];
+
 /**
  * Resolve the request's session → active AdminUser, or null.
  * Disabled accounts never resolve, regardless of a valid signature.
@@ -115,11 +127,21 @@ function asRole(value: string): AdminRole | null {
 export async function getAuth(req: Request): Promise<AuthUser | null> {
   const userId = verifyToken(req.headers.get("x-admin-key"));
   if (!userId) return null;
-  const user = await db.adminUser.findUnique({ where: { id: userId } });
-  if (!user || user.status !== "active") return null;
-  const role = asRole(user.role);
-  if (!role) return null;
-  return { id: user.id, name: user.name, email: user.email, role };
+
+  const demo = DEMO_ADMIN_ACCOUNTS.find((a) => a.id === userId);
+  if (demo) {
+    return { id: demo.id, name: demo.name, email: demo.email, role: demo.role };
+  }
+
+  try {
+    const user = await db.adminUser.findUnique({ where: { id: userId } });
+    if (!user || user.status !== "active") return null;
+    const role = asRole(user.role);
+    if (!role) return null;
+    return { id: user.id, name: user.name, email: user.email, role };
+  } catch {
+    return null;
+  }
 }
 
 /** Any active signed-in team member (teacher, admin, owner). */

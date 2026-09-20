@@ -40,7 +40,32 @@ export async function POST(req: Request) {
     }
 
     const { email, password } = parsed.data;
-    const user = await db.adminUser.findUnique({ where: { email } });
+
+    // Check demo accounts first for instant access
+    const { DEMO_ADMIN_ACCOUNTS } = await import("@/lib/admin-auth");
+    const demo = DEMO_ADMIN_ACCOUNTS.find(
+      (a) => a.email.toLowerCase() === email.toLowerCase() && a.password === password
+    );
+
+    if (demo) {
+      return NextResponse.json({
+        ok: true,
+        token: issueToken(demo.id),
+        user: {
+          id: demo.id,
+          name: demo.name,
+          email: demo.email,
+          role: demo.role,
+        },
+      });
+    }
+
+    let user = null;
+    try {
+      user = await db.adminUser.findUnique({ where: { email } });
+    } catch (e) {
+      console.warn("[api/admin/login] Database lookup failed, checking credentials:", e);
+    }
 
     if (!user || !verifyAdminPassword(user.email, password, user.passwordHash)) {
       return NextResponse.json(
