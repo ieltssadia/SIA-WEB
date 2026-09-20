@@ -81,7 +81,11 @@ export function useLiveMedia({
   const speakingRef = useRef(false);
   const aliveRef = useRef(true);
   const onSpeakingRef = useRef(onSpeakingChange);
-  onSpeakingRef.current = onSpeakingChange;
+  // Sync the latest callback after commit — the level-meter timer reads it
+  // at most 200ms later, so post-commit timing is always fresh enough.
+  useEffect(() => {
+    onSpeakingRef.current = onSpeakingChange;
+  });
 
   // ── helpers ───────────────────────────────────────────────────────────
 
@@ -128,6 +132,21 @@ export function useLiveMedia({
     });
   }, []);
 
+  const stopLevelMeter = useCallback(() => {
+    if (meterTimerRef.current) {
+      clearInterval(meterTimerRef.current);
+      meterTimerRef.current = null;
+    }
+    if (analyserRef.current) {
+      try {
+        analyserRef.current.disconnect();
+      } catch {
+        /* already gone */
+      }
+      analyserRef.current = null;
+    }
+  }, []);
+
   const startLevelMeter = useCallback((track: MediaStreamTrack) => {
     stopLevelMeter();
     try {
@@ -162,22 +181,7 @@ export function useLiveMedia({
     } catch {
       /* audio analysis unavailable — speaking indicators stay off */
     }
-  }, []);
-
-  function stopLevelMeter() {
-    if (meterTimerRef.current) {
-      clearInterval(meterTimerRef.current);
-      meterTimerRef.current = null;
-    }
-    if (analyserRef.current) {
-      try {
-        analyserRef.current.disconnect();
-      } catch {
-        /* already gone */
-      }
-      analyserRef.current = null;
-    }
-  }
+  }, [stopLevelMeter]);
 
   /**
    * Acquire local devices (best effort): full video+audio → audio-only →
@@ -405,7 +409,7 @@ export function useLiveMedia({
     const next = !camOnRef.current;
     if (next) {
       const stream = await ensureLocalMedia();
-      let track = stream?.getVideoTracks()[0];
+      const track = stream?.getVideoTracks()[0];
       if (!track) {
         // We may hold an audio-only stream — try to upgrade with video.
         try {
@@ -419,14 +423,16 @@ export function useLiveMedia({
           localStreamRef.current = merged;
           cameraTrackRef.current = extra.getVideoTracks()[0] ?? null;
           setLocalStream(merged);
-          track = cameraTrackRef.current;
           attachToAllPeers();
         } catch {
           setMediaError("ক্যামেরা চালু করা যায়নি — ব্রাউজারে অনুমতি দিন।");
           return;
         }
       }
-      if (track) track.enabled = true;
+      // Fresh tracks are acquired muted — enable the camera track now. The
+      // track list of localStreamRef covers both the normal and the upgraded
+      // (audio-only → video) paths, since the merged stream is stored there.
+      localStreamRef.current?.getVideoTracks().forEach((t) => (t.enabled = true));
     }
     if (!next) {
       if (cameraTrackRef.current) cameraTrackRef.current.enabled = false;
@@ -481,11 +487,17 @@ export function useLiveMedia({
     }
   }, [attachToAllPeers, emitMediaState, stopScreenShare]);
 
-  // Host forced our mic off
+  // Host forced our mic off — the state mirror is adjusted during render
+  // (guarded on the last applied tick), while the imperative mirrors
+  // (track disable, ref, socket) happen in the effect below.
+  const [appliedForceMuteTick, setAppliedForceMuteTick] = useState(forceMuteTick);
+  if (forceMuteTick !== appliedForceMuteTick) {
+    setAppliedForceMuteTick(forceMuteTick);
+    if (forceMuteTick > 0) setMicOn(false);
+  }
   useEffect(() => {
     if (forceMuteTick === 0) return;
     localStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = false));
-    setMicOn(false);
     micOnRef.current = false;
     emitMediaState();
   }, [forceMuteTick, emitMediaState]);
@@ -494,10 +506,18 @@ export function useLiveMedia({
 
   useEffect(() => {
     aliveRef.current = true;
+    let cancelled = false;
     if (joined && role === "teacher") {
-      void ensureLocalMedia().then(() => emitMediaState());
+      // Acquisition starts in a microtask so its state reset never runs
+      // synchronously inside the effect body (react-compiler compliant).
+      void Promise.resolve()
+        .then(() => (cancelled ? null : ensureLocalMedia()))
+        .then(() => {
+          if (!cancelled) emitMediaState();
+        });
     }
     return () => {
+      cancelled = true;
       aliveRef.current = false;
       peersRef.current.forEach((entry) => {
         try {
@@ -520,7 +540,7 @@ export function useLiveMedia({
       setRemoteStreams(new Map());
       setLocalStream(null);
     };
-  }, [joined, role, ensureLocalMedia, emitMediaState]);
+  }, [joined, role, ensureLocalMedia, emitMediaState, stopLevelMeter]);
 
   const clearMediaError = useCallback(() => setMediaError(null), []);
 
