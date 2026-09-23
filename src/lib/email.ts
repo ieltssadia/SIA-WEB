@@ -1,23 +1,32 @@
 import { Resend } from "resend";
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-export const resend = new Resend(RESEND_API_KEY);
+let resendInstance: Resend | null = null;
+
+export function getResendClient(): Resend | null {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !apiKey.startsWith("re_")) return null;
+  if (!resendInstance) {
+    resendInstance = new Resend(apiKey);
+  }
+  return resendInstance;
+}
+
+export function isResendConfigured(): boolean {
+  return getResendClient() !== null;
+}
 
 const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "Sadia's IELTS <onboarding@resend.dev>";
 const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "sadiasielts@gmail.com";
-
-export function isResendConfigured(): boolean {
-  return Boolean(RESEND_API_KEY && RESEND_API_KEY.startsWith("re_"));
-}
 
 /**
  * Send an OTP code to a student via email
  */
 export async function sendOtpEmail(to: string, otp: string) {
-  if (!isResendConfigured()) return { ok: false, error: "Resend not configured" };
+  const client = getResendClient();
+  if (!client) return { ok: false, error: "Resend not configured" };
 
   try {
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await client.emails.send({
       from: DEFAULT_FROM,
       to,
       subject: `Your Login Verification Code: ${otp} - Sadia's IELTS`,
@@ -62,11 +71,12 @@ export async function sendLeadNotificationEmail(lead: {
   course?: string | null;
   message?: string | null;
 }) {
-  if (!isResendConfigured()) return { ok: false };
+  const client = getResendClient();
+  if (!client) return { ok: false };
 
   try {
     // 1. Notify Admin Team
-    await resend.emails.send({
+    await client.emails.send({
       from: DEFAULT_FROM,
       to: ADMIN_NOTIFICATION_EMAIL,
       subject: `[নতুন ভর্তি অনুরোধ] ${lead.name} (${lead.phone})`,
@@ -86,7 +96,7 @@ export async function sendLeadNotificationEmail(lead: {
 
     // 2. If student provided email, send confirmation to student
     if (lead.email) {
-      await resend.emails.send({
+      await client.emails.send({
         from: DEFAULT_FROM,
         to: lead.email,
         subject: `ভর্তি অনুরোধ গ্রহণ করা হয়েছে - Sadia's IELTS`,
@@ -122,7 +132,8 @@ export async function sendOrderConfirmationEmail(order: {
   total: number;
   items: Array<{ title: string; quantity: number; price: number }>;
 }) {
-  if (!isResendConfigured()) return { ok: false };
+  const client = getResendClient();
+  if (!client) return { ok: false };
 
   try {
     const itemsHtml = order.items
@@ -133,7 +144,7 @@ export async function sendOrderConfirmationEmail(order: {
       .join("");
 
     if (order.email) {
-      await resend.emails.send({
+      await client.emails.send({
         from: DEFAULT_FROM,
         to: order.email,
         subject: `অর্ডার কনফার্মেশন: #${order.orderNo} - Sadia's IELTS Book Shop`,

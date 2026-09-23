@@ -1,24 +1,29 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "";
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "";
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "";
-export const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "sia-storage";
-export const R2_PUBLIC_URL = (process.env.R2_PUBLIC_URL || "").replace(/\/$/, "");
+let r2Instance: S3Client | null = null;
 
-export function isR2Configured(): boolean {
-  return Boolean(R2_ACCOUNT_ID && R2_ACCESS_KEY_ID && R2_SECRET_ACCESS_KEY && R2_BUCKET_NAME);
+export function getR2Client(): S3Client | null {
+  const accountId = process.env.R2_ACCOUNT_ID;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  if (!accountId || !accessKeyId || !secretAccessKey) return null;
+  if (!r2Instance) {
+    r2Instance = new S3Client({
+      region: "auto",
+      endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+      credentials: { accessKeyId, secretAccessKey },
+      forcePathStyle: true,
+    });
+  }
+  return r2Instance;
 }
 
-export const r2Client = new S3Client({
-  region: "auto",
-  endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: R2_ACCESS_KEY_ID,
-    secretAccessKey: R2_SECRET_ACCESS_KEY,
-  },
-  forcePathStyle: true,
-});
+export function isR2Configured(): boolean {
+  return getR2Client() !== null;
+}
+
+export const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "sia-storage";
+export const R2_PUBLIC_URL = (process.env.R2_PUBLIC_URL || "").replace(/\/$/, "");
 
 const MIME_MAP: Record<string, string> = {
   png: "image/png",
@@ -56,10 +61,13 @@ export async function uploadToR2(
   body: Buffer | Uint8Array,
   contentType?: string
 ): Promise<{ key: string; url: string }> {
+  const client = getR2Client();
+  if (!client) throw new Error("R2 is not configured");
+
   const ext = key.split(".").pop() || "";
   const mime = contentType || getMimeType(ext);
 
-  await r2Client.send(
+  await client.send(
     new PutObjectCommand({
       Bucket: R2_BUCKET_NAME,
       Key: key,
@@ -68,10 +76,7 @@ export async function uploadToR2(
     })
   );
 
-  // If R2_PUBLIC_URL is configured (e.g. https://pub-xxx.r2.dev or https://cdn.sadiasielts.com), use it.
-  // Otherwise, use the Next.js media proxy route `/api/media/...`
   const publicUrl = R2_PUBLIC_URL ? `${R2_PUBLIC_URL}/${key}` : `/api/media/${key}`;
-
   return { key, url: publicUrl };
 }
 
@@ -79,8 +84,11 @@ export async function uploadToR2(
  * Delete an object from Cloudflare R2
  */
 export async function deleteFromR2(key: string): Promise<boolean> {
+  const client = getR2Client();
+  if (!client) return false;
+
   try {
-    await r2Client.send(
+    await client.send(
       new DeleteObjectCommand({
         Bucket: R2_BUCKET_NAME,
         Key: key,
@@ -97,7 +105,10 @@ export async function deleteFromR2(key: string): Promise<boolean> {
  * Get an object from Cloudflare R2
  */
 export async function getFromR2(key: string) {
-  return await r2Client.send(
+  const client = getR2Client();
+  if (!client) throw new Error("R2 is not configured");
+
+  return await client.send(
     new GetObjectCommand({
       Bucket: R2_BUCKET_NAME,
       Key: key,
