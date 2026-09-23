@@ -10,6 +10,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import { isR2Configured, uploadToR2 } from "@/lib/r2";
 
 export const UPLOAD_FOLDERS = [
   "suggestions",
@@ -84,14 +85,37 @@ export async function saveUploadedFile(
   const stamp = new Date().toISOString().slice(0, 7).replace("-", ""); // 202509
   const uniq = crypto.randomBytes(4).toString("hex");
   const filename = `${stamp}-${uniq}-${slugifyBase(rawName)}.${ext}`;
-
-  const dir = path.join(process.cwd(), "public", "uploads", folder);
-  await mkdir(dir, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(dir, filename), buffer);
+
+  let fileUrl = `/uploads/${folder}/${filename}`;
+  let r2Uploaded = false;
+
+  if (isR2Configured()) {
+    try {
+      const r2Key = `${folder}/${filename}`;
+      const r2Res = await uploadToR2(r2Key, buffer, file.type);
+      fileUrl = r2Res.url;
+      r2Uploaded = true;
+    } catch (r2Err) {
+      console.error("Cloudflare R2 upload error:", r2Err);
+    }
+  }
+
+  // Best-effort local filesystem write (for local development)
+  try {
+    const dir = path.join(process.cwd(), "public", "uploads", folder);
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, filename), buffer);
+  } catch (fsErr) {
+    // If Vercel read-only filesystem throws, but R2 succeeded, that is normal.
+    if (!r2Uploaded) {
+      console.error("Local disk upload failed:", fsErr);
+      throw new UploadError("সার্ভারে ফাইল আপলোড করা যায়নি। আবার চেষ্টা করুন।");
+    }
+  }
 
   return {
-    url: `/uploads/${folder}/${filename}`,
+    url: fileUrl,
     name: rawName,
     bytes: file.size,
     sizeLabel: sizeLabel(file.size),
