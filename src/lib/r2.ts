@@ -1,8 +1,8 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "10ebb8c8b6bdf72c80043b7d8321f3f7";
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "68df9000c56dda5522b0b3d8786161de";
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "b33703e2e62d36d2e50f25202650b1bd4072e34992bf4ddf112e13b8687fd833";
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "";
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "";
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "";
 export const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "sia-storage";
 export const R2_PUBLIC_URL = (process.env.R2_PUBLIC_URL || "").replace(/\/$/, "");
 

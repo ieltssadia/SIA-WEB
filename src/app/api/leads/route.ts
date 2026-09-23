@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { sendLeadNotificationEmail } from "@/lib/email";
 
 const leadSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -52,6 +53,15 @@ export async function POST(req: Request) {
         message: message || null,
       },
     });
+
+    // Best-effort transactional email notification via Resend
+    sendLeadNotificationEmail({
+      name,
+      phone,
+      email: email || undefined,
+      course: course && course !== "not-sure" ? course : undefined,
+      message: message || undefined,
+    }).catch((err) => console.error("Resend lead notification failed:", err));
 
     return NextResponse.json({ ok: true, id: lead.id }, { status: 201 });
   } catch (error) {

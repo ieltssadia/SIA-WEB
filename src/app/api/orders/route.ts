@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { books } from "@/lib/site-data";
 import { canonicalPhone } from "@/lib/phone";
 import { DELIVERY_ZONES, deliveryFeeFor, zoneLabel } from "@/lib/delivery";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 
 const zoneValues = DELIVERY_ZONES.map((z) => z.value) as [string, ...string[]];
 
@@ -181,6 +182,20 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    // Best-effort transactional email via Resend
+    sendOrderConfirmationEmail({
+      orderNo: order.orderNo,
+      name: order.name,
+      phone: order.phone,
+      email: order.email || undefined,
+      total: order.total,
+      items: order.items.map((i) => ({
+        title: i.title,
+        quantity: i.quantity,
+        price: i.price,
+      })),
+    }).catch((err) => console.error("Resend order confirmation failed:", err));
 
     return NextResponse.json({ order: serializeOrder(order) }, { status: 201 });
   } catch (error) {
