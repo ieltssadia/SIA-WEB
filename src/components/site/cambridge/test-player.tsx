@@ -23,6 +23,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { CambridgeAudioPlayer } from "@/components/site/cambridge/audio-player";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -205,7 +206,10 @@ function QuestionBlock({
   onChange: (next: string) => void;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div
+      id={`question-block-${question.n}`}
+      className="rounded-xl border border-border bg-card p-4 transition-all target:border-primary target:ring-2 target:ring-primary/40"
+    >
       <div className="flex items-start gap-2.5">
         <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
           {question.n}
@@ -435,6 +439,10 @@ export default function TestPlayer({
 
   /* Speaking Part-2 cue timer */
   const [cueTimer, setCueTimer] = useState<{ mode: "prepare" | "speak"; left: number } | null>(null);
+
+  /* Reading CD-IELTS layout state */
+  const [activePassage, setActivePassage] = useState<number>(1);
+  const [readingFontSize, setReadingFontSize] = useState<"text-sm" | "text-base" | "text-lg">("text-base");
 
   /* ── Fetch ── */
   useEffect(() => {
@@ -727,12 +735,13 @@ export default function TestPlayer({
                         ) : null}
                       </div>
 
-                      <div className="rounded-xl border border-border bg-card p-4">
-                        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                          Part {part.n} audio · demo narration
-                        </p>
-                        <audio controls preload="none" src={part.audio} className="h-10 w-full" />
-                      </div>
+                      <CambridgeAudioPlayer
+                        audioSrc={part.audio}
+                        transcript={part.transcript}
+                        title={`Part ${part.n} — ${stripSkillPrefix(part.title)}`}
+                        scenario={part.scenario}
+                        partNumber={part.n}
+                      />
 
                       <div className="grid gap-3">
                         {(Array.isArray(part.questions) ? part.questions : []).map((question) => (
@@ -771,89 +780,133 @@ export default function TestPlayer({
                 <Card className="p-8 text-center text-sm text-muted-foreground">
                   This test doesn&apos;t have reading content yet, please check back soon.
                 </Card>
+              ) : submitted ? (
+                <ScoreAndReview
+                  correct={correctCount}
+                  total={totalQuestions}
+                  band={band}
+                  questions={allQuestions}
+                  answers={answers}
+                  onTryAgain={tryAgain}
+                  backHref={`#/cambridge/book/${test.book.number}?module=${test.book.module}`}
+                />
               ) : (
-                <div className="grid gap-6 lg:grid-cols-2">
-                  {/* Passage pane (desktop) */}
-                  <div className="hidden lg:block">
-                    <div
-                      className={`sticky top-24 max-h-[70vh] space-y-6 overflow-y-auto rounded-2xl border border-border bg-card p-6 ${SCROLL_PANE}`}
-                    >
-                      {readingPassages.map((passage) => (
-                        <article key={passage.n}>
-                          <h2 className="font-display text-base font-bold text-foreground">
-                            Passage {passage.n} · {stripSkillPrefix(passage.title)}
-                          </h2>
-                          <div className="mt-2 space-y-3 text-sm leading-relaxed text-foreground/85">
-                            {passage.text
-                              .split("\n\n")
-                              .filter((paragraph) => paragraph.trim() !== "")
-                              .map((paragraph, index) => (
-                                <p key={index}>{paragraph}</p>
-                              ))}
-                          </div>
-                        </article>
+                <div className="space-y-6">
+                  {/* Reading Control Bar (Passage Tabs + Font Size Controls) */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-3 shadow-xs md:px-5">
+                    {/* Passage Tabs */}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {readingPassages.map((p) => (
+                        <button
+                          key={p.n}
+                          type="button"
+                          onClick={() => setActivePassage(p.n)}
+                          className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors ${
+                            activePassage === p.n
+                              ? "bg-primary text-primary-foreground shadow-xs"
+                              : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                          }`}
+                        >
+                          Passage {p.n}
+                        </button>
                       ))}
+                    </div>
+
+                    {/* Font Size Adjuster */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-muted-foreground">Text size:</span>
+                      <div className="flex items-center rounded-lg border border-border/80 bg-muted/40 p-0.5 text-xs font-bold">
+                        <button
+                          type="button"
+                          onClick={() => setReadingFontSize("text-sm")}
+                          className={`rounded-md px-2 py-1 ${
+                            readingFontSize === "text-sm" ? "bg-card text-primary shadow-xs" : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          A-
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setReadingFontSize("text-base")}
+                          className={`rounded-md px-2 py-1 ${
+                            readingFontSize === "text-base" ? "bg-card text-primary shadow-xs" : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          A
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setReadingFontSize("text-lg")}
+                          className={`rounded-md px-2 py-1 ${
+                            readingFontSize === "text-lg" ? "bg-card text-primary shadow-xs" : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          A+
+                        </button>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Questions column */}
-                  <div className="space-y-8">
-                    {submitted ? (
-                      <ScoreAndReview
-                        correct={correctCount}
-                        total={totalQuestions}
-                        band={band}
-                        questions={allQuestions}
-                        answers={answers}
-                        onTryAgain={tryAgain}
-                        backHref={`#/cambridge/book/${test.book.number}?module=${test.book.module}`}
-                      />
-                    ) : (
-                      readingPassages.map((passage) => (
-                        <section key={passage.n} className="space-y-3">
-                          {/* Mobile passage accordion */}
-                          <Accordion
-                            type="single"
-                            collapsible
-                            className="rounded-xl border border-border bg-card px-4 lg:hidden"
-                          >
-                            <AccordionItem value={`passage-${passage.n}`} className="border-b-0">
-                              <AccordionTrigger className="py-4 text-sm font-bold text-foreground hover:no-underline">
-                                Passage {passage.n} · {stripSkillPrefix(passage.title)}
-                              </AccordionTrigger>
-                              <AccordionContent className="space-y-3 text-sm leading-relaxed text-foreground/85">
+                  {/* CD-IELTS Split Screen Layout */}
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    {/* Left Column: Passage Text Pane */}
+                    <div className="lg:block">
+                      <div
+                        className={`sticky top-20 max-h-[75vh] space-y-4 overflow-y-auto rounded-2xl border border-border bg-card p-5 md:p-6 ${SCROLL_PANE}`}
+                      >
+                        {readingPassages
+                          .filter((p) => p.n === activePassage || readingPassages.length === 1)
+                          .map((passage) => (
+                            <article key={passage.n}>
+                              <div className="mb-4 border-b border-border/60 pb-3">
+                                <Badge className="border-transparent bg-primary/10 text-primary">
+                                  Passage {passage.n}
+                                </Badge>
+                                <h2 className="mt-2 font-display text-lg font-bold text-foreground">
+                                  {stripSkillPrefix(passage.title)}
+                                </h2>
+                              </div>
+                              <div className={`space-y-4 leading-relaxed text-foreground/90 ${readingFontSize}`}>
                                 {passage.text
                                   .split("\n\n")
                                   .filter((paragraph) => paragraph.trim() !== "")
                                   .map((paragraph, index) => (
                                     <p key={index}>{paragraph}</p>
                                   ))}
-                              </AccordionContent>
-                            </AccordionItem>
-                          </Accordion>
+                              </div>
+                            </article>
+                          ))}
+                      </div>
+                    </div>
 
-                          <div>
-                            <h2 className="hidden font-display text-base font-bold text-foreground lg:block">
-                              Passage {passage.n} · {stripSkillPrefix(passage.title)}
-                            </h2>
-                            <p className="text-xs text-muted-foreground">
-                              {(Array.isArray(passage.questions) ? passage.questions : []).length} questions
-                            </p>
-                          </div>
+                    {/* Right Column: Questions Pane */}
+                    <div className="space-y-6">
+                      {readingPassages
+                        .filter((p) => p.n === activePassage || readingPassages.length === 1)
+                        .map((passage) => (
+                          <section key={passage.n} className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <h3 className="font-display text-base font-bold text-foreground">
+                                Questions for Passage {passage.n}
+                              </h3>
+                              <span className="text-xs text-muted-foreground">
+                                {(Array.isArray(passage.questions) ? passage.questions : []).length} questions
+                              </span>
+                            </div>
 
-                          <div className="grid gap-3">
-                            {(Array.isArray(passage.questions) ? passage.questions : []).map((question) => (
-                              <QuestionBlock
-                                key={question.n}
-                                question={question}
-                                value={answers[question.n] ?? ""}
-                                onChange={(next) => setAnswer(question.n, next)}
-                              />
-                            ))}
-                          </div>
-                        </section>
-                      ))
-                    )}
+                            <div className="grid gap-3">
+                              {(Array.isArray(passage.questions) ? passage.questions : []).map((question) => (
+                                <QuestionBlock
+                                  key={question.n}
+                                  question={question}
+                                  value={answers[question.n] ?? ""}
+                                  onChange={(next) => setAnswer(question.n, next)}
+                                />
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                    </div>
                   </div>
                 </div>
               )
@@ -1012,14 +1065,15 @@ export default function TestPlayer({
                         Band-9 speaking sample
                       </h2>
                     </div>
-                    {speakingContent.sample.audio ? (
-                      <audio
-                        controls
-                        preload="none"
-                        src={speakingContent.sample.audio}
-                        className="mt-3 h-10 w-full"
+                    <div className="mt-3">
+                      <CambridgeAudioPlayer
+                        audioSrc={speakingContent.sample.audio}
+                        transcript={speakingContent.sample.text}
+                        title="Band-9 Speaking Model Answer"
+                        scenario="Native British Accent Narration"
+                        partNumber={2}
                       />
-                    ) : null}
+                    </div>
                     <Accordion
                       type="single"
                       collapsible
@@ -1043,28 +1097,112 @@ export default function TestPlayer({
               )
             ) : null}
 
-            {/* Sticky submit bar (listening / reading, before submission) */}
+            {/* IELTS Question Navigator (engnovate-style 1-40 bottom dock) */}
             {isScored && !submitted && totalQuestions > 0 ? (
-              <div className="sticky bottom-4 z-30 mt-8">
-                <div className="flex items-center justify-between gap-4 rounded-full border border-border bg-card/95 py-3 pl-6 pr-3 shadow-[0_14px_40px_rgba(11,42,32,0.18)] backdrop-blur">
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-display text-base font-bold text-foreground">{answeredCount}</span>
-                    /{totalQuestions} answered
-                  </p>
-                  <Button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="min-h-11 rounded-full bg-ink px-6 text-sm font-bold text-white hover:opacity-85"
-                  >
-                    Submit &amp; Score
-                  </Button>
-                </div>
-              </div>
+              <QuestionNavigator
+                questions={allQuestions}
+                answers={answers}
+                skill={skill}
+                onSelectPassage={setActivePassage}
+                onSubmit={handleSubmit}
+              />
             ) : null}
           </div>
         ) : null}
       </div>
     </div>
+  );
+}
+
+/* ── IELTS 1–40 Question Navigator Strip (CD-IELTS Standard) ─────────── */
+
+function QuestionNavigator({
+  questions,
+  answers,
+  skill,
+  onSelectPassage,
+  onSubmit,
+}: {
+  questions: Question[];
+  answers: Record<number, string>;
+  skill: SkillKey;
+  onSelectPassage?: (p: number) => void;
+  onSubmit: () => void;
+}) {
+  const total = questions.length;
+  if (total === 0) return null;
+  const answeredCount = questions.filter((q) => (answers[q.n] ?? "").trim() !== "").length;
+
+  const scrollToQuestion = (n: number) => {
+    if (skill === "reading" && onSelectPassage) {
+      if (n <= 13) onSelectPassage(1);
+      else if (n <= 26) onSelectPassage(2);
+      else onSelectPassage(3);
+    }
+    setTimeout(() => {
+      const el = document.getElementById(`question-block-${n}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 80);
+  };
+
+  return (
+    <aside
+      aria-label="IELTS Question Navigator"
+      className="sticky bottom-3 z-40 mt-8 rounded-2xl border border-border/80 bg-card/95 p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.16)] backdrop-blur-md md:p-4"
+    >
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Questions ({answeredCount}/{total})
+            </span>
+          </div>
+          <Button
+            type="button"
+            size="sm"
+            onClick={onSubmit}
+            className="h-8 rounded-full bg-ink px-4 text-xs font-bold text-white shadow hover:opacity-90 md:hidden"
+          >
+            Submit &amp; Score
+          </Button>
+        </div>
+
+        {/* Question Numbers Strip */}
+        <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto py-1 max-h-24 md:max-h-none">
+          {questions.map((q) => {
+            const isFilled = (answers[q.n] ?? "").trim() !== "";
+            return (
+              <button
+                key={q.n}
+                type="button"
+                onClick={() => scrollToQuestion(q.n)}
+                aria-label={`Jump to question ${q.n}`}
+                className={`flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg text-xs font-bold transition-all ${
+                  isFilled
+                    ? "bg-primary text-primary-foreground shadow-xs font-extrabold ring-1 ring-primary/60"
+                    : "border border-border/80 bg-muted/40 text-foreground/75 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                }`}
+              >
+                {q.n}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="hidden md:block">
+          <Button
+            type="button"
+            onClick={onSubmit}
+            className="h-10 rounded-full bg-ink px-6 text-sm font-bold text-white shadow hover:opacity-90"
+          >
+            Submit &amp; Score
+          </Button>
+        </div>
+      </div>
+    </aside>
   );
 }
 
