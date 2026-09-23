@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[api/admin/leads] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "লিড লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "লিড লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

@@ -34,10 +34,10 @@ const moduleMeta = [
 
 /** One actionable coaching tip per module — production EdTech insight, not filler. */
 const moduleTips: Record<(typeof moduleMeta)[number]["key"], string> = {
-  listening: "প্রতিদিন ২০ মিনিট Cambridge audio শুনুন — dictation প্র্যাকটিসে spelling লস কমবে।",
-  reading: "Skimming-এ প্যাসেজ পড়ে প্রশ্নের ধরন অনুযায়ী scan করুন — সময় বাঁচবে ৫–৭ মিনিট।",
+  listening: "প্রতিদিন ২০ মিনিট Cambridge audio শুনুন, dictation প্র্যাকটিসে spelling লস কমবে।",
+  reading: "Skimming-এ প্যাসেজ পড়ে প্রশ্নের ধরন অনুযায়ী scan করুন, সময় বাঁচবে ৫-৭ মিনিট।",
   writing: "Task 2-এর structure bank ফলো করুন আর প্রতি রিভিউতে feedback-এর পয়েন্ট ঠিক করুন।",
-  speaking: "প্রতিদিন ১টি cue card রেকর্ড করে নিজের কথা শুনুন — fluency আর filler দুটোই ধরা পড়বে।",
+  speaking: "প্রতিদিন ১টি cue card রেকর্ড করে নিজের কথা শুনুন, fluency আর filler দুটোই ধরা পড়বে।",
 };
 
 function bandBarColor(band: number): string {
@@ -74,7 +74,7 @@ function ModuleRadar({ mock }: { mock: PortalMock }) {
     <svg
       viewBox={`0 0 ${RADAR_SIZE} ${RADAR_SIZE}`}
       role="img"
-      aria-label={`Module balance — Listening ${mock.listening}, Reading ${mock.reading}, Writing ${mock.writing}, Speaking ${mock.speaking}`}
+      aria-label={`Module balance: Listening ${mock.listening}, Reading ${mock.reading}, Writing ${mock.writing}, Speaking ${mock.speaking}`}
       className="mx-auto h-auto w-full max-w-[260px]"
     >
       {/* grid rings at band 3 / 6 / 9 */}
@@ -165,9 +165,8 @@ export function ScoresSection({
       <div className="space-y-6">
         <Reveal y={12}>
           <PortalSectionHeader
-            eyebrow="Progress Report"
             title="মক স্কোর"
-            desc="প্রতিটি mock test-এর বিস্তারিত band report, মডিউল বিশ্লেষণ আর ট্রেন্ড — সব এখানে।"
+            desc="প্রতিটি mock test-এর বিস্তারিত band report, মডিউল বিশ্লেষণ আর ট্রেন্ড, সব এখানে।"
           />
         </Reveal>
         <Reveal y={12} delay={0.03}>
@@ -189,9 +188,8 @@ export function ScoresSection({
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Progress Report"
           title="মক স্কোর"
-          desc="প্রতিটি mock test-এর বিস্তারিত band report, মডিউল বিশ্লেষণ আর ট্রেন্ড — সব এখানে।"
+          desc="প্রতিটি mock test-এর বিস্তারিত band report, মডিউল বিশ্লেষণ আর ট্রেন্ড, সব এখানে।"
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <BarChart3 className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -316,7 +314,7 @@ export function ScoresSection({
             </span>
             <div>
               <p className="text-sm font-semibold text-foreground">
-                কোচিং টিপ — {weakest.label} এই মাসের ফোকাস
+                কোচিং টিপ: {weakest.label} এই মাসের ফোকাস
               </p>
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{moduleTips[weakest.key]}</p>
             </div>
@@ -329,7 +327,7 @@ export function ScoresSection({
         <div className="rounded-3xl border border-border bg-card p-6">
           <h2 className="font-display text-lg font-bold text-foreground">প্রোগ্রেস ট্রেন্ড</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            প্রতিটি mock-এর overall band — ধারাবাহিক উন্নতিই লক্ষ্য।
+            প্রতিটি mock-এর overall band, ধারাবাহিক উন্নতিই লক্ষ্য।
           </p>
           <div className="mt-5 space-y-3.5">
             {mocks.map((m, i) => {

@@ -43,9 +43,9 @@ type VerifyResponse =
   | { ok: false; error: string };
 
 const EMPTY_INPUT_ERROR =
-  "অনুগ্রহ করে সার্টিফিকেট ID লিখুন — যেমন SIE-CERT-2417। (Please enter a certificate ID.)";
+  "অনুগ্রহ করে সার্টিফিকেট ID লিখুন, যেমন SIE-CERT-2417। (Please enter a certificate ID.)";
 const NETWORK_ERROR =
-  "নেটওয়ার্ক সমস্যা হয়েছে — আবার চেষ্টা করুন। (Network error — please try again.)";
+  "নেটওয়ার্ক সমস্যা হয়েছে, আবার চেষ্টা করুন। (Network error, please try again.)";
 
 export function VerifyPage() {
   const [id, setId] = useState("");
@@ -120,13 +120,12 @@ export function VerifyPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Certificate Verification"
         title={
           <>
             Verify a <span className="text-brand-gradient">Certificate</span>
           </>
         }
-        subtitle="সাদিয়া'স আইইএলটিস ইস্যুকৃত সার্টিফিকেট যাচাই করুন — যেকোনো নিয়োগকর্তা বা প্রতিষ্ঠান এখান থেকে নিশ্চিত হতে পারবেন।"
+        subtitle="সাদিয়া'স আইইএলটিস ইস্যুকৃত সার্টিফিকেট যাচাই করুন। যেকোনো নিয়োগকর্তা বা প্রতিষ্ঠান এখান থেকে নিশ্চিত হতে পারবেন।"
         crumbs={[{ label: "Verify" }]}
       />
 
@@ -184,7 +183,7 @@ export function VerifyPage() {
                     className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground"
                   >
                     <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
-                    সার্টিফিকেটের গায়ে থাকা ID হুবহু লিখুন — স্পেস বা ড্যাশ হলেও সমস্যা নেই।
+                    সার্টিফিকেটের গায়ে থাকা ID হুবহু লিখুন, স্পেস বা ড্যাশ হলেও সমস্যা নেই।
                   </p>
                 </form>
               </CardContent>
@@ -266,7 +265,7 @@ export function VerifyPage() {
                     <div className="mt-8 flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-[#d9b75c] sm:flex-row sm:gap-4">
                       <p className="flex items-center gap-2 text-sm font-medium">
                         <BadgeCheck className="h-5 w-5 shrink-0" aria-hidden />
-                        ✓ Verified — এই সার্টিফিকেটটি আমাদের রেকর্ডে সঠিক পাওয়া
+                        ✓ Verified, এই সার্টিফিকেটটি আমাদের রেকর্ডে সঠিক পাওয়া
                         গেছে
                       </p>
                       <p className="text-xs text-[#c6b995]">
@@ -305,7 +304,7 @@ export function VerifyPage() {
                   <button
                     key={seed.id}
                     type="button"
-                    title={`${seed.name} — Band ${seed.band}`}
+                    title={`${seed.name}, Band ${seed.band}`}
                     onClick={() => void runVerify(seed.id)}
                     className="rounded-full border border-border bg-card px-3.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
                   >
@@ -315,7 +314,7 @@ export function VerifyPage() {
               </div>
               <p className="mt-6 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                প্রতিটি সার্টিফিকেট সরাসরি আমাদের অফিসিয়াল রেকর্ড থেকে যাচাই হয় —
+                প্রতিটি সার্টিফিকেট সরাসরি আমাদের অফিসিয়াল রেকর্ড থেকে যাচাই হয়,
                 এডিট বা নকল করা সম্ভব নয়।
               </p>
             </div>

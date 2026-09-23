@@ -24,15 +24,15 @@ import { site, stats } from "@/lib/site-data";
 import { usePortalStore } from "@/lib/portal-store";
 
 const demoAccounts = [
-  { phone: "01712000001", label: "Anika — 2 courses" },
-  { phone: "01712000004", label: "Emran — Crash Course" },
-  { phone: "01712000006", label: "Rakib — no enrollment (empty)" },
+  { phone: "01712000001", label: "Anika (2 courses)" },
+  { phone: "01712000004", label: "Emran (Crash Course)" },
+  { phone: "01712000006", label: "Rakib (no enrollment, empty)" },
 ];
 
 const benefits = [
   "ভর্তি করা কোর্সের সম্পূর্ণ weekly routine ও class links",
   "Course progress, attendance ও mock test band report",
-  "Batch notice — সরাসরি mentor-এর কাছ থেকে",
+  "Batch notice, সরাসরি mentor-এর কাছ থেকে",
   "Study materials ও speaking club সব এক জায়গায়",
 ];
 
@@ -67,7 +67,7 @@ export function PortalLogin() {
     });
     const data = (await res.json().catch(() => null)) as AuthResponse | null;
     if (!res.ok || !data?.user) {
-      return { ok: false, error: data?.error ?? "Something went wrong — please try again." };
+      return { ok: false, error: data?.error ?? "Something went wrong, please try again." };
     }
     setSession(
       data.user,
@@ -94,7 +94,7 @@ export function PortalLogin() {
                 <span className="text-[#d9b75c]">প্রাইভেট পোর্টাল</span>
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-[#c6b995]">
-                Account খুলে কোর্স কিনুন — অথবা ভর্তির সময় পাওয়া credential দিয়ে লগ ইন করুন।
+                Account খুলে কোর্স কিনুন, অথবা ভর্তির সময় পাওয়া credential দিয়ে লগ ইন করুন।
                 পোর্টালের সব কনটেন্ট শুধু আপনার জন্য।
               </p>
               <ul className="mt-5 space-y-2.5 text-sm text-[#f6ecd4]/90">
@@ -199,7 +199,7 @@ function LoginForm({
       const result = await authenticate("/api/portal/login", { phone, password });
       if (!result.ok) setError(result.error);
     } catch {
-      setError("Could not reach the server — please check your connection and try again.");
+      setError("Could not reach the server, please check your connection and try again.");
     } finally {
       setBusy(false);
     }
@@ -326,7 +326,7 @@ function LoginForm({
         <a href="#/checkout" className="font-semibold text-primary hover:underline">
           Course checkout
         </a>{" "}
-        — অথবা কল করুন{" "}
+       , অথবা কল করুন{" "}
         <a href={site.phoneHref} className="font-semibold text-primary hover:underline">
           {site.phone}
         </a>
@@ -362,7 +362,7 @@ function SignupForm({
       return;
     }
     if (password !== confirm) {
-      setError("Passwords don't match — আবার লিখুন।");
+      setError("Passwords don't match, আবার লিখুন।");
       return;
     }
     setBusy(true);
@@ -371,7 +371,7 @@ function SignupForm({
       const result = await authenticate("/api/auth/register", { name, phone, password });
       if (!result.ok) setError(result.error);
     } catch {
-      setError("Could not reach the server — please check your connection and try again.");
+      setError("Could not reach the server, please check your connection and try again.");
     } finally {
       setBusy(false);
     }
@@ -480,7 +480,7 @@ function SignupForm({
       </Button>
 
       <p className="text-center text-xs leading-relaxed text-muted-foreground">
-        Account খোলার পর কোর্স কিনলে সেটি পোর্টালে যুক্ত হবে —{" "}
+        Account খোলার পর কোর্স কিনলে সেটি পোর্টালে যুক্ত হবে,{" "}
         <a href="#/checkout" className="font-semibold text-primary hover:underline">
           কোর্স দেখুন
         </a>

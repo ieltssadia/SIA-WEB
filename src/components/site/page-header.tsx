@@ -9,12 +9,10 @@ type Crumb = { label: string; href?: string };
  * on the soft sage brand band with emerald accents.
  */
 export function PageHeader({
-  eyebrow,
   title,
   subtitle,
   crumbs = [],
 }: {
-  eyebrow: string;
   title: React.ReactNode;
   subtitle?: string;
   crumbs?: Crumb[];
@@ -61,10 +59,6 @@ export function PageHeader({
             </ol>
           </nav>
 
-          <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            <span className="h-px w-8 bg-primary/60" aria-hidden />
-            {eyebrow}
-          </span>
           <h1 className="font-display text-3xl font-bold leading-tight text-foreground md:text-5xl">
             {title}
           </h1>

@@ -79,7 +79,7 @@ export function EnrollSection() {
       toast({
         title: "Something went wrong",
         description:
-          "Could not submit right now — please call us directly at " + site.phone,
+          "Could not submit right now, please call us directly at " + site.phone,
         variant: "destructive",
       });
     } finally {
@@ -117,15 +117,11 @@ export function EnrollSection() {
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Info side */}
           <div>
-            <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9b75c]">
-              <span className="h-px w-8 bg-[#d9b75c]/60" aria-hidden />
-              Start your journey to success
-            </span>
             <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">
-              Enroll Today — <span className="text-[#d9b75c]">Seats Fill Fast!</span>
+              Enroll Today, <span className="text-[#d9b75c]">Seats Fill Fast!</span>
             </h2>
             <p className="mt-4 max-w-lg leading-relaxed text-[#c6b995]">
-              New students join every week — কোর্সটি শুরু করতে হবে কবে? ফর্মটি পূরণ করুন,
+              New students join every week, কোর্সটি শুরু করতে হবে কবে? ফর্মটি পূরণ করুন,
               আমাদের টিম ২৪ ঘণ্টার মধ্যে কল করে ব্যাচের সময়সূচি ও ভর্তি প্রক্রিয়া জানিয়ে দেবে।
             </p>
 
@@ -136,11 +132,11 @@ export function EnrollSection() {
               </li>
               <li className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
-                bKash / Nagad / Bank — pay however you like
+                bKash / Nagad / Bank, pay however you like
               </li>
               <li className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
-                অনলাইন ও অফলাইন — দুই ধরনের ব্যাচই আছে
+                অনলাইন ও অফলাইন, দুই ধরনের ব্যাচই আছে
               </li>
             </ul>
 
@@ -191,7 +187,7 @@ export function EnrollSection() {
                   Enrollment Form
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Fill in your details — we&apos;ll get back to you within 24 hours.
+                  Fill in your details, we&apos;ll get back to you within 24 hours.
                 </p>
 
                 {status === "success" ? (
@@ -202,7 +198,7 @@ export function EnrollSection() {
                     </p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       ধন্যবাদ {""}
-                      <span className="font-bengali">— আমরা খুব শীঘ্রই আপনার সাথে যোগাযোগ করব।</span>
+                      <span className="font-bengali">আমরা খুব শীঘ্রই আপনার সাথে যোগাযোগ করব।</span>
                     </p>
                     <Button
                       variant="outline"
@@ -311,7 +307,7 @@ export function EnrollSection() {
 
                     <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
                       <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
-                      Your information stays private — used only to contact you.
+                      Your information stays private, used only to contact you.
                       <Timer className="ml-1 hidden" aria-hidden />
                     </p>
                   </form>

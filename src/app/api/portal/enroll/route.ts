@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const phone = bearerPhone(req);
     if (!phone) {
       return NextResponse.json(
-        { error: "Your session expired — please log in again." },
+        { error: "Your session expired, please log in again." },
         { status: 401 }
       );
     }
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     const course = courses.find((c) => c.slug === parsed.data.courseSlug);
     if (!course) {
       return NextResponse.json(
-        { error: "Unknown course — please pick a course from the catalog." },
+        { error: "Unknown course, please pick a course from the catalog." },
         { status: 400 }
       );
     }
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const student = await db.student.findUnique({ where: { phone } });
     if (!student) {
       return NextResponse.json(
-        { error: "Account not found — please log in again." },
+        { error: "Account not found, please log in again." },
         { status: 401 }
       );
     }
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     if (duplicate) {
       return NextResponse.json(
         {
-          error: `আপনি ইতিমধ্যে "${course.title}" কোর্সে ভর্তি আছেন — পোর্টালে দেখুন।`,
+          error: `আপনি ইতিমধ্যে "${course.title}" কোর্সে ভর্তি আছেন, পোর্টালে দেখুন।`,
         },
         { status: 409 }
       );
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
     const payload = await getPortalPayload(phone);
     if (!payload) {
       return NextResponse.json(
-        { error: "Enrolled but could not load the portal — please refresh." },
+        { error: "Enrolled but could not load the portal, please refresh." },
         { status: 500 }
       );
     }

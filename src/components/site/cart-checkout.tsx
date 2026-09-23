@@ -65,7 +65,7 @@ type OrderPayMethod = {
 const orderPayMethods: OrderPayMethod[] = [
   {
     id: "bKash",
-    label: "bKash — Send Money",
+    label: "bKash: Send Money",
     note: `Send Money · ${PAYMENT_RECEIVER.bkash}`,
     icon: Smartphone,
     color: "#e2136e",
@@ -73,7 +73,7 @@ const orderPayMethods: OrderPayMethod[] = [
   },
   {
     id: "Nagad",
-    label: "Nagad — Send Money",
+    label: "Nagad: Send Money",
     note: `Send Money · ${PAYMENT_RECEIVER.nagad}`,
     icon: Wallet,
     color: "#f26522",
@@ -82,7 +82,7 @@ const orderPayMethods: OrderPayMethod[] = [
   {
     id: "Cash on Delivery",
     label: "Cash on Delivery",
-    note: "বই হাতে পেয়ে টাকা পরিশোধ করুন — সারাদেশে",
+    note: "বই হাতে পেয়ে টাকা পরিশোধ করুন, সারাদেশে",
     icon: Banknote,
     color: "#0f766e",
     kind: "cod",
@@ -235,7 +235,7 @@ function DetailsStep({
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Delivery details</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          বই পাঠানোর ঠিকানা দিন — আমরা কল দিয়ে কনফার্ম করে পার্সেল পাঠাব।
+          বই পাঠানোর ঠিকানা দিন, আমরা কল দিয়ে কনফার্ম করে পার্সেল পাঠাব।
         </p>
       </div>
 
@@ -293,7 +293,7 @@ function DetailsStep({
             <SelectContent className="border-border bg-popover">
               {DELIVERY_ZONES.map((z) => (
                 <SelectItem key={z.value} value={z.value}>
-                  {z.label} {z.fee === 0 ? "— Free" : `— ${taka(z.fee)}`}
+                  {z.label} {z.fee === 0 ? "· Free" : `· ${taka(z.fee)}`}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -312,13 +312,13 @@ function DetailsStep({
             rows={3}
           />
           <p className="text-xs text-muted-foreground">
-            কুরিয়ার পার্সেল পৌঁছাতে সম্পূর্ণ ঠিকানা দরকার — house, road, area সহ।
+            কুরিয়ার পার্সেল পৌঁছাতে সম্পূর্ণ ঠিকানা দরকার, house, road, area সহ।
           </p>
         </div>
       ) : (
         <p className="flex items-start gap-2 rounded-xl border border-primary/15 bg-primary/5 px-3.5 py-2.5 text-xs leading-relaxed text-primary">
           <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-          {zoneInfo?.note} — ঠিকানা লাগবে না, আমরা কল দিয়ে সময় নিশ্চিত করব।
+          {zoneInfo?.note}, ঠিকানা লাগবে না, আমরা কল দিয়ে সময় নিশ্চিত করব।
         </p>
       )}
 
@@ -326,7 +326,7 @@ function DetailsStep({
         <Label htmlFor="cart-note">Order note (optional)</Label>
         <Textarea
           id="cart-note"
-          placeholder="Special instructions — delivery time, gift wrap, etc."
+          placeholder="Special instructions: delivery time, gift wrap, etc."
           value={form.note}
           onChange={(e) => setField("note", e.target.value)}
           rows={2}
@@ -376,7 +376,7 @@ function PaymentStep({
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Payment method</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          পেমেন্ট পদ্ধতি বেছে নিন — অর্ডার কনফার্ম হওয়ার পর আমরা কল দিয়ে নিশ্চিত করব।
+          পেমেন্ট পদ্ধতি বেছে নিন, অর্ডার কনফার্ম হওয়ার পর আমরা কল দিয়ে নিশ্চিত করব।
         </p>
       </div>
 
@@ -429,7 +429,7 @@ function PaymentStep({
         <div className="space-y-3">
           <div className="rounded-xl border border-border bg-muted/50 p-4">
             <p className="text-sm font-bold text-foreground">
-              {selected.id} Send Money — {taka(total)}
+              {selected.id} Send Money: {taka(total)}
             </p>
             <ol className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
               <li className="flex items-start gap-1.5">
@@ -450,7 +450,7 @@ function PaymentStep({
               </li>
               <li className="flex items-start gap-1.5">
                 <span className="font-bold text-primary">৩.</span>
-                <span>আমরা পেমেন্ট ভেরিফাই করে আপনাকে কল দেব — তারপর বই পাঠানো হবে।</span>
+                <span>আমরা পেমেন্ট ভেরিফাই করে আপনাকে কল দেব, তারপর বই পাঠানো হবে।</span>
               </li>
             </ol>
           </div>
@@ -458,7 +458,7 @@ function PaymentStep({
             <Label htmlFor="cart-txid">Transaction ID (optional)</Label>
             <Input
               id="cart-txid"
-              placeholder="e.g. 9GX7A2B1CD — পরে ফোনেও দেওয়া যাবে"
+              placeholder="e.g. 9GX7A2B1CD, পরে ফোনেও দেওয়া যাবে"
               value={form.transactionId}
               onChange={(e) => setField("transactionId", e.target.value)}
               maxLength={60}
@@ -534,7 +534,7 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
           Order <span className="text-[#d9b75c]">placed!</span>
         </h2>
         <p className="mt-2 text-center text-sm text-[#c6b995] md:text-base">
-          ধন্যবাদ {firstName}! আপনার অর্ডার আমরা পেয়েছি — ২৪ ঘণ্টার মধ্যে{" "}
+          ধন্যবাদ {firstName}! আপনার অর্ডার আমরা পেয়েছি, ২৪ ঘণ্টার মধ্যে{" "}
           <span className="font-semibold text-[#f6ecd4]">{order.phone}</span> নম্বরে কল দিয়ে
           কনফার্ম করা হবে।
         </p>
@@ -563,13 +563,13 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
           {manual ? (
             <>
               <p className="text-sm font-bold text-[#f6ecd4]">
-                পেমেন্ট: {order.paymentMethod} — {taka(order.total)}
+                পেমেন্ট: {order.paymentMethod}, {taka(order.total)}
               </p>
               <p className="mt-1.5 text-xs leading-relaxed text-[#c6b995]">
                 {order.paymentMethod} অ্যাপ থেকে{" "}
                 <span className="font-bold text-[#d9b75c]">{PAYMENT_RECEIVER.full}</span> (Merchant)
                 নম্বরে <span className="font-bold text-[#f6ecd4]">{taka(order.total)}</span> Send
-                Money করুন — Reference: <span className="font-bold text-[#f6ecd4]">{order.orderNo}</span>
+                Money করুন, Reference: <span className="font-bold text-[#f6ecd4]">{order.orderNo}</span>
                 {order.transactionId ? (
                   <>
                     {" "}· TrxID: <span className="font-bold text-[#f6ecd4]">{order.transactionId}</span>
@@ -612,7 +612,7 @@ function OrderReceipt({ order, onNewOrder }: { order: PlacedOrder; onNewOrder: (
           <p className="mt-3 flex items-center gap-1.5 text-[11px] text-[#c6b995]">
             <MapPin className="h-3 w-3 shrink-0 text-[#d9b75c]" aria-hidden />
             {zone?.label}
-            {order.address ? <> — {order.address}</> : null}
+            {order.address ? <>, {order.address}</> : null}
           </p>
         </div>
 
@@ -697,7 +697,7 @@ export function CartCheckout() {
   function validateDetails(): string | null {
     if (form.name.trim().length < 2) return "আপনার পুরো নাম লিখুন।";
     const phone = canonicalPhone(form.phone);
-    if (!/^01[3-9]\d{8}$/.test(phone)) return "সঠিক মোবাইল নম্বর দিন — যেমন 01712-345678।";
+    if (!/^01[3-9]\d{8}$/.test(phone)) return "সঠিক মোবাইল নম্বর দিন, যেমন 01712-345678।";
     if (form.email && !/^\S+@\S+\.\S+$/.test(form.email.trim())) return "Email টি সঠিক নয়।";
     const zone = getZone(form.zone);
     if (zone?.courier && form.address.trim().length < 8) {
@@ -739,7 +739,7 @@ export function CartCheckout() {
         | { order?: PlacedOrder; error?: string }
         | null;
       if (!res.ok || !data?.order) {
-        setFormError(data?.error ?? "Order placement failed — please try again.");
+        setFormError(data?.error ?? "Order placement failed, please try again.");
         return;
       }
       clear();
@@ -747,7 +747,7 @@ export function CartCheckout() {
       setStep(3);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
-      setFormError("Could not reach the server — check your connection.");
+      setFormError("Could not reach the server, check your connection.");
     } finally {
       setBusy(false);
     }
@@ -782,7 +782,7 @@ export function CartCheckout() {
           </span>
           <h2 className="mt-4 font-display text-xl font-bold text-foreground">আপনার কার্ট খালি</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Book Shop থেকে বই কার্টে যোগ করুন — অথবা নিচের কোর্সে ভর্তি হোন।
+            Book Shop থেকে বই কার্টে যোগ করুন, অথবা নিচের কোর্সে ভর্তি হোন।
           </p>
           <Button asChild className="mt-5 rounded-full bg-ink px-6 py-6 font-semibold text-white hover:opacity-85">
             <a href="#/shop">
@@ -834,7 +834,7 @@ export function CartCheckout() {
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li className="flex items-start gap-2">
                 <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                100% original — Sadia Rahman-এর লেখা বই
+                100% original, Sadia Rahman-এর লেখা বই
               </li>
               <li className="flex items-start gap-2">
                 <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
@@ -842,11 +842,11 @@ export function CartCheckout() {
               </li>
               <li className="flex items-start gap-2">
                 <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                Cash on delivery available — ঝুঁকিমুক্ত কেনাকাটা
+                Cash on delivery available, ঝুঁকিমুক্ত কেনাকাটা
               </li>
             </ul>
             <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
-              প্রশ্ন থাকলে কল করুন {site.phone} — অথবা অর্ডার করার পর আমরাই আপনাকে কল দেব।
+              প্রশ্ন থাকলে কল করুন {site.phone}, অথবা অর্ডার করার পর আমরাই আপনাকে কল দেব।
             </p>
           </CardContent>
         </Card>

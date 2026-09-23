@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
   const dup = await db.siteTeamMember.findUnique({ where: { slug: data.slug } });
   if (dup) {
-    return badRequest("এই স্লাগে একজন সদস্য আছে — অন্য স্লাগ দিন।");
+    return badRequest("এই স্লাগে একজন সদস্য আছে, অন্য স্লাগ দিন।");
   }
 
   const row = await db.siteTeamMember.create({

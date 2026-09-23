@@ -52,7 +52,7 @@ export async function uploadAdminFile(
     if (res.ok && data?.ok && data.upload) return { ok: true, upload: data.upload };
     return { ok: false, error: data?.error ?? "ফাইল আপলোড করা যায়নি।" };
   } catch {
-    return { ok: false, error: "নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।" };
+    return { ok: false, error: "নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।" };
   }
 }
 
@@ -70,7 +70,7 @@ const DHAKA_TZ = "Asia/Dhaka";
 /** "15 Aug 2025" (Asia/Dhaka). */
 export function formatDate(input: string | Date): string {
   const d = typeof input === "string" ? new Date(input) : input;
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return "-";
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
     month: "short",
@@ -82,7 +82,7 @@ export function formatDate(input: string | Date): string {
 /** "15 Aug 2025, 6:30 pm" (Asia/Dhaka) — used for schedules & receipts. */
 export function formatDateTime(input: string | Date): string {
   const d = typeof input === "string" ? new Date(input) : input;
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return "-";
   const date = formatDate(d);
   const time = new Intl.DateTimeFormat("en-GB", {
     hour: "numeric",

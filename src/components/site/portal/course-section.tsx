@@ -102,7 +102,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
               </div>
               <Progress value={enrollment.progress} className="mt-2 h-2.5 bg-white/10 [&>div]:bg-[#d9b75c]" />
               <p className="mt-2 text-xs text-[#c6b995]">
-                {bnNum(lessonsDone)}/{bnNum(course?.lessons ?? "—")} টি লেসন শেষ — এভাবেই চালিয়ে যান!
+                {bnNum(lessonsDone)}/{bnNum(course?.lessons ?? "-")} টি লেসন শেষ, এভাবেই চালিয়ে যান!
               </p>
             </div>
           </div>
@@ -161,7 +161,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: PortalEnrollment }) {
           <div className="h-full rounded-3xl border border-border bg-card p-6">
             <h2 className="font-display text-lg font-bold text-foreground">স্টাডি ম্যাটেরিয়ালস</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              সব ফাইল সরাসরি ডাউনলোড করুন — পুরো লাইব্রেরি ডাউনলোডস সেকশনে।
+              সব ফাইল সরাসরি ডাউনলোড করুন, পুরো লাইব্রেরি ডাউনলোডস সেকশনে।
             </p>
             <div className="mt-4 space-y-2.5">
               {portalDownloads.slice(0, 4).map(({ id, title, desc, href }) => (
@@ -195,9 +195,8 @@ export function CourseSection({ enrollments }: { enrollments: PortalEnrollment[]
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Learning"
           title="আমার কোর্স"
-          desc="ভর্তি হওয়া প্রতিটি কোর্সের প্রোগ্রেস, সিলেবাস আর স্টাডি ম্যাটেরিয়ালস — যা কিনেছেন শুধু সেটাই এখানে খোলা।"
+          desc="ভর্তি হওয়া প্রতিটি কোর্সের প্রোগ্রেস, সিলেবাস আর স্টাডি ম্যাটেরিয়ালস, যা কিনেছেন শুধু সেটাই এখানে খোলা।"
         />
       </Reveal>
 

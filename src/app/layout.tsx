@@ -53,7 +53,7 @@ const atma = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Sadia's IELTS — Unlock Your Future | IELTS Coaching in Sreemangal, Sylhet",
+  title: "Sadia's IELTS: Unlock Your Future | IELTS Coaching in Sreemangal, Sylhet",
   description:
     "Transform your English skills to perfection with Sadia's IELTS. 9+ years of excellence, 316+ batches completed, 5,983+ successful learners. Basic to IELTS, Crash Course, Free Course & more in Sreemangal, Moulvibazar, Sylhet.",
   keywords: [
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     icon: "/sadia-logo.png",
   },
   openGraph: {
-    title: "Sadia's IELTS — Unlock Your Future",
+    title: "Sadia's IELTS: Unlock Your Future",
     description:
       "Transform Your English Skills to Perfection. 9+ years, 316+ batches, 5,983+ learners in Sreemangal, Sylhet.",
     url: "https://sadiasielts.com",

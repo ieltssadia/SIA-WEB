@@ -254,7 +254,7 @@ export function CourseCard({
                 aria-hidden
               />
               ভর্তি চলমান
-              {course.seatsLeft ? ` — মাত্র ${course.seatsLeft} সিট বাকি!` : ""}
+              {course.seatsLeft ? `, মাত্র ${course.seatsLeft} সিট বাকি!` : ""}
             </span>
           ) : null}
         </div>
@@ -348,7 +348,7 @@ function CounselingTile({ span2 }: { span2: boolean }) {
           কোন কোর্সটি <span className={GOLD}>আপনার জন্য?</span>
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-white/70">
-          ৯ বছরের অভিজ্ঞতা — একটি ফ্রি কলে আপনার level ও target অনুযায়ী সঠিক কোর্সটি
+          ৯ বছরের অভিজ্ঞতা, একটি ফ্রি কলে আপনার level ও target অনুযায়ী সঠিক কোর্সটি
           বেছে নিন।
         </p>
         <div className="mt-auto flex flex-wrap gap-2 pt-5">
@@ -438,13 +438,12 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {featured ? (
           <SectionHeading
-            eyebrow="Our Courses"
             title={
               <>
                 আপনার লেভেলের <span className="text-brand-gradient">কোর্সটি বেছে নিন</span>
               </>
             }
-            subtitle="একদম শুরু থেকে যাঁরা, থেকে শুধু টেস্টের আগে ধার মেলাতে চান — সবার জন্য আলাদা পরিকল্পনা। ৯ বছরের ক্লাসরুম অভিজ্ঞতায় সাজানো।"
+            subtitle="একদম শুরু থেকে যাঁরা, থেকে শুধু টেস্টের আগে ধার মেলাতে চান। সবার জন্য আলাদা পরিকল্পনা। ৯ বছরের ক্লাসরুম অভিজ্ঞতায় সাজানো।"
           />
         ) : (
           <h2 className="sr-only">All Courses</h2>
@@ -488,7 +487,7 @@ export function CoursesSection({ featured = false }: { featured?: boolean }) {
 
         {filtered.length === 0 ? (
           <p className="mt-10 text-center text-sm text-muted-foreground">
-            No courses in this category yet — please check other tabs or call {site.phone}.
+            No courses in this category yet, please check other tabs or call {site.phone}.
           </p>
         ) : null}
 

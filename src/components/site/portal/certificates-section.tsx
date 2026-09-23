@@ -275,7 +275,7 @@ function printCertificate(dataUrl: string) {
   const win = window.open("", "_blank", "width=1140,height=800");
   if (!win) return;
   win.document.write(
-    `<!doctype html><html><head><title>Sadia's IELTS — Certificate</title>
+    `<!doctype html><html><head><title>Sadia's IELTS Certificate</title>
      <style>@page{size:A4 landscape;margin:0}html,body{margin:0;height:100%;background:#fff;
      display:flex;align-items:center;justify-content:center}img{max-width:97vw;max-height:97vh}
      </style></head><body><img src="${dataUrl}"
@@ -463,10 +463,10 @@ function CertificatePreview({ name, primary }: { name: string; primary: PortalEn
             <Lock className="h-6 w-6 text-[#d9b75c]" aria-hidden />
           </span>
           <p className="font-display text-base font-bold text-[#f6ecd4] sm:text-lg">
-            প্রিভিউ — কোর্স শেষ করলেই আনলক হবে
+            প্রিভিউ (কোর্স শেষ করলেই আনলক হবে)
           </p>
           <p className="max-w-xs px-4 text-center text-xs leading-relaxed text-white/70">
-            এটাই আপনার সার্টিফিকেটের নমুনা — নাম, কোর্স আর ব্যান্ড সহ। ১০০% সম্পন্ন হলে এখানেই
+            এটাই আপনার সার্টিফিকেটের নমুনা, নাম, কোর্স আর ব্যান্ড সহ। ১০০% সম্পন্ন হলে এখানেই
             ডাউনলোড আর প্রিন্ট বাটন যুক্ত হবে।
           </p>
         </div>
@@ -482,7 +482,7 @@ function IssueTimeline({ primary }: { primary: PortalEnrollment }) {
     {
       icon: GraduationCap,
       title: "কোর্স ১০০% সম্পন্ন করুন",
-      desc: `সব লেসন, অ্যাসাইনমেন্ট আর মক টেস্ট শেষ — এখন ${progress}%।`,
+      desc: `সব লেসন, অ্যাসাইনমেন্ট আর মক টেস্ট শেষ, এখন ${progress}%।`,
       done: progress >= 100,
       current: progress < 100,
     },
@@ -503,7 +503,7 @@ function IssueTimeline({ primary }: { primary: PortalEnrollment }) {
     {
       icon: Download,
       title: "ডাউনলোড ও প্রিন্ট",
-      desc: "PNG ডাউনলোড বা A4 প্রিন্ট — যেভাবে দরকার, সেভাবে ব্যবহার করুন।",
+      desc: "PNG ডাউনলোড বা A4 প্রিন্ট, যেভাবে দরকার, সেভাবে ব্যবহার করুন।",
       done: false,
       current: false,
     },
@@ -515,7 +515,7 @@ function IssueTimeline({ primary }: { primary: PortalEnrollment }) {
     <div className="rounded-3xl border border-border bg-card p-5 sm:p-6">
       <h3 className="font-display text-lg font-bold text-foreground">সার্টিফিকেট কীভাবে পাবেন</h3>
       <p className="mt-1 text-xs text-muted-foreground">
-        চার ধাপ — প্রতিটি শেষ হলে পরেরটা চালু হয়।
+        চার ধাপ, প্রতিটি শেষ হলে পরেরটা চালু হয়।
       </p>
       <ol className="mt-5 space-y-0">
         {steps.map(({ icon: Icon, title, desc, done, current }, i) => {
@@ -613,7 +613,7 @@ function UnlockProgress({ primary }: { primary: PortalEnrollment }) {
           >
             {primary.progress >= 100 ? <CheckCircle2 className="h-3 w-3" /> : null}
           </span>
-          কোর্স প্রোগ্রেস ১০০% {primary.progress >= 100 ? "— সম্পন্ন ✓" : `— এখন ${primary.progress}%`}
+          কোর্স প্রোগ্রেস ১০০% {primary.progress >= 100 ? ", সম্পন্ন ✓" : `, এখন ${primary.progress}%`}
         </li>
         <li className="flex items-center gap-2 text-muted-foreground">
           <span
@@ -625,7 +625,7 @@ function UnlockProgress({ primary }: { primary: PortalEnrollment }) {
           >
             {primary.attendance >= 80 ? <CheckCircle2 className="h-3 w-3" /> : null}
           </span>
-          উপস্থিতি ট্র্যাক হচ্ছে — এখন {primary.attendance}%
+          উপস্থিতি ট্র্যাক হচ্ছে, এখন {primary.attendance}%
         </li>
       </ul>
     </div>
@@ -651,12 +651,11 @@ export function CertificatesSection({
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Achievement"
           title="সার্টিফিকেট"
           desc={
             earned
-              ? "অফিসিয়াল সার্টিফিকেট ডাউনলোড করুন বা প্রিন্ট করুন — প্রতিটি সার্টিফিকেটের ইউনিক ভেরিফিকেশন ID আছে।"
-              : "কোর্স ১০০% সম্পন্ন করলে আপনার নামে অফিসিয়াল সার্টিফিকেট ইস্যু হবে — ডাউনলোড আর প্রিন্ট দুটোই করা যাবে।"
+              ? "অফিসিয়াল সার্টিফিকেট ডাউনলোড করুন বা প্রিন্ট করুন, প্রতিটি সার্টিফিকেটের ইউনিক ভেরিফিকেশন ID আছে।"
+              : "কোর্স ১০০% সম্পন্ন করলে আপনার নামে অফিসিয়াল সার্টিফিকেট ইস্যু হবে, ডাউনলোড আর প্রিন্ট দুটোই করা যাবে।"
           }
           action={
             <Badge

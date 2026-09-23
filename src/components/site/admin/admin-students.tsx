@@ -61,7 +61,7 @@ export function AdminStudents() {
       if (res.ok && data?.ok && data.students) setStudents(data.students);
       else setError(data?.error ?? "শিক্ষার্থী লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ export function AdminStudents() {
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Students — শিক্ষার্থী"
+        title="Students: শিক্ষার্থী"
         sub="পোর্টাল অ্যাকাউন্ট, ভর্তি ও মক টেস্ট স্কোর"
       />
 
@@ -140,7 +140,7 @@ export function AdminStudents() {
                       </p>
                     ) : (
                       <p className="mt-2 rounded-lg bg-muted/50 px-2 py-1.5 text-xs text-muted-foreground">
-                        কোনো ভর্তি নেই — খালি পোর্টাল
+                        কোনো ভর্তি নেই, খালি পোর্টাল
                       </p>
                     )}
                   </CardContent>
@@ -185,7 +185,7 @@ function StudentSheet({ id, onClose }: { id: string | null; onClose: () => void 
         else setError(data?.error ?? "লোড করা যায়নি।");
       })
       .catch(() => {
-        if (!cancelled) setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+        if (!cancelled) setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -221,11 +221,11 @@ function StudentSheet({ id, onClose }: { id: string | null; onClose: () => void 
               <section aria-label="Enrollments">
                 <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Layers className="h-4 w-4 text-primary" aria-hidden="true" />
-                  Enrollments — ভর্তি ({detail.enrollments.length})
+                  Enrollments: ভর্তি ({detail.enrollments.length})
                 </h3>
                 {detail.enrollments.length === 0 ? (
                   <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
-                    এই অ্যাকাউন্টে কোনো ভর্তি নেই — পোর্টাল খালি দেখাবে।
+                    এই অ্যাকাউন্টে কোনো ভর্তি নেই, পোর্টাল খালি দেখাবে।
                   </p>
                 ) : (
                   <ul className="space-y-3">
@@ -270,7 +270,7 @@ function StudentSheet({ id, onClose }: { id: string | null; onClose: () => void 
               <section aria-label="Mock results">
                 <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <GraduationCap className="h-4 w-4 text-primary" aria-hidden="true" />
-                  Mock Results — মক স্কোর ({detail.mockResults.length})
+                  Mock Results: মক স্কোর ({detail.mockResults.length})
                 </h3>
                 {detail.mockResults.length === 0 ? (
                   <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">

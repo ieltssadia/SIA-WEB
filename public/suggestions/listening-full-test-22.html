@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sadia's IELTS — Listening Full Test 22. Full-length IELTS listening practice with instant band score.">
+    <title>Listening Full Test 22 — Sadia's IELTS</title>
+    <style>
+
+        /* ===== Sadia's IELTS — brand fonts (same-origin, no third-party) ===== */
+        @font-face { font-family: 'Bricolage Grotesque'; src: url('/fonts/BricolageGrotesque-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Bricolage Grotesque'; src: url('/fonts/BricolageGrotesque-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'Bricolage Grotesque'; src: url('/fonts/BricolageGrotesque-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+        @font-face { font-family: 'Bricolage Grotesque'; src: url('/fonts/BricolageGrotesque-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Bricolage Grotesque'; src: url('/fonts/BricolageGrotesque-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
+        @font-face { font-family: 'Urbanist'; src: url('/fonts/Urbanist-VariableFont_wght.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+        @font-face { font-family: 'Hind Siliguri'; src: url('/fonts/HindSiliguri-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Hind Siliguri'; src: url('/fonts/HindSiliguri-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'Hind Siliguri'; src: url('/fonts/HindSiliguri-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+        @font-face { font-family: 'Hind Siliguri'; src: url('/fonts/HindSiliguri-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+        
+/* ===== Sadia's IELTS — Listening Test 27 design system ===== */
+:root {
+    --gold: #d9b75c;
+    --gold-deep: #b08a2e;
+    --gold-dark: #8a6720;
+    --gold-soft: #f3e8c8;
+    --ivory: #f6ecd4;
+    --ink: #1e1b14;
+    --forest: #171410;
+    --paper: #faf7ef;
+    --card: #fffdf7;
+    --line: #e7dec9;
+    --line-strong: #d8cba8;
+    --muted: #8a7d5f;
+    --ok: #2e7d52;
+    --ok-bg: #e9f5ee;
+    --bad: #b3372f;
+    --bad-bg: #fbeeed;
+    --sh-h: 56px;
+    --player-h: 44px;
+    --nav-h: 76px;
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Urbanist', 'Hind Siliguri', Arial, sans-serif;
+    background:
+        radial-gradient(1100px 500px at 85% -10%, rgba(217, 183, 92, 0.07), transparent 60%),
+        var(--paper);
+    color: var(--ink);
+    line-height: 1.45;
+    font-size: 16px;
+    padding-bottom: calc(var(--nav-h) + 28px + var(--safe-b));
+}
+
+::selection { background: rgba(168, 127, 42, 0.25); color: var(--forest); }
+
+button { font-family: inherit; }
+input { font-family: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible {
+    outline: 3px solid rgba(217, 183, 92, 0.55);
+    outline-offset: 2px;
+}
+
+.left-panel::-webkit-scrollbar, .right-panel::-webkit-scrollbar,
+.nav-row::-webkit-scrollbar, .modal-content::-webkit-scrollbar { width: 8px; height: 6px; }
+.left-panel::-webkit-scrollbar-thumb, .right-panel::-webkit-scrollbar-thumb,
+.nav-row::-webkit-scrollbar-thumb, .modal-content::-webkit-scrollbar-thumb {
+    background: rgba(176, 138, 46, 0.35); border-radius: 8px;
+}
+.left-panel::-webkit-scrollbar-track, .right-panel::-webkit-scrollbar-track,
+.nav-row::-webkit-scrollbar-track { background: transparent; }
+
+/* ===== Brand header ===== */
+.sadia-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+    height: calc(var(--sh-h) + var(--safe-t));
+    padding: var(--safe-t) 18px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: linear-gradient(115deg, #2b2415 0%, #221c10 35%, #171410 70%, #262012 100%);
+    border-bottom: 1px solid rgba(217, 183, 92, 0.28);
+    box-shadow: 0 10px 30px rgba(23, 20, 16, 0.28);
+}
+.sh-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sh-logo {
+    width: 34px; height: 34px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 0 1.5px rgba(217, 183, 92, 0.55);
+}
+.sh-wordmark { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
+.sh-name {
+    font-family: 'Bricolage Grotesque', serif; font-weight: 800; font-size: 17px;
+    color: var(--ivory); letter-spacing: 0.2px; white-space: nowrap;
+}
+.sh-name em {
+    font-style: normal;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sh-tag {
+    font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(246, 236, 212, 0.55); margin-top: 2px; font-weight: 600;
+}
+.sh-test { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.sh-chip {
+    font-family: 'Bricolage Grotesque', serif; font-weight: 700; font-size: 12.5px;
+    color: var(--forest);
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e);
+    padding: 7px 14px; border-radius: 999px; white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(176, 138, 46, 0.35);
+}
+.sh-sub { font-size: 12px; color: rgba(246, 236, 212, 0.66); white-space: nowrap; font-weight: 500; }
+@media (max-width: 560px) {
+    .sh-tag, .sh-sub { display: none; }
+    .sadia-header { padding-left: 12px; padding-right: 12px; }
+}
+
+/* ===== Floating audio player ===== */
+.audio-player-container {
+    position: fixed;
+    top: calc(var(--safe-t) + var(--sh-h) + 10px);
+    left: 50%; transform: translateX(-50%);
+    width: 520px; max-width: calc(100% - 24px); height: var(--player-h);
+    background: rgba(255, 253, 247, 0.94);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border: 1px solid var(--line); border-radius: 999px;
+    display: flex; align-items: center; padding: 0 14px; z-index: 590; gap: 10px;
+    box-shadow: 0 10px 28px rgba(30, 27, 20, 0.14);
+}
+.player-btn {
+    background: none; border: none; cursor: pointer; padding: 5px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; transition: background 0.2s;
+}
+.player-btn:hover { background: rgba(217, 183, 92, 0.18); }
+.player-btn svg { width: 19px; height: 19px; fill: var(--forest); }
+#volume-btn svg { fill: none; stroke: var(--forest); }
+.progress-container { flex-grow: 1; display: flex; align-items: center; gap: 8px; }
+#current-time, #total-duration {
+    font-size: 11.5px; color: var(--muted); min-width: 34px; text-align: center;
+    font-variant-numeric: tabular-nums; font-weight: 600;
+}
+#progress-bar {
+    flex-grow: 1; -webkit-appearance: none; appearance: none; height: 4px;
+    background: linear-gradient(90deg, var(--gold) var(--fill, 0%), #e6dcc2 var(--fill, 0%));
+    border-radius: 3px; outline: none; cursor: pointer;
+}
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 13px; height: 13px; border-radius: 50%;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e);
+    border: 2px solid #fffdf7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); cursor: pointer;
+}
+#progress-bar::-moz-range-thumb {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e);
+    border: 2px solid #fffdf7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); cursor: pointer;
+}
+.controls-container { display: flex; align-items: center; gap: 8px; }
+.volume-container { display: flex; align-items: center; }
+#new-volume-slider {
+    -webkit-appearance: none; appearance: none; width: 56px; height: 3px;
+    background: #e6dcc2; border-radius: 2px; outline: none; cursor: pointer;
+}
+#new-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e); cursor: pointer;
+}
+#new-volume-slider::-moz-range-thumb {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e); border: none; cursor: pointer;
+}
+.speed-container { position: relative; }
+#speed-btn {
+    font-size: 11.5px; font-weight: 700; color: var(--forest);
+    background: rgba(217, 183, 92, 0.16); border: 1px solid var(--line-strong);
+    border-radius: 999px; padding: 3.5px 10px; cursor: pointer; transition: background 0.2s;
+}
+#speed-btn:hover { background: rgba(217, 183, 92, 0.32); }
+#speed-options {
+    position: absolute; top: calc(100% + 6px); right: 0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(30, 27, 20, 0.18); z-index: 100; overflow: hidden;
+}
+#speed-options div { padding: 7px 16px; cursor: pointer; font-size: 12.5px; }
+#speed-options div:hover { background: rgba(217, 183, 92, 0.16); }
+
+/* ===== Main layout ===== */
+.main-container {
+    margin-top: calc(var(--safe-t) + var(--sh-h) + var(--player-h) + 36px);
+    display: flex;
+    background: transparent;
+}
+.main-container.results-mode { flex-direction: row; }
+
+.left-panel {
+    width: 100%; padding: 20px 20px 40px;
+    transition: width 0.4s ease;
+}
+.main-container.results-mode .left-panel {
+    width: 50%; overflow-y: auto;
+    height: calc(100vh - var(--nav-h) - var(--safe-t) - var(--sh-h) - var(--player-h) - 36px);
+}
+
+.right-panel {
+    display: none; width: 50%; padding: 20px; position: relative;
+    border-left: 1px solid var(--line);
+    overflow-y: auto; background: var(--card);
+    height: calc(100vh - var(--nav-h) - var(--safe-t) - var(--sh-h) - var(--player-h) - 36px);
+}
+.main-container.results-mode .right-panel { display: block; width: 50%; border-left: 1px solid var(--line); }
+
+#transcription-container h2 {
+    font-family: 'Bricolage Grotesque', serif; font-size: 18px; font-weight: 700;
+    margin-bottom: 10px; color: var(--forest);
+}
+#transcription-text { white-space: pre-wrap; font-family: inherit; font-size: 14.5px; line-height: 1.75; }
+.transcription-instruction { display: block; margin: 1em 0; font-style: italic; color: var(--muted); }
+.bn-soft { font-family: 'Hind Siliguri', sans-serif; font-weight: 500; color: var(--muted); font-size: 0.82em; }
+
+/* ===== Part headers ===== */
+.part-header {
+    background: linear-gradient(135deg, #f8f0dc 0%, #f2e6c4 100%);
+    padding: 14px 18px; border-radius: 14px; margin-bottom: 22px;
+    border: 1px solid var(--line-strong); border-left: 4px solid var(--gold);
+    box-shadow: 0 2px 10px rgba(176, 138, 46, 0.08);
+}
+.part-header p { margin: 0; }
+.part-header p:first-child strong {
+    font-family: 'Bricolage Grotesque', serif; font-size: 17px; color: var(--forest); letter-spacing: 0.02em;
+}
+.part-header p + p { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+.part-bn {
+    font-family: 'Hind Siliguri', sans-serif; font-size: 13px !important;
+    color: var(--gold-dark) !important; margin-top: 4px !important; font-weight: 500;
+}
+
+/* ===== Questions ===== */
+.questions-container { width: 50%; }
+.question { margin-bottom: 40px; }
+.question p { margin-bottom: 10px; }
+.question ul, .question .people-table { margin-top: 0; }
+.question-prompt { margin-bottom: 20px; }
+.question-prompt p strong { font-family: 'Bricolage Grotesque', serif; color: var(--forest); }
+.question ul { list-style: none; padding-left: 0; }
+.question ul li { margin-bottom: 5px; }
+.question-title { font-weight: 700; margin-bottom: 10px; font-size: 16px; font-family: 'Bricolage Grotesque', serif; }
+.instruction { margin-bottom: 20px; font-size: 15px; color: var(--muted); }
+.centered-title {
+    text-align: center; font-size: 20px; font-weight: 800;
+    font-family: 'Bricolage Grotesque', serif; margin-bottom: 15px; color: var(--forest);
+}
+.questions-section { margin-bottom: 20px; }
+.section-title { font-weight: 800; margin-bottom: 15px; font-size: 18px; font-family: 'Bricolage Grotesque', serif; }
+.example-box { border: 1px solid var(--line); background: #f7f2e2; padding: 15px; border-radius: 12px; margin: 20px 0; }
+
+.answer-input {
+    border: 1.5px solid var(--line-strong); border-radius: 8px; background-color: #fff;
+    padding: 3px 8px; font-size: 15.5px; text-align: center; margin-right: 4px; margin-left: 4px;
+    width: 110px; max-width: 130px; min-width: 80px; color: var(--forest); font-weight: 600;
+    word-break: break-word; overflow-wrap: break-word; white-space: normal;
+    height: auto; min-height: 30px; line-height: 1.2; vertical-align: middle;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.answer-input::placeholder { color: #c2b48d; font-weight: 700; text-align: center; }
+.answer-input:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(217, 183, 92, 0.28); }
+.answer-input.correct { border-color: var(--ok); background-color: var(--ok-bg); }
+.answer-input.incorrect { border-color: var(--bad); background-color: var(--bad-bg); color: #7a2620; }
+.answer-input { z-index: 10; position: relative; pointer-events: auto; }
+
+.question li.correct { color: #1d5a3a; font-weight: 700; }
+.question li.incorrect { color: #7a2620; }
+.question li.correct::before { content: '✔ '; color: var(--ok); }
+.question li.incorrect::before { content: '✖ '; color: var(--bad); }
+
+.single-choice-container { margin: 10px 0; display: flex; flex-direction: column; gap: 18px; }
+.single-choice label { display: block; margin-left: 20px; margin-top: 4px; font-size: 15.5px; }
+.single-choice label.correct { color: #1d5a3a; font-weight: 700; }
+.single-choice label.correct::before { content: '✔ '; color: var(--ok); }
+.single-choice label.incorrect { color: #7a2620; text-decoration: line-through; }
+.single-choice label.incorrect::before { content: '✖ '; color: var(--bad); }
+.aligned-form .question-row { display: flex; align-items: center; margin-bottom: 8px; }
+.aligned-form .question-label { width: 230px; padding-right: 10px; }
+
+/* MCQ table */
+.mcq-table { width: 100%; border-collapse: collapse; }
+.mcq-table th, .mcq-table td { border: 1px solid var(--line); padding: 9px 12px; vertical-align: middle; text-align: center; }
+.mcq-table th {
+    background: linear-gradient(115deg, #2b2415, #171410);
+    color: var(--gold); font-weight: 700; text-align: center; letter-spacing: 0.02em;
+}
+.mcq-table th:first-child { text-align: left; color: var(--ivory); }
+.mcq-table tbody td:first-child { font-weight: 600; text-align: left; }
+.mcq-table tr:nth-child(even) td { background-color: #faf6ea; }
+.mcq-table input[type="radio"] { accent-color: var(--gold-deep); transform: scale(1.1); cursor: pointer; }
+.mcq-options { list-style: none; padding-left: 0; margin: 10px 0; }
+.mcq-options li { margin-bottom: 4px; font-size: 15.5px; }
+.mcq-table tbody tr.correct { background-color: var(--ok-bg) !important; color: #1d5a3a; font-weight: 700; }
+.mcq-table tbody tr.incorrect { background-color: var(--bad-bg) !important; text-decoration: line-through; }
+.mcq-table tbody tr.incorrect td { color: #7a2620; }
+
+/* Tables */
+.people-section { margin-bottom: 30px; }
+.people-table { width: 100%; border-collapse: collapse; border: 1px solid var(--line-strong); background: #fff; }
+.people-table th { text-align: left; padding: 10px; font-weight: 700; border: 1px solid var(--line); background: #f4edda; }
+.people-table td { padding: 8px 10px; border: 1px solid var(--line); }
+.person-name { font-size: 15.5px; }
+.question-number {
+    background: #fff; border: 1.5px solid var(--gold-deep); color: var(--gold-dark);
+    padding: 3px 8px; border-radius: 7px; font-weight: 800; font-size: 13.5px;
+    min-width: 30px; text-align: center; display: inline-block;
+}
+.assigned-responsibility { background: #f4edda; padding: 4px 8px; border-radius: 7px; font-size: 14px; border: 1px solid var(--line); }
+.responsibilities-section { margin-bottom: 30px; }
+.responsibility-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+.responsibility-item {
+    background: #fff; border: 1.5px solid var(--line); padding: 8px 12px; border-radius: 9px;
+    cursor: grab; font-size: 15.5px; text-align: center; transition: all 0.2s;
+}
+.responsibility-item:hover {
+    background: var(--card); border-color: var(--gold);
+    transform: translateY(-1px); box-shadow: 0 3px 10px rgba(176, 138, 46, 0.14);
+}
+.responsibility-item.dragging { opacity: 0.5; transform: rotate(2deg); }
+
+/* Drag & drop */
+.drag-drop-container { display: flex; gap: 30px; margin-top: 20px; align-items: flex-start; }
+.recommendations-box {
+    display: flex; flex-direction: column; gap: 8px; padding: 12px;
+    border: 1px dashed var(--line-strong); border-radius: 12px;
+    background: #f7f2e2; min-height: 200px;
+}
+.drag-item {
+    background: #fff; border: 1.5px solid var(--line); padding: 7px 10px; border-radius: 9px;
+    cursor: grab; font-size: 14px; transition: all 0.2s; user-select: none;
+    word-break: break-word; overflow-wrap: break-word; text-align: center;
+    line-height: 1.25; max-width: 100%; box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(30, 27, 20, 0.06);
+}
+.drag-item:hover { background: var(--card); border-color: var(--gold); box-shadow: 0 3px 10px rgba(176, 138, 46, 0.15); }
+.drag-item.dragging { opacity: 0.5; transform: rotate(2deg); }
+.drag-item.selected { border-color: var(--gold-deep); box-shadow: 0 0 0 2px rgba(176, 138, 46, 0.35); }
+.drop-zone {
+    border: 1.5px dashed var(--line-strong); border-radius: 9px; min-height: 40px; height: auto;
+    max-width: 120px; min-width: 100px; transition: background-color 0.2s, border-color 0.2s;
+    padding: 5px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    word-break: break-word; overflow-wrap: break-word; text-align: center; line-height: 1.2; background: #fff;
+}
+.drop-zone.drag-over { background-color: rgba(217, 183, 92, 0.16); border-color: var(--gold-deep); }
+.drop-zone.correct { background-color: var(--ok-bg); border-color: var(--ok); border-style: solid; }
+.drop-zone.incorrect { background-color: var(--bad-bg); border-color: var(--bad); border-style: solid; }
+.drop-zone .drag-item { cursor: default; }
+
+.matching-container { display: flex; justify-content: space-between; gap: 40px; margin-top: 20px; align-items: flex-start; }
+.matching-table { flex: 4; border-collapse: collapse; }
+.matching-table th, .matching-table td { border: 1px solid var(--line); padding: 7px 12px; text-align: left; vertical-align: middle; }
+.matching-table th { background-color: #f4edda; font-weight: 700; }
+.matching-table .drop-zone {
+    min-height: 36px; height: auto; max-width: 120px; min-width: 100px; padding: 5px;
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    background-color: #fff; border: 1.5px dashed var(--line-strong); border-radius: 9px;
+    word-break: break-word; overflow-wrap: break-word; text-align: center; line-height: 1.2;
+}
+.matching-table .drop-zone .drag-item {
+    width: 100%; max-width: 100%; text-align: center; padding: 4px 5px;
+    font-size: 13px; line-height: 1.1; word-break: break-word; overflow-wrap: break-word; box-sizing: border-box;
+}
+.matching-options-list {
+    display: flex; flex-direction: column; gap: 10px; flex: 1;
+    background-color: transparent; padding: 0; border: none; min-height: 250px; min-width: 280px;
+}
+.matching-options-list .drag-item { width: 100%; }
+.matching-question-item .drop-zone .placeholder { color: #c2b48d; font-weight: 700; }
+.option strong, .question ul li label strong { display: none; }
+
+/* Map */
+.map-container { position: relative; margin: 20px auto; width: 100%; max-width: 600px; display: block; }
+.map-container img { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--line-strong); }
+.map-drop-zone {
+    position: absolute; width: 13%; height: 15%;
+    border: 2px dashed #b9a86f; background-color: rgba(255, 253, 247, 0.72);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #6d5f38; border-radius: 8px; padding: 2px;
+}
+.map-drop-zone:hover { background-color: rgba(217, 183, 92, 0.22); border-color: var(--gold-deep); }
+.map-drop-zone .drag-item { font-size: 13px; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 2px; }
+.map-options-list {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;
+    padding: 12px; border: 1px dashed var(--line-strong); border-radius: 12px; background: #f7f2e2;
+}
+.map-options-list .drag-item { width: calc(25% - 10px); text-align: center; }
+
+/* Flowchart */
+.flowchart-container { border: 1px solid var(--line-strong); border-radius: 12px; background: var(--card); padding: 0 20px; }
+.flowchart-step { text-align: center; margin: 0; padding: 20px 0; border-top: 1px solid var(--line); }
+.flowchart-step:first-child { border-top: none; padding-top: 20px; margin-top: 0; }
+.flowchart-arrow { text-align: center; margin: 0; padding: 15px 0; font-size: 20px; color: var(--gold-deep); border-top: 1px solid var(--line); }
+.flowchart-split { display: flex; justify-content: space-between; align-items: stretch; gap: 20px; border-top: 1px solid var(--line); }
+.flowchart-split-col { width: 48%; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.flowchart-split .flowchart-step { border-top: none; padding-top: 0; margin-top: 0; flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px 0; }
+.flowchart-split .flowchart-arrow { border-top: none; padding: 15px 0; }
+
+/* Utilities */
+.help-button {
+    background: linear-gradient(115deg, #2b2415, #171410); color: var(--gold);
+    border: none; padding: 7px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 20px;
+    transition: opacity 0.2s;
+}
+.help-button:hover { opacity: 0.88; }
+.correct-answer-text { color: var(--ok); font-weight: 700; margin-left: 10px; }
+.audio-hidden, audio#global-audio-player { display: none; }
+.hidden { display: none !important; }
+.timer-container { display: none; }
+.timer-container .timer-tooltip { display: none; }
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+audio { width: 100%; margin-bottom: 20px; }
+
+/* Highlight & comments */
+.highlight { background: rgba(217, 183, 92, 0.55); border-radius: 2px; }
+.comment-highlight {
+    background: rgba(217, 183, 92, 0.3); position: relative;
+    cursor: help; border-bottom: 2px dotted var(--gold-deep);
+}
+.comment-tooltip {
+    position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+    background: var(--forest); color: var(--ivory); padding: 8px 12px; border-radius: 8px;
+    font-size: 13.5px; white-space: nowrap; z-index: 1000; opacity: 0;
+    pointer-events: none; transition: opacity 0.25s;
+}
+.comment-highlight:hover .comment-tooltip { opacity: 1; }
+
+/* Context menu */
+.context-menu {
+    position: absolute; background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; box-shadow: 0 16px 40px rgba(30, 27, 20, 0.22);
+    z-index: 1000; display: none; min-width: 150px; overflow: hidden;
+}
+.context-menu-item {
+    padding: 11px 16px; cursor: pointer; font-size: 14.5px; color: var(--ink);
+    border-bottom: 1px solid #f0ead8; transition: background-color 0.15s;
+    display: flex; align-items: center; gap: 9px;
+}
+.context-menu-item:hover { background-color: var(--gold-soft); }
+.context-menu-item:last-child { border-bottom: none; }
+.context-menu-icon { width: 16px; height: 16px; display: inline-flex; vertical-align: middle; }
+.context-menu-icon svg { width: 16px; height: 16px; fill: var(--gold-dark); }
+
+/* Mobile selection toolbar */
+.mobile-selection-menu {
+    position: absolute; background: var(--forest); color: var(--ivory);
+    padding: 6px 10px; border-radius: 999px; display: flex; gap: 8px; z-index: 3000;
+    box-shadow: 0 10px 26px rgba(23, 20, 16, 0.35);
+}
+.mobile-selection-menu button {
+    background: transparent; border: 1px solid rgba(217, 183, 92, 0.5);
+    color: var(--ivory); padding: 4px 10px; border-radius: 999px; font-size: 13px; cursor: pointer;
+}
+.mobile-selection-menu button:hover { background: rgba(217, 183, 92, 0.18); }
+.mobile-selection-menu.hidden { display: none; }
+
+/* Part navigation arrows */
+.nav-arrows { position: fixed; bottom: calc(var(--nav-h) + 14px); right: 18px; display: flex; gap: 8px; z-index: 610; }
+.nav-arrow {
+    width: 46px; height: 46px;
+    background: linear-gradient(115deg, #2b2415, #171410); color: var(--gold);
+    border: 1px solid rgba(217, 183, 92, 0.35); border-radius: 999px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;
+    transition: transform 0.15s, opacity 0.2s; box-shadow: 0 8px 20px rgba(23, 20, 16, 0.3);
+}
+.nav-arrow:hover { transform: translateY(-2px); }
+.nav-arrow:disabled { background: #d8d2bf; color: #948c72; border-color: transparent; cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* Bottom navigation */
+.nav-row {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: calc(var(--nav-h) + var(--safe-b));
+    padding-bottom: var(--safe-b); padding-left: 10px; padding-right: 10px;
+    background: rgba(255, 253, 247, 0.96);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; z-index: 600;
+    overflow-x: auto; overflow-y: hidden; white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 -8px 24px rgba(30, 27, 20, 0.08);
+}
+.footer__questionWrapper___1tZ46 {
+    display: flex; align-items: center; margin-right: 14px; flex-shrink: 0;
+    border-radius: 12px;
+}
+.footer__questionWrapper___1tZ46.selected {
+    background: rgba(217, 183, 92, 0.14);
+    box-shadow: inset 0 0 0 1.5px rgba(176, 138, 46, 0.35);
+}
+.footer__questionNo___3WNct {
+    background: none; border: none; padding: 9px 13px; font-size: 15px; font-weight: 700;
+    color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: background-color 0.2s; font-family: 'Bricolage Grotesque', serif;
+}
+.footer__questionNo___3WNct:hover { background-color: rgba(217, 183, 92, 0.14); border-radius: 10px; }
+.section-prefix { font-size: 13.5px; color: var(--muted); font-weight: 600; }
+.sectionNr { font-size: 16px; font-weight: 800; }
+.attemptedCount { font-size: 12.5px; color: var(--muted); margin-left: 5px; font-weight: 500; }
+@media (max-width: 1024px) { .attemptedCount { display: none; } }
+.footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+.footer__subquestionWrapper___9GgoP { display: none; gap: 3px; margin-left: 6px; padding-right: 8px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+.subQuestion {
+    width: 32px; height: 32px; border: 1.5px solid var(--line-strong); background: #fff;
+    color: var(--ink); font-size: 13.5px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s; border-radius: 9px;
+}
+.subQuestion.answered { background-color: var(--gold-soft); border-color: var(--gold-deep); color: var(--gold-dark); }
+.subQuestion.correct { background-color: var(--ok); color: #fff; border-color: var(--ok); }
+.subQuestion.incorrect { background-color: var(--bad); color: #fff; border-color: var(--bad); }
+.subQuestion:hover { background-color: var(--gold-soft); border-color: var(--gold-deep); }
+.subQuestion.active {
+    background: linear-gradient(115deg, #2b2415, #171410);
+    color: var(--gold); border-color: #2b2415;
+}
+.subQuestion.completed { background-color: var(--ok); color: #fff; border-color: var(--ok); }
+
+.footer__deliverButton___3FM07 {
+    margin-left: auto; margin-right: 14px;
+    background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e);
+    color: var(--forest); border: none; padding: 12px 22px; border-radius: 999px;
+    font-size: 15px; font-weight: 800; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; min-width: 170px; justify-content: center;
+    font-family: 'Hind Siliguri', 'Urbanist', sans-serif; flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 6px 18px rgba(176, 138, 46, 0.4);
+}
+.footer__deliverButton___3FM07:hover { transform: translateY(-1.5px); box-shadow: 0 10px 24px rgba(176, 138, 46, 0.45); }
+.footer__deliverButton___3FM07:disabled {
+    background: #e3ddc9; color: #948c72; cursor: not-allowed; box-shadow: none; transform: none;
+}
+.fa-check::before { content: "✓"; }
+
+/* Results modal */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(23, 20, 16, 0.62);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px;
+}
+.modal-content {
+    background: var(--card); padding: 26px; border-radius: 20px; width: 100%;
+    max-width: 820px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 30px 80px rgba(23, 20, 16, 0.45); border: 1px solid var(--line);
+}
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid var(--gold-soft); padding-bottom: 14px; margin-bottom: 20px;
+}
+.modal-header h2 { font-family: 'Bricolage Grotesque', serif; font-size: 22px; color: var(--forest); }
+.modal-close-btn {
+    background: rgba(217, 183, 92, 0.14); border: none; font-size: 22px; cursor: pointer;
+    color: var(--gold-dark); line-height: 1; width: 34px; height: 34px; border-radius: 50%;
+    transition: background 0.2s;
+}
+.modal-close-btn:hover { background: rgba(217, 183, 92, 0.3); }
+#score-summary {
+    font-size: 17px; font-weight: 800; margin-bottom: 18px;
+    font-family: 'Bricolage Grotesque', serif; color: var(--forest);
+}
+#result-details table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+#result-details th, #result-details td {
+    border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: middle;
+}
+#result-details th { background-color: #f4edda; font-weight: 700; }
+#result-details td:nth-child(1) { font-weight: 700; text-align: center; }
+.result-correct { color: var(--ok); font-weight: 700; }
+.result-incorrect { color: var(--bad); font-weight: 700; }
+
+/* Flash on question jump */
+@keyframes flash {
+    0% { background-color: rgba(217, 183, 92, 0.3); }
+    100% { background-color: transparent; }
+}
+.question.flash { animation: flash 1.2s ease-out; }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .main-container { flex-direction: column; }
+    .right-panel, .main-container.results-mode .right-panel { display: none; }
+    .left-panel, .main-container.results-mode .left-panel {
+        width: 100%; padding: 16px 12px 40px; height: auto;
+    }
+    .questions-container { width: 100%; }
+    .answer-input { width: 95px; max-width: 115px; font-size: 15px; }
+    .drop-zone { max-width: 110px; min-width: 90px; }
+    .matching-table .drop-zone { max-width: 110px; min-width: 90px; }
+}
+@media (max-width: 768px) {
+    .answer-input { width: 84px; max-width: 105px; font-size: 14.5px; padding: 2px 5px; }
+    .drop-zone { max-width: 100px; min-width: 80px; font-size: 14px; }
+    .matching-table .drop-zone { max-width: 100px; min-width: 80px; }
+    .drag-item { font-size: 13px; padding: 5px 7px; }
+    .matching-table .drop-zone .drag-item { font-size: 12px; }
+    .drag-drop-container { flex-direction: column; gap: 15px; }
+    .matching-container { flex-direction: column; gap: 20px; }
+    .left-panel { padding-top: 12px; }
+    .main-container { margin-top: calc(var(--safe-t) + var(--sh-h) + var(--player-h) + 28px); }
+}
+@media (max-width: 480px) {
+    .answer-input { width: 72px; max-width: 95px; font-size: 13.5px; }
+    .drop-zone { max-width: 90px; min-width: 70px; }
+    .matching-table .drop-zone { max-width: 90px; min-width: 70px; }
+    .sh-chip { font-size: 11px; padding: 6px 10px; }
+    .sh-name { font-size: 15px; }
+    .nav-arrow { width: 40px; height: 40px; right: 12px; }
+    .footer__deliverButton___3FM07 { min-width: 140px; padding: 10px 16px; font-size: 14px; }
+}
+
+    
+
+/* ===== Sadia's IELTS — legacy question-type compatibility layer ===== */
+:root {
+    --border-color: var(--line-strong);
+    --secondary-bg: var(--gold-soft);
+    --bg-color: var(--card);
+    --input-bg: #fff;
+    --input-text: var(--ink);
+    --correct-color: var(--ok);
+    --incorrect-color: var(--bad);
+}
+
+.timer-container { display: none !important; }
+
+/* --- completion inputs used by flowchart / summary tasks --- */
+.flowchart-input, .summary-input {
+    border: 1.5px solid var(--line-strong); border-radius: 8px; background-color: #fff;
+    padding: 3px 8px; font-size: 15.5px; text-align: center; margin: 0 4px;
+    width: 110px; max-width: 150px; min-width: 80px; color: var(--forest); font-weight: 600;
+    height: auto; min-height: 30px; line-height: 1.2; vertical-align: middle;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.flowchart-input:focus, .summary-input:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(217, 183, 92, 0.28); }
+.flowchart-input.correct, .summary-input.correct { border-color: var(--ok); background-color: var(--ok-bg); }
+.flowchart-input.incorrect, .summary-input.incorrect { border-color: var(--bad); background-color: var(--bad-bg); }
+
+/* --- generic wrappers --- */
+.options { margin: 10px 0 14px; }
+.statement { font-weight: 500; padding-right: 20px; }
+.spacer { flex: 1 1 auto; }
+.multiple { letter-spacing: 0.2px; }
+.icon { color: var(--muted); }
+.info-box-title { font-weight: 700; text-align: center; margin-bottom: 10px; font-size: 16px; color: var(--forest); }
+.q-label { font-weight: 700; min-width: 30px; color: var(--gold-dark); }
+.q-text { flex: 1; font-size: 16px; }
+
+/* --- info box --- */
+.info-box {
+    border: 1px solid var(--line); border-radius: 10px; padding: 15px 20px;
+    background: linear-gradient(160deg, #fffdf7, var(--gold-soft));
+    margin: 15px 0 25px; max-width: 480px; box-shadow: 0 2px 10px rgba(176, 138, 46, 0.08);
+}
+.info-box ul { list-style: none; padding-left: 0; }
+.info-box ul li { margin-bottom: 6px; font-size: 15px; line-height: 1.5; }
+.info-box ul li strong { display: inline-block; width: 22px; color: var(--gold-dark); }
+
+/* --- matching family --- */
+.matching-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.matching-item span { min-width: 240px; font-size: 16px; }
+.matching-question-container { display: flex; gap: 30px; align-items: flex-start; }
+.matching-questions { flex: 2; display: flex; flex-direction: column; gap: 24px; }
+.matching-questions .matching-question-item { display: flex; align-items: center; gap: 16px; padding: 6px 0; }
+.matching-questions .matching-question-item span { min-width: 180px; }
+.matching-questions .drop-zone { width: 100%; min-width: 360px; height: 34px; border: 2px dashed var(--line-strong); border-radius: 8px; background: #fffdf7; display: flex; align-items: center; padding: 0 8px; justify-content: flex-start; text-align: left; transition: border-color 0.2s, background-color 0.2s; }
+.matching-questions .drop-zone .placeholder { color: var(--muted); font-weight: 700; }
+.matching-options-bank { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.matching-options-bank .drag-item {
+    border-radius: 8px; padding: 6px 12px; background: #fffdf7; border: 1px solid var(--line-strong);
+    font-weight: 600; color: var(--ink); box-shadow: 0 1px 0 rgba(138, 103, 32, 0.08); cursor: grab;
+}
+.matching-options-box { border: 1px solid var(--line-strong); border-radius: 10px; padding: 15px; background: var(--gold-soft); margin-bottom: 20px; display: inline-block; min-width: 300px; }
+.matching-options-box p { margin-bottom: 5px; }
+.matching-row { display: flex; align-items: center; gap: 15px; margin-bottom: 14px; padding: 6px 0; }
+.matching-row .q-label { font-weight: 700; min-width: 30px; color: var(--gold-dark); }
+.matching-row .q-text { flex: 1; font-size: 16px; }
+.matching-select {
+    border: 1px solid var(--line-strong); border-radius: 8px; background-color: #fff; color: var(--ink);
+    padding: 5px 8px; font-size: 15.5px; min-width: 70px; height: 32px; cursor: pointer; font-weight: 600;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.matching-select:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(217, 183, 92, 0.28); }
+.matching-select.correct { border-color: var(--ok); background-color: var(--ok-bg); color: var(--ink) !important; }
+.matching-select.incorrect { border-color: var(--bad); background-color: var(--bad-bg); color: #7a2620 !important; }
+.matching-table .clickable-cell { padding: 8px 4px; min-width: 50px; min-height: 50px; }
+
+/* --- MCQ panels --- */
+.multi-choice-question { margin: 12px 0 18px; padding: 10px; border-radius: 10px; border: 2px solid transparent; transition: border-color 0.2s; }
+.multi-choice-question.active-question { border-color: rgba(217, 183, 92, 0.65); background: rgba(243, 232, 200, 0.25); }
+.multi-choice-question .question-prompt p > strong:first-child {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 24px; padding: 2px 6px;
+    margin-right: 8px; border: 1px solid var(--line-strong); border-radius: 6px; background: #fffdf7;
+    color: var(--gold-dark);
+}
+.multi-choice-question.active-question .question-prompt p > strong:first-child { border-color: var(--gold-deep); border-width: 2px; }
+.multi-choice-option {
+    display: block; width: 100%; padding: 12px 14px; background-color: #fffdf7; margin-bottom: 5px; border-radius: 8px;
+    border: 1px solid var(--line); transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.multi-choice-option:hover { background-color: var(--gold-soft); border-color: var(--line-strong); }
+.multi-choice-option label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 16px; width: 100%; }
+.multi-choice-option input[type="radio"], .multi-choice-option input[type="checkbox"] {
+    margin-right: 4px; transform: scale(1.2); accent-color: var(--gold-deep);
+}
+.multi-choice-option:has(input[type="radio"]:checked), .multi-choice-option:has(input[type="checkbox"]:checked) {
+    background-color: rgba(217, 183, 92, 0.18); border-color: var(--gold-deep);
+}
+.multi-choice-option.correct { background-color: var(--ok-bg) !important; border-color: var(--ok); }
+.multi-choice-option.incorrect { background-color: var(--bad-bg) !important; border-color: var(--bad); }
+.mcq-item { margin-bottom: 14px; }
+.mcq-table-container { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.mcq-table-container td, .mcq-table-container th { border: 1px solid var(--line-strong); padding: 8px 10px; text-align: left; vertical-align: top; }
+.mcq-table-container th { background: var(--gold-soft); font-weight: 700; text-align: center; color: var(--forest); }
+
+/* --- checkbox group --- */
+.checkbox-group { display: flex; flex-direction: column; margin: 8px 0 14px; }
+.checkbox-group label {
+    display: flex; align-items: center; padding: 10px 12px; border: 1px solid var(--line);
+    background: #fffdf7; border-radius: 8px; margin-bottom: 4px; transition: background-color 0.2s, border-color 0.2s;
+}
+.checkbox-group input[type="checkbox"] { margin-right: 10px; transform: scale(1.2); accent-color: var(--gold-deep); }
+.checkbox-group label:hover { background: var(--gold-soft); border-color: var(--line-strong); }
+.checkbox-group label:has(input[type="checkbox"]:checked) { background: rgba(217, 183, 92, 0.18); border-color: var(--gold-deep); }
+.checkbox-group label.correct { background-color: var(--ok-bg) !important; }
+.checkbox-group label.correct::before { content: '✔ '; color: var(--ok); font-weight: 600; margin-right: 6px; }
+.checkbox-group label.incorrect { background-color: var(--bad-bg) !important; }
+.checkbox-group label.incorrect::before { content: '✖ '; color: var(--bad); font-weight: 600; margin-right: 6px; }
+
+/* --- clickable cells (table selection) --- */
+.clickable-cell {
+    cursor: pointer; text-align: center; transition: all 0.2s ease; min-width: 50px; min-height: 50px;
+    border: 2px solid var(--line); position: relative; background-color: #fffdf7; margin: 2px;
+}
+.clickable-cell:hover { background-color: var(--gold-soft); border-color: var(--line-strong); }
+.clickable-cell.selected { background-color: var(--gold-deep) !important; color: #fff !important; border-color: var(--gold-dark); }
+.clickable-cell.correct { background-color: var(--ok) !important; color: white !important; }
+.clickable-cell.correct::after { content: "✓"; font-weight: bold; }
+.clickable-cell.incorrect { background-color: var(--bad) !important; color: white !important; }
+.clickable-cell.incorrect::after { content: "✗"; font-weight: bold; }
+
+/* --- transcript highlight + question mark --- */
+.t-hl { background: rgba(217, 183, 92, 0.35); border-radius: 3px; padding: 0 2px; scroll-margin-top: 140px; }
+.t-hl.active { background: rgba(217, 183, 92, 0.6); box-shadow: 0 0 0 2px var(--gold-deep); }
+.t-hl[data-time] { cursor: pointer; }
+.t-hl[data-time]:hover { background: rgba(217, 183, 92, 0.5); box-shadow: 0 0 0 1px var(--gold-deep); }
+.t-qmark {
+    font-size: 10px; font-weight: 700; color: var(--forest); background: var(--gold); border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; min-width: 16px;
+    vertical-align: super; margin-right: 2px; line-height: 1;
+}
+
+/* --- notes / form boxes --- */
+.notes-box { border: 1px solid var(--line-strong); border-radius: 10px; padding: 18px 22px; margin: 15px 0; background: #fffdf7; }
+.notes-box h4 { font-weight: 700; margin-top: 18px; margin-bottom: 8px; font-size: 16px; color: var(--forest); }
+.notes-box h4:first-of-type { margin-top: 0; }
+.notes-box ul { list-style: disc; padding-left: 22px; }
+.notes-box ul li { margin-bottom: 10px; line-height: 2.0; }
+.notes-box ul ul { list-style: "- "; padding-left: 18px; margin-top: 6px; }
+.notes-box-title { text-align: center; font-weight: 700; font-size: 18px; margin-bottom: 15px; color: var(--forest); }
+.notes-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+.notes-table th { background: var(--gold-soft); font-weight: 700; text-align: center; color: var(--forest); }
+.notes-table th, .notes-table td { border: 1px solid var(--line-strong); padding: 10px; text-align: left; vertical-align: top; }
+
+.form-box { border: 1px solid var(--line-strong); border-radius: 10px; padding: 0; margin: 15px 0; overflow: hidden; background: #fffdf7; }
+.form-box-title { text-align: center; font-weight: 700; font-size: 18px; padding: 12px; border-bottom: 1px solid var(--line); background: var(--gold-soft); color: var(--forest); }
+.form-box-example { padding: 12px 20px; border-bottom: 1px solid var(--line); font-style: italic; color: var(--muted); }
+.form-box-content { padding: 18px 22px; }
+.form-box-content h4 { font-weight: 700; margin-top: 15px; margin-bottom: 8px; font-size: 16px; color: var(--forest); }
+.form-box-content h4:first-child { margin-top: 0; }
+.form-box-content ul { list-style: disc; padding-left: 22px; }
+.form-box-content ul li { margin-bottom: 10px; line-height: 2.0; }
+
+/* --- flow-chart columns --- */
+.flow-two-col { display: flex; gap: 24px; align-items: flex-start; }
+.flow-col { flex: 1; min-width: 0; }
+.flow-col-title { text-align: center; font-weight: 700; margin: 10px 0; font-size: 17px; color: var(--forest); }
+.flow-step { border: 1px solid var(--line-strong); border-radius: 10px; padding: 12px 16px; margin: 0 auto; max-width: 560px; background: #fffdf7; }
+.flow-two-col .flow-step { max-width: none; width: 100%; }
+.flow-arrow { text-align: center; font-size: 26px; font-weight: bold; margin: 6px 0; color: var(--gold-deep); }
+.dnd-col-title { font-weight: 700; margin-bottom: 10px; color: var(--forest); }
+
+/* --- map wrapper --- */
+.map-wrap { border: 2px solid var(--line-strong); border-radius: 10px; position: relative; width: 100%; height: 440px; background: #fffdf7; margin-bottom: 20px; overflow: hidden; }
+
+/* --- buttons / states --- */
+.btn-secondary { padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: #fffdf7; color: var(--ink); cursor: pointer; font-weight: 600; transition: background-color 0.2s, border-color 0.2s; }
+.btn-secondary:hover { background: var(--gold-soft); border-color: var(--gold-deep); }
+.deliver-button.success, button.success { background: linear-gradient(115deg, #eeda9d, #d9b75c 45%, #b08a2e); color: var(--forest); border-color: var(--gold-dark); }
+.drop-zone.filled { border-style: solid; background: var(--gold-soft); }
+.drag-item.in-zone { background: var(--gold-soft); border-color: var(--gold-deep); }
+
+/* --- modal body --- */
+.modal-body { padding: 16px 18px; overflow: auto; }
+
+    </style>
+</head>
+
+<body>
+    <header class="sadia-header" role="banner">
+        <div class="sh-brand">
+            <img src="/sadia-logo.png" alt="Sadia's IELTS logo" class="sh-logo" width="34" height="34" />
+            <div class="sh-wordmark">
+                <span class="sh-name">Sadia&rsquo;s <em>IELTS</em></span>
+                <span class="sh-tag">Unlock Your Future</span>
+            </div>
+        </div>
+        <div class="sh-test">
+            <span class="sh-sub">IELTS Listening · ৪০টি প্রশ্ন</span>
+            <span class="sh-chip">Listening Full Test 22</span>
+        </div>
+    </header>
+
+
+    
+
+    <div class="audio-player-container">
+        <button id="play-pause-btn" class="player-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+        </button>
+        <div class="progress-container">
+            <span id="current-time">0:00</span>
+            <input type="range" id="progress-bar" value="0" step="1" style="width:100%;">
+            <span id="total-duration">0:00</span>
+        </div>
+        <div class="controls-container">
+            <div style="display:flex;align-items:center;">
+                <button id="volume-btn" class="player-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                </button>
+                <input type="range" id="new-volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+            <div class="speed-container">
+                <button id="speed-btn" class="player-btn">1x</button>
+                <div id="speed-options" class="hidden">
+                    <div data-speed="0.5">0.5x</div>
+                    <div data-speed="0.75">0.75x</div>
+                    <div data-speed="1">1x</div>
+                    <div data-speed="1.25">1.25x</div>
+                    <div data-speed="1.5">1.5x</div>
+                    <div data-speed="2">2x</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+
+            <!-- ======================== PART 1 ======================== -->
+            <div id="part-1" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 1</strong></p><p class="part-bn">অংশ ১ — শুনুন ও প্রশ্ন ১–১০ এর উত্তর দিন।</p>
+                    <p>Listen and answer questions 1–10.</p>
+                </div>
+                <div class="questions-container">
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 1–4</strong></p>
+                            <p>Complete the form below.</p>
+                            <p>Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
+                        </div>
+                        <div style="border:1px solid #ccc;border-radius:5px;padding:20px;background:#fafafa;">
+                            <p class="centered-title">HOMECARE CLEANING AGENCY</p>
+                            <p style="font-weight:700;text-align:center;margin-bottom:15px;">House Details</p>
+                            <table style="width:100%;border-collapse:collapse;">
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;width:220px;">Customer referred by:</td>
+                                    <td style="padding:6px 0;">friend</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Location:</td>
+                                    <td style="padding:6px 0;">in the <input type="text" id="q1" class="answer-input"
+                                            placeholder="1" style="width:160px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Type of cleaning:</td>
+                                    <td style="padding:6px 0;">regular</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;vertical-align:top;">Rooms:</td>
+                                    <td style="padding:6px 0;">
+                                        <ul style="list-style:none;padding-left:0;">
+                                            <li style="margin-bottom:8px;">&#8226;&nbsp; two <input type="text" id="q2"
+                                                    class="answer-input" placeholder="2" style="width:130px;"> bedrooms
+                                            </li>
+                                            <li style="margin-bottom:8px;margin-left:14px;">(third bedroom used as
+                                                <input type="text" id="q3" class="answer-input" placeholder="3"
+                                                    style="width:160px;">)
+                                            </li>
+                                            <li style="margin-bottom:8px;">&#8226;&nbsp; kitchen/diner</li>
+                                            <li style="margin-bottom:8px;">&#8226;&nbsp; <input type="text" id="q4"
+                                                    class="answer-input" placeholder="4" style="width:160px;"></li>
+                                            <li style="margin-bottom:8px;">&#8226;&nbsp; family room</li>
+                                            <li style="margin-bottom:8px;">&#8226;&nbsp; two bathrooms</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 5–7</strong></p>
+                            <p>Choose the correct letter, <strong>A, B</strong> or <strong>C</strong>.</p>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">5 &nbsp; Which extra service does the
+                                agency agree to provide?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q5" value="A"> A
+                                    &nbsp; changing the bed linen</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q5" value="B"> B
+                                    &nbsp; washing the windows</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q5" value="C"> C
+                                    &nbsp; cleaning the fridge</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">6 &nbsp; What will be cleaned more
+                                thoroughly every three months?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q6" value="A"> A
+                                    &nbsp; the children's room</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q6" value="B"> B
+                                    &nbsp; the carpet</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q6" value="C"> C
+                                    &nbsp; the bathroom</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">7 &nbsp; The woman would like the cleaners
+                                to</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q7" value="A"> A
+                                    &nbsp; do the washing.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q7" value="B"> B
+                                    &nbsp; iron the clothes.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q7" value="C"> C
+                                    &nbsp; put the clothes away.</label></div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 8–10</strong></p>
+                            <p>Complete the form below.</p>
+                            <p>Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
+                        </div>
+                        <div style="border:1px solid #ccc;border-radius:5px;padding:20px;background:#fafafa;">
+                            <p class="centered-title">HOMECARE CLEANING AGENCY</p>
+                            <p style="font-weight:700;text-align:center;margin-bottom:15px;">Customer Details</p>
+                            <table style="width:100%;border-collapse:collapse;">
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;width:220px;">Name:</td>
+                                    <td style="padding:6px 0;">Rose Kelly</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;vertical-align:top;">Address:</td>
+                                    <td style="padding:6px 0;">48 <input type="text" id="q8" class="answer-input"
+                                            placeholder="8" style="width:160px;"> Road<br>Mount Eden</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Day of job:</td>
+                                    <td style="padding:6px 0;"><input type="text" id="q9" class="answer-input"
+                                            placeholder="9" style="width:160px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Time:</td>
+                                    <td style="padding:6px 0;">9.30 am</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Cost per hour:</td>
+                                    <td style="padding:6px 0;">$25</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 0;font-weight:600;">Maximum length of job:</td>
+                                    <td style="padding:6px 0;"><input type="text" id="q10" class="answer-input"
+                                            placeholder="10" style="width:160px;"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================== PART 2 ======================== -->
+            <div id="part-2" class="question-part hidden">
+                <div class="part-header">
+                    <p><strong>Part 2</strong></p><p class="part-bn">অংশ ২ — শুনুন ও প্রশ্ন ১১–২০ এর উত্তর দিন।</p>
+                    <p>Listen and answer questions 11–20.</p>
+                </div>
+                <div class="questions-container">
+
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 11–16</strong></p>
+                            <p>Choose the correct letter <strong>A, B</strong> or <strong>C</strong>.</p>
+                            <p class="centered-title" style="margin-top:10px;">Museum tour</p>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">11 &nbsp; What does the tour guide advise
+                                the visitors to do in the museum today?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q11" value="A"> A
+                                    &nbsp; see the most popular exhibits first</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q11" value="B"> B
+                                    &nbsp; pay a brief visit to each gallery</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q11" value="C"> C
+                                    &nbsp; go to the photography gallery last</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">12 &nbsp; The museum was designed by
+                                William Craven, who also designed</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q12" value="A"> A
+                                    &nbsp; a textile factory</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q12" value="B"> B
+                                    &nbsp; the town hall</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q12" value="C"> C
+                                    &nbsp; the railway station</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">13 &nbsp; The museum won an award for the
+                                preservation of the</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q13" value="A"> A
+                                    &nbsp; staircase</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q13" value="B"> B
+                                    &nbsp; floor</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q13" value="C"> C
+                                    &nbsp; windows</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">14 &nbsp; Most of the money for the project
+                                came from</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q14" value="A"> A
+                                    &nbsp; the public</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q14" value="B"> B
+                                    &nbsp; the government</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q14" value="C"> C
+                                    &nbsp; local businesses</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">15 &nbsp; Over the next five years, the
+                                museum will invest mainly in</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q15" value="A"> A
+                                    &nbsp; restoring existing collections.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q15" value="B"> B
+                                    &nbsp; developing educational programmes.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q15" value="C"> C
+                                    &nbsp; purchasing new objects for display.</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">16 &nbsp; Visitors who are interested in
+                                learning more about the exhibits should</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q16" value="A"> A
+                                    &nbsp; visit the museum's website</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q16" value="B"> B
+                                    &nbsp; read the leaflets on display</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q16" value="C"> C
+                                    &nbsp; attend the monthly lectures</label></div>
+                        </div>
+                    </div>
+
+                    <div class="question" style="margin-top:40px;">
+                        <div class="question-prompt">
+                            <p><strong>Questions 17–20</strong></p>
+                            <p>What information does the guide give about each of the following collections?</p>
+                            <p>Choose <strong>FOUR</strong> answers from the box and write the correct letter,
+                                <strong>A–F</strong>, next to questions 17–20.
+                            </p>
+                        </div>
+                        <div class="matching-options-box">
+                            <p><strong>Information</strong></p>
+                            <p style="margin-bottom:5px;"><strong>A</strong> &nbsp; has been shown in different
+                                museums</p>
+                            <p style="margin-bottom:5px;"><strong>B</strong> &nbsp; consists of work by a local
+                                resident</p>
+                            <p style="margin-bottom:5px;"><strong>C</strong> &nbsp; has exhibits from various
+                                countries</p>
+                            <p style="margin-bottom:5px;"><strong>D</strong> &nbsp; is only on temporary display</p>
+                            <p style="margin-bottom:5px;"><strong>E</strong> &nbsp; shows things that are no longer
+                                common</p>
+                            <p style="margin-bottom:5px;"><strong>F</strong> &nbsp; is on loan from a foreign museum
+                            </p>
+                        </div>
+                        <p style="font-weight:600;margin-bottom:12px;">Collections</p>
+                        <ul style="list-style:none;padding-left:0;">
+                            <li class="matching-item"><span><strong>17</strong> &nbsp; 18th-century paintings</span>
+                                <input type="text" id="q17" class="answer-input" placeholder="17" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>18</strong> &nbsp; Farnley collection</span>
+                                <input type="text" id="q18" class="answer-input" placeholder="18" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>19</strong> &nbsp; kitchen appliances</span>
+                                <input type="text" id="q19" class="answer-input" placeholder="19" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>20</strong> &nbsp; fashion gallery</span>
+                                <input type="text" id="q20" class="answer-input" placeholder="20" style="width:80px;">
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ======================== PART 3 ======================== -->
+            <div id="part-3" class="question-part hidden">
+                <div class="part-header">
+                    <p><strong>Part 3</strong></p><p class="part-bn">অংশ ৩ — শুনুন ও প্রশ্ন ২১–৩০ এর উত্তর দিন।</p>
+                    <p>Listen and answer questions 21–30.</p>
+                </div>
+                <div class="questions-container">
+
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 21–25</strong></p>
+                            <p>Choose the correct letter from <strong>A–G</strong>.</p>
+                            <p>What are the <em>characteristics</em> of the following analysis methods?</p>
+                            <p>Choose <strong>FIVE</strong> letters from the box and write letters <strong>A–G</strong>,
+                                next to questions 21–25.</p>
+                        </div>
+                        <div class="matching-options-box">
+                            <p style="margin-bottom:5px;"><strong>A</strong> &nbsp; it will save a lot of business
+                                time and effort</p>
+                            <p style="margin-bottom:5px;"><strong>B</strong> &nbsp; it is visualized</p>
+                            <p style="margin-bottom:5px;"><strong>C</strong> &nbsp; it does not fit our company</p>
+                            <p style="margin-bottom:5px;"><strong>D</strong> &nbsp; it will take too long</p>
+                            <p style="margin-bottom:5px;"><strong>E</strong> &nbsp; it is easy to use</p>
+                            <p style="margin-bottom:5px;"><strong>F</strong> &nbsp; it is difficult to apply</p>
+                            <p style="margin-bottom:5px;"><strong>G</strong> &nbsp; it is suitable to almost all
+                                sized companies</p>
+                        </div>
+                        <p style="font-weight:600;margin-bottom:12px;">Analysis methods</p>
+                        <ul style="list-style:none;padding-left:0;">
+                            <li class="matching-item"><span><strong>21</strong> &nbsp; PEST</span>
+                                <input type="text" id="q21" class="answer-input" placeholder="21" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>22</strong> &nbsp; Drill Down</span>
+                                <input type="text" id="q22" class="answer-input" placeholder="22" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>23</strong> &nbsp; PMI</span>
+                                <input type="text" id="q23" class="answer-input" placeholder="23" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>24</strong> &nbsp; Pareto</span>
+                                <input type="text" id="q24" class="answer-input" placeholder="24" style="width:80px;">
+                            </li>
+                            <li class="matching-item"><span><strong>25</strong> &nbsp; SWOT</span>
+                                <input type="text" id="q25" class="answer-input" placeholder="25" style="width:80px;">
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="question" style="margin-top:40px;">
+                        <div class="question-prompt">
+                            <p><strong>Questions 26–30</strong></p>
+                            <p>Choose the correct letter, <strong>A, B</strong> or <strong>C</strong>.</p>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">26 &nbsp; What does Frances consider as
+                                the best strength of the company?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q26" value="A"> A
+                                    &nbsp; reputation</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q26" value="B"> B
+                                    &nbsp; experienced employees</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q26" value="C"> C
+                                    &nbsp; management</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">27 &nbsp; What factor did Sam overlook for
+                                the future growth of the company?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="A"> A
+                                    &nbsp; seek for cheaper suppliers</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="B"> B
+                                    &nbsp; set up an overseas office</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="C"> C
+                                    &nbsp; compete with major competitors</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">28 &nbsp; Which of the following can be the
+                                threat to a company?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="A"> A
+                                    &nbsp; increasing competition</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="B"> B
+                                    &nbsp; outdated technology</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="C"> C
+                                    &nbsp; new legislation</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">29 &nbsp; What has Sam learned from the
+                                research?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="A"> A
+                                    &nbsp; using better tools</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="B"> B
+                                    &nbsp; cost of a success business</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="C"> C
+                                    &nbsp; gap between reality and theory</label></div>
+                        </div>
+                        <div style="margin-bottom:18px;">
+                            <p style="font-weight:600;margin-bottom:10px;">30 &nbsp; What is the professor's
+                                suggestion for the report?</p>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="A"> A
+                                    &nbsp; give a final determination</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="B"> B
+                                    &nbsp; reorganize a clear structure</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="C"> C
+                                    &nbsp; add more detailed information</label></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ======================== PART 4 ======================== -->
+            <div id="part-4" class="question-part hidden">
+                <div class="part-header">
+                    <p><strong>Part 4</strong></p><p class="part-bn">অংশ ৪ — শুনুন ও প্রশ্ন ৩১–৪০ এর উত্তর দিন।</p>
+                    <p>Listen and answer questions 31–40.</p>
+                </div>
+                <div class="questions-container">
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 31–40</strong></p>
+                            <p>Complete the notes below.</p>
+                            <p>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+                        </div>
+                        <div style="border:1px solid #ccc;border-radius:5px;padding:20px;background:#fafafa;">
+                            <p class="centered-title">Employment Survey on Graduates</p>
+
+                            <p style="font-weight:700;margin-bottom:10px;">Overview</p>
+                            <ul style="list-style:none;padding-left:0;margin-bottom:20px;">
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; interviews from which subject: <input
+                                        type="text" id="q31" class="answer-input" placeholder="31" style="width:160px;">
+                                </li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; two research methods: email
+                                    questionnaires and <input type="text" id="q32" class="answer-input" placeholder="32"
+                                        style="width:160px;"></li>
+                            </ul>
+
+                            <p style="font-weight:700;margin-bottom:10px;">Findings</p>
+                            <ul style="list-style:none;padding-left:0;margin-bottom:20px;">
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; 32% of students tended to acquire
+                                    another <input type="text" id="q33" class="answer-input" placeholder="33"
+                                        style="width:160px;"></li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; only 4% were unemployed</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; most of the students work in the <input
+                                        type="text" id="q34" class="answer-input" placeholder="34" style="width:160px;">
+                                    sector</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; majority are happy with: <input type="text"
+                                        id="q35" class="answer-input" placeholder="35" style="width:160px;"></li>
+                            </ul>
+
+                            <p style="font-weight:700;margin-bottom:10px;">Feedback</p>
+                            <p style="margin-bottom:8px;">Useful skills learned in college:</p>
+                            <ul style="list-style:none;padding-left:0;margin-bottom:14px;">
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; working as a <input type="text" id="q36"
+                                        class="answer-input" placeholder="36" style="width:150px;"> member</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; personal organization</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; <input type="text" id="q37"
+                                        class="answer-input" placeholder="37" style="width:150px;"> ability</li>
+                            </ul>
+                            <p style="margin-bottom:8px;">Useless skills:</p>
+                            <ul style="list-style:none;padding-left:0;">
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; <input type="text" id="q38"
+                                        class="answer-input" placeholder="38" style="width:150px;"> (lack of
+                                    training)</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; advice on <input type="text" id="q39"
+                                        class="answer-input" placeholder="39" style="width:150px;"> (unnecessary)</li>
+                                <li style="margin-bottom:8px;">&#8226;&nbsp; advice on finding a <input type="text"
+                                        id="q40" class="answer-input" placeholder="40" style="width:150px;"> (not
+                                    enough)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end left-panel -->
+
+        <div class="right-panel">
+            <div id="transcription-container">
+                <h2 style="font-size:18px;font-weight:bold;margin-bottom:10px;">Transcription</h2>
+                <div id="transcription-text"></div>
+            </div>
+        </div>
+    </div><!-- end main-container -->
+
+    <!-- Transcription data -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="1">
+            <p>You will hear a telephone conversation between a customer and a representative of an agency that arranges
+                cleaning services for people's houses.</p>
+            <p>Good morning, Home Care Cleaning Agency. — Oh, hello. I'd like to arrange to have some cleaning done,
+                please.</p>
+            <p>Certainly. Have you used our services before? — No, I haven't, but a friend of mine has often used your
+                company and suggested I phone you.</p>
+            <p>Oh, that's great. I'll just take some details from you and then you can let me know exactly what you
+                would like done. — Okay.</p>
+            <p>First of all, what area are you in? — I'm in the <strong>[→ Q1: SOUTH-WEST]</strong> South-West.</p>
+            <p>Okay, and are you interested in having a regular cleaner or is this a one-off clean? — No, I'd like to
+                arrange to have someone come in once a week.</p>
+            <p>Now, let's just get a bit of information about the house. How many bedrooms does it have? — Three. Are
+                they all double bedrooms? — Well, one of the bedrooms is quite small, so it's probably really two
+                <strong>[→ Q2: DOUBLE]</strong> double rooms.
+            </p>
+            <p>Right. — We have the small bedroom set up as an <strong>[→ Q3: AN OFFICE]</strong> office.</p>
+            <p>And just a standard kitchen, lounge, dining room and bathroom? — Well, actually, we don't have a separate
+                dining room. It's a kitchen-diner. Then there's the <strong>[→ Q4: LOUNGE]</strong> lounge, and as well
+                as that, we have a family room. Oh, and two bathrooms.</p>
+            <p>Right. That's all I need to know about the house itself.</p>
+            <p>Now, what we do is we offer a basic cleaning service and then you let us know about anything extra you'd
+                like cleaned. — Right. And what does the basic service include? — We clean all the floors and surfaces
+                and do a basic clean in the kitchen and bathroom.</p>
+            <p>Okay, that sounds good. And do you clean windows? — Well, I'm afraid we don't do that. Health and safety
+                regulations. But we do offer other special services. We can put clean sheets on the beds, for example. —
+                Uh-huh. — Or we can clean out your fridge. A lot of people like that done. — I'm not so worried about
+                that, but I would like the <strong>[→ Q5: A]</strong> sheets changed.</p>
+            <p>That's no problem. We can do that. What about the carpet? As well as the standard vacuum, we can shampoo
+                it if you want. — Right. We've got young children, so it gets pretty dirty. I haven't had it done for
+                six months. — It really needs doing more often than that. You can have it done every month if you like,
+                but <strong>[→ Q6: B]</strong> three months is what we usually recommend. — That sounds good.</p>
+            <p>The only other thing is the washing. Do you do laundry work? — Yes, we do. That's no problem. What
+                exactly would you like done? — Well, it's no problem to put a load of washing in the machine. I can do
+                that. But I would like to have the <strong>[→ Q7: B]</strong> ironing done.</p>
+            <p>That's fine. And would you like the washing put away in drawers or wardrobes? — No, it's okay. You can
+                just leave everything out and fold it up.</p>
+            <p>Okay, right. Now, I'll just set up an account for you and I'll take down some of your details. First of
+                all, what's your full name? — It's Rose Kelly.</p>
+            <p>And could I have your home address, please, Mrs Kelly? — Yes, it's 48 <strong>[→ Q8: AMYES]</strong>
+                Amyes Road. That's A-M-Y-E-S. And that's in Mount Eden.</p>
+            <p>Okay. Now, what day of the week would you like the property cleaned? — It doesn't really matter. Not
+                Monday, but any other day. — Okay, let's see. We have a cleaner in your area later on <strong>[→ Q9:
+                    THURSDAY]</strong> Thursday, so shall we go for that day? We could have someone there by about 9.30
+                in the morning. Does that suit you? — Yes, that's fine.</p>
+            <p>And do you charge an hourly rate or a total for the whole job? — No, we charge by the hour. It will work
+                out to about $25 per hour. — Oh, that's quite reasonable. I thought it might be closer to $30. And how
+                long do you expect it to take? — Well, you said the house isn't large, so I'd guess no more than
+                <strong>[→ Q10: 3 HOURS]</strong> three hours at the most. We can occasionally finish a three-bedroom in
+                two and a half, but that's probably not too realistic.
+            </p>
+            <p>Right. That sounds good. Okay, that's lovely. Thank you very much, and we'll have someone there next
+                week. — Thank you.</p>
+        </div>
+        <div data-part="2">
+            <p>You have some time to look at questions 11 to 16. Now listen carefully and answer questions 11 to 16.</p>
+            <p>Okay. Well, first of all, I'll give you a bit of background to the museum and then tell you about some of
+                the galleries.</p>
+            <p>You probably won't have time to see everything today, so what I recommend you do is <strong>[→ Q11:
+                    A]</strong> go to the Egyptian room first, because it's everyone's favourite place and it gets very
+                crowded with the school parties later in the day. Oh, and I should mention that the photography gallery
+                is undergoing refurbishment at the moment, so while that's definitely worth seeing, it'll have to wait
+                for another time.</p>
+            <p>Now, the actual museum building itself is quite interesting. It was designed by a local architect called
+                William Craven in the 19th century, at a time when the city was developing rapidly, with new factories
+                to cope with the expansion of the textile industry. The museum's built in a very similar style to the
+                railway station, which was constructed at around the same time. That was designed by another architect,
+                but William Craven did also provide the plans for the <strong>[→ Q12: B]</strong> town hall, which was
+                built just a few years later.</p>
+            <p>Construction of the museum began in 1888 with a large team of carpenters, stonemasons and builders. Then,
+                in recent years, it's been extensively refurbished. The lovely big windows have been retained to let the
+                daylight flood in, but the award-winning part of the project was the restoration of the area around the
+                central hall. In particular, the beautiful wrought iron <strong>[→ Q13: A]</strong> staircase, which was
+                brought back to its former glory. Unfortunately, the museum's original tiled floor had to be replaced
+                with new tiles of a similar design.</p>
+            <p>It was a very expensive project, and since we don't charge admission fees, we had to find other ways of
+                funding it. We did get some money from the Department of Culture at national level, but we had even more
+                generous support from <strong>[→ Q14: C]</strong> companies and industries here in the city who were our
+                main benefactors. However, we do also depend on donations from people living in the area for the ongoing
+                maintenance of the building.</p>
+            <p>So, how will the museum mainly be spending its money in the next five years? We already work with schools
+                and colleges, helping people get a better understanding of all the creative disciplines. We consider the
+                most important part of our work the <strong>[→ Q15: A]</strong> restoration of the valuable historical
+                objects we are lucky enough to have in our possession, and this will continue to be where the most
+                funding is allocated. Of course, it would be wonderful to purchase new objects for the museum, but we
+                simply don't have the space at the moment.</p>
+            <p>Well, we do hope you enjoy your day today, but if you would like to learn more about our exhibits on
+                display here, I suggest you come to one of the <strong>[→ Q16: C]</strong> Saturday morning lectures
+                which are given every month by one of our team of experts. Of course, you can pick up leaflets about the
+                exhibits in most of the galleries too, but you'll only get a basic introduction from those. We're also
+                working to update our website so that it provides more background on the exhibits, but that's still at
+                the planning stage.</p>
+            <p>Before you hear the rest of the talk, you have some time to look at questions 17 to 20. Now listen and
+                answer questions 17 to 20.</p>
+            <p>Okay, now let me just tell you a bit about what's on at the moment. Well, we're very well known for our
+                collection of <strong>[→ Q17: C]</strong> 18th century paintings, both oils and watercolours. Some of
+                these are English landscapes and portraits, but we also have paintings by other European artists who
+                were working during this period.</p>
+            <p>If you're interested in art that's a bit nearer home, the <strong>[→ Q18: B]</strong> Farnley Collection
+                is a set of drawings by Paul Farnley. He was born in Ireland, but he came to work here in the city in
+                the early 20th century and then made it his home. He worked in a factory but spent his spare time
+                drawing the buildings and urban landscape of the city and his work has now been collected and displayed
+                here.</p>
+            <p>On a more practical note, we have a display of <strong>[→ Q19: E]</strong> kitchen appliances which might
+                interest you. These are the sorts of things you wouldn't normally expect to see in a museum. There's an
+                electric potato peeler from the 1970s which sold really well at the time, but no one's got one now.
+                There are lots of other similar appliances which must have seemed like great ideas at the time, but
+                which never took off.</p>
+            <p>You might also like to visit the <strong>[→ Q20: D]</strong> Fashion Gallery. This is an exhibition which
+                is running for the next few weeks only and shows men's and women's fashion from 1900 to 2000, including
+                some of the famous designers of the time.</p>
+            <p>Okay, so if anyone's got any questions...</p>
+        </div>
+        <div data-part="3">
+            <p>You have some time to look at questions 21 to 25. Now listen carefully and answer questions 21 to 25.</p>
+            <p>Hi Francis, Sam. So, how did you go with applying the different theoretical business tools for the report
+                I asked you to write? — It was interesting and made us really focus on which tool was best to use when
+                analysing a business.</p>
+            <p>Good. So, tell me what you found out. — We liked the theory behind PEST analysis. That's political,
+                economic, social and technological, although we're not sure if it was very applicable to our case. Some
+                of the other groups had studies for which it worked really well and they said it was easy to use. But I
+                felt it focused too much on the big picture and was <strong>[→ Q21: C]</strong> unsuitable for our
+                company. — I agree.</p>
+            <p>On the other hand, I enjoyed using the drill-down method. It was <strong>[→ Q22: D]</strong> painstaking
+                to do and we seemed to be working on it for ages, but the results were worth waiting for. — Yes. I liked
+                the way it eventually broke down complex problems.</p>
+            <p>Yes. I much preferred doing the PMI analysis. It was so <strong>[→ Q23: E]</strong> straightforward to
+                break down into its three components – plus, minus and interesting implications. You just needed to
+                brainstorm these components and then write them up. Fast and effective. And it didn't make your brain
+                hurt doing it. — I agree. And you don't need any special training at all. Anyone can use it.</p>
+            <p>Hmm. So, was there any tool that you thought was superior to the others? — In my opinion, the one tool
+                that is critical to business, especially for larger companies, is Pareto analysis. If they applied
+                Pareto analysis, they would see that by focusing on the critical 20% of their problems, they could
+                generate 80% of the benefits. This would <strong>[→ Q24: A]</strong> allow them to work faster and it
+                also reduces their workload. It's all about finding out what their basic problems are.</p>
+            <p>I agree with Francis about Pareto, but my favourite was the SWOT analysis. You know, looking at the
+                company's strengths, weaknesses, opportunities and threats, as it can be used in so many different
+                situations. It works in large and small companies and even down to departmental level. <strong>[→ Q25:
+                    G]</strong> It was great for our case study. — Yes, that's true.</p>
+            <p>Before you hear the rest of the discussion, you have some time to look at questions 26 to 30. Now listen
+                and answer questions 26 to 30.</p>
+            <p>OK. I've read your draft report, but can you tell me a bit more about that company you focused on? —
+                Well, the company we used in our study was a manufacturing company who have relied on distributors to
+                take their product to the end user. We did some analysis examining the possibility of them distributing
+                their own products.</p>
+            <p>We initially looked at their strengths. The company, although it is small, is well known and has a very
+                good reputation. The management are very committed to increasing the company profits and they are
+                confident this move would be successful. — Right. And the company has quite a lot of <strong>[→ Q26:
+                    B]</strong> staff who have previously worked for distribution companies, so the knowledge is already
+                there. That was something we didn't expect to find and is probably going to help them the most to
+                achieve their goals.</p>
+            <p>I was quite impressed by some of the opportunities you detailed. I did think you missed something quite
+                pertinent to their future growth, however. — What was that? — You didn't consider the potential for
+                establishing an <strong>[→ Q27: B]</strong> offshore division. You talked about the company negotiating
+                better terms with its suppliers. Most of these are based abroad, and so if the company had a way of
+                actually distributing the product there, this could be a tremendous opportunity and give them an edge
+                over their competitors. — That's a good point.</p>
+            <p>So what did you think about the threats we identified? — I thought you did a good job. I was really
+                pleased to see that you considered how the government's planned environmental <strong>[→ Q28:
+                    C]</strong> policy could really affect the viability of this venture. With this law being introduced
+                next year, they might need to find new ways of using their existing technology. It's easy to identify
+                what your competitors are doing, but it's the bigger picture that often gets ignored.</p>
+            <p>So, Sam, what did you learn from this assignment? — Heaps. I guess I hadn't realised how much time it
+                takes to ensure your company survives and profits. It was great to study the different tools in books,
+                but applying them in the real world was much harder than I thought. <strong>[→ Q29: C]</strong> It was a
+                great learning experience. — I'm glad I could make your assignment relevant.</p>
+            <p>I'm basically happy with your report. You've got the format correct with the necessary headings, etc.,
+                and you've got sufficient details under the different headings. Just remember to <strong>[→ Q30:
+                    A]</strong> state whether or not you think the company should go ahead with the new venture. But
+                you've done a good job so far.</p>
+        </div>
+        <div data-part="4">
+            <p>First you have some time to look at questions 31 to 40. Now listen carefully and answer questions 31 to
+                40.</p>
+            <p>I'd like to give you a brief overview of a research project I've been working on as part of a team of
+                four. We wanted to get some data on what happens to students after they graduate, and also find out how
+                useful they felt their degree course was to them. We focused on graduates from the course in <strong>[→
+                    Q31: BUSINESS MANAGEMENT]</strong> Business Management, since this is one of the most popular and
+                long-established courses.</p>
+            <p>We decided to use two different data-gathering methods. We started off by emailing a brief questionnaire
+                to all last year's graduates from that course, and then we selected a number of those who had replied,
+                and with them we carried out <strong>[→ Q32: PHONE INTERVIEWS]</strong> phone interviews. We'd
+                originally intended to use face-to-face interviews, but didn't feel that would be practical, and in fact
+                we found this method provided a combination of wide coverage and depth, which is what we wanted.</p>
+            <p>So, what did we find? Well, I suppose our most surprising finding was just how many graduates had gone on
+                to work towards an additional <strong>[→ Q33: QUALIFICATION]</strong> qualification, rather than getting
+                a job immediately. That was 32%, almost a third. Of the rest, a very small proportion were unemployed,
+                just 4%, and all the rest were in employment.</p>
+            <p>More than half of them were in the <strong>[→ Q34: PUBLIC]</strong> public sector, with a sizable
+                minority in the private sector, and a small number in the not-for-profit sector. We were also interested
+                in the attitudes of those who were employed towards their work. The majority said that their <strong>[→
+                    Q35: EXPECTATION]</strong> expectations had been fulfilled.</p>
+            <p>They were generally satisfied in terms of their salary, and also happy with their prospects for career
+                development, with very few of them feeling that they were in a dead-end job with no prospects of
+                promotion.</p>
+            <p>For the second main part of our research, we wanted to get some feedback from the graduates on how useful
+                they felt their degree course had been to them. There were really three main skills which the graduates
+                felt they'd gained from doing the course, and identified as having been the most valuable to them. They
+                highlighted the fact that they developed the ability to work as members of a <strong>[→ Q36:
+                    TEAM]</strong> team.</p>
+            <p>Another skill which they cited as valuable was that of personal organisation, things like meeting
+                deadlines, time management, and so on. And finally, a lot of them said that what they'd learned about
+                approaches to <strong>[→ Q37: PROBLEM-SOLVING]</strong> problem-solving had been very useful.</p>
+            <p>We also asked them about which elements of the course had been least valuable to them. To our surprise,
+                the thing that was mentioned most often here was <strong>[→ Q38: PRESENTATION]</strong> presentations.
+                They hadn't enjoyed having to give these as part of their course, nor had they found it useful having to
+                listen to those given by their fellow students. The reason given for this was that they felt they
+                weren't trained how to do it properly.</p>
+            <p>And the second thing that got very negative feedback was work on <strong>[→ Q39: ESSAY WRITING]</strong>
+                essay writing. Most people thought this was unnecessary, and that it would have been better to work on
+                report writing.</p>
+            <p>And finally, some respondents said that they would have liked more guidance on the best way to go about
+                looking for a <strong>[→ Q40: JOB]</strong> job, that the course could have done more to help them.</p>
+            <p>Finally, we asked if there were any skills...</p>
+        </div>
+    </div>
+
+    <audio id="global-audio-player" class="hidden"></audio>
+
+    <!-- Nav Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousPart()" id="prevBtn">&#8249;</button>
+        <button class="nav-arrow" onclick="nextPart()" id="nextBtn">&#8250;</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span><span class="section-prefix">Part </span><span class="sectionNr">1</span><span
+                        class="attemptedCount">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(1)"><span
+                        class="sr-only">Q1</span><span>1</span></button>
+                <button class="subQuestion" onclick="goToQuestion(2)"><span
+                        class="sr-only">Q2</span><span>2</span></button>
+                <button class="subQuestion" onclick="goToQuestion(3)"><span
+                        class="sr-only">Q3</span><span>3</span></button>
+                <button class="subQuestion" onclick="goToQuestion(4)"><span
+                        class="sr-only">Q4</span><span>4</span></button>
+                <button class="subQuestion" onclick="goToQuestion(5)"><span
+                        class="sr-only">Q5</span><span>5</span></button>
+                <button class="subQuestion" onclick="goToQuestion(6)"><span
+                        class="sr-only">Q6</span><span>6</span></button>
+                <button class="subQuestion" onclick="goToQuestion(7)"><span
+                        class="sr-only">Q7</span><span>7</span></button>
+                <button class="subQuestion" onclick="goToQuestion(8)"><span
+                        class="sr-only">Q8</span><span>8</span></button>
+                <button class="subQuestion" onclick="goToQuestion(9)"><span
+                        class="sr-only">Q9</span><span>9</span></button>
+                <button class="subQuestion" onclick="goToQuestion(10)"><span
+                        class="sr-only">Q10</span><span>10</span></button>
+            </div>
+        </div>
+        <div class="footer__questionWrapper___1tZ46 multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(2)">
+                <span><span class="section-prefix">Part </span><span class="sectionNr">2</span><span
+                        class="attemptedCount">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(11)"><span>11</span></button>
+                <button class="subQuestion" onclick="goToQuestion(12)"><span>12</span></button>
+                <button class="subQuestion" onclick="goToQuestion(13)"><span>13</span></button>
+                <button class="subQuestion" onclick="goToQuestion(14)"><span>14</span></button>
+                <button class="subQuestion" onclick="goToQuestion(15)"><span>15</span></button>
+                <button class="subQuestion" onclick="goToQuestion(16)"><span>16</span></button>
+                <button class="subQuestion" onclick="goToQuestion(17)"><span>17</span></button>
+                <button class="subQuestion" onclick="goToQuestion(18)"><span>18</span></button>
+                <button class="subQuestion" onclick="goToQuestion(19)"><span>19</span></button>
+                <button class="subQuestion" onclick="goToQuestion(20)"><span>20</span></button>
+            </div>
+        </div>
+        <div class="footer__questionWrapper___1tZ46 multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(3)">
+                <span><span class="section-prefix">Part </span><span class="sectionNr">3</span><span
+                        class="attemptedCount">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(21)"><span>21</span></button>
+                <button class="subQuestion" onclick="goToQuestion(22)"><span>22</span></button>
+                <button class="subQuestion" onclick="goToQuestion(23)"><span>23</span></button>
+                <button class="subQuestion" onclick="goToQuestion(24)"><span>24</span></button>
+                <button class="subQuestion" onclick="goToQuestion(25)"><span>25</span></button>
+                <button class="subQuestion" onclick="goToQuestion(26)"><span>26</span></button>
+                <button class="subQuestion" onclick="goToQuestion(27)"><span>27</span></button>
+                <button class="subQuestion" onclick="goToQuestion(28)"><span>28</span></button>
+                <button class="subQuestion" onclick="goToQuestion(29)"><span>29</span></button>
+                <button class="subQuestion" onclick="goToQuestion(30)"><span>30</span></button>
+            </div>
+        </div>
+        <div class="footer__questionWrapper___1tZ46 multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(4)">
+                <span><span class="section-prefix">Part </span><span class="sectionNr">4</span><span
+                        class="attemptedCount">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(31)"><span>31</span></button>
+                <button class="subQuestion" onclick="goToQuestion(32)"><span>32</span></button>
+                <button class="subQuestion" onclick="goToQuestion(33)"><span>33</span></button>
+                <button class="subQuestion" onclick="goToQuestion(34)"><span>34</span></button>
+                <button class="subQuestion" onclick="goToQuestion(35)"><span>35</span></button>
+                <button class="subQuestion" onclick="goToQuestion(36)"><span>36</span></button>
+                <button class="subQuestion" onclick="goToQuestion(37)"><span>37</span></button>
+                <button class="subQuestion" onclick="goToQuestion(38)"><span>38</span></button>
+                <button class="subQuestion" onclick="goToQuestion(39)"><span>39</span></button>
+                <button class="subQuestion" onclick="goToQuestion(40)"><span>40</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton___3FM07"><span>Check Answers</span></button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div class="context-menu-item" onclick="addComment()">Comment</div>
+        <div class="context-menu-item" id="clear-item" onclick="clearHighlight()" style="display:none;">Clear</div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">Clear All</div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Results</h2>
+                <button id="modal-close-button" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="score-summary"></p>
+                <div id="result-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            'q1': ['south-west', 'south west', 'southwest'],
+            'q2': ['double'],
+            'q3': ['an office', 'office'],
+            'q4': ['lounge'],
+            'q5': 'A',
+            'q6': 'B',
+            'q7': 'B',
+            'q8': ['amyes'],
+            'q9': ['thursday'],
+            'q10': ['3 hours', 'three hours'],
+            'q11': 'A',
+            'q12': 'B',
+            'q13': 'A',
+            'q14': 'C',
+            'q15': 'A',
+            'q16': 'C',
+            'q17': ['C'],
+            'q18': ['B'],
+            'q19': ['E'],
+            'q20': ['D'],
+            'q21': ['C'],
+            'q22': ['D'],
+            'q23': ['E'],
+            'q24': ['A'],
+            'q25': ['G'],
+            'q26': 'B',
+            'q27': 'B',
+            'q28': 'C',
+            'q29': 'C',
+            'q30': 'A',
+            'q31': ['business management'],
+            'q32': ['phone interviews'],
+            'q33': ['qualifications', 'qualification'],
+            'q34': ['public'],
+            'q35': ['expectation', 'expectations'],
+            'q36': ['team'],
+            'q37': ['problem-solving', 'problem solving'],
+            'q38': ['presentation'],
+            'q39': ['essay writing'],
+            'q40': ['job']
+        };
+
+        const questionTypes = {
+            'q1': 'text', 'q2': 'text', 'q3': 'text', 'q4': 'text',
+            'q5': 'mcq', 'q6': 'mcq', 'q7': 'mcq',
+            'q8': 'text', 'q9': 'text', 'q10': 'text',
+            'q11': 'mcq', 'q12': 'mcq', 'q13': 'mcq', 'q14': 'mcq', 'q15': 'mcq', 'q16': 'mcq',
+            'q17': 'text', 'q18': 'text', 'q19': 'text', 'q20': 'text',
+            'q21': 'text', 'q22': 'text', 'q23': 'text', 'q24': 'text', 'q25': 'text',
+            'q26': 'mcq', 'q27': 'mcq', 'q28': 'mcq', 'q29': 'mcq', 'q30': 'mcq',
+            'q31': 'text', 'q32': 'text', 'q33': 'text', 'q34': 'text', 'q35': 'text',
+            'q36': 'text', 'q37': 'text', 'q38': 'text', 'q39': 'text', 'q40': 'text'
+        };
+
+        let currentPart = 1;
+        let currentQuestion = 1;
+        let selectedRange = null;
+        let contextElement = null;
+
+        const audioSource = 'https://ia601409.us.archive.org/34/items/mix-25m-44s-audio-joiner.com/mix_25m44s%20%28audio-joiner.com%29.mp3';
+        const audioPlayer = document.getElementById('global-audio-player');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+        const speedBtn = document.getElementById('speed-btn');
+        const speedOptions = document.getElementById('speed-options');
+        const volumeSlider = document.getElementById('new-volume-slider');
+
+        if (audioSource) audioPlayer.src = audioSource;
+
+        function formatTime(s) {
+            const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (!audioSource) { alert('Audio URL qo\'shilmagan. Script ichida audioSource ni to\'ldiring.'); return; }
+            if (audioPlayer.paused) audioPlayer.play(); else audioPlayer.pause();
+        });
+        audioPlayer.addEventListener('play', () => { playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'; });
+        audioPlayer.addEventListener('pause', () => { playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; });
+        audioPlayer.addEventListener('loadedmetadata', () => { progressBar.max = audioPlayer.duration; totalDurationEl.textContent = formatTime(audioPlayer.duration); });
+        audioPlayer.addEventListener('timeupdate', () => { progressBar.value = audioPlayer.currentTime; currentTimeEl.textContent = formatTime(audioPlayer.currentTime); });
+        progressBar.addEventListener('input', () => { audioPlayer.currentTime = progressBar.value; });
+        volumeSlider.addEventListener('input', (e) => { audioPlayer.volume = e.target.value; });
+        speedBtn.addEventListener('click', (e) => { e.stopPropagation(); speedOptions.classList.toggle('hidden'); });
+        speedOptions.addEventListener('click', (e) => {
+            if (e.target.dataset.speed) { audioPlayer.playbackRate = parseFloat(e.target.dataset.speed); speedBtn.textContent = e.target.dataset.speed + 'x'; speedOptions.classList.add('hidden'); }
+        });
+        document.addEventListener('click', () => speedOptions.classList.add('hidden'));
+
+        function switchToPart(partNumber) {
+            currentPart = partNumber;
+            document.querySelectorAll('.question-part').forEach(p => p.classList.add('hidden'));
+            const part = document.getElementById('part-' + partNumber);
+            if (part) part.classList.remove('hidden');
+            document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w, i) => w.classList.toggle('selected', i + 1 === partNumber));
+            const partStart = (partNumber - 1) * 10 + 1;
+            const partEnd = partNumber * 10;
+            if (currentQuestion < partStart || currentQuestion > partEnd) {
+                currentQuestion = partStart;
+                document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+                const activeBtn = document.querySelector('.subQuestion[onclick="goToQuestion(' + partStart + ')"]');
+                if (activeBtn) activeBtn.classList.add('active');
+            }
+            if (document.querySelector('.main-container.results-mode')) {
+                const src = document.querySelector('#transcription-data [data-part="' + partNumber + '"]');
+                const tgt = document.getElementById('transcription-text');
+                if (src && tgt) tgt.innerHTML = src.innerHTML;
+            }
+            updateAttemptedCount(partNumber);
+            document.getElementById('prevBtn').disabled = currentQuestion <= 1;
+            document.getElementById('nextBtn').disabled = currentQuestion >= 40;
+        }
+
+        function goToQuestion(qNum) {
+            currentQuestion = qNum;
+            let part = 1;
+            if (qNum > 10 && qNum <= 20) part = 2;
+            else if (qNum > 20 && qNum <= 30) part = 3;
+            else if (qNum > 30) part = 4;
+            if (currentPart !== part) switchToPart(part);
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+            if (btn) btn.classList.add('active');
+            let el = document.getElementById('q' + qNum) || document.querySelector('input[name="q' + qNum + '"]');
+            if (el) {
+                const container = el.closest('.question');
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    container.classList.add('flash');
+                    setTimeout(() => container.classList.remove('flash'), 1000);
+                }
+            }
+            document.getElementById('prevBtn').disabled = qNum <= 1;
+            document.getElementById('nextBtn').disabled = qNum >= 40;
+        }
+
+        function nextPart() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+        function previousPart() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+
+        function updateAttemptedCount(partNumber) {
+            const start = (partNumber - 1) * 10 + 1;
+            const end = partNumber * 10;
+            let count = 0;
+            for (let i = start; i <= end; i++) {
+                const txt = document.getElementById('q' + i);
+                const rad = document.querySelector('input[name="q' + i + '"]:checked');
+                if ((txt && txt.value.trim()) || rad) count++;
+            }
+            const wrapper = document.querySelectorAll('.footer__questionWrapper___1tZ46')[partNumber - 1];
+            if (wrapper) {
+                const span = wrapper.querySelector('.attemptedCount');
+                if (span) span.textContent = count + ' of 10';
+            }
+        }
+
+        function updateAnsweredIndicators() {
+            for (let qNum = 1; qNum <= 40; qNum++) {
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+                if (!btn || btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+                const txt = document.getElementById('q' + qNum);
+                const rad = document.querySelector('input[name="q' + qNum + '"]:checked');
+                const answered = (txt && txt.value.trim() !== '') || !!rad;
+                btn.classList.toggle('answered', answered);
+            }
+            [1, 2, 3, 4].forEach(p => updateAttemptedCount(p));
+        }
+
+        document.querySelectorAll('.answer-input, input[type="radio"]').forEach(inp => {
+            inp.addEventListener('input', updateAnsweredIndicators);
+            inp.addEventListener('change', updateAnsweredIndicators);
+        });
+
+        function checkAnswers() {
+            let score = 0;
+            const resultsData = [];
+
+            document.querySelectorAll('.correct-inline').forEach(el => el.remove());
+            document.querySelectorAll('.answer-input').forEach(el => el.classList.remove('correct', 'incorrect'));
+            document.querySelectorAll('.multi-choice-option').forEach(el => el.classList.remove('correct', 'incorrect'));
+
+            Object.keys(correctAnswers).forEach(key => {
+                const correct = correctAnswers[key];
+                const qNum = parseInt(key.replace('q', ''));
+                const type = questionTypes[key];
+                let userAnswer = '', isCorrect = false;
+
+                if (type === 'text') {
+                    const el = document.getElementById(key);
+                    userAnswer = el ? el.value.trim() : '';
+                    const accepted = Array.isArray(correct) ? correct : [correct];
+                    if (accepted[0] === '???') {
+                        isCorrect = false;
+                    } else {
+                        isCorrect = accepted.some(a => a.toLowerCase() === userAnswer.toLowerCase());
+                    }
+                    if (el) {
+                        el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        if (!isCorrect && accepted[0] !== '???') {
+                            const sp = document.createElement('span');
+                            sp.className = 'correct-inline';
+                            sp.textContent = accepted[0];
+                            el.insertAdjacentElement('afterend', sp);
+                        }
+                    }
+                } else if (type === 'mcq') {
+                    const checked = document.querySelector('input[name="' + key + '"]:checked');
+                    userAnswer = checked ? checked.value : 'No Answer';
+                    isCorrect = correct !== '???' && userAnswer === correct;
+                    document.querySelectorAll('input[name="' + key + '"]').forEach(r => {
+                        const wrapper = r.closest('.multi-choice-option');
+                        if (!wrapper) return;
+                        if (correct !== '???' && r.value === correct) wrapper.classList.add('correct');
+                        else if (r.checked) wrapper.classList.add('incorrect');
+                    });
+                }
+
+                if (isCorrect) score++;
+                const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+                if (navBtn) { navBtn.classList.remove('answered'); navBtn.classList.add(isCorrect ? 'correct' : 'incorrect'); }
+                resultsData.push({ question: qNum, userAnswer: userAnswer || 'No Answer', correctAnswer: Array.isArray(correct) ? correct[0] : correct, isCorrect });
+            });
+
+            document.querySelectorAll('.answer-input, input[type="radio"]').forEach(el => el.disabled = true);
+
+            const band = (function (r) {
+                if (r >= 39) return 9; if (r >= 37) return 8.5; if (r >= 35) return 8; if (r >= 32) return 7.5;
+                if (r >= 30) return 7; if (r >= 26) return 6.5; if (r >= 23) return 6; if (r >= 18) return 5.5;
+                if (r >= 16) return 5; if (r >= 13) return 4.5; if (r >= 10) return 4; if (r >= 8) return 3.5;
+                if (r >= 6) return 3; if (r >= 4) return 2.5; if (r >= 2) return 2; if (r === 1) return 1.5; return 0;
+            })(score);
+
+            document.querySelector('.main-container').classList.add('results-mode');
+            switchToPart(currentPart);
+
+            document.getElementById('score-summary').textContent = 'You scored ' + score + ' out of 40 (Band ' + band + ').';
+
+            const resultDetails = document.getElementById('result-details');
+            let html = '<table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody>';
+            resultsData.sort((a, b) => a.question - b.question).forEach(r => {
+                html += '<tr><td>' + r.question + '</td><td>' + r.userAnswer + '</td><td>' + r.correctAnswer + '</td><td class="' + (r.isCorrect ? 'result-correct' : 'result-incorrect') + '">' + (r.isCorrect ? '&#10003; Correct' : '&#10007; Incorrect') + '</td></tr>';
+            });
+            html += '</tbody></table>';
+            resultDetails.innerHTML = html;
+
+            const deliverButton = document.getElementById('deliver-button');
+            deliverButton.classList.add('success');
+            deliverButton.innerHTML = '<span>My Results</span>';
+            const newBtn = deliverButton.cloneNode(true);
+            deliverButton.parentNode.replaceChild(newBtn, deliverButton);
+            newBtn.addEventListener('click', () => { document.getElementById('result-modal').style.display = 'flex'; });
+            document.getElementById('result-modal').style.display = 'flex';
+        }
+
+        document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+        document.getElementById('modal-close-button').addEventListener('click', () => { document.getElementById('result-modal').style.display = 'none'; });
+
+        document.addEventListener('selectionchange', () => {
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0 && !sel.isCollapsed) selectedRange = sel.getRangeAt(0);
+        });
+        document.body.addEventListener('contextmenu', function (e) {
+            const text = window.getSelection().toString();
+            if (!text) return;
+            e.preventDefault();
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+            menu.style.display = 'block';
+            contextElement = e.target.closest('.highlight, .comment-highlight');
+            document.getElementById('clear-item').style.display = contextElement ? 'block' : 'none';
+        });
+        document.body.addEventListener('click', function (e) {
+            if (!e.target.closest('.context-menu')) document.getElementById('contextMenu').style.display = 'none';
+        });
+        function highlightText() {
+            if (!selectedRange || selectedRange.collapsed) return;
+            try { const span = document.createElement('span'); span.className = 'highlight'; selectedRange.surroundContents(span); } catch (e) { }
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function addComment() {
+            const t = prompt('Enter your comment:');
+            if (!t || !selectedRange) return;
+            try {
+                const span = document.createElement('span'); span.className = 'comment-highlight';
+                const tip = document.createElement('span'); tip.className = 'comment-tooltip'; tip.textContent = t;
+                span.appendChild(tip); selectedRange.surroundContents(span);
+            } catch (e) { }
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function clearHighlight() {
+            if (contextElement) {
+                const parent = contextElement.parentNode;
+                while (contextElement.firstChild) parent.insertBefore(contextElement.firstChild, contextElement);
+                parent.removeChild(contextElement); parent.normalize();
+            }
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function clearAllHighlights() {
+            document.querySelectorAll('.highlight, .comment-highlight').forEach(el => {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el); parent.normalize();
+            });
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchToPart(1);
+            goToQuestion(1);
+        });
+    </script>
+</body>
+
+</html>

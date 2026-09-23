@@ -5,13 +5,12 @@ export function CoursesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Our Courses"
         title={
           <>
             IELTS Courses for <span className="text-brand-gradient">Every Level</span>
           </>
         }
-        subtitle="একদম শূন্য থেকে Band 7+ — আপনার level ও target অনুযায়ী সঠিক কোর্সটি বেছে নিন।"
+        subtitle="একদম শূন্য থেকে Band 7+। আপনার level ও target অনুযায়ী সঠিক কোর্সটি বেছে নিন।"
         crumbs={[{ label: "Courses" }]}
       />
       <CoursesSection />

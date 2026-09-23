@@ -332,6 +332,22 @@ model RoutineSlot {
   updatedAt  DateTime @updatedAt
 }
 
+// Admin Media Library (WordPress-style "wp-content/uploads"). Every file
+// uploaded through POST /api/admin/upload lands in /public/uploads/<folder>/
+// and gets a row here so the admin can re-pick, copy the URL or delete it.
+model MediaItem {
+  id        String   @id @default(cuid())
+  url       String // public path, e.g. /uploads/suggestions/202609-xxxx.html
+  filename  String // original client filename
+  size      Int // bytes
+  ext       String   @default("") // html | pdf | png | mp3 ...
+  folder    String   @default("general") // suggestions | certificates | resources | team | general
+  kind      String   @default("file") // image | file
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 // Admin-uploaded suggestion/practice material (interactive HTML tests, PDFs,
 // audio...) — served through the portal "Suggestions" section to students
 // enrolled in at least one PAID course. Uploading a file auto-creates the row
@@ -343,6 +359,7 @@ model Suggestion {
   category  String   @default("Practice")
   fileUrl   String // e.g. /uploads/suggestions/listening-test-28.html
   kind      String   @default("html") // html | pdf | audio | video | link
+  serial    Int? // display order — 1,2,3… serial-by-serial in the student portal
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

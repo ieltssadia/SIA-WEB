@@ -21,13 +21,12 @@ export function StoriesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Success Stories"
         title={
           <>
             Real Students, <span className="text-brand-gradient">Real Results</span>
           </>
         }
-        subtitle="recent batch-গুলোর শিক্ষার্থীরা নিজের ভাষায় বলেছেন — কোথায় আটকেছিলেন, কীভাবে উঠেছেন।"
+        subtitle="recent batch-গুলোর শিক্ষার্থীরা নিজের ভাষায় বলেছেন: কোথায় আটকেছিলেন, কীভাবে উঠেছেন।"
         crumbs={[{ label: "Success Stories" }]}
       />
 
@@ -93,7 +92,7 @@ export function StoriesPage() {
                     href={site.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Sadia's IELTS on Facebook — opens in a new tab"
+                    aria-label="Sadia's IELTS on Facebook (opens in a new tab)"
                   >
                     Result Posts on Facebook
                   </a>

@@ -15,13 +15,12 @@ export function FaqSection() {
     <section id="faq" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="FAQs"
           title={
             <>
               Frequently Asked <span className="text-brand-gradient">Questions</span>
             </>
           }
-          subtitle="আপনার মনে যে প্রশ্নগুলো ঘুরছে — উত্তর এখানেই আছে।"
+          subtitle="আপনার মনে যে প্রশ্নগুলো ঘুরছে, উত্তর এখানেই আছে।"
         />
 
         <Reveal>

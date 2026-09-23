@@ -233,7 +233,7 @@ export function AdminCourses() {
       if (res.ok && data?.ok && data.courses) setCourses(data.courses);
       else setError(data?.error ?? "কোর্স লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -289,7 +289,7 @@ export function AdminCourses() {
         toast.error(data?.error ?? "আপডেট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -312,15 +312,15 @@ export function AdminCourses() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Courses — কোর্স"
-        sub="পাবলিক সাইটের কোর্স ক্যাটালগ — দাম, সিট ও পাবলিশ স্টেট ম্যানেজ করুন"
+        title="Courses: কোর্স"
+        sub="পাবলিক সাইটের কোর্স ক্যাটালগ, দাম, সিট ও পাবলিশ স্টেট ম্যানেজ করুন"
       >
         {!readOnly ? (
           <Button
@@ -332,30 +332,30 @@ export function AdminCourses() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Add Course — নতুন কোর্স
+            Add Course: নতুন কোর্স
           </Button>
         ) : null}
       </SectionHeading>
 
       {readOnly ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — কোর্স শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, কোর্স শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={BookOpen} label="Total — মোট" value={counts.total} tone="blue" />
+        <StatCard icon={BookOpen} label="Total: মোট" value={counts.total} tone="blue" />
         <StatCard
           icon={Layers}
-          label="Published — পাবলিশড"
+          label="Published: পাবলিশড"
           sub={`${counts.total - counts.published} hidden`}
           value={counts.published}
           tone="emerald"
         />
         <StatCard
           icon={Users}
-          label="Call for price — কল করুন"
+          label="Call for price: কল করুন"
           value={counts.callForPrice}
           tone="amber"
         />
@@ -371,7 +371,7 @@ export function AdminCourses() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="কোর্স খুঁজুন — নাম বা slug"
+          placeholder="কোর্স খুঁজুন: নাম বা slug"
           aria-label="Search courses"
           className="min-h-11 rounded-xl border-border bg-card pl-10"
         />
@@ -431,7 +431,7 @@ export function AdminCourses() {
                     ) : null}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {c.lessons} lessons · {c.duration || "—"}
+                    {c.lessons} lessons · {c.duration || "-"}
                   </span>
                   {c.seatsTotal !== null ? (
                     <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -506,7 +506,7 @@ export function AdminCourses() {
           <AlertDialogHeader>
             <AlertDialogTitle>কোর্সটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — পাবলিক সাইট থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, পাবলিক সাইট থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -615,7 +615,7 @@ function CourseDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -628,7 +628,7 @@ function CourseDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>
-            {editing ? `Edit — ${editing.title}` : "Add Course — নতুন কোর্স যোগ করুন"}
+            {editing ? `Edit: ${editing.title}` : "Add Course: নতুন কোর্স যোগ করুন"}
           </DialogTitle>
           <DialogDescription>
             পাবলিক সাইটের কোর্স কার্ড ও ডিটেইলস এখান থেকেই আসে।
@@ -694,7 +694,7 @@ function CourseDialog({
                 maxLength={1200}
                 value={form.desc}
                 onChange={(e) => setField("desc", e.target.value)}
-                placeholder="কোর্সে কী থাকছে — সংক্ষেপে"
+                placeholder="কোর্সে কী থাকছে, সংক্ষেপে"
                 className="rounded-xl border-border bg-muted/40"
               />
             </div>
@@ -708,7 +708,7 @@ function CourseDialog({
                 onCheckedChange={(v) => setField("callForPrice", v === true)}
                 aria-label="Call for price"
               />
-              Call for price — দামের বদলে &quot;কল করুন&quot;
+              Call for price: দামের বদলে &quot;কল করুন&quot;
             </Label>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1.5">
@@ -806,7 +806,7 @@ function CourseDialog({
                 maxLength={60}
                 value={form.nextBatch}
                 onChange={(e) => setField("nextBatch", e.target.value)}
-                placeholder="Batch 318 — 1 Oct"
+                placeholder="Batch 318, 1 Oct"
                 className={inputCls}
               />
             </div>
@@ -817,7 +817,7 @@ function CourseDialog({
                 maxLength={200}
                 value={form.scheduleNote}
                 onChange={(e) => setField("scheduleNote", e.target.value)}
-                placeholder="সাপ্তাহে ৩ দিন — রাত ৯টা"
+                placeholder="সাপ্তাহে ৩ দিন, রাত ৯টা"
                 className={inputCls}
               />
             </div>
@@ -862,7 +862,7 @@ function CourseDialog({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label htmlFor="course-rating">Rating (0–5)</Label>
+                <Label htmlFor="course-rating">Rating (0-5)</Label>
                 <Input
                   id="course-rating"
                   type="number"
@@ -890,7 +890,7 @@ function CourseDialog({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="course-features">Features — প্রতি লাইনে একটি</Label>
+              <Label htmlFor="course-features">Features: প্রতি লাইনে একটি</Label>
               <Textarea
                 id="course-features"
                 rows={4}
@@ -901,7 +901,7 @@ function CourseDialog({
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="course-syllabus">Syllabus — প্রতি লাইনে একটি</Label>
+              <Label htmlFor="course-syllabus">Syllabus: প্রতি লাইনে একটি</Label>
               <Textarea
                 id="course-syllabus"
                 rows={4}
@@ -919,7 +919,7 @@ function CourseDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — সাইটে দেখা যাবে
+            Published: সাইটে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -936,7 +936,7 @@ function CourseDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add Course — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add Course: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

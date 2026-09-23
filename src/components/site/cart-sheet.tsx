@@ -137,7 +137,7 @@ export function CartSheet({ open, onOpenChange, trigger }: { open?: boolean; onO
             </p>
             <Button asChild className="mt-3 w-full rounded-full bg-ink py-5 font-bold text-white hover:opacity-85">
               <a href="#/checkout" onClick={() => onOpenChange?.(false)}>
-                Checkout — অর্ডার করুন
+                Checkout · অর্ডার করুন
                 <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
               </a>
             </Button>

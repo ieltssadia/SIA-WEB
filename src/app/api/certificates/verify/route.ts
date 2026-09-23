@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 const NOT_FOUND_ERROR =
-  "কোনো সার্টিফিকেট পাওয়া যায়নি — ID যাচাই করুন। (No certificate found for this ID.)";
+  "কোনো সার্টিফিকেট পাওয়া যায়নি, ID যাচাই করুন। (No certificate found for this ID.)";
 const MISSING_ID_ERROR =
-  "সার্টিফিকেট ID লিখুন — যেমন SIE-CERT-2417। (Please enter a certificate ID, e.g. SIE-CERT-2417.)";
+  "সার্টিফিকেট ID লিখুন, যেমন SIE-CERT-2417। (Please enter a certificate ID, e.g. SIE-CERT-2417.)";
 
 // Public shape of a verified certificate — internal linkage (studentId,
 // createdAt) never leaves the server.
@@ -79,7 +79,7 @@ export async function GET(request: Request) {
       {
         ok: false,
         error:
-          "যাচাই করতে সমস্যা হয়েছে — কিছুক্ষণ পর আবার চেষ্টা করুন। (Something went wrong while verifying, please try again.)",
+          "যাচাই করতে সমস্যা হয়েছে, কিছুক্ষণ পর আবার চেষ্টা করুন। (Something went wrong while verifying, please try again.)",
       },
       { status: 500 }
     );

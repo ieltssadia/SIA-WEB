@@ -23,7 +23,7 @@ export async function GET(req: Request) {
     const phone = canonicalPhone(parsed.data.phone);
     const payload = await getPortalPayload(phone);
     if (!payload) {
-      return NextResponse.json({ error: "Session expired — please log in again." }, { status: 401 });
+      return NextResponse.json({ error: "Session expired, please log in again." }, { status: 401 });
     }
 
     return NextResponse.json({ ...payload, token: issueToken(phone) });

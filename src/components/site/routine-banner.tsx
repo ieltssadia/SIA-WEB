@@ -28,22 +28,18 @@ export function RoutineBanner() {
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 lg:grid-cols-2 lg:px-8">
         {/* Copy */}
         <Reveal>
-          <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            <span className="h-px w-8 bg-primary/60" aria-hidden />
-            Online Class Routine
-          </span>
           <h2 className="font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
             Live Classes <span className="text-brand-gradient">Every Single Day</span>
           </h2>
           <p className="mt-4 max-w-lg leading-relaxed text-muted-foreground">
-            সপ্তাহে ৬ দিন — সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস চলে। অনলাইনে (Zoom) অথবা
-            ক্যাম্পাসে (Chowmuhona) — যেভাবে সুবিধা, সেভাবে ক্লাস করুন। প্রতি রবি ও বুধ রাত ৮টায়
+            সপ্তাহে ৬ দিন, সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস চলে। অনলাইনে (Zoom) অথবা
+            ক্যাম্পাসে (Chowmuhona), যেভাবে সুবিধা, সেভাবে ক্লাস করুন। প্রতি রবি ও বুধ রাত ৮টায়
             ফ্রি লাইভ ক্লাস সবার জন্য উন্মুক্ত।
           </p>
           <ul className="mt-5 space-y-2 text-sm text-foreground/85">
             <li className="flex items-center gap-2.5">
               <CalendarRange className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-              Sat – Thu routine · Weekly Full Mock Test every Thursday
+              Sat-Thu routine · Weekly Full Mock Test every Thursday
             </li>
             <li className="flex items-center gap-2.5">
               <Radio className="h-4 w-4 shrink-0 text-primary" aria-hidden />
@@ -86,7 +82,7 @@ export function RoutineBanner() {
                   ? today
                     ? `Today · ${today}`
                     : "This Week"
-                  : "Class Routine — Members Only"}
+                  : "Class Routine (Members Only)"}
               </p>
               {enrolled ? (
                 <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#c6b995]">
@@ -106,7 +102,7 @@ export function RoutineBanner() {
               {enrolled ? (
                 today && isOff ? (
                   <div className="rounded-xl border border-dashed border-primary/25 px-4 py-8 text-center">
-                    <p className="font-semibold text-foreground">Friday — Weekly Off</p>
+                    <p className="font-semibold text-foreground">Friday (Weekly Off)</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       শুক্রবার ছুটি। কাল সকাল ১০টায় ক্লাস শুরু হবে।
                     </p>
@@ -120,7 +116,7 @@ export function RoutineBanner() {
                       >
                         <div className="w-24 shrink-0">
                           <p className="text-sm font-semibold text-foreground">{row.start}</p>
-                          <p className="text-xs text-muted-foreground">– {row.end}</p>
+                          <p className="text-xs text-muted-foreground">- {row.end}</p>
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
@@ -141,7 +137,7 @@ export function RoutineBanner() {
                 ) : (
                   <div className="rounded-xl border border-border bg-secondary px-4 py-8 text-center">
                     <Clock className="mx-auto h-6 w-6 text-primary" aria-hidden />
-                    <p className="mt-2 font-semibold text-foreground">Classes run Sat – Thu</p>
+                    <p className="mt-2 font-semibold text-foreground">Classes run Sat-Thu</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       Morning 10:00 AM to evening 9:00 PM (GMT+6)
                     </p>
@@ -150,7 +146,7 @@ export function RoutineBanner() {
               ) : (
                 <>
                   <p className="rounded-xl border border-dashed border-primary/25 bg-secondary px-4 py-5 text-center text-sm leading-relaxed text-muted-foreground">
-                    সম্পূর্ণ রুটিন, ব্যাচের ক্লাস ও Zoom লিংক শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য —
+                    সম্পূর্ণ রুটিন, ব্যাচের ক্লাস ও Zoom লিংক শুধু ভর্তিকৃত শিক্ষার্থীদের জন্য,
                     enrolled নম্বর দিয়ে পোর্টালে লগ ইন করুন।
                   </p>
                   <Button
@@ -167,7 +163,7 @@ export function RoutineBanner() {
                     <a href="#/checkout" className="font-semibold text-primary hover:underline">
                       Enroll now
                     </a>{" "}
-                    — or join the{" "}
+                   , or join the{" "}
                     <a href="#/routine" className="font-semibold text-primary hover:underline">
                       free live classes
                     </a>

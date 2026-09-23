@@ -64,7 +64,7 @@ export async function PATCH(
   // Self-protection: an owner can rename themselves / change password, but
   // not silently demote or lock out their own session.
   if (target.id === auth.id && (data.role || data.status)) {
-    return badRequest("নিজের রোল বা স্ট্যাটাস বদলানো যাবে না — অন্য একজন Owner দিয়ে করান।");
+    return badRequest("নিজের রোল বা স্ট্যাটাস বদলানো যাবে না, অন্য একজন Owner দিয়ে করান।");
   }
 
   // Last-owner protection.
@@ -74,7 +74,7 @@ export async function PATCH(
       (data.role && data.role !== "owner") ||
       (data.status && data.status !== "active");
     if (others === 0 && losesOwner) {
-      return badRequest("শেষ Owner-কে ডিমোট/নিষ্ক্রিয় করা যাবে না — আগে আরেকজন Owner বানান।");
+      return badRequest("শেষ Owner-কে ডিমোট/নিষ্ক্রিয় করা যাবে না, আগে আরেকজন Owner বানান।");
     }
   }
 
@@ -119,7 +119,7 @@ export async function DELETE(
   if (target.role === "owner" && target.status === "active") {
     const others = await activeOwnerCount(id);
     if (others === 0) {
-      return badRequest("শেষ Owner ডিলিট করা যাবে না — আগে আরেকজন Owner বানান।");
+      return badRequest("শেষ Owner ডিলিট করা যাবে না, আগে আরেকজন Owner বানান।");
     }
   }
 

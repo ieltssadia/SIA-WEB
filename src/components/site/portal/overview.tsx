@@ -134,8 +134,8 @@ function ExamChip({
     days > 1
       ? `IELTS Exam in ${days} days`
       : days === 1
-        ? "IELTS Exam — tomorrow!"
-        : "Exam week — best of luck!";
+        ? "IELTS Exam tomorrow!"
+        : "Exam week, best of luck!";
   return (
     <Badge
       variant="outline"
@@ -228,7 +228,7 @@ function LiveHero({
     hero = {
       kind: "routine",
       title: routineNext.row.topic,
-      meta: `${routineNext.label} · ${routineNext.row.start}–${routineNext.row.end} · ${routineNext.row.batch}`,
+      meta: `${routineNext.label} · ${routineNext.row.start}-${routineNext.row.end} · ${routineNext.row.batch}`,
     };
   }
 
@@ -376,7 +376,7 @@ function LiveClassRows({
         </div>
       ) : live.length === 0 && upcoming.length === 0 && routineFallback.length === 0 ? (
         <p className="mt-4 rounded-2xl bg-muted/50 px-4 py-6 text-sm text-muted-foreground">
-          এই মুহূর্তে কোনো লাইভ বা আসন্ন ক্লাস নেই — নতুন শিডিউল ঘোষণা হলে এখানে দেখা যাবে।
+          এই মুহূর্তে কোনো লাইভ বা আসন্ন ক্লাস নেই, নতুন শিডিউল ঘোষণা হলে এখানে দেখা যাবে।
         </p>
       ) : (
         <ul className="mt-2 divide-y divide-border/80">
@@ -405,7 +405,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full bg-ink px-4 font-semibold text-white hover:opacity-85"
               >
                 <a href={`#/live/${c.slug}`}>
-                  Join<span className="sr-only"> — {c.title}</span>
+                  Join<span className="sr-only">: {c.title}</span>
                 </a>
               </Button>
             </li>
@@ -432,7 +432,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full border-border px-4 font-semibold text-foreground hover:border-primary/50 hover:text-primary"
               >
                 <a href={`#/live/${c.slug}`}>
-                  রুম<span className="sr-only"> — {c.title}</span>
+                  রুম<span className="sr-only">: {c.title}</span>
                 </a>
               </Button>
             </li>
@@ -446,7 +446,7 @@ function LiveClassRows({
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">{row.topic}</p>
                 <p className="mt-0.5 flex items-center gap-2 truncate text-xs text-muted-foreground">
-                  {label} · {row.start}–{row.end}
+                  {label} · {row.start}-{row.end}
                   <ModeBadge mode={row.mode} />
                 </p>
               </div>
@@ -457,7 +457,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full border-border px-4 font-semibold text-foreground hover:border-primary/50 hover:text-primary"
               >
                 <a href="#/live">
-                  হাব<span className="sr-only"> — {row.topic}</span>
+                  হাব<span className="sr-only">: {row.topic}</span>
                 </a>
               </Button>
             </li>
@@ -606,7 +606,7 @@ function StatsCard({
             icon: BarChart3,
             chip: "bg-pastel-sky text-[#2c4f8a]",
             label: "Mock গড় স্কোর",
-            value: mockAvg !== null ? mockAvg.toFixed(1) : "—",
+            value: mockAvg !== null ? mockAvg.toFixed(1) : "-",
           },
           {
             icon: CalendarClock,
@@ -618,7 +618,7 @@ function StatsCard({
             icon: Target,
             chip: "bg-pastel-butter text-[#7a5a16]",
             label: "টার্গেট ব্যান্ড",
-            value: targetBand ?? "—",
+            value: targetBand ?? "-",
           },
         ].map(({ icon: Icon, chip, label, value }) => (
           <li key={label} className="flex items-center gap-3">
@@ -692,7 +692,7 @@ function MyCourseCard({
         onClick={() => onNavigate("course")}
         className="mt-auto h-11 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85"
       >
-        <span className="sr-only">আমার কোর্স খুলুন — </span>চালিয়ে যান
+        <span className="sr-only">আমার কোর্স খুলুন, </span>চালিয়ে যান
         <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
       </Button>
     </div>
@@ -902,7 +902,7 @@ export function OverviewSection({
                     <span className="block text-sm font-semibold text-foreground">
                       {certificates.length > 0
                         ? `${bnNum(certificates.length)}টি সার্টিফিকেট ইস্যু হয়েছে`
-                        : "সার্টিফিকেট — কোর্স শেষে ইস্যু"}
+                        : "সার্টিফিকেট (কোর্স শেষে ইস্যু)"}
                     </span>
                     <span className="block text-xs text-muted-foreground">
                       {certificates.length > 0
@@ -922,7 +922,7 @@ export function OverviewSection({
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-foreground">
-                      ডাউনলোড কর্নার — {bnNum(portalDownloads.length)} ফাইল
+                      ডাউনলোড কর্নার: {bnNum(portalDownloads.length)} ফাইল
                     </span>
                     <span className="block text-xs text-muted-foreground">
                       নোটস, টেমপ্লেট, answer sheet, চেকলিস্ট
@@ -943,7 +943,7 @@ export function OverviewSection({
                       সাজেশন ও প্র্যাকটিস টেস্ট
                     </span>
                     <span className="block text-xs text-muted-foreground">
-                      কোর্সের সাজেশন আর ফুল প্র্যাকটিস টেস্ট — এক ক্লিকে
+                      কোর্সের সাজেশন আর ফুল প্র্যাকটিস টেস্ট, এক ক্লিকে
                     </span>
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />

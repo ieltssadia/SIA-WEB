@@ -20,7 +20,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      aria-label="Sadia's IELTS — introduction"
+      aria-label="Sadia's IELTS introduction"
       className="relative flex min-h-[calc(100svh-7rem)] scroll-mt-24 items-center justify-center overflow-hidden bg-forest md:min-h-[calc(100svh-9.5rem)]"
     >
       {/* Full-bleed cinematic backdrop */}
@@ -51,20 +51,11 @@ export function Hero() {
 
       {/* Copy */}
       <div className="relative z-20 mx-auto w-full max-w-5xl px-6 pb-32 pt-20 text-center md:pb-36">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease }}
-          className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#d9b75c] md:text-xs"
-        >
-          Sadia&apos;s IELTS — Sreemangal, Sylhet
-        </motion.p>
-
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.08, ease }}
-          className="mt-5 font-display text-[2.9rem] font-medium leading-[1.08] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[5.4rem]"
+          className="font-display text-[2.9rem] font-medium leading-[1.08] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[5.4rem]"
         >
           Target Band 7+?
           <br />
@@ -77,7 +68,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.16, ease }}
           className="mx-auto mt-6 max-w-2xl text-pretty text-base font-light leading-relaxed text-white/85 md:text-lg lg:text-xl"
         >
-          Basic grammar থেকে শুরু করে পরীক্ষার আগের শেষ mock পর্যন্ত — প্রতিটি ধাপে
+          Basic grammar থেকে শুরু করে পরীক্ষার আগের শেষ mock পর্যন্ত প্রতিটি ধাপে থাকছে
           একজন mentor, একটি পরিকল্পনা, আর নিজের খাতায় দেখা অগ্রগতি।
         </motion.p>
 
@@ -91,7 +82,7 @@ export function Hero() {
           <a
             href="#/checkout"
             className="group inline-flex items-center"
-            aria-label="ভর্তি হোন — enrollment"
+            aria-label="ভর্তি হোন"
           >
             <span className="rounded-full bg-[#d9b75c] px-7 py-3.5 text-sm font-bold text-ink transition-colors duration-500 ease-in-out group-hover:bg-[#171410] group-hover:text-[#d9b75c] md:text-base">
               ভর্তি হোন

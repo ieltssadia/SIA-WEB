@@ -158,7 +158,7 @@ export function AdminResources() {
         | null;
       if (filesData?.ok && filesData.files) setFiles(filesData.files);
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -202,7 +202,7 @@ export function AdminResources() {
         toast.error(data?.error ?? "আপডেট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -225,15 +225,15 @@ export function AdminResources() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Resources — রিসোর্স"
-        sub="পোর্টালের ডাউনলোড কর্নারের ফাইল — PDF, ZIP, DOCX ম্যানেজ করুন"
+        title="Resources: রিসোর্স"
+        sub="পোর্টালের ডাউনলোড কর্নারের ফাইল: PDF, ZIP, DOCX ম্যানেজ করুন"
       >
         {!readOnly ? (
           <Button
@@ -245,27 +245,27 @@ export function AdminResources() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Add Resource — নতুন ফাইল
+            Add Resource: নতুন ফাইল
           </Button>
         ) : null}
       </SectionHeading>
 
       {readOnly ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — রিসোর্স শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, রিসোর্স শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={FolderDown} label="Total — মোট" value={counts.total} tone="sky" />
+        <StatCard icon={FolderDown} label="Total: মোট" value={counts.total} tone="sky" />
         <StatCard
           icon={FileText}
-          label="Published — দেখাচ্ছে"
+          label="Published: দেখাচ্ছে"
           value={counts.published}
           tone="emerald"
         />
-        <StatCard icon={FileText} label="Hidden — লুকানো" value={counts.hidden} tone="amber" />
+        <StatCard icon={FileText} label="Hidden: লুকানো" value={counts.hidden} tone="amber" />
       </div>
 
       {loading && !resources ? (
@@ -283,7 +283,7 @@ export function AdminResources() {
           <EmptyState
             icon={FolderDown}
             title="এখনো কোনো রিসোর্স নেই"
-            hint="Add Resource বাটন থেকে প্রথম ফাইলটি যোগ করুন — /downloads ফোল্ডারের ফাইল পিক করা যায়।"
+            hint="Add Resource বাটন থেকে প্রথম ফাইলটি যোগ করুন, /downloads ফোল্ডারের ফাইল পিক করা যায়।"
           />
         ) : (
           <ul className="space-y-3">
@@ -375,7 +375,7 @@ export function AdminResources() {
           <AlertDialogHeader>
             <AlertDialogTitle>রিসোর্সটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — পোর্টালের ডাউনলোড কর্নার থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, পোর্টালের ডাউনলোড কর্নার থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -464,7 +464,7 @@ function ResourceDialog({
         type: typeFromExt(up.ext, f.type),
       }));
       toast.success(
-        `ফাইল আপলোড হয়েছে — ${up.name} (${up.sizeLabel})। সেভ করলে পোর্টালে যুক্ত হবে。`
+        `ফাইল আপলোড হয়েছে, ${up.name} (${up.sizeLabel})। সেভ করলে পোর্টালে যুক্ত হবে。`
       );
     } else {
       toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
@@ -522,7 +522,7 @@ function ResourceDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -535,7 +535,7 @@ function ResourceDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {editing ? `Edit — ${editing.title}` : "Add Resource — নতুন ফাইল যোগ করুন"}
+            {editing ? `Edit: ${editing.title}` : "Add Resource: নতুন ফাইল যোগ করুন"}
           </DialogTitle>
           <DialogDescription>
             ফাইলটি পোর্টালের ডাউনলোড কর্নারে শিক্ষার্থীরা ডাউনলোড করতে পাবে।
@@ -562,7 +562,7 @@ function ResourceDialog({
               maxLength={400}
               value={form.desc}
               onChange={(e) => setField("desc", e.target.value)}
-              placeholder="২৪টি টপিকের কিউ কার্ড — প্রিন্ট করে প্র্যাকটিস করুন"
+              placeholder="২৪টি টপিকের কিউ কার্ড, প্রিন্ট করে প্র্যাকটিস করুন"
               className="rounded-xl border-border bg-muted/40"
             />
           </div>
@@ -606,7 +606,7 @@ function ResourceDialog({
                 <SelectValue placeholder="ফাইল বাছুন" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={NONE_FILE}>— কোনো ফাইল না —</SelectItem>
+                <SelectItem value={NONE_FILE}>কোনো ফাইল না</SelectItem>
                 {files.map((f) => (
                   <SelectItem key={f.href} value={f.href} className="font-mono text-xs">
                     {`${f.name} (${f.size})`}
@@ -699,7 +699,7 @@ function ResourceDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — পোর্টালে দেখা যাবে
+            Published: পোর্টালে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -716,7 +716,7 @@ function ResourceDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

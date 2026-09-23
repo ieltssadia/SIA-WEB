@@ -88,7 +88,7 @@ export async function PATCH(
   } catch (error) {
     console.error("[api/admin/live-classes] Patch failed:", error);
     return NextResponse.json(
-      { ok: false, error: "আপডেট করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }
@@ -117,7 +117,7 @@ export async function DELETE(
   } catch (error) {
     console.error("[api/admin/live-classes] Delete failed:", error);
     return NextResponse.json(
-      { ok: false, error: "মুছে ফেলতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "মুছে ফেলতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

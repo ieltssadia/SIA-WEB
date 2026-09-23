@@ -60,7 +60,7 @@ import {
 import { useAdminStore } from "@/lib/admin-store";
 
 const ZONE_LABEL: Record<string, string> = {
-  pickup: "Pickup — Sreemangal",
+  pickup: "Pickup: Sreemangal",
   "sreemangal": "Sreemangal",
   "inside-dhaka": "Inside Dhaka",
   "outside-dhaka": "Outside Dhaka",
@@ -104,7 +104,7 @@ export function AdminOrders() {
           setError(data?.error ?? "অর্ডার লোড করা যায়নি।");
         }
       } catch {
-        setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+        setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
       } finally {
         setLoading(false);
       }
@@ -146,7 +146,7 @@ export function AdminOrders() {
         toast.error(data?.error ?? "স্ট্যাটাস আপডেট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSavingStatus(false);
     }
@@ -155,8 +155,8 @@ export function AdminOrders() {
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Orders — অর্ডার"
-        sub="Book Shop অর্ডার ম্যানেজ করুন — স্ট্যাটাস, পেমেন্ট ও ডেলিভারি"
+        title="Orders: অর্ডার"
+        sub="Book Shop অর্ডার ম্যানেজ করুন, স্ট্যাটাস, পেমেন্ট ও ডেলিভারি"
       />
 
       {/* Filters */}
@@ -183,7 +183,7 @@ export function AdminOrders() {
             id="admin-order-search"
             value={searchInput}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="অর্ডার নম্বর / নাম / ফোন — খুঁজুন"
+            placeholder="অর্ডার নম্বর / নাম / ফোন: খুঁজুন"
             className="min-h-11 rounded-full bg-card pl-9"
           />
         </div>
@@ -200,7 +200,7 @@ export function AdminOrders() {
           <EmptyState
             icon={Package}
             title="কোনো অর্ডার পাওয়া যায়নি"
-            hint="এই ফিল্টারে কোনো অর্ডার নেই — ফিল্টার বদলে দেখুন বা নতুন অর্ডারের অপেক্ষা করুন।"
+            hint="এই ফিল্টারে কোনো অর্ডার নেই, ফিল্টার বদলে দেখুন বা নতুন অর্ডারের অপেক্ষা করুন।"
           />
         ) : (
           <>
@@ -318,7 +318,7 @@ export function AdminOrders() {
                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                     <span>
                       {ZONE_LABEL[active.zone] ?? active.zone}
-                      {active.address ? ` — ${active.address}` : ""}
+                      {active.address ? `, ${active.address}` : ""}
                     </span>
                   </p>
                   {active.note ? (

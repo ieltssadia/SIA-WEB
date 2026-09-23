@@ -229,13 +229,12 @@ export function ShopPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Book Shop"
         title={
           <>
             IELTS Study <span className="text-brand-gradient">Books &amp; Materials</span>
           </>
         }
-        subtitle="Sadia Rahman-এর proven preparation books — বাংলা ব্যাখ্যাসহ। Order online — সারাদেশে cash on delivery, অথবা ক্যাম্পাস থেকে সংগ্রহ করুন।"
+        subtitle="Sadia Rahman-এর proven preparation books, বাংলা ব্যাখ্যাসহ। Order online: সারাদেশে cash on delivery, অথবা ক্যাম্পাস থেকে সংগ্রহ করুন।"
         crumbs={[{ label: "Shop" }]}
       />
 
@@ -277,7 +276,7 @@ export function ShopPage() {
 
           {filtered.length === 0 ? (
             <p className="mt-10 text-center text-sm text-muted-foreground">
-              No books in this category yet — check back soon!
+              No books in this category yet, check back soon!
             </p>
           ) : null}
 
@@ -294,11 +293,11 @@ export function ShopPage() {
                     Best Value
                   </Badge>
                   <h3 className="mt-2 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
-                    Complete IELTS Bundle — সব বই একসাথে, {taka(2200)}
+                    Complete IELTS Bundle: সব বই একসাথে, {taka(2200)}
                   </h3>
                   <p className="mt-2 max-w-2xl text-sm text-[#c6b995]">
                     Reading Tricks + Writing Handbook + Speaking Bank + Vocabulary Builder +
-                    Listening Workbook + 10 Mock Tests —{" "}
+                    Listening Workbook + 10 Mock Tests,{" "}
                     <span className="font-semibold text-[#f6ecd4]">
                       আলাদা কিনলে ৳{bundleTotal.toLocaleString("en-US")}
                     </span>
@@ -335,7 +334,7 @@ export function ShopPage() {
                 {
                   icon: Truck,
                   title: "Delivery All Over Bangladesh",
-                  desc: "Courier পাঠানো হয় সারাদেশে — Sreemangal-এ free home delivery।",
+                  desc: "Courier পাঠানো হয় সারাদেশে, Sreemangal-এ free home delivery।",
                 },
                 {
                   icon: BookOpen,
@@ -345,7 +344,7 @@ export function ShopPage() {
                 {
                   icon: Banknote,
                   title: "Cash on Delivery",
-                  desc: "bKash/Nagad advance অথবা সারাদেশে cash on delivery — আপনার সুবিধামতো।",
+                  desc: "bKash/Nagad advance অথবা সারাদেশে cash on delivery, আপনার সুবিধামতো।",
                 },
               ].map(({ icon: Icon, title, desc }) => (
                 <div
@@ -371,7 +370,7 @@ export function ShopPage() {
                 Books পড়ে লাভ হয়, কিন্তু গাইড ছাড়া প্রস্তুতি অসম্পূর্ণ!
               </p>
               <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-                Sadia apa-র লাইভ ক্লাসে জয়েন করুন — বইয়ের প্রতিটি trick ক্লাসে হাতে-কলমে শেখানো হয়।
+                Sadia apa-র লাইভ ক্লাসে জয়েন করুন। বইয়ের প্রতিটি trick ক্লাসে হাতে-কলমে শেখানো হয়।
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <Button

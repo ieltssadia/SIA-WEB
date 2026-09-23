@@ -45,7 +45,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }
   } catch (error) {
     console.error("[api/live-classes/[slug]] Failed:", error);
     return NextResponse.json(
-      { ok: false, error: "ক্লাস তথ্য লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "ক্লাস তথ্য লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

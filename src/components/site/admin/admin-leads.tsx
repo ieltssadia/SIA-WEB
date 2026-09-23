@@ -52,7 +52,7 @@ export function AdminLeads() {
       if (res.ok && data?.ok && data.leads) setLeads(data.leads);
       else setError(data?.error ?? "লিড লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ export function AdminLeads() {
         toast.error(data?.error ?? "স্ট্যাটাস আপডেট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSavingId(null);
     }
@@ -92,7 +92,7 @@ export function AdminLeads() {
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Leads — লিড"
+        title="Leads: লিড"
         sub="ওয়েবসাইটের enroll/contact ফর্ম থেকে আসা আগ্রহী শিক্ষার্থীরা"
       />
 

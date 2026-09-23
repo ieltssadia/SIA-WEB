@@ -143,9 +143,8 @@ export function DownloadsSection() {
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Resource Library"
           title="ডাউনলোড কর্নার"
-          desc="ক্লাসে বলা সব ম্যাটেরিয়ালস এখান থেকে সরাসরি ডাউনলোড করুন — কোনো রিকোয়েস্ট লাগবে না, যখন দরকার তখনই নামিয়ে নিন।"
+          desc="ক্লাসে বলা সব ম্যাটেরিয়ালস এখান থেকে সরাসরি ডাউনলোড করুন, কোনো রিকোয়েস্ট লাগবে না, যখন দরকার তখনই নামিয়ে নিন।"
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <FolderDown className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -193,7 +192,7 @@ export function DownloadsSection() {
               <Input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="ফাইল খুঁজুন — যেমন: Task 2, cue card, answer sheet…"
+                placeholder="ফাইল খুঁজুন, যেমন: Task 2, cue card, answer sheet…"
                 aria-label="ডাউনলোড ফাইল সার্চ"
                 className="h-11 rounded-full border-border bg-secondary pl-10 text-sm"
               />
@@ -243,7 +242,7 @@ export function DownloadsSection() {
             </span>
             <p className="font-display text-base font-bold text-foreground">কোনো ফাইল মেলেনি</p>
             <p className="max-w-sm text-sm text-muted-foreground">
-              অন্য শব্দে খুঁজে দেখুন বা ফিল্টার রিসেট করুন — সব ম্যাটেরিয়ালস এই পেজেই সাজানো আছে।
+              অন্য শব্দে খুঁজে দেখুন বা ফিল্টার রিসেট করুন, সব ম্যাটেরিয়ালস এই পেজেই সাজানো আছে।
             </p>
             <Button
               variant="outline"

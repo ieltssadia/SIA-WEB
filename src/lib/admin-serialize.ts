@@ -8,11 +8,13 @@ import type {
   Book as DbBook,
   Course as DbCourse,
   DownloadResource,
+  MediaItem,
   Notice,
 } from "@prisma/client";
 import type {
   AdminBookRow,
   AdminCourseRow,
+  AdminMediaRow,
   AdminNoticeRow,
   AdminResourceRow,
   AdminRole,
@@ -114,6 +116,19 @@ export function serializeAdminNotice(row: Notice): AdminNoticeRow {
     tag: row.tag,
     title: row.title,
     body: row.body,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export function serializeAdminMedia(row: MediaItem): AdminMediaRow {
+  const isImage = ["png", "jpg", "jpeg", "webp", "gif"].includes(row.ext.toLowerCase());
+  return {
+    id: row.id,
+    url: row.url,
+    filename: row.filename,
+    size: row.size,
+    kind: isImage ? "image" : "file",
+    folder: row.folder,
     createdAt: row.createdAt.toISOString(),
   };
 }

@@ -160,7 +160,7 @@ export function AdminSiteTeam() {
       if (res.ok && data?.ok && data.members) setMembers(data.members);
       else setError(data?.error ?? "টিম সদস্য লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -226,7 +226,7 @@ export function AdminSiteTeam() {
       setMembers((prev) =>
         prev ? prev.map((m) => (m.id === member.id ? { ...m, published: !published } : m)) : prev
       );
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -249,15 +249,15 @@ export function AdminSiteTeam() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Website Team — ওয়েবসাইট টিম"
-        sub="ওয়েবসাইটের #/team পেজের সদস্যরা — এটি লগইন অ্যাকাউন্ট নয় (সেটি System → Team)"
+        title="Website Team: ওয়েবসাইট টিম"
+        sub="ওয়েবসাইটের #/team পেজের সদস্যরা, এটি লগইন অ্যাকাউন্ট নয় (সেটি System → Team)"
       >
         {!canManage ? null : (
           <Button
@@ -269,27 +269,27 @@ export function AdminSiteTeam() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Add Member — সদস্য যোগ
+            Add Member: সদস্য যোগ
           </Button>
         )}
       </SectionHeading>
 
       {!canManage ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — টিম সদস্য শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, টিম সদস্য শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={IdCard} label="Total — মোট" value={counts.total} tone="blue" />
+        <StatCard icon={IdCard} label="Total: মোট" value={counts.total} tone="blue" />
         <StatCard
           icon={IdCard}
-          label="Published — দেখাচ্ছে"
+          label="Published: দেখাচ্ছে"
           value={counts.published}
           tone="emerald"
         />
-        <StatCard icon={IdCard} label="Hidden — লুকানো" value={counts.hidden} tone="muted" />
+        <StatCard icon={IdCard} label="Hidden: লুকানো" value={counts.hidden} tone="muted" />
       </div>
 
       {/* Search */}
@@ -302,7 +302,7 @@ export function AdminSiteTeam() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="সদস্য খুঁজুন — নাম, পদ বা slug"
+          placeholder="সদস্য খুঁজুন: নাম, পদ বা slug"
           aria-label="Search website team members"
           className="min-h-11 rounded-xl border-border bg-card pl-10"
         />
@@ -326,7 +326,7 @@ export function AdminSiteTeam() {
             hint={
               query
                 ? "অন্য নাম দিয়ে খুঁজে দেখুন।"
-                : "Add Member বাটন থেকে প্রথম সদস্যকে যোগ করুন — ছবিসহ #/team পেজে দেখা যাবে।"
+                : "Add Member বাটন থেকে প্রথম সদস্যকে যোগ করুন, ছবিসহ #/team পেজে দেখা যাবে।"
             }
           />
         ) : (
@@ -339,7 +339,7 @@ export function AdminSiteTeam() {
                     {m.photo ? (
                       <Image
                         src={m.photo}
-                        alt={`Photo — ${m.name}`}
+                        alt={`Photo: ${m.name}`}
                         width={56}
                         height={56}
                         className="h-14 w-14 shrink-0 rounded-full border border-border object-cover"
@@ -438,7 +438,7 @@ export function AdminSiteTeam() {
           <AlertDialogHeader>
             <AlertDialogTitle>সদস্যকে মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.name} — ওয়েবসাইটের #/team পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.name}, ওয়েবসাইটের #/team পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -494,7 +494,7 @@ function MemberDialog({
     if (result.ok && result.upload) {
       setForm((f) => ({ ...f, photo: result.upload!.url }));
       toast.success(
-        `ছবি আপলোড হয়েছে — ${result.upload.name} (${result.upload.sizeLabel})। (Photo uploaded.)`
+        `ছবি আপলোড হয়েছে, ${result.upload.name} (${result.upload.sizeLabel})। (Photo uploaded.)`
       );
     } else {
       toast.error(result.error ?? "ছবি আপলোড করা যায়নি।");
@@ -556,7 +556,7 @@ function MemberDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -569,10 +569,10 @@ function MemberDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>
-            {editing ? `Edit — ${editing.name}` : "Add Member — নতুন সদস্য যোগ করুন"}
+            {editing ? `Edit: ${editing.name}` : "Add Member: নতুন সদস্য যোগ করুন"}
           </DialogTitle>
           <DialogDescription>
-            ওয়েবসাইটের #/team পেজের প্রোফাইল — ছবি, পরিচিতি, credentials সব এখান থেকেই আসে।
+            ওয়েবসাইটের #/team পেজের প্রোফাইল: ছবি, পরিচিতি, credentials সব এখান থেকেই আসে।
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
@@ -589,7 +589,7 @@ function MemberDialog({
                 className={`${inputCls} font-mono text-sm`}
               />
               <p className="text-[11px] text-muted-foreground">
-                ছোট হাতের a-z, 0-9 ও ড্যাশ (-) — ইউনিক হতে হবে।
+                ছোট হাতের a-z, 0-9 ও ড্যাশ (-), ইউনিক হতে হবে।
               </p>
             </div>
             <div className="space-y-1.5">
@@ -622,7 +622,7 @@ function MemberDialog({
                 maxLength={200}
                 value={form.tagline}
                 onChange={(e) => setField("tagline", e.target.value)}
-                placeholder="Cambridge & IDP certified — ৯ বছরে ৩,০০০+ শিক্ষার্থী"
+                placeholder="Cambridge & IDP certified, ৯ বছরে ৩,০০০+ শিক্ষার্থী"
                 className={inputCls}
               />
             </div>
@@ -682,7 +682,7 @@ function MemberDialog({
               />
             </div>
             <p className="text-[11px] text-muted-foreground">
-              আপলোড করলে পাথ নিজেই বসবে — চাইলে হাতেও লিখতে পারেন। খালি রাখলে initials দেখাবে।
+              আপলোড করলে পাথ নিজেই বসবে, চাইলে হাতেও লিখতে পারেন। খালি রাখলে initials দেখাবে।
             </p>
           </div>
 
@@ -704,7 +704,7 @@ function MemberDialog({
                 ))}
               </datalist>
               <p className="text-[11px] text-muted-foreground">
-                specialties পিলের রঙ — প্রিসেট থেকে বাছুন।
+                specialties পিলের রঙ, প্রিসেট থেকে বাছুন।
               </p>
             </div>
             <div className="space-y-1.5">
@@ -721,7 +721,7 @@ function MemberDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="member-bio">Bio — প্রতি লাইনে একটি প্যারাগ্রাফ</Label>
+            <Label htmlFor="member-bio">Bio: প্রতি লাইনে একটি প্যারাগ্রাফ</Label>
             <Textarea
               id="member-bio"
               rows={4}
@@ -734,7 +734,7 @@ function MemberDialog({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="member-specialties">Specialties — প্রতি লাইনে একটি</Label>
+              <Label htmlFor="member-specialties">Specialties: প্রতি লাইনে একটি</Label>
               <Textarea
                 id="member-specialties"
                 rows={3}
@@ -745,7 +745,7 @@ function MemberDialog({
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="member-credentials">Credentials — প্রতি লাইনে একটি</Label>
+              <Label htmlFor="member-credentials">Credentials: প্রতি লাইনে একটি</Label>
               <Textarea
                 id="member-credentials"
                 rows={3}
@@ -758,7 +758,7 @@ function MemberDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="member-stats">Stats — প্রতি লাইনে একটি: value | label (সর্বোচ্চ ৪টি)</Label>
+            <Label htmlFor="member-stats">Stats, প্রতি লাইনে একটি: value | label (সর্বোচ্চ ৪টি)</Label>
             <Textarea
               id="member-stats"
               rows={3}
@@ -768,7 +768,7 @@ function MemberDialog({
               className="rounded-xl border-border bg-muted/40"
             />
             <p className="text-[11px] text-muted-foreground">
-              ফরম্যাট: <span className="font-mono">value | label</span> — যেমন{" "}
+              ফরম্যাট: <span className="font-mono">value | label</span>, যেমন{" "}
               <span className="font-mono">9+ | Years teaching</span>।
             </p>
           </div>
@@ -779,7 +779,7 @@ function MemberDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — #/team পেজে দেখা যাবে
+            Published: #/team পেজে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -796,7 +796,7 @@ function MemberDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

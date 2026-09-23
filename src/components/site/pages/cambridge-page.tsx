@@ -110,7 +110,7 @@ function BandConverter() {
       <div>
         <h3 className="font-display text-xl font-bold text-foreground">Raw score → Band converter</h3>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-          Count your correct answers from any Cambridge test and read off the estimated band instantly — the
+          Count your correct answers from any Cambridge test and read off the estimated band instantly, the
           same conversion our mock checking uses.
         </p>
         <div className="mt-5 space-y-4">
@@ -120,7 +120,7 @@ function BandConverter() {
                 htmlFor={row.id}
                 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
               >
-                {row.label} raw score (0–40)
+                {row.label} raw score (0-40)
               </label>
               <Input
                 id={row.id}
@@ -149,7 +149,7 @@ function BandConverter() {
               </p>
             </div>
             <p className="font-display text-5xl font-bold text-brand-gradient md:text-6xl">
-              {row.scaled === null ? "—" : bandFromScaled(row.scaled).toFixed(1)}
+              {row.scaled === null ? "-" : bandFromScaled(row.scaled).toFixed(1)}
             </p>
           </div>
         ))}
@@ -164,7 +164,7 @@ const INSIDE_FEATURES: Array<{ icon: LucideIcon; title: string; desc: string }> 
   { icon: Headphones, title: "Listening", desc: "Audio player, transcript & instant scoring" },
   { icon: BookOpenCheck, title: "Reading", desc: "Answers with per-question explanations" },
   { icon: PenLine, title: "Writing", desc: "Task prompts + Band-9 model answers" },
-  { icon: Mic, title: "Speaking", desc: "Cue cards, sample audio & Part 1–3 sets" },
+  { icon: Mic, title: "Speaking", desc: "Cue cards, sample audio & Part 1-3 sets" },
 ];
 
 export default function CambridgePage() {
@@ -222,13 +222,12 @@ export default function CambridgePage() {
   return (
     <>
       <PageHeader
-        eyebrow="CAMBRIDGE IELTS LIBRARY"
         title={
           <>
             Every Cambridge book. Now <span className="text-brand-gradient">fully interactive.</span>
           </>
         }
-        subtitle="১৯টি বই · ১৪০টি টেস্ট · উত্তর, ট্রান্সক্রিপ্ট, Band-9 স্যাম্পল ও অডিও সহ — সব একসাথে, একদম ফ্রি।"
+        subtitle="১৯টি বই · ১৪০টি টেস্ট · উত্তর, ট্রান্সক্রিপ্ট, Band-9 স্যাম্পল ও অডিও সহ। সব একসাথে, একদম ফ্রি।"
         crumbs={[{ label: "Cambridge Library" }]}
       />
 
@@ -292,7 +291,7 @@ export default function CambridgePage() {
                     ))}
                   </div>
                   <p className="mt-3 text-center text-xs text-muted-foreground">
-                    Books 1–3 were published Academic-only — General Training shelves start from Book 4.
+                    Books 1-3 were published Academic-only. General Training shelves start from Book 4.
                   </p>
                 </div>
               </Reveal>
@@ -337,7 +336,7 @@ export default function CambridgePage() {
 
               {visibleBooks.length === 0 ? (
                 <p className="mt-10 text-center text-sm text-muted-foreground">
-                  No {moduleLabel(moduleFilter)} editions on the shelf yet — check back soon!
+                  No {moduleLabel(moduleFilter)} editions on the shelf yet, check back soon!
                 </p>
               ) : null}
             </>
@@ -362,13 +361,12 @@ export default function CambridgePage() {
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <SectionHeading
-            eyebrow="Inside Every Test"
             title={
               <>
                 Four skills, <span className="text-brand-gradient">fully solved</span>
               </>
             }
-            subtitle="প্রতিটি টেস্টের চারটি স্কিল — প্রশ্ন, উত্তর, ব্যাখ্যা, ট্রান্সক্রিপ্ট আর Band-9 স্যাম্পল সহ।"
+            subtitle="প্রতিটি টেস্টের চারটি স্কিল: প্রশ্ন, উত্তর, ব্যাখ্যা, ট্রান্সক্রিপ্ট আর Band-9 স্যাম্পল সহ।"
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {INSIDE_FEATURES.map((feature, index) => (
@@ -390,7 +388,6 @@ export default function CambridgePage() {
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-6xl px-4 lg:px-8">
           <SectionHeading
-            eyebrow="Band Score Tools"
             title={
               <>
                 Know your <span className="text-brand-gradient">band</span> before test day
@@ -422,7 +419,7 @@ export default function CambridgePage() {
                     সাদিয়া&apos;র গাইডেন্সে Cambridge শেখা আলাদা
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-[#c6b995] md:text-base">
-                    Mock test checking, speaking evaluation আর band guarantee — batch-এ ভর্তি হলেই।
+                    Mock test checking, speaking evaluation আর band guarantee, batch-এ ভর্তি হলেই।
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">

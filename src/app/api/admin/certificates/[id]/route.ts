@@ -59,7 +59,7 @@ export async function PATCH(
   } catch (error) {
     console.error("[api/admin/certificates] Patch failed:", error);
     return NextResponse.json(
-      { ok: false, error: "সার্টিফিকেট আপডেট করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "সার্টিফিকেট আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }
@@ -91,7 +91,7 @@ export async function DELETE(
   } catch (error) {
     console.error("[api/admin/certificates] Delete failed:", error);
     return NextResponse.json(
-      { ok: false, error: "মুছে ফেলতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "মুছে ফেলতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

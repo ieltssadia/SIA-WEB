@@ -55,7 +55,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[api/admin/students] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "শিক্ষার্থী লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "শিক্ষার্থী লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

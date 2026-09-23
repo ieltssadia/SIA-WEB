@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "এই নম্বরে ইতিমধ্যে একটি account আছে। সরাসরি Log in করুন — পাসওয়ার্ড ভুলে গেলে কল করুন +880 1752-716238।",
+            "এই নম্বরে ইতিমধ্যে একটি account আছে। সরাসরি Log in করুন, পাসওয়ার্ড ভুলে গেলে কল করুন +880 1752-716238।",
         },
         { status: 409 }
       );
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     const payload = await getPortalPayload(phone);
     if (!payload) {
       return NextResponse.json(
-        { error: "Account created but could not be loaded — please log in." },
+        { error: "Account created but could not be loaded, please log in." },
         { status: 500 }
       );
     }

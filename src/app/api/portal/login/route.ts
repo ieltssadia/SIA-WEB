@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "এই নম্বরে কোনো portal account নেই। Enrollment-এর সময় দেওয়া নম্বর দিয়ে লগ ইন করুন — ভর্তি না থাকলে কল করুন +880 1752-716238।",
+            "এই নম্বরে কোনো portal account নেই। Enrollment-এর সময় দেওয়া নম্বর দিয়ে লগ ইন করুন, ভর্তি না থাকলে কল করুন +880 1752-716238।",
         },
         { status: 404 }
       );
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
 
     if (!verifyPassword(phone, parsed.data.password, student.passwordHash)) {
       return NextResponse.json(
-        { error: "ভুল পাসওয়ার্ড! Incorrect password — আবার চেষ্টা করুন।" },
+        { error: "ভুল পাসওয়ার্ড! Incorrect password, আবার চেষ্টা করুন।" },
         { status: 401 }
       );
     }
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     const payload = await getPortalPayload(phone);
     if (!payload) {
       return NextResponse.json(
-        { error: "Could not load your portal — please try again." },
+        { error: "Could not load your portal, please try again." },
         { status: 500 }
       );
     }

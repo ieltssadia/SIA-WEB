@@ -15,10 +15,10 @@ export type DeliveryZone = {
 export const DELIVERY_ZONES: DeliveryZone[] = [
   {
     value: "pickup",
-    label: "Campus Pickup — Chowmuhona, Sreemangal",
+    label: "Campus Pickup: Chowmuhona, Sreemangal",
     fee: 0,
     courier: false,
-    note: "ক্যাম্পাস থেকে হাতে বুঝে নিন — সম্পূর্ণ ফ্রি",
+    note: "ক্যাম্পাস থেকে হাতে বুঝে নিন, সম্পূর্ণ ফ্রি",
   },
   {
     value: "sreemangal",
@@ -29,17 +29,17 @@ export const DELIVERY_ZONES: DeliveryZone[] = [
   },
   {
     value: "inside-dhaka",
-    label: "Inside Dhaka — Courier",
+    label: "Inside Dhaka: Courier",
     fee: 70,
     courier: true,
-    note: "২–৩ কর্মদিবসে ডেলিভারি",
+    note: "২-৩ কর্মদিবসে ডেলিভারি",
   },
   {
     value: "outside-dhaka",
-    label: "Outside Dhaka — Courier (সারাদেশ)",
+    label: "Outside Dhaka: Courier (সারাদেশ)",
     fee: 130,
     courier: true,
-    note: "৩–৫ কর্মদিবসে ডেলিভারি",
+    note: "৩-৫ কর্মদিবসে ডেলিভারি",
   },
 ];
 

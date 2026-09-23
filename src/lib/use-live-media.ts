@@ -204,9 +204,9 @@ export function useLiveMedia({
     } catch {
       try {
         stream = await md.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
-        setMediaError("ক্যামেরা পাওয়া যায়নি — শুধু মাইক্রোফোন চালু হয়েছে।");
+        setMediaError("ক্যামেরা পাওয়া যায়নি, শুধু মাইক্রোফোন চালু হয়েছে।");
       } catch {
-        setMediaError("মাইক্রোফোন/ক্যামেরার অনুমতি পাওয়া যায়নি — চ্যাট আর স্লাইড দিয়ে ক্লাস চালিয়ে যান।");
+        setMediaError("মাইক্রোফোন/ক্যামেরার অনুমতি পাওয়া যায়নি, চ্যাট আর স্লাইড দিয়ে ক্লাস চালিয়ে যান।");
         return null;
       }
     }
@@ -425,7 +425,7 @@ export function useLiveMedia({
           setLocalStream(merged);
           attachToAllPeers();
         } catch {
-          setMediaError("ক্যামেরা চালু করা যায়নি — ব্রাউজারে অনুমতি দিন।");
+          setMediaError("ক্যামেরা চালু করা যায়নি, ব্রাউজারে অনুমতি দিন।");
           return;
         }
       }

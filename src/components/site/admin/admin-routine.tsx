@@ -179,7 +179,7 @@ export function AdminRoutine() {
         setCourseSlugs(courseData.courses.map((c) => c.slug));
       }
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -242,7 +242,7 @@ export function AdminRoutine() {
       setSlots((prev) =>
         prev ? prev.map((s) => (s.id === slot.id ? { ...s, published: !published } : s)) : prev
       );
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -267,15 +267,15 @@ export function AdminRoutine() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Class Routine — ক্লাস রুটিন"
-        sub="সাপ্তাহিক রুটিন — #/routine পেজ ও পোর্টালে শিক্ষার্থীরা দেখে"
+        title="Class Routine: ক্লাস রুটিন"
+        sub="সাপ্তাহিক রুটিন, #/routine পেজ ও পোর্টালে শিক্ষার্থীরা দেখে"
       >
         {!canManage ? null : (
           <Button
@@ -287,29 +287,29 @@ export function AdminRoutine() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Add Slot — স্লট যোগ
+            Add Slot: স্লট যোগ
           </Button>
         )}
       </SectionHeading>
 
       {!canManage ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — রুটিন শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, রুটিন শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={CalendarDays} label="Total slots — মোট" value={counts.total} tone="sky" />
+        <StatCard icon={CalendarDays} label="Total slots: মোট" value={counts.total} tone="sky" />
         <StatCard
           icon={CalendarDays}
-          label="Published — দেখাচ্ছে"
+          label="Published: দেখাচ্ছে"
           value={counts.published}
           tone="emerald"
         />
         <StatCard
           icon={CalendarDays}
-          label="Days covered — দিন"
+          label="Days covered: দিন"
           value={`${counts.days}/7`}
           tone="amber"
         />
@@ -361,7 +361,7 @@ export function AdminRoutine() {
                             <div className="flex flex-wrap items-center gap-2">
                               <p className="font-semibold text-foreground">
                                 {s.start}
-                                {s.end ? ` – ${s.end}` : ""}
+                                {s.end ? `-${s.end}` : ""}
                               </p>
                               <ToneBadge tone={MODE_TONE[s.mode] ?? "muted"}>{s.mode}</ToneBadge>
                               {s.type ? (
@@ -376,7 +376,7 @@ export function AdminRoutine() {
                               </p>
                             ) : null}
                             <p className="mt-1 truncate font-mono text-[11px] text-muted-foreground">
-                              {s.courseSlug || "—"}
+                              {s.courseSlug || "-"}
                               {s.batch ? ` · ${s.batch}` : ""}
                             </p>
                           </div>
@@ -444,9 +444,9 @@ export function AdminRoutine() {
             <AlertDialogTitle>রুটিন স্লটটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
               {deleteTarget
-                ? `${deleteTarget.day}, ${deleteTarget.start}${deleteTarget.end ? ` – ${deleteTarget.end}` : ""} — ${deleteTarget.topic || deleteTarget.courseSlug}`
+                ? `${deleteTarget.day}, ${deleteTarget.start}${deleteTarget.end ? `-${deleteTarget.end}` : ""}, ${deleteTarget.topic || deleteTarget.courseSlug}`
                 : ""}
-              {" "}— #/routine পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              । #/routine পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -538,7 +538,7 @@ function SlotDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -551,10 +551,10 @@ function SlotDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {editing ? "Edit slot — এডিট করুন" : "Add slot — রুটিন স্লট যোগ করুন"}
+            {editing ? "Edit slot: এডিট করুন" : "Add slot: রুটিন স্লট যোগ করুন"}
           </DialogTitle>
           <DialogDescription>
-            দিন ও সময় বাছলে “10:00 AM” স্টাইলে রুটিনে বসে যাবে — #/routine পেজে দেখা যাবে।
+            দিন ও সময় বাছলে “10:00 AM” স্টাইলে রুটিনে বসে যাবে, #/routine পেজে দেখা যাবে।
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-3">
@@ -614,7 +614,7 @@ function SlotDialog({
               ))}
             </datalist>
             <p className="text-[11px] text-muted-foreground">
-              কোর্সের slug — লিস্ট থেকে বাছুন বা নতুন লিখুন।
+              কোর্সের slug, লিস্ট থেকে বাছুন বা নতুন লিখুন।
             </p>
           </div>
 
@@ -655,7 +655,7 @@ function SlotDialog({
                 maxLength={160}
                 value={form.topic}
                 onChange={(e) => setField("topic", e.target.value)}
-                placeholder="Writing Task 1 — Graphs & Charts"
+                placeholder="Writing Task 1: Graphs & Charts"
                 className={inputCls}
               />
             </div>
@@ -678,7 +678,7 @@ function SlotDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — রুটিনে দেখা যাবে
+            Published: রুটিনে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -695,7 +695,7 @@ function SlotDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

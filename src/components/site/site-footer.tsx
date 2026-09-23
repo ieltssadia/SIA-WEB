@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { site } from "@/lib/site-data";
@@ -135,7 +136,7 @@ export function SiteFooter() {
 
             {/* Link columns — Company / Links / Courses / Recommend */}
             {columns.map((col) => (
-              <nav key={col.title} aria-label={`Footer — ${col.title}`}>
+              <nav key={col.title} aria-label={`Footer: ${col.title}`}>
                 <h3 className="font-display text-sm font-bold uppercase tracking-wider text-[#f6ecd4]">
                   {col.title}
                 </h3>
@@ -152,17 +153,32 @@ export function SiteFooter() {
 
           <div className="flex flex-col items-center justify-between gap-3 text-xs text-[#b3a787] sm:flex-row">
             <p>© {new Date().getFullYear()} Sadia&apos;s IELTS. All Rights Reserved.</p>
-            <p className="flex items-center gap-4">
-              <span className="cursor-pointer transition-colors hover:text-white">
+            <nav aria-label="Legal links" className="flex items-center gap-4">
+              <Link
+                href="#/privacy"
+                className="transition-colors hover:text-white"
+              >
                 Privacy
-              </span>
-              <span className="cursor-pointer transition-colors hover:text-white">
+              </Link>
+              <Link
+                href="#/terms"
+                className="transition-colors hover:text-white"
+              >
                 Terms
-              </span>
-              <span className="cursor-pointer transition-colors hover:text-white">
+              </Link>
+              <Link
+                href="#/refund-policy"
+                className="transition-colors hover:text-white"
+              >
+                Refund Policy
+              </Link>
+              <Link
+                href="#/sitemap"
+                className="transition-colors hover:text-white"
+              >
                 Sitemap
-              </span>
-            </p>
+              </Link>
+            </nav>
           </div>
 
           {/* Developer credit — small and unobtrusive */}

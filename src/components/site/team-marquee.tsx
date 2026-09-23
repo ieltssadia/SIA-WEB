@@ -15,7 +15,7 @@ function TeamCard({ member }: { member: TeamMember }) {
   return (
     <a
       href={`#/team/${member.slug}`}
-      aria-label={`${member.name} — ${member.role}`}
+      aria-label={`${member.name}, ${member.role}`}
       className="group relative mx-3 block w-52 shrink-0 overflow-hidden rounded-3xl border border-border bg-card shadow-[0_14px_40px_rgba(30,27,20,0.10)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[0_22px_56px_rgba(30,27,20,0.18)] sm:w-60"
     >
       <div className="relative aspect-[3/4] overflow-hidden">

@@ -141,12 +141,10 @@ function LiveClassLink() {
 
 /** Shared page header so every portal section reads like one coherent app. */
 export function PortalSectionHeader({
-  eyebrow,
   title,
   desc,
   action,
 }: {
-  eyebrow: string;
   title: string;
   desc?: string;
   action?: ReactNode;
@@ -154,10 +152,7 @@ export function PortalSectionHeader({
   return (
     <div className="flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-          {eyebrow}
-        </p>
-        <h1 className="mt-1 font-display text-2xl font-bold leading-tight text-foreground md:text-[28px]">
+        <h1 className="font-display text-2xl font-bold leading-tight text-foreground md:text-[28px]">
           {title}
         </h1>
         {desc ? (
@@ -183,7 +178,7 @@ function SidebarHelpCard() {
       <span className="min-w-0">
         <span className="block text-sm font-semibold text-foreground">সহায়তা দরকার?</span>
         <span className="block text-xs leading-snug text-muted-foreground">
-          WhatsApp-এ মেসেজ করুন — সকাল ৯টা থেকে রাত ৯টা
+          WhatsApp-এ মেসেজ করুন, সকাল ৯টা থেকে রাত ৯টা
         </span>
       </span>
     </a>

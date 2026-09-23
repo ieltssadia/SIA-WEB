@@ -28,7 +28,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ slug: string }
 
     if (parsed.data.hostKey !== HOST_KEY) {
       return NextResponse.json(
-        { ok: false, error: "ভুল host key — অনুমতি নেই। (Invalid host key.)" },
+        { ok: false, error: "ভুল host key, অনুমতি নেই। (Invalid host key.)" },
         { status: 403 }
       );
     }
@@ -51,7 +51,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ slug: string }
   } catch (error) {
     console.error("[api/live-classes/[slug]/status] Failed:", error);
     return NextResponse.json(
-      { ok: false, error: "স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

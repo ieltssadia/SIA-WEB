@@ -43,7 +43,7 @@ export function LiveSchedule() {
       setClasses(json.classes as LiveClassListItem[]);
       setError(null);
     } catch {
-      setError("লাইভ ক্লাস লোড করা যায়নি — কিছুক্ষণ পর আবার চেষ্টা করুন।");
+      setError("লাইভ ক্লাস লোড করা যায়নি, কিছুক্ষণ পর আবার চেষ্টা করুন।");
     }
   }, []);
 
@@ -104,7 +104,7 @@ export function LiveSchedule() {
 
         {live.length === 0 ? (
           <p className="rounded-xl border border-primary/10 bg-card/50 px-5 py-6 text-sm text-muted-foreground">
-            এই মুহূর্তে কোনো ক্লাস লাইভ নেই — নিচের আসন্ন ক্লাসগুলো দেখুন।
+            এই মুহূর্তে কোনো ক্লাস লাইভ নেই, নিচের আসন্ন ক্লাসগুলো দেখুন।
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

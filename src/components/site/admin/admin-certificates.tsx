@@ -111,7 +111,7 @@ export function AdminCertificates() {
       if (res.ok && data?.ok && data.certificates) setCerts(data.certificates);
       else setError(data?.error ?? "সার্টিফিকেট লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -159,7 +159,7 @@ export function AdminCertificates() {
         toast.error(data?.error ?? "ইস্যু করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -194,13 +194,13 @@ export function AdminCertificates() {
             : prev
         );
         toast.success(
-          `${cert.id} — সার্টিফিকেট ফাইল যুক্ত হয়েছে (${result.upload.sizeLabel})। (File attached.)`
+          `${cert.id}, সার্টিফিকেট ফাইল যুক্ত হয়েছে (${result.upload.sizeLabel})। (File attached.)`
         );
       } else {
         toast.error(data?.error ?? "ফাইল যুক্ত করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setAttachBusyId(null);
     }
@@ -223,12 +223,12 @@ export function AdminCertificates() {
         setCerts((prev) =>
           prev ? prev.map((c) => (c.id === cert.id ? { ...c, fileUrl: null } : c)) : prev
         );
-        toast.success(`${cert.id} — ফাইল সরানো হয়েছে। (File detached.)`);
+        toast.success(`${cert.id}, ফাইল সরানো হয়েছে। (File detached.)`);
       } else {
         toast.error(data?.error ?? "সরানো যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setAttachBusyId(null);
     }
@@ -236,7 +236,7 @@ export function AdminCertificates() {
 
   function copyId(cert: AdminCertificate) {
     if (!navigator.clipboard?.writeText) {
-      toast.error("কপি করা যায়নি — ম্যানুয়ালি করুন।");
+      toast.error("কপি করা যায়নি, ম্যানুয়ালি করুন।");
       return;
     }
     navigator.clipboard
@@ -266,22 +266,22 @@ export function AdminCertificates() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Certificates — সার্টিফিকেট"
-        sub="কোর্স সম্পন্নকারীদের ভেরিফায়েবল সার্টিফিকেট ইস্যু করুন — যাচাই হয় #/verify পেজে"
+        title="Certificates: সার্টিফিকেট"
+        sub="কোর্স সম্পন্নকারীদের ভেরিফায়েবল সার্টিফিকেট ইস্যু করুন, যাচাই হয় #/verify পেজে"
       />
 
       {/* Issue form */}
       <Card className="rounded-2xl border-border bg-card">
         <CardContent className="p-4 sm:p-6">
           <form onSubmit={issue} className="space-y-4">
-            <h3 className="font-semibold text-foreground">Issue a certificate — নতুন সার্টিফিকেট</h3>
+            <h3 className="font-semibold text-foreground">Issue a certificate: নতুন সার্টিফিকেট</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="space-y-1.5">
                 <Label htmlFor="cert-name">Student name · নাম *</Label>
@@ -384,7 +384,7 @@ export function AdminCertificates() {
                         sizeLabel: result.upload.sizeLabel,
                       });
                       toast.success(
-                        `ফাইল আপলোড হয়েছে — ${result.upload.name} (${result.upload.sizeLabel})।`
+                        `ফাইল আপলোড হয়েছে, ${result.upload.name} (${result.upload.sizeLabel})।`
                       );
                     } else {
                       toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
@@ -429,7 +429,7 @@ export function AdminCertificates() {
                 ) : null}
               </div>
               <p className="text-[11px] text-muted-foreground">
-                স্বাক্ষরিত সার্টিফিকেট ফাইল আপলোড করুন (PDF/ছবি) — সিস্টেম নিজে সার্টিফিকেট তৈরি
+                স্বাক্ষরিত সার্টিফিকেট ফাইল আপলোড করুন (PDF/ছবি), সিস্টেম নিজে সার্টিফিকেট তৈরি
                 করে না। পোর্টালে শিক্ষার্থী ডাউনলোড বাটন পাবে।
               </p>
             </div>
@@ -460,7 +460,7 @@ export function AdminCertificates() {
           <EmptyState
             icon={Award}
             title="এখনো কোনো সার্টিফিকেট ইস্যু হয়নি"
-            hint="উপরের ফর্ম থেকে প্রথমটি ইস্যু করুন — ID খালি রাখলে auto হবে।"
+            hint="উপরের ফর্ম থেকে প্রথমটি ইস্যু করুন, ID খালি রাখলে auto হবে।"
           />
         ) : (
           <ul className="grid gap-3 md:grid-cols-2">
@@ -574,7 +574,7 @@ export function AdminCertificates() {
           <AlertDialogHeader>
             <AlertDialogTitle>সার্টিফিকেট মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget ? `${deleteTarget.id} — ${deleteTarget.name}` : ""} — মুছলে এটি আর
+              {deleteTarget ? `${deleteTarget.id}, ${deleteTarget.name}` : ""}, মুছলে এটি আর
               verify করা যাবে না। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>

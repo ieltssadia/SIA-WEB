@@ -165,7 +165,7 @@ export function AdminSuggestions() {
       if (res.ok && data?.ok && data.suggestions) setSuggestions(data.suggestions);
       else setError(data?.error ?? "সাজেশন লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -221,7 +221,7 @@ export function AdminSuggestions() {
       setSuggestions((prev) =>
         prev ? prev.map((s) => (s.id === row.id ? { ...s, published: !published } : s)) : prev
       );
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -244,15 +244,15 @@ export function AdminSuggestions() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Suggestions — প্র্যাকটিস ফাইল"
-        sub="ফাইল আপলোড করলেই paid শিক্ষার্থীর পোর্টালে চলে যাবে — HTML test, PDF, audio, video"
+        title="Suggestions: প্র্যাকটিস ফাইল"
+        sub="ফাইল আপলোড করলেই paid শিক্ষার্থীর পোর্টালে চলে যাবে: HTML test, PDF, audio, video"
       >
         {!canManage ? null : (
           <Button
@@ -264,29 +264,29 @@ export function AdminSuggestions() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Upload — ফাইল দিন
+            Upload: ফাইল দিন
           </Button>
         )}
       </SectionHeading>
 
       {!canManage ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — সাজেশন শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, সাজেশন শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={FileUp} label="Total — মোট" value={counts.total} tone="sky" />
+        <StatCard icon={FileUp} label="Total: মোট" value={counts.total} tone="sky" />
         <StatCard
           icon={FileUp}
-          label="Published — দেখাচ্ছে"
+          label="Published: দেখাচ্ছে"
           value={counts.published}
           tone="emerald"
         />
         <StatCard
           icon={FileUp}
-          label="Files — ফাইল"
+          label="Files: ফাইল"
           sub="link বাদে"
           value={counts.files}
           tone="amber"
@@ -308,7 +308,7 @@ export function AdminSuggestions() {
           <EmptyState
             icon={Upload}
             title="এখনো কোনো সাজেশন নেই"
-            hint="Upload বাটন থেকে প্রথম প্র্যাকটিস ফাইলটি দিন — paid শিক্ষার্থীরা সাথে সাথে পোর্টালে পাবে।"
+            hint="Upload বাটন থেকে প্রথম প্র্যাকটিস ফাইলটি দিন, paid শিক্ষার্থীরা সাথে সাথে পোর্টালে পাবে।"
           />
         ) : (
           <ul className="space-y-3">
@@ -359,7 +359,7 @@ export function AdminSuggestions() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-sm font-medium text-primary transition hover:bg-primary/5"
-                            aria-label={`পোর্টালে খুলুন — ${s.title}`}
+                            aria-label={`পোর্টালে খুলুন: ${s.title}`}
                           >
                             <ExternalLink className="h-4 w-4" aria-hidden="true" />
                             পোর্টালে খুলুন
@@ -424,7 +424,7 @@ export function AdminSuggestions() {
           <AlertDialogHeader>
             <AlertDialogTitle>সাজেশনটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — paid শিক্ষার্থীর পোর্টাল থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, paid শিক্ষার্থীর পোর্টাল থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -506,7 +506,7 @@ function SuggestionDialog({
         title: f.title.trim() ? f.title : titleFromFilename(up.name),
       }));
       toast.success(
-        `ফাইল আপলোড হয়েছে — ${up.name} (${up.sizeLabel})। সেভ করলেই পোর্টালে চলে যাবে।`
+        `ফাইল আপলোড হয়েছে, ${up.name} (${up.sizeLabel})। সেভ করলেই পোর্টালে চলে যাবে।`
       );
     } else {
       toast.error(result.error ?? "ফাইল আপলোড করা যায়নি।");
@@ -528,7 +528,7 @@ function SuggestionDialog({
     }
     const kind = manual ? form.kind : (uploaded?.kind ?? form.kind);
     if (!(KINDS as readonly string[]).includes(kind)) {
-      toast.error("ধরন (kind) ঠিক করুন — html, pdf, audio, video বা link।");
+      toast.error("ধরন (kind) ঠিক করুন: html, pdf, audio, video বা link।");
       return;
     }
 
@@ -557,7 +557,7 @@ function SuggestionDialog({
         toast.success(
           editing
             ? "সাজেশন আপডেট হয়েছে। (Suggestion updated.)"
-            : "সাজেশন পাবলিশ হয়েছে — পোর্টালে দেখা যাবে। (Published to the portal.)"
+            : "সাজেশন পাবলিশ হয়েছে, পোর্টালে দেখা যাবে। (Published to the portal.)"
         );
         onOpenChange(false);
         onSaved();
@@ -565,7 +565,7 @@ function SuggestionDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -581,7 +581,7 @@ function SuggestionDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            {editing ? `Edit — ${editing.title}` : "Upload suggestion — প্র্যাকটিস ফাইল দিন"}
+            {editing ? `Edit: ${editing.title}` : "Upload suggestion: প্র্যাকটিস ফাইল দিন"}
           </DialogTitle>
           <DialogDescription>
             ফাইল আপলোড করে Save করলেই paid শিক্ষার্থীর পোর্টালের Suggestions-এ চলে যাবে।
@@ -612,7 +612,7 @@ function SuggestionDialog({
               maxLength={400}
               value={form.desc}
               onChange={(e) => setField("desc", e.target.value)}
-              placeholder="৪০টি প্রশ্নের ফুল লিসেনিং টেস্ট — উত্তর যাচাই সহ"
+              placeholder="৪০টি প্রশ্নের ফুল লিসেনিং টেস্ট, উত্তর যাচাই সহ"
               className="rounded-xl border-border bg-muted/40"
             />
           </div>
@@ -683,7 +683,7 @@ function SuggestionDialog({
 
           {/* OR manual internal link — kind becomes editable */}
           <div className="space-y-1.5">
-            <Label htmlFor="sug-manual">অথবা লিংক (path) — যেমন /suggestions/quiz.html</Label>
+            <Label htmlFor="sug-manual">অথবা লিংক (path), যেমন /suggestions/quiz.html</Label>
             <Input
               id="sug-manual"
               value={form.manualUrl}
@@ -692,7 +692,7 @@ function SuggestionDialog({
               className={`${inputCls} font-mono text-sm`}
             />
             <p className="text-[11px] text-muted-foreground">
-              সাইটের ভেতরের পাথ হতে হবে (/ দিয়ে শুরু) — লিখলে উপরের আপলোডের বদলে এটাই যাবে।
+              সাইটের ভেতরের পাথ হতে হবে (/ দিয়ে শুরু), লিখলে উপরের আপলোডের বদলে এটাই যাবে।
             </p>
           </div>
 
@@ -716,8 +716,8 @@ function SuggestionDialog({
             </Select>
             <p className="text-[11px] text-muted-foreground">
               {manual
-                ? "লিংক দেওয়া আছে — ধরন বাছতে পারেন।"
-                : "আপলোড থেকে অটো-ডিটেক্ট হয় — ম্যানুয়াল লিংক দিলে এডিট করা যাবে।"}
+                ? "লিংক দেওয়া আছে, ধরন বাছতে পারেন।"
+                : "আপলোড থেকে অটো-ডিটেক্ট হয়, ম্যানুয়াল লিংক দিলে এডিট করা যাবে।"}
             </p>
           </div>
 
@@ -733,7 +733,7 @@ function SuggestionDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — পোর্টালে দেখা যাবে
+            Published: পোর্টালে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -750,7 +750,7 @@ function SuggestionDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Publish — পোর্টালে দিন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Publish: পোর্টালে দিন"}
             </Button>
           </DialogFooter>
         </form>

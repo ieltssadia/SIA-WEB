@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   const data = parsed.data;
 
   const clash = await db.book.findUnique({ where: { slug: data.slug } });
-  if (clash) return badRequest("এই slug দিয়ে আগেই বই আছে — অন্যটা দিন।");
+  if (clash) return badRequest("এই slug দিয়ে আগেই বই আছে, অন্যটা দিন।");
 
   const row = await db.book.create({
     data: {

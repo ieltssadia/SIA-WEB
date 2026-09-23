@@ -132,7 +132,7 @@ export function AdminTips() {
       if (res.ok && data?.ok && data.tips) setTips(data.tips);
       else setError(data?.error ?? "টিপস লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -204,7 +204,7 @@ export function AdminTips() {
       setTips((prev) =>
         prev ? prev.map((t) => (t.id === tip.id ? { ...t, published: !published } : t)) : prev
       );
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -227,15 +227,15 @@ export function AdminTips() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Free Tips — টিপস"
-        sub="হোমপেজ ও #/tips পেজের টিপস কার্ড — সব রোল যোগ করতে পারে, এডিট/ডিলিট admin/owner"
+        title="Free Tips: টিপস"
+        sub="হোমপেজ ও #/tips পেজের টিপস কার্ড, সব রোল যোগ করতে পারে, এডিট/ডিলিট admin/owner"
       >
         <Button
           type="button"
@@ -246,27 +246,27 @@ export function AdminTips() {
           className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
         >
           <PlusCircle className="h-4 w-4" aria-hidden="true" />
-          Add Tip — টিপস দিন
+          Add Tip: টিপস দিন
         </Button>
       </SectionHeading>
 
       {!canManage ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — নতুন টিপস যোগ করা যাবে, তবে এডিট/ডিলিট/পাবলিশ
+          আপনি Teacher রোলে আছেন, নতুন টিপস যোগ করা যাবে, তবে এডিট/ডিলিট/পাবলিশ
           admin/owner-এর জন্য। (Existing tips are read-only for you.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={Lightbulb} label="Total — মোট" value={counts.total} tone="amber" />
+        <StatCard icon={Lightbulb} label="Total: মোট" value={counts.total} tone="amber" />
         <StatCard
           icon={Lightbulb}
-          label="Published — দেখাচ্ছে"
+          label="Published: দেখাচ্ছে"
           value={counts.published}
           tone="emerald"
         />
-        <StatCard icon={Lightbulb} label="Hidden — লুকানো" value={counts.hidden} tone="muted" />
+        <StatCard icon={Lightbulb} label="Hidden: লুকানো" value={counts.hidden} tone="muted" />
       </div>
 
       {/* Search */}
@@ -279,7 +279,7 @@ export function AdminTips() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="টিপস খুঁজুন — শিরোনাম, বিবরণ বা ক্যাটাগরি"
+          placeholder="টিপস খুঁজুন: শিরোনাম, বিবরণ বা ক্যাটাগরি"
           aria-label="Search tips"
           className="min-h-11 rounded-xl border-border bg-card pl-10"
         />
@@ -303,7 +303,7 @@ export function AdminTips() {
             hint={
               query
                 ? "অন্য শব্দ দিয়ে খুঁজে দেখুন।"
-                : "Add Tip বাটন থেকে প্রথম টিপসটি দিন — হোমপেজে সবাই দেখবে।"
+                : "Add Tip বাটন থেকে প্রথম টিপসটি দিন, হোমপেজে সবাই দেখবে।"
             }
           />
         ) : (
@@ -391,7 +391,7 @@ export function AdminTips() {
           <AlertDialogHeader>
             <AlertDialogTitle>টিপসটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — হোমপেজ ও #/tips পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, হোমপেজ ও #/tips পেজ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -484,7 +484,7 @@ function TipDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -496,7 +496,7 @@ function TipDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{editing ? `Edit — ${editing.title}` : "Add Tip — টিপস দিন"}</DialogTitle>
+          <DialogTitle>{editing ? `Edit: ${editing.title}` : "Add Tip: টিপস দিন"}</DialogTitle>
           <DialogDescription>
             টিপসটি হোমপেজের Tips সেকশন ও #/tips পেজে শিক্ষার্থীরা দেখবে।
           </DialogDescription>
@@ -523,7 +523,7 @@ function TipDialog({
               required
               value={form.excerpt}
               onChange={(e) => setField("excerpt", e.target.value)}
-              placeholder="২-৩ লাইনে টিপসটি লিখুন — কী করতে হবে, কেন কাজ করে।"
+              placeholder="২-৩ লাইনে টিপসটি লিখুন, কী করতে হবে, কেন কাজ করে।"
               className="rounded-xl border-border bg-muted/40"
             />
           </div>
@@ -566,7 +566,7 @@ function TipDialog({
                 ))}
               </datalist>
               <p className="text-[11px] text-muted-foreground">
-                lightbulb / target / zap / book — না মিললে lightbulb দেখাবে।
+                lightbulb / target / zap / book, না মিললে lightbulb দেখাবে।
               </p>
             </div>
           </div>
@@ -577,7 +577,7 @@ function TipDialog({
               onCheckedChange={(v) => setField("published", v)}
               aria-label="Published"
             />
-            Published — সাইটে দেখা যাবে
+            Published: সাইটে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -594,7 +594,7 @@ function TipDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

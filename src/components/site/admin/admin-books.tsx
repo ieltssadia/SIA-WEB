@@ -171,7 +171,7 @@ export function AdminBooks() {
         setError(data?.error ?? "বই লোড করা যায়নি।");
       }
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -228,7 +228,7 @@ export function AdminBooks() {
         toast.error(data?.error ?? "আপডেট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -251,15 +251,15 @@ export function AdminBooks() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Shop Books — বই"
-        sub="বুক শপের ক্যাটালগ — দাম, কভার ও লিস্টিং ম্যানেজ করুন"
+        title="Shop Books: বই"
+        sub="বুক শপের ক্যাটালগ, দাম, কভার ও লিস্টিং ম্যানেজ করুন"
       >
         {!readOnly ? (
           <Button
@@ -271,30 +271,30 @@ export function AdminBooks() {
             className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
           >
             <PlusCircle className="h-4 w-4" aria-hidden="true" />
-            Add Book — নতুন বই
+            Add Book: নতুন বই
           </Button>
         ) : null}
       </SectionHeading>
 
       {readOnly ? (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          আপনি Teacher রোলে আছেন — বই শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
+          আপনি Teacher রোলে আছেন, বই শুধু দেখা যাবে, বদলানো যাবে না। (Read-only view.)
         </p>
       ) : null}
 
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <StatCard icon={Library} label="Total — মোট" value={counts.total} tone="blue" />
+        <StatCard icon={Library} label="Total: মোট" value={counts.total} tone="blue" />
         <StatCard
           icon={Library}
-          label="Listed — লিস্টেড"
+          label="Listed: লিস্টেড"
           sub="shop-এ দেখা যাচ্ছে"
           value={counts.listed}
           tone="emerald"
         />
         <StatCard
           icon={Library}
-          label="Unlisted — লুকানো"
+          label="Unlisted: লুকানো"
           value={counts.unlisted}
           tone="amber"
         />
@@ -310,7 +310,7 @@ export function AdminBooks() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="বই খুঁজুন — নাম, লেখক বা slug"
+          placeholder="বই খুঁজুন: নাম, লেখক বা slug"
           aria-label="Search books"
           className="min-h-11 rounded-xl border-border bg-card pl-10"
         />
@@ -348,7 +348,7 @@ export function AdminBooks() {
                   <span className="relative shrink-0">
                     <Image
                       src={b.cover}
-                      alt={`Cover — ${b.title}`}
+                      alt={`Cover: ${b.title}`}
                       width={64}
                       height={80}
                       className="h-20 w-16 rounded-lg border border-border object-cover"
@@ -445,7 +445,7 @@ export function AdminBooks() {
           <AlertDialogHeader>
             <AlertDialogTitle>বইটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — বুক শপ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, বুক শপ থেকেও সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -556,7 +556,7 @@ function BookDialog({
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -568,7 +568,7 @@ function BookDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>{editing ? `Edit — ${editing.title}` : "Add Book — নতুন বই যোগ করুন"}</DialogTitle>
+          <DialogTitle>{editing ? `Edit: ${editing.title}` : "Add Book: নতুন বই যোগ করুন"}</DialogTitle>
           <DialogDescription>বুক শপের কার্ড ও ডিটেইলস এখান থেকেই আসে।</DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
@@ -625,7 +625,7 @@ function BookDialog({
                 maxLength={1200}
                 value={form.desc}
                 onChange={(e) => setField("desc", e.target.value)}
-                placeholder="বইটি কাদের জন্য, কী আছে — সংক্ষেপে"
+                placeholder="বইটি কাদের জন্য, কী আছে, সংক্ষেপে"
                 className="rounded-xl border-border bg-muted/40"
               />
             </div>
@@ -710,7 +710,7 @@ function BookDialog({
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="book-highlights">Highlights — প্রতি লাইনে একটি</Label>
+              <Label htmlFor="book-highlights">Highlights: প্রতি লাইনে একটি</Label>
               <Textarea
                 id="book-highlights"
                 rows={4}
@@ -728,7 +728,7 @@ function BookDialog({
               onCheckedChange={(v) => setField("listed", v)}
               aria-label="Listed"
             />
-            Listed — বুক শপে দেখা যাবে
+            Listed: বুক শপে দেখা যাবে
           </label>
 
           <DialogFooter className="gap-2 pt-1">
@@ -745,7 +745,7 @@ function BookDialog({
               disabled={saving}
               className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
             >
-              {saving ? "Saving…" : editing ? "Save — সেভ" : "Add Book — যোগ করুন"}
+              {saving ? "Saving…" : editing ? "Save: সেভ" : "Add Book: যোগ করুন"}
             </Button>
           </DialogFooter>
         </form>

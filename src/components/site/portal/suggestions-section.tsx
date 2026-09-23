@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ExternalLink,
   FileCode2,
   FileText,
+  Hash,
   Lightbulb,
   Link2,
   Lock,
@@ -31,6 +32,7 @@ type SuggestionItem = {
   category: string;
   fileUrl: string;
   kind: SuggestionKind;
+  serial?: number | null;
   createdAt: string;
 };
 
@@ -38,6 +40,24 @@ type LoadState =
   | { phase: "loading" }
   | { phase: "locked" }
   | { phase: "ready"; items: SuggestionItem[] };
+
+/** Serial buckets derived from the test titles — mirrors the DB serial order. */
+type SerialGroup = "all" | "full-test" | "listening" | "other";
+
+const groupMeta: Record<
+  Exclude<SerialGroup, "all">,
+  { label: string; tile: string }
+> = {
+  "full-test": { label: "ফুল প্র্যাকটিস টেস্ট", tile: "bg-pastel-sky text-[#2c4f8a]" },
+  listening: { label: "লিসেনিং টেস্ট", tile: "bg-pastel-green text-[#1f5c40]" },
+  other: { label: "অন্যান্য প্র্যাকটিস", tile: "bg-pastel-butter text-[#7a5a16]" },
+};
+
+function groupOf(item: SuggestionItem): Exclude<SerialGroup, "all"> {
+  if (/Listening Full Test/i.test(item.title)) return "full-test";
+  if (/Listening Test/i.test(item.title)) return "listening";
+  return "other";
+}
 
 const kindMeta: Record<SuggestionKind, { icon: LucideIcon; label: string; tile: string }> = {
   html: { icon: FileCode2, label: "HTML Test", tile: "bg-pastel-sky text-[#2c4f8a]" },
@@ -74,6 +94,21 @@ const cardClass =
 
 const actionPillClass =
   "flex h-8 items-center gap-1.5 rounded-full border border-primary/30 px-3 text-xs font-bold text-primary transition-all group-hover:border-[#d9b75c] group-hover:bg-[#d9b75c] group-hover:text-ink";
+
+/* ------------------------------------------------------------------ */
+/*  Serial badge — gold coin with the Bengali serial number            */
+/* ------------------------------------------------------------------ */
+
+function SerialBadge({ serial }: { serial: number }) {
+  return (
+    <span
+      title={`সিরিয়াল ${bnNum(serial)}`}
+      className="flex h-9 min-w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#eeda9d] via-[#d9b75c] to-[#b08a2e] px-1.5 font-display text-[13px] font-extrabold text-ink shadow-[0_3px_10px_rgba(176,138,46,0.35)]"
+    >
+      {bnNum(serial)}
+    </span>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Full-screen in-portal viewer (self-contained branded HTML tests)    */
@@ -118,6 +153,7 @@ function SuggestionViewer({
           ফিরে যান
         </Button>
         <p className="min-w-0 flex-1 truncate text-center text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          {typeof item.serial === "number" ? `সিরিয়াল ${bnNum(item.serial)} · ` : ""}
           {item.title} · SUGGESTIONS
         </p>
         <Button asChild size="sm" className="h-9 shrink-0 rounded-full bg-[#d9b75c] font-bold text-ink hover:opacity-90">
@@ -147,40 +183,39 @@ function SuggestionCard({
   item: SuggestionItem;
   onOpenHtml: (item: SuggestionItem) => void;
 }) {
-  const meta = kindMeta[item.kind] ?? kindMeta.link;
-  const Icon = meta.icon;
+  const group = groupOf(item);
   const date = uploadedDateBn(item.createdAt);
-
+  const hasSerial = typeof item.serial === "number";
   const body = (
     <>
       <div className="flex items-start justify-between gap-3">
-        <span
-          className={cn(
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl",
-            meta.tile
+        <div className="flex min-w-0 items-center gap-2.5">
+          {hasSerial ? (
+            <SerialBadge serial={item.serial as number} />
+          ) : (
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/70 text-muted-foreground" aria-hidden>
+              <Hash className="h-4 w-4" />
+            </span>
           )}
-          aria-hidden
-        >
-          <Icon className="h-5 w-5" />
-        </span>
+          <div className="min-w-0">
+            <p className="truncate text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a7d5f]">
+              {groupMeta[group].label}
+            </p>
+            {date ? (
+              <p className="text-[10px] font-semibold text-muted-foreground/70">
+                আপলোড · {date}
+              </p>
+            ) : null}
+          </div>
+        </div>
         <Badge
           variant="outline"
           className="shrink-0 border-border/70 bg-muted/60 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground"
         >
-          {meta.label}
+          {item.kind === "html" ? "ইন্টার‍্যাক্টিভ" : kindMeta[item.kind]?.label ?? "ফাইল"}
         </Badge>
       </div>
-      {item.category ? (
-        <div className="mt-3">
-          <Badge
-            variant="outline"
-            className="border-primary/40 bg-primary/10 text-[10px] font-semibold text-primary"
-          >
-            {item.category}
-          </Badge>
-        </div>
-      ) : null}
-      <p className="mt-2 line-clamp-2 text-sm font-semibold leading-snug text-foreground">
+      <p className="mt-3 line-clamp-2 text-sm font-semibold leading-snug text-foreground">
         {item.title}
       </p>
       <p className="mt-1.5 line-clamp-2 flex-1 text-xs leading-relaxed text-muted-foreground">
@@ -197,7 +232,7 @@ function SuggestionCard({
       ) : null}
       <div className="mt-4 flex items-center justify-between gap-2 border-t border-border/70 pt-3">
         <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-          {date ? `আপলোড · ${date}` : "SUGGESTIONS"}
+          {hasSerial ? `সিরিয়াল ${bnNum(item.serial as number)}` : "SUGGESTIONS"}
         </span>
         {item.kind === "html" ? (
           <span className={actionPillClass}>
@@ -258,6 +293,7 @@ export function SuggestionsSection() {
   const phone = user?.phone ?? null;
   const [state, setState] = useState<LoadState>({ phase: "loading" });
   const [active, setActive] = useState<SuggestionItem | null>(null);
+  const [filter, setFilter] = useState<SerialGroup>("all");
   const closeViewer = useCallback(() => setActive(null), []);
   const openViewer = useCallback((item: SuggestionItem) => setActive(item), []);
 
@@ -286,13 +322,32 @@ export function SuggestionsSection() {
     };
   }, [phone]);
 
+  // Group counts for the filter chips — recomputed only when items change.
+  const items = state.phase === "ready" ? state.items : [];
+  const counts = useMemo(() => {
+    const c: Record<SerialGroup, number> = { all: items.length, "full-test": 0, listening: 0, other: 0 };
+    for (const item of items) c[groupOf(item)] += 1;
+    return c;
+  }, [items]);
+
+  const visible = useMemo(
+    () => (filter === "all" ? items : items.filter((i) => groupOf(i) === filter)),
+    [items, filter]
+  );
+
+  const filterChips: { key: SerialGroup; label: string }[] = [
+    { key: "all", label: "সবগুলো" },
+    { key: "full-test", label: groupMeta["full-test"].label },
+    { key: "listening", label: groupMeta["listening"].label },
+    { key: "other", label: groupMeta["other"].label },
+  ];
+
   return (
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Practice Library"
           title="সাজেশন ও প্র্যাকটিস"
-          desc="কোর্সের সাজেশন, ফুল প্র্যাকটিস টেস্ট আর স্টাডি ফাইল — সব এক জায়গায়, নতুনগুলো সবার আগে।"
+          desc="কোর্সের সাজেশন, ফুল প্র্যাকটিস টেস্ট আর স্টাডি ফাইল, সব এক জায়গায়, সিরিয়াল অনুযায়ী সাজানো।"
           action={
             state.phase === "ready" && state.items.length > 0 ? (
               <Badge
@@ -350,13 +405,64 @@ export function SuggestionsSection() {
 
       {state.phase === "ready" ? (
         state.items.length > 0 ? (
-          <Reveal y={12} delay={0.04}>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {state.items.map((item) => (
-                <SuggestionCard key={item.id} item={item} onOpenHtml={openViewer} />
-              ))}
-            </div>
-          </Reveal>
+          <>
+            {/* Serial-group filter chips */}
+            <Reveal y={12} delay={0.02}>
+              <div
+                role="tablist"
+                aria-label="সাজেশন ফিল্টার"
+                className="flex flex-wrap items-center gap-2"
+              >
+                {filterChips.map((chip) => {
+                  const isActive = filter === chip.key;
+                  return (
+                    <button
+                      key={chip.key}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => setFilter(chip.key)}
+                      className={cn(
+                        "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold transition-all",
+                        isActive
+                          ? "border-transparent bg-gradient-to-br from-[#eeda9d] via-[#d9b75c] to-[#b08a2e] text-ink shadow-[0_4px_14px_rgba(176,138,46,0.35)]"
+                          : "border-border bg-card text-muted-foreground hover:border-[#d9b75c]/60 hover:text-foreground"
+                      )}
+                    >
+                      {chip.label}
+                      <span
+                        className={cn(
+                          "rounded-full px-1.5 py-0.5 text-[10px] font-extrabold leading-none",
+                          isActive ? "bg-ink/15 text-ink" : "bg-muted/70 text-muted-foreground"
+                        )}
+                      >
+                        {bnNum(counts[chip.key])}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </Reveal>
+
+            <Reveal y={12} delay={0.04}>
+              {visible.length > 0 ? (
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  {visible.map((item) => (
+                    <SuggestionCard key={item.id} item={item} onOpenHtml={openViewer} />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2 rounded-3xl border border-dashed border-border bg-muted/40 px-6 py-12 text-center">
+                  <p className="font-display text-base font-bold text-foreground">
+                    এই ক্যাটাগরিতে এখনো কিছু নেই
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    অন্য ক্যাটাগরি দেখুন, নতুন ফাইল যোগ হতে থাকবে।
+                  </p>
+                </div>
+              )}
+            </Reveal>
+          </>
         ) : (
           <Reveal y={12} delay={0.04}>
             <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-border bg-muted/40 px-6 py-14 text-center">
@@ -367,7 +473,7 @@ export function SuggestionsSection() {
                 এখনো কোনো সাজেশন আপলোড হয়নি
               </p>
               <p className="max-w-sm text-sm text-muted-foreground">
-                আপডেটের জন্য অপেক্ষা করুন — নতুন সাজেশন ও প্র্যাকটিস টেস্ট এখানেই যোগ হতে থাকবে।
+                আপডেটের জন্য অপেক্ষা করুন, নতুন সাজেশন ও প্র্যাকটিস টেস্ট এখানেই যোগ হতে থাকবে।
               </p>
             </div>
           </Reveal>

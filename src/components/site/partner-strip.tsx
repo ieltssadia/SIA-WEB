@@ -121,7 +121,7 @@ const LOOP_REPEATS = 4;
 export function PartnerStrip() {
   return (
     <section
-      aria-label="Registration partners — IDP IELTS and British Council"
+      aria-label="Registration partners: IDP IELTS and British Council"
       className="overflow-hidden border-t border-border bg-white"
     >
       {/* Screen-reader list — the moving logos themselves are decorative */}

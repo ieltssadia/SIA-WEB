@@ -52,7 +52,7 @@ export function TeamPage() {
           </Reveal>
           <Reveal delay={0.16}>
             <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-              ব্যানার-বোর্ডে নাম নয় — প্রতিটি শিক্ষার্থীর খাতা, প্রতিটি mock test আর
+              ব্যানার-বোর্ডে নাম নয়, প্রতিটি শিক্ষার্থীর খাতা, প্রতিটি mock test আর
               পরীক্ষার হলের ভয়টা এঁরাই ভাগ করে নেন। একবার এঁদের সাথে কথা বলুন,
               পার্থক্যটা বুঝতে পারবেন।
             </p>
@@ -87,7 +87,7 @@ export function TeamPage() {
         <TeamMarquee />
         <Reveal delay={0.1}>
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            যেকোনো ছবিতে ক্লিক করুন — প্রোফাইল খুলবে
+            যেকোনো ছবিতে ক্লিক করুন, প্রোফাইল খুলবে
           </p>
         </Reveal>
       </section>
@@ -100,7 +100,7 @@ export function TeamPage() {
               {[
                 { value: "৫,০০০+", label: "শিক্ষার্থী এঁদের ক্লাস পেরিয়ে পরীক্ষা দিয়েছে" },
                 { value: "৯ বছর", label: "একই জায়গায়, একই নিয়মে পড়ানোর অভিজ্ঞতা" },
-                { value: "৪.৯/৫", label: "শিক্ষার্থীদের রেটিং — মুখে মুখে ছড়ানো খ্যাতি" },
+                { value: "৪.৯/৫", label: "শিক্ষার্থীদের রেটিং, মুখে মুখে ছড়ানো খ্যাতি" },
               ].map(({ value, label }) => (
                 <div key={label} className="flex flex-col items-center gap-1 text-center sm:items-start sm:text-left">
                   <dd className="font-display text-3xl font-extrabold text-foreground">{value}</dd>
@@ -116,11 +116,6 @@ export function TeamPage() {
       <section className="pb-20" aria-label="সব সদস্যের প্রোফাইল">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <Reveal className="mx-auto mb-10 max-w-2xl text-center">
-            <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              <span className="h-px w-8 bg-primary/60" aria-hidden />
-              Full Profiles
-              <span className="h-px w-8 bg-primary/60" aria-hidden />
-            </span>
             <h2 className="font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
               কে কী পড়ান, কেন
             </h2>
@@ -169,11 +164,11 @@ export function TeamPage() {
             <div className="mt-10 flex items-center justify-center gap-2 rounded-2xl border border-primary/15 bg-primary/5 px-6 py-4 text-sm text-muted-foreground">
               <Users className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span>
-                কোন কোর্স আপনার জন্য — নিশ্চিত না হলে ফোন করুন{" "}
+                কোন কোর্স আপনার জন্য, নিশ্চিত না হলে ফোন করুন{" "}
                 <a href={site.phoneHref} className="font-semibold text-primary hover:underline">
                   {site.phone}
                 </a>{" "}
-                — কে পড়াবেন সেটা আমরা মিলিয়ে দেব।
+                , কে পড়াবেন সেটা আমরা মিলিয়ে দেব।
               </span>
             </div>
           </Reveal>

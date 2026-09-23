@@ -166,7 +166,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 lg:px-8">
           {/* Logo */}
-          <Link href="#/" className="flex min-w-0 items-center gap-3" aria-label="Sadia's IELTS — Home">
+          <Link href="#/" className="flex min-w-0 items-center gap-3" aria-label="Sadia's IELTS Home">
             <Image
               src="/sadia-logo.png"
               alt="Sadia's IELTS logo"
@@ -285,7 +285,7 @@ export function SiteHeader() {
                 <Button
                   variant="outline"
                   size="icon"
-                  aria-label={`Open cart${bagCount ? ` — ${bagCount} item${bagCount > 1 ? "s" : ""}` : ""}`}
+                  aria-label={`Open cart${bagCount ? `, ${bagCount} item${bagCount > 1 ? "s" : ""}` : ""}`}
                   className="relative rounded-full border-border/80 text-primary hover:bg-primary/10 hover:text-primary"
                 >
                   <ShoppingBag className="h-4.5 w-4.5" aria-hidden />

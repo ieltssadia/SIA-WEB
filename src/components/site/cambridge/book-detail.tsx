@@ -81,7 +81,7 @@ function skillTiles(test: BookTestMeta): Array<{ key: SkillKey; icon: LucideIcon
       key: "speaking",
       icon: Layers,
       name: "Speaking",
-      meta: "Part 1–3 · cue card · sample audio",
+      meta: "Part 1-3 · cue card · sample audio",
     },
   ];
 }
@@ -246,7 +246,7 @@ export default function BookDetail({
             </p>
             <p className="text-sm text-muted-foreground">
               {notFound
-                ? `Cambridge IELTS ${moduleLabel(module)} Book ${bookNumber} isn't on the shelf. Books 1–3 are Academic-only; General Training shelves start from Book 4.`
+                ? `Cambridge IELTS ${moduleLabel(module)} Book ${bookNumber} isn't on the shelf. Books 1-3 are Academic-only; General Training shelves start from Book 4.`
                 : "Something went wrong while loading this book. Please try again."}
             </p>
             <div className="mt-2 flex flex-wrap justify-center gap-3">
@@ -328,7 +328,7 @@ export default function BookDetail({
                             Test {test.number}
                           </span>
                           <h2 className="font-display text-base font-bold text-foreground md:text-lg">
-                            Cambridge IELTS {book.number} — Test {test.number}
+                            Cambridge IELTS {book.number} · Test {test.number}
                           </h2>
                         </div>
                         <Badge
@@ -383,10 +383,10 @@ export default function BookDetail({
               <div className="flex flex-col items-center gap-4 rounded-2xl bg-[#121009] p-6 text-center md:flex-row md:justify-between md:p-7 md:text-left">
                 <div>
                   <p className="font-display text-base font-bold text-[#f6ecd4] md:text-lg">
-                    শুধু প্র্যাকটিস নয় — চেকিং আর গাইডেন্সও দরকার?
+                    শুধু প্র্যাকটিস নয়, চেকিং আর গাইডেন্সও দরকার?
                   </p>
                   <p className="mt-1 text-xs text-[#c6b995] md:text-sm">
-                    Mock test checking, speaking evaluation আর band guarantee — batch-এ ভর্তি হলেই।
+                    Mock test checking, speaking evaluation আর band guarantee, batch-এ ভর্তি হলেই।
                   </p>
                 </div>
                 <Button

@@ -283,7 +283,7 @@ function printCertificate(dataUrl: string) {
   const win = window.open("", "_blank", "width=1140,height=800");
   if (!win) return;
   win.document.write(
-    `<!doctype html><html><head><title>Sadia's IELTS — Certificate</title>
+    `<!doctype html><html><head><title>Sadia's IELTS Certificate</title>
      <style>@page{size:A4 landscape;margin:0}html,body{margin:0;height:100%;background:#fff;
      display:flex;align-items:center;justify-content:center}img{max-width:97vw;max-height:97vh}
      </style></head><body><img src="${dataUrl}"
@@ -413,7 +413,7 @@ function CertificateLocked({ primary }: { primary: PortalEnrollment }) {
         সার্টিফিকেট এখনো ইস্যু হয়নি
       </p>
       <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-        কোর্স ১০০% সম্পন্ন করলেই এখানে আপনার নামে অফিসিয়াল সার্টিফিকেট যোগ হবে —
+        কোর্স ১০০% সম্পন্ন করলেই এখানে আপনার নামে অফিসিয়াল সার্টিফিকেট যোগ হবে,
         ডাউনলোড আর প্রিন্ট দুটোই করা যাবে।
       </p>
       <div className="mt-1 w-full max-w-xs rounded-2xl border border-border bg-card p-4">
@@ -522,7 +522,7 @@ function DownloadsGrid() {
             ডাউনলোড কর্নার
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            ক্লাসে বলা সব ম্যাটেরিয়ালস এখান থেকে সরাসরি ডাউনলোড করুন — কোনো রিকোয়েস্ট লাগবে না।
+            ক্লাসে বলা সব ম্যাটেরিয়ালস এখান থেকে সরাসরি ডাউনলোড করুন, কোনো রিকোয়েস্ট লাগবে না।
           </p>
         </div>
         <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">

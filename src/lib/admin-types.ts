@@ -269,6 +269,17 @@ export type AdminFileOption = {
   size: string;
 };
 
+/** One Media Library item (MediaItem table) — admin-uploadable file/image. */
+export type AdminMediaRow = {
+  id: string;
+  url: string;
+  filename: string;
+  size: number; // bytes
+  kind: "image" | "file";
+  folder: string;
+  createdAt: string; // ISO
+};
+
 export type AdminNoticeRow = {
   id: string;
   date: string; // display "10 Sep"

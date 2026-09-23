@@ -87,7 +87,7 @@ const payMethods: PayMethod[] = [
   {
     id: "Cash",
     label: "Cash at Office",
-    note: "Pay at Sreemangal campus — receipt same day",
+    note: "Pay at Sreemangal campus, receipt same day",
     icon: Banknote,
     color: "#0f766e",
     needsTxId: false,
@@ -170,7 +170,7 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
     e.preventDefault();
     setError(null);
     if (mode === "signup" && password !== confirm) {
-      setError("Passwords don't match — আবার লিখুন।");
+      setError("Passwords don't match, আবার লিখুন।");
       return;
     }
     setBusy(true);
@@ -189,13 +189,13 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
         | { user?: { name: string; phone: string }; token?: string; error?: string }
         | null;
       if (!res.ok || !data?.user) {
-        setError(data?.error ?? "Something went wrong — please try again.");
+        setError(data?.error ?? "Something went wrong, please try again.");
         return;
       }
       setSession(data.user, [], [], data.token ?? null);
       onAuthed();
     } catch {
-      setError("Could not reach the server — check your connection.");
+      setError("Could not reach the server, check your connection.");
     } finally {
       setBusy(false);
     }
@@ -207,7 +207,7 @@ function AccountStep({ onAuthed }: { onAuthed: () => void }) {
         {mode === "signup" ? "Create your student account" : "Log in to continue"}
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        কোর্স কিনলে একই account-এ ভর্তি হবে — পোর্টালে সাথে সাথে দেখতে পাবেন।
+        কোর্স কিনলে একই account-এ ভর্তি হবে, পোর্টালে সাথে সাথে দেখতে পাবেন।
       </p>
 
       <Tabs value={mode} onValueChange={(v) => { setMode(v as "signup" | "login"); setError(null); }} className="mt-4">
@@ -350,7 +350,7 @@ function OfferCountdownBanner() {
       <Timer className="h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
       <p className="text-sm text-[#f6ecd4]">
         <span className="font-semibold text-[#d9b75c]">Admission offer শেষ হতে বাকি: {left}</span>{" "}
-        <span className="text-[#c6b995]">— এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
+        <span className="text-[#c6b995]">এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
       </p>
     </div>
   );
@@ -414,18 +414,18 @@ function PaymentStep({
         | null;
       if (res.status === 401) {
         logout();
-        setError("Session expired — please log in again.");
+        setError("Session expired, please log in again.");
         onBack();
         return;
       }
       if (!res.ok || !data?.user) {
-        setError(data?.error ?? "Enrollment failed — please try again.");
+        setError(data?.error ?? "Enrollment failed, please try again.");
         return;
       }
       setSession(data.user, data.enrollments ?? [], data.mocks ?? [], data.token ?? null, data.certificates ?? []);
       onEnrolled(batch);
     } catch {
-      setError("Could not reach the server — check your connection.");
+      setError("Could not reach the server, check your connection.");
     } finally {
       setBusy(false);
     }
@@ -493,13 +493,13 @@ function PaymentStep({
             <Label htmlFor="co-txid">Transaction ID (optional here)</Label>
             <Input
               id="co-txid"
-              placeholder="Demo checkout — any text works"
+              placeholder="Demo checkout, any text works"
               value={txId}
               onChange={(e) => setTxId(e.target.value)}
               maxLength={60}
             />
             <p className="text-xs text-muted-foreground">
-              ডেমো মোড — আসল পেমেন্ট হয় না। প্রোডাকশনে TrxID ভেরিফিকেশন যুক্ত হবে।
+              ডেমো মোড। আসল পেমেন্ট হয় না। প্রোডাকশনে TrxID ভেরিফিকেশন যুক্ত হবে।
             </p>
           </div>
         ) : null}
@@ -554,7 +554,7 @@ function SuccessStep({ course, batch, name }: { course: Course; batch: string; n
           Enrollment <span className="text-[#d9b75c]">confirmed!</span>
         </h2>
         <p className="mt-2 text-sm text-[#c6b995] md:text-base">
-          অভিনন্দন {name.split(" ")[0]}! ভর্তি সম্পন্ন হয়েছে — কোর্সটি এখন আপনার পোর্টালে।
+          অভিনন্দন {name.split(" ")[0]}! ভর্তি সম্পন্ন হয়েছে। কোর্সটি এখন আপনার পোর্টালে।
         </p>
         <div className="mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-2">
           <Badge variant="outline" className="border-white/10 bg-white/10 px-3 py-1.5 text-sm font-semibold text-[#e4d5ae]">
@@ -565,7 +565,7 @@ function SuccessStep({ course, batch, name }: { course: Course; batch: string; n
           </Badge>
         </div>
         <p className="mt-6 text-sm text-[#c6b995]">
-          Class routine, materials, notices — সব এখন{" "}
+          Class routine, materials, notices সবই এখন{" "}
           <span className="font-semibold text-[#d9b75c]">Student Portal</span>-এ দেখুন।
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
@@ -677,7 +677,6 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
     return (
       <>
         <PageHeader
-          eyebrow={cartHasItems || showReceipt ? "Book Shop · Checkout" : "Admission · Checkout"}
           title={
             cartHasItems ? (
               <>
@@ -695,10 +694,10 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
           }
           subtitle={
             cartHasItems
-              ? "ডেলিভারি ডিটেইলস দিন, পেমেন্ট বেছে নিন — অর্ডার কনফার্ম করতে ২৪ ঘণ্টার মধ্যে আমরা কল দেব।"
+              ? "ডেলিভারি ডিটেইলস দিন, পেমেন্ট বেছে নিন। অর্ডার কনফার্ম করতে ২৪ ঘণ্টার মধ্যে আমরা কল দেব।"
               : showReceipt
-                ? "আপনার সর্বশেষ অর্ডারের রসিদ — পেমেন্ট ও ডেলিভারি তথ্য একসাথে।"
-                : "যে কোর্সে ভর্তি হতে চান বেছে নিন — payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
+                ? "আপনার সর্বশেষ অর্ডারের রসিদ, পেমেন্ট ও ডেলিভারি তথ্য একসাথে।"
+                : "যে কোর্সে ভর্তি হতে চান বেছে নিন। payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
           }
         />
         <section className="py-10 md:py-14">
@@ -713,13 +712,13 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                     অথবা কোর্সে <span className="text-brand-gradient">ভর্তি হতে চান?</span>
                   </p>
                   <p className="mt-1.5 text-sm text-muted-foreground">
-                    Live classes, materials ও mock tests — ভর্তির পর সব Student Portal-এ।
+                    Live classes, materials ও mock tests, ভর্তির পর সব Student Portal-এ।
                   </p>
                 </div>
                 {hasHydrated && user && enrollments.length > 0 ? (
                   <p className="mx-auto mb-6 flex max-w-xl items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
                     <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
-                    আপনার পোর্টালে {enrollments.length}টি কোর্স আছে — নতুন কোর্স যোগ করতে পারেন।
+                    আপনার পোর্টালে {enrollments.length}টি কোর্স আছে, নতুন কোর্স যোগ করতে পারেন।
                   </p>
                 ) : null}
                 <CoursePicker />
@@ -736,7 +735,6 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
     return (
       <>
         <PageHeader
-          eyebrow="Admission · Checkout"
           title={
             <>
               Already <span className="text-brand-gradient">enrolled</span>
@@ -753,7 +751,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                 আপনি ইতিমধ্যে এই কোর্সে ভর্তি
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                {course.title} — আপনার পোর্টালে routine, materials ও scores দেখুন।
+                {course.title} কোর্সে ভর্তি হয়েছে। পোর্টালে routine, materials ও scores দেখুন।
               </p>
               <Button asChild className="mt-5 rounded-full bg-ink px-6 py-6 font-semibold text-white hover:opacity-85">
                 <a href="#/portal">
@@ -772,13 +770,12 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
   return (
     <>
       <PageHeader
-        eyebrow="Admission · Checkout"
         title={
           <>
             Enroll in <span className="text-brand-gradient">{course.title}</span>
           </>
         }
-        subtitle="২ ধাপে ভর্তি সম্পন্ন করুন — account, তারপর payment। কোর্স সাথে সাথেই পোর্টালে যুক্ত হবে।"
+        subtitle="২ ধাপে ভর্তি সম্পন্ন করুন: account, তারপর payment। কোর্স সাথে সাথেই পোর্টালে যুক্ত হবে।"
       />
 
       <section className="py-10 md:py-14">
@@ -812,7 +809,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
 
                     {step === 2 && !user ? (
                       <p className="text-sm text-destructive">
-                        Session lost — আবার account step-এ ফিরে যান।
+                        Session lost, আবার account step-এ ফিরে যান।
                       </p>
                     ) : null}
                   </CardContent>
@@ -844,7 +841,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                         <dt className="text-muted-foreground">Course fee</dt>
                         <dd className="text-foreground">
                           {course.oldPrice ? <span className="mr-2 text-muted-foreground line-through">{taka(course.oldPrice)}</span> : null}
-                          {course.price ? taka(course.price) : course.price === 0 ? "Free" : "—"}
+                          {course.price ? taka(course.price) : course.price === 0 ? "Free" : "-"}
                         </dd>
                       </div>
                       {course.oldPrice && course.price ? (
@@ -881,7 +878,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                     </ul>
 
                     <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
-                      ভর্তির পর portal account-এ লগ ইন করে routine, materials, mock scores — সব দেখতে পাবেন।
+                      ভর্তির পর portal account-এ লগ ইন করে routine, materials, mock scores সবই দেখতে পাবেন।
                       প্রশ্ন থাকলে কল করুন {site.phone}।
                     </p>
                   </CardContent>

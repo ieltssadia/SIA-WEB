@@ -27,13 +27,12 @@ export function StoriesSection() {
     <section id="stories" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Success Stories"
           title={
             <>
               Real Students. <span className="text-brand-gradient">Real Bands.</span>
             </>
           }
-          subtitle="সাজানো কথা নয় — recent batch-এর শিক্ষার্থীরা নিজের ভাষায় নিজেদের গল্পটা বলেছেন।"
+          subtitle="সাজানো কথা নয়, recent batch-এর শিক্ষার্থীরা নিজের ভাষায় নিজেদের গল্পটা বলেছেন।"
         />
 
         <Reveal>
@@ -80,7 +79,7 @@ export function StoriesSection() {
 
         <Reveal delay={0.15}>
           <p className="mt-8 text-center text-xs text-muted-foreground">
-            এরা সবাই recent batch-এর শিক্ষার্থী — ফলাফলের ছবি আর আরও গল্প আছে আমাদের{" "}
+            এরা সবাই recent batch-এর শিক্ষার্থী, ফলাফলের ছবি আর আরও গল্প আছে আমাদের{" "}
             <a
               href="https://www.facebook.com/Sadiasielts"
               target="_blank"

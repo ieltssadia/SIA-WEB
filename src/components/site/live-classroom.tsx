@@ -159,7 +159,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
         }
       }, 220); // ~4.5 fps — gentle on the gateway, smooth enough for a demo
     } catch {
-      setCamError("ক্যামেরা অনুমতি পাওয়া যায়নি — ব্রাউজার permission চেক করুন।");
+      setCamError("ক্যামেরা অনুমতি পাওয়া যায়নি, ব্রাউজার permission চেক করুন।");
     }
   };
 
@@ -189,7 +189,7 @@ export function LiveClassroom({ classMeta, identity }: { classMeta: LiveClassDet
       <div className="mx-auto max-w-lg px-4 py-16 text-center">
         <p className="font-display text-xl font-bold">সংযোগ ব্যর্থ হয়েছে</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          লাইভ সার্ভারের সাথে সংযোগ করা যায়নি — পেজ রিলোড করে আবার চেষ্টা করুন।
+          লাইভ সার্ভারের সাথে সংযোগ করা যায়নি, পেজ রিলোড করে আবার চেষ্টা করুন।
         </p>
         <Button asChild variant="outline" className="mt-6 border-primary/30">
           <a href="#/live">লাইভ হাবে ফিরে যান</a>
@@ -616,13 +616,13 @@ function Stage({
           <p className="font-display text-lg font-bold text-[#f6ecd4]">ক্লাস এখনো লাইভ হয়নি</p>
           <p className="text-sm text-[#c6b995]">
             {isLate
-              ? "ক্লাস শুরুর সময় হয়ে গেছে — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"
+              ? "ক্লাস শুরুর সময় হয়ে গেছে, শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"
               : startsIn !== null
-                ? `শুরু হতে বাকি ${countdownLabel(startsIn)} — শিক্ষক লাইভ করলেই এখানে দেখা যাবে।`
+                ? `শুরু হতে বাকি ${countdownLabel(startsIn)}, শিক্ষক লাইভ করলেই এখানে দেখা যাবে।`
                 : "শিক্ষক লাইভ করলেই এখানে দেখা যাবে।"}
           </p>
           <p className="text-xs text-[#a3977b]">
-            চ্যাটে প্রশ্ন করে রাখুন — Sadia Ma'am লাইভে উত্তর দেবেন।
+            চ্যাটে প্রশ্ন করে রাখুন, Sadia Ma'am লাইভে উত্তর দেবেন।
           </p>
         </div>
       )}
@@ -652,10 +652,6 @@ function SlideView({ slide }: { slide: ClassSlide }) {
       className="animate-in fade-in slide-in-from-bottom-3 flex h-full w-full flex-col justify-center bg-[radial-gradient(ellipse_at_top,#18150e_0%,#0f0d08_65%)] px-6 pt-16 pb-8 duration-300 sm:px-12 sm:py-0"
     >
       <div className="mx-auto w-full max-w-3xl">
-        <span className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d9b75c]">
-          <span className="h-px w-8 bg-[#d9b75c]/60" aria-hidden />
-          Lesson
-        </span>
         <h2 className="font-display text-xl font-bold leading-snug text-[#f6ecd4] sm:text-3xl">{slide.title}</h2>
         <ul className="mt-5 space-y-3">
           {slide.bullets.map((b, i) => (
@@ -695,7 +691,7 @@ function ChatPanel({ chat, meId, onSend }: { chat: ChatMsg[]; meId: string | nul
       >
         {chat.length === 0 ? (
           <p className="pt-10 text-center text-xs text-[#a3977b]">
-            ক্লাস শুরু হলেই এখানে কথা বলা যাবে — প্রথম মেসেজটি আপনিই পাঠান!
+            ক্লাস শুরু হলেই এখানে কথা বলা যাবে, প্রথম মেসেজটি আপনিই পাঠান!
           </p>
         ) : null}
         {chat.map((msg) =>
@@ -817,7 +813,7 @@ function PollPanel({
       <div className="flex h-[380px] flex-col items-center justify-center gap-2 px-8 text-center sm:h-[440px] lg:h-[560px]">
         <Vote className="h-8 w-8 text-[#d9b75c]/60" aria-hidden />
         <p className="text-sm text-[#c6b995]">
-          কোনো পোল চালু নেই — শিক্ষক পোল চালু করলে এখানে ভোট দেওয়া যাবে।
+          কোনো পোল চালু নেই, শিক্ষক পোল চালু করলে এখানে ভোট দেওয়া যাবে।
         </p>
       </div>
     );
@@ -867,9 +863,9 @@ function PollPanel({
       <p className="mt-3 text-xs text-[#c6b995]">
         {myVote === null
           ? role === "teacher"
-            ? `শিক্ষক ভিউ — মোট ভোট: ${poll.totalVotes}`
+            ? `শিক্ষক ভিউ, মোট ভোট: ${poll.totalVotes}`
             : "একটি অপশনে ক্লিক করে ভোট দিন"
-          : `মোট ভোট: ${poll.totalVotes} — রেজাল্ট লাইভ আপডেট হচ্ছে`}
+          : `মোট ভোট: ${poll.totalVotes}, রেজাল্ট লাইভ আপডেট হচ্ছে`}
       </p>
 
       {role === "teacher" ? (

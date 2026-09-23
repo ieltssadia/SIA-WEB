@@ -60,7 +60,7 @@ function ClassroomPageInner({ slug }: { slug: string }) {
       <div className="mx-auto max-w-lg px-4 py-20 text-center">
         <p className="font-display text-2xl font-bold">ক্লাসটি খুঁজে পাওয়া যায়নি</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          লিংকটি পুরোনো হতে পারে — লাইভ হাব থেকে বর্তমান ক্লাসগুলো দেখুন।
+          লিংকটি পুরোনো হতে পারে, লাইভ হাব থেকে বর্তমান ক্লাসগুলো দেখুন।
         </p>
         <Button asChild className="mt-6 rounded-full bg-ink font-semibold text-white hover:opacity-85">
           <a href="#/live">
@@ -145,7 +145,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
         {meta.status === "ended" && !gateOpen ? (
           <div className="mt-6 rounded-xl border border-border bg-muted/50 px-4 py-5 text-center">
             <p className="text-sm text-muted-foreground">
-              এই ক্লাস শেষ হয়ে গেছে — রেকর্ডিং শীঘ্রই স্টুডেন্ট পোর্টালে যুক্ত হবে।
+              এই ক্লাস শেষ হয়ে গেছে, রেকর্ডিং শীঘ্রই স্টুডেন্ট পোর্টালে যুক্ত হবে।
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
               <Button asChild className="rounded-full bg-ink font-semibold text-white hover:opacity-85">
@@ -223,7 +223,7 @@ function JoinGate({ meta, onJoin }: { meta: LiveClassDetail; onJoin: (identity: 
                 />
                 <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
                   <Info className="mt-0.5 h-3 w-3 shrink-0 text-primary" aria-hidden />
-                  Host key শুধু শিক্ষকের জন্য — ক্লাসে জয়েন করতে "স্টুডেন্ট" সিলেক্ট করে সরাসরি ঢুকুন।
+                  Host key শুধু শিক্ষকের জন্য, ক্লাসে জয়েন করতে "স্টুডেন্ট" সিলেক্ট করে সরাসরি ঢুকুন।
                 </p>
               </div>
             ) : null}

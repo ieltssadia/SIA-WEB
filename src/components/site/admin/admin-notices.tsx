@@ -116,7 +116,7 @@ export function AdminNotices() {
       if (res.ok && data?.ok && data.notices) setNotices(data.notices);
       else setError(data?.error ?? "নোটিশ লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -187,7 +187,7 @@ export function AdminNotices() {
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -210,15 +210,15 @@ export function AdminNotices() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Notices — নোটিশ"
-        sub="পোর্টালের নোটিশ বোর্ড — সব রোল পোস্ট করতে পারে, এডিট/ডিলিট admin/owner"
+        title="Notices: নোটিশ"
+        sub="পোর্টালের নোটিশ বোর্ড, সব রোল পোস্ট করতে পারে, এডিট/ডিলিট admin/owner"
       >
         <Button
           type="button"
@@ -226,7 +226,7 @@ export function AdminNotices() {
           className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
         >
           <PlusCircle className="h-4 w-4" aria-hidden="true" />
-          Add Notice — নোটিশ দিন
+          Add Notice: নোটিশ দিন
         </Button>
       </SectionHeading>
 
@@ -245,7 +245,7 @@ export function AdminNotices() {
           <EmptyState
             icon={Megaphone}
             title="এখনো কোনো নোটিশ নেই"
-            hint="Add Notice বাটন থেকে প্রথম নোটিশটি দিন — পোর্টালে সবাই দেখবে।"
+            hint="Add Notice বাটন থেকে প্রথম নোটিশটি দিন, পোর্টালে সবাই দেখবে।"
           />
         ) : (
           <ul className="space-y-3">
@@ -306,7 +306,7 @@ export function AdminNotices() {
         <DialogContent className="rounded-2xl sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              {editing ? "Edit Notice — এডিট করুন" : "Add Notice — নোটিশ দিন"}
+              {editing ? "Edit Notice: এডিট করুন" : "Add Notice: নোটিশ দিন"}
             </DialogTitle>
             <DialogDescription>
               নোটিশটি পোর্টালের Notice Board-এ সব শিক্ষার্থী দেখবে।
@@ -386,7 +386,7 @@ export function AdminNotices() {
                 disabled={saving}
                 className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
               >
-                {saving ? "Saving…" : editing ? "Save — সেভ" : "Post — পোস্ট করুন"}
+                {saving ? "Saving…" : editing ? "Save: সেভ" : "Post: পোস্ট করুন"}
               </Button>
             </DialogFooter>
           </form>
@@ -399,7 +399,7 @@ export function AdminNotices() {
           <AlertDialogHeader>
             <AlertDialogTitle>নোটিশটি মুছে ফেলবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget ? `${deleteTarget.date} — ${deleteTarget.title}` : ""} — পোর্টাল থেকেও
+              {deleteTarget ? `${deleteTarget.date}, ${deleteTarget.title}` : ""}, পোর্টাল থেকেও
               সরে যাবে। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>

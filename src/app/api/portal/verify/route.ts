@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const phone = canonicalPhone(parsed.data.phone);
     if (parsed.data.otp !== DEMO_OTP) {
       return NextResponse.json(
-        { error: "ভুল OTP! Incorrect code — please check and try again." },
+        { error: "ভুল OTP! Incorrect code, please check and try again." },
         { status: 401 }
       );
     }

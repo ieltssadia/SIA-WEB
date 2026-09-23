@@ -73,12 +73,12 @@ function TodayBanner() {
 
           {today && isOff ? (
             <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
-              আজ শুক্রবার — সাপ্তাহিক ছুটি। কাল সকাল ১০টায় ক্লাস! 
+              আজ শুক্রবার, সাপ্তাহিক ছুটি। কাল সকাল ১০টায় ক্লাস! 
             </p>
           ) : today && rows.length > 0 ? (
             <>
               <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
-                আজ {rows.length} টি ক্লাস আছে — সময়মতো জয়েন করুন!
+                আজ {rows.length} টি ক্লাস আছে, সময়মতো জয়েন করুন!
               </p>
               <ul className="mt-4 grid gap-2.5 md:grid-cols-2">
                 {rows.map((row) => (
@@ -91,7 +91,7 @@ function TodayBanner() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-[#f6ecd4]">
-                        {row.start} – {row.end}
+                        {row.start}-{row.end}
                         <span className="ml-2 font-normal text-[#c6b995]">{row.batch}</span>
                       </p>
                       <p className="truncate text-sm text-[#c6b995]">{row.topic}</p>
@@ -103,7 +103,7 @@ function TodayBanner() {
             </>
           ) : (
             <p className="mt-4 font-display text-xl font-bold text-[#f6ecd4] md:text-2xl">
-              সপ্তাহে ৬ দিন — সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস
+              সপ্তাহে ৬ দিন, সকাল ১০টা থেকে রাত ৯টা পর্যন্ত লাইভ ক্লাস
             </p>
           )}
 
@@ -123,13 +123,12 @@ function FreeLiveClasses() {
     <section className="border-t border-primary/10 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="100% Free · No Enrollment Needed"
           title={
             <>
               Free <span className="text-brand-gradient">Live Classes</span> Every Week
             </>
           }
-          subtitle="ভর্তি না হয়েও শেখা শুরু করুন! প্রতি সপ্তাহে ফ্রি লাইভ ক্লাস — সবার জন্য উন্মুক্ত।"
+          subtitle="ভর্তি না হয়েও শেখা শুরু করুন! প্রতি সপ্তাহে ফ্রি লাইভ ক্লাস, সবার জন্য উন্মুক্ত।"
         />
         <div className="grid gap-6 md:grid-cols-3">
           {freeLiveClasses.map((session, i) => (
@@ -197,13 +196,12 @@ function UpcomingBatchesBoard() {
     <section className="border-t border-primary/10 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Admission Open"
           title={
             <>
               Upcoming <span className="text-brand-gradient">Batches</span>
             </>
           }
-          subtitle="পছন্দের ব্যাচটি বেছে নিন — সিট সীমিত, আগে এলে আগে পাবেন।"
+          subtitle="পছন্দের ব্যাচটি বেছে নিন। সিট সীমিত, আগে এলে আগে পাবেন।"
         />
 
         <Reveal>
@@ -318,7 +316,7 @@ function RoutineCta() {
                 Enrolled? Your Batch <span className="text-[#d9b75c]">Is Waiting</span>
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-[#c6b995]">
-                যেকোনো ব্যাচে ভর্তি হলেই পাবেন পুরো সপ্তাহের লাইভ ক্লাস, mock test আর speaking club —
+                যেকোনো ব্যাচে ভর্তি হলেই পাবেন পুরো সপ্তাহের লাইভ ক্লাস, mock test আর speaking club,
                 অনলাইনে অথবা ক্যাম্পাসে।
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -394,7 +392,6 @@ export function RoutinePage() {
   return (
     <>
       <PageHeader
-        eyebrow="Online Class Routine"
         title={
           <>
             Weekly <span className="text-brand-gradient">Class Routine</span>
@@ -416,7 +413,6 @@ export function RoutinePage() {
               </div>
               <div className="mt-14">
                 <SectionHeading
-                  eyebrow="Sat – Thu"
                   title={
                     <>
                       This Week&apos;s <span className="text-brand-gradient">Schedule</span>
@@ -435,15 +431,15 @@ export function RoutinePage() {
                   </span>
                   <span className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[#529b78]" aria-hidden />{" "}
-                    Online Live — Zoom ক্লাস
+                    Online Live: Zoom ক্লাস
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-primary" aria-hidden /> Campus —{" "}
+                    <span className="h-2 w-2 rounded-full bg-primary" aria-hidden /> Campus:{" "}
                     ক্যাম্পাসে (Chowmuhona)
                   </span>
                   <span className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-muted-foreground" aria-hidden />{" "}
-                    Hybrid — দুটোই সুবিধামতো
+                    Hybrid: দুটোই সুবিধামতো
                   </span>
                 </div>
               </Reveal>

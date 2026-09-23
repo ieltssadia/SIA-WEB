@@ -45,7 +45,7 @@ export function FloatingCta() {
         href={site.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Chat with Sadia's IELTS on WhatsApp — opens in a new tab"
+        aria-label="Chat with Sadia's IELTS on WhatsApp (opens in a new tab)"
         className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition-transform hover:scale-105 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5"
       >
         <MessageCircle className="h-5 w-5" aria-hidden />

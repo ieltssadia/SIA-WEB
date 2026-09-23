@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const clash = await db.course.findUnique({ where: { slug: data.slug } });
-  if (clash) return badRequest("এই slug দিয়ে আগেই কোর্স আছে — অন্যটা দিন।");
+  if (clash) return badRequest("এই slug দিয়ে আগেই কোর্স আছে, অন্যটা দিন।");
 
   const row = await db.course.create({
     data: {

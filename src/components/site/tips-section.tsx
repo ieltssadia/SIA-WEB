@@ -38,13 +38,12 @@ export function TipsSection() {
     >
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Free Resources"
           title={
             <>
               Free IELTS <span className="text-brand-gradient">Tips & Tricks</span>
             </>
           }
-          subtitle="প্রতি সপ্তাহে নতুন শর্টকাট টেকনিক — আমাদের ব্লগ ও ফেসবুক পেজে ফ্রি।"
+          subtitle="প্রতি সপ্তাহে নতুন শর্টকাট টেকনিক, আমাদের ব্লগ ও ফেসবুক পেজে ফ্রি।"
         />
 
         <div className="grid gap-6 md:grid-cols-3">

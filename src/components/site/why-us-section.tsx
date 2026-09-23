@@ -24,13 +24,12 @@ export function WhyUsSection() {
     <section id="why-us" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Why Sadia's IELTS"
           title={
             <>
               পরীক্ষার হলে <span className="text-brand-gradient">নিজের উপর ভরসা</span>
             </>
           }
-          subtitle="শুধু সিলেবাস শেষ করা নয় — weak point ধরে ধরে ঠিক করা, প্রতি সপ্তাহের mock-এ অভ্যাস, আর পরীক্ষার আগে শান্ত মাথা।"
+          subtitle="শুধু সিলেবাস শেষ করা নয়, weak point ধরে ধরে ঠিক করা, প্রতি সপ্তাহের mock-এ অভ্যাস, আর পরীক্ষার আগে শান্ত মাথা।"
         />
 
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">

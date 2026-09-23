@@ -271,7 +271,7 @@ export function SearchDialog({
               >
                 <MessageCircle className="size-4 text-[#d9b75c]" aria-hidden />
                 <span>
-                  কিছু পাওয়া যায়নি —{" "}
+                  কিছু পাওয়া যায়নি,{" "}
                   <span className="font-semibold text-[#d9b75c]">
                     WhatsApp-এ জিজ্ঞেস করুন
                   </span>

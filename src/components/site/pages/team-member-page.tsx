@@ -36,7 +36,7 @@ export function TeamMemberPage({ slug }: { slug: string }) {
       <div className="mx-auto max-w-lg px-4 py-24 text-center">
         <p className="font-display text-2xl font-bold">প্রোফাইলটি খুঁজে পাওয়া যায়নি</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          লিংকটি পুরোনো হতে পারে — পুরো টিম একসাথে দেখুন।
+          লিংকটি পুরোনো হতে পারে, পুরো টিম একসাথে দেখুন।
         </p>
         <Button asChild className="mt-6 rounded-full bg-ink font-semibold text-white hover:opacity-85">
           <a href="#/team">
@@ -77,7 +77,7 @@ export function TeamMemberPage({ slug }: { slug: string }) {
               <div className="relative overflow-hidden rounded-[2rem] border border-primary/25 shadow-[0_30px_80px_rgba(30,27,20,0.18)]">
                 <Image
                   src={member.photo}
-                  alt={`${member.name} — ${member.role} at Sadia's IELTS`}
+                  alt={`${member.name}, ${member.role} at Sadia's IELTS`}
                   width={864}
                   height={1152}
                   priority
@@ -190,7 +190,7 @@ export function TeamMemberPage({ slug }: { slug: string }) {
                 {member.quote}
               </blockquote>
               <figcaption className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                — {member.name}
+                {member.name}
               </figcaption>
             </figure>
           </Reveal>

@@ -31,13 +31,13 @@ export async function GET(req: Request) {
       include: { enrollments: { select: { courseSlug: true } } },
     });
     if (!student) {
-      return NextResponse.json({ error: "Session expired — please log in again." }, { status: 401 });
+      return NextResponse.json({ error: "Session expired, please log in again." }, { status: 401 });
     }
 
     // Token check when present (issued at login / data refresh).
     const token = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? null;
     if (token && verifyToken(token) !== phone) {
-      return NextResponse.json({ error: "Session expired — please log in again." }, { status: 401 });
+      return NextResponse.json({ error: "Session expired, please log in again." }, { status: 401 });
     }
 
     const enrolledSlugs = [...new Set(student.enrollments.map((e) => e.courseSlug))];
@@ -65,9 +65,11 @@ export async function GET(req: Request) {
       });
     }
 
+    // Serial-by-serial order (1,2,3…) — items without a serial fall back to
+    // upload order, so freshly uploaded admin files always appear at the end.
     const rows = await db.suggestion.findMany({
       where: { published: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ serial: { sort: "asc", nulls: "last" } }, { createdAt: "asc" }],
     });
 
     return NextResponse.json({
@@ -81,6 +83,7 @@ export async function GET(req: Request) {
         category: s.category,
         fileUrl: s.fileUrl,
         kind: s.kind,
+        serial: s.serial,
         createdAt: s.createdAt.toISOString(),
       })),
     });

@@ -894,3 +894,143 @@ Work Log:
 
 Stage Summary:
 - 8 public-site files wired: tips-section (home+#/tips), team-marquee (home+team strip), team-page, team-member-page (incl. hooks-before-early-return), weekly-routine (+new shared useCatalogRoutine hook), routine-banner, routine-page TodayBanner, locked-routine preview. All three CMS collections render from /api/catalog with identical static first paint, graceful failure fallback, and byte-identical visuals; search-dialog tips index intentionally left static (search overlay, not a catalog list — same 17-c precedent of scoping to list surfaces); portal routine + admin/** untouched. Lint clean, tsc clean in touched files, browser walkthrough green. Nothing committed (orchestrator commits).
+
+---
+Task ID: 22
+Agent: Z.ai Code (main)
+Task: Bulk-add the team's zipped listening tests (upload/siasuggetionmat.zip — 35 HTML files) as portal Suggestions, de-brand third-party marks, and repair the broken admin upload pipeline discovered on the way ("add these suggetions also" + repeated "run dev server").
+
+Work Log:
+- Restarted the dev server (stale processes from an earlier session were holding :3000; killed PID tree 1085/1088/1090/1106 + duplicate bun wrappers, fresh `bun run dev`).
+- Census of zip: 35 files = Listening Test 23/25/27/28-35 + Listening Full Test 1-26 (gaps: 8, 14 never existed; 19 has a byte-identical "(1)" copy; Full 1 is named "Listening Full 1.html"; TWO Full-26 variants). md5 cross-checks: zip Test 27 = pre-Task-20 CDI version → skipped (branded redesign already live); Full Test 19 (1) exact dup → skipped; zip "Full Test 26.html" has an EMPTY <audio> element (no source at all) while "Full Test - 26.html" carries 4 working ieltstrainingonline.com section MP3s → imported the "- 26" variant as the canonical Full Test 26, dropped the silent one.
+- scripts/add-listening-suggestions.ts: copied 31 tests → /public/suggestions/<slug>.html (listening-test-23/25/28-35, listening-full-test-1..26 minus existing gaps), applied the pipeline's light auto-brand (<title> → "Sadia's IELTS — <Title>"), seeded 31 Suggestion rows (category Listening, kind html, published, createdAt staggered 1 min apart in seed order so the portal's createdAt-desc listing reads newest test first). Follow-up script imported the missed Full Test 1 and back-dated it 1 min below Full Test 2. Result: 34 rows / 33 html files (32 new + Task-20 Test 27) + verb-forms drill.
+- DE-BRAND PASS (scripts/debrand-listening-tests.ts + debrand-fixups.ts) on all 32 new files: removed the "📢 Join Telegram / CRACK IELTS(.BD)" top banner + header <a t.me/…> links, blanked dead i.postimg.cc CSS watermarks AND 4 dead inline postimg <img> figures (test-33 map, test-30 community-centre plan, full-9 Karrara plan, test-34 fake "Sadia's IELTS" logo div), swapped leftover CRACK IELTS/IELTS CDI text → "Sadia's IELTS". Post-check: zero t.me|CRACK IELTS|postimg.cc refs across all 33 files. Interactive JS (timer, 4-part nav, answer keys, archive.org/ieltstrainingonline audio) untouched — verified audio element + part buttons inside the viewer iframe.
+- REPAIRED ADMIN UPLOAD PIPELINE (broken state found: /api/admin/upload route did not exist at all → every admin upload dialog 404'd; /api/admin/media routes referenced db.mediaItem + serializeAdminMedia + AdminMediaRow that didn't exist; /api/admin/suggestion-files used a phantom schema with slug/href/meta/addedOn/isNew/sortOrder):
+  - prisma: added MediaItem model (url, filename, size, ext, folder, kind, createdAt) + db:push.
+  - NEW POST /api/admin/upload — saveUploadedFile() validation/whitelist → /public/uploads/<folder>/ → MediaItem row → returns BOTH { upload } (AdminUploadInfo for uploadAdminFile) and { media } (AdminMediaRow for media picker/library); light HTML title auto-brand when folder=suggestions; any signed-in role (teachers upload certs/notices), delete stays admin/owner.
+  - /api/admin/suggestion-files rewritten to the real Suggestion schema: one-step multipart → file + MediaItem row + Suggestion row (title humanized from filename, kind from ext, category whitelist) + auto-brand; admin/owner only.
+  - serializeAdminMedia + AdminMediaRow added (image kinds: png/jpg/jpeg/webp/gif).
+- Verified: admin login (owner) → Suggestions section lists all 34 with publish switches/edit/delete; UI golden path = Upload dialog → file picked → toast + auto title/kind (HTML Test) → Publish → row appears → delete with confirm works; POST /api/admin/upload 201 + MediaItem row; POST /api/admin/suggestion-files 201 with CDI title auto-branded; DELETE suggestion + DELETE media (unlinks file) 200; orphaned smoke files removed; portal (Anika 01712000001) → সাজেশন section shows "৩৪ টি আইটেম" newest-first, Test 35 + Full Test 26 open in the branded full-screen viewer with audio + zero console/page errors; mobile 390px grid + bottom nav clean.
+- ENVIRONMENT: dev server HAD to be restarted for the regenerated Prisma client (global singleton held the old one → db.mediaItem undefined 500s until restart).
+- Pre-existing debt NOT touched (separate pass): certificate-uploads/admin-settings/admin-faq/admin-gallery/admin-content + live-classroom/portal-certificates/otp type errors; Media Library section not wired into admin nav; suggestions-data.ts is now dead static code.
+
+Stage Summary:
+- Paid students' portal Suggestions library grew from 2 → 34 items (Listening Test 23-35 + Full Test 1-26 + verb drill), all third-party-branded, serving de-branded interactive tests with working audio.
+- The admin "upload → auto-process → live in portal" pipeline is functional end-to-end again (upload route + media library records + one-step suggestion endpoint), matching the WordPress-style no-code CMS requirement.
+- Lint clean; browser-verified desktop + mobile at :81 with zero console errors; all work committed in this task's commit.
+
+---
+Task ID: 22
+Agent: Z.ai Code (main)
+Task: "add these suggetions also" — audit all suggestion imports (DB rows ↔ files), re-skin every legacy test to the listening-test-27 branded UI, fix serial order 1,2,3… and improve the portal UI.
+
+Work Log:
+- Confirmed dev server running (:3000 + gateway :81).
+- Audited suggestions surface: the student portal reads from the Prisma `Suggestion` table (34 rows: 33 listening test files + 1 admin-uploaded Verb Forms drill) — NOT the static hardcoded list. `src/lib/suggestions-data.ts` had only 1 entry and was imported nowhere → removed as dead code (DB is single source of truth).
+- File integrity audit of public/suggestions/: 33 files complete (all end </html>, have result-modal + answers). Found & fixed export artifacts: stray `</div>` right after `<body>` in ~15 files, leftover old fixed headers in 9 files, "📢 Join Telegram:" text in full-test-7, one pre-existing div-imbalance in a few files (kept as-is — browsers ignore unmatched close tags; behavior unchanged from the originals).
+- `listening-full-test-24.html` has NO audio (original export lost it) — structurally fine, renders, JS null-safe; flagged for Sadia apa to supply the recording later.
+- Built a canonical stylesheet = listening-test-27's design system + a brand-matched compatibility layer (~105 legacy selectors: matching family, MCQ panels, notes/form boxes, flow-charts, info boxes, clickable cells, checkbox groups, t-hl/t-qmark, drop-zones, deliver-button states) mapped to the gold/forest palette via CSS var aliases.
+- Wrote + ran a conversion script over all 32 legacy files: swapped in the branded stylesheet, branded `<header class="sadia-header">` with per-test gold chip, title/meta branding, Bengali `part-bn` lines (অংশ ১–৪ with question ranges) in every part header, hidden JS stubs for full-test-24's header-wired elements. All questions, answers, audio sources and test JS untouched.
+- Verified in browser: full-test-1, full-test-24, full-test-7, test-33, test-25 all render branded UI with 4 Bengali part lines, working modal + nav; error baseline identical to reference test-27.
+- Prisma: added `Suggestion.serial Int?`, db:push, seeded serials: Full Test 1–26 → 1–22, Listening Test 23,25,27…35 → 23–33 (Test 27 re-slotted between 25 and 28), Verb Forms → 34; filled Verb Forms Bengali desc.
+- API /api/portal/suggestions: `orderBy [{serial asc nulls last}, {createdAt asc}]`, payload now includes `serial`. (Required dev-server restart to reload the regenerated Prisma client.)
+- Portal suggestions-section.tsx upgraded: gold serial coin badges (Bengali numerals), category filter chips with counts (সবগুলো/ফুল প্র্যাকটিস টেস্ট/লিসেনিং টেস্ট/অন্যান্য প্র্যাকটিস), group-aware cards + viewer header showing "সিরিয়াল N".
+- Browser-verified on :81 as demo student Anika: 34 items in serial order, filter counts ২২/১১/১, listening filter shows Test 23→25→27→28…35, Test 27 opens in the branded viewer, Verb Forms opens, mobile 390px layout clean, console clean (2 empty ✗ = agent-browser baseline artifact, identical on the pre-existing reference page).
+
+Stage Summary:
+- All 34 suggestion items now show serial-by-serial (1,2,3…) in the portal with gold serial badges and category filters.
+- All 33 test files share the exact listening-test-27 branded UI; legacy question types fully styled.
+- Single source of truth for suggestions = DB `Suggestion` table (serial-ordered); stale static data file removed.
+- Known item: listening-full-test-24 has no audio in its source export — needs the recording from Sadia apa.
+- Commit: 144097f
+---
+Task ID: 23
+Agent: Z.ai Code (main)
+Task: Legal pages (Privacy Policy, Terms & Conditions, Refund & Return Policy, Sitemap) — Bengali-first, brand-styled
+
+Work Log:
+- Created shared LegalDoc layout (src/components/site/legal/legal-doc.tsx): sticky scroll-synced TOC (desktop), collapsible <details> TOC (mobile), numbered LegalSection, gold LegalList, LegalNote callout, last-updated badge, forest contact card; TOC scrolls via JS (lenis-aware) because hash routing would hijack href anchors
+- Privacy page (#/privacy): 11 sections — data collected, usage, cookies/local storage, sharing, security, retention, children, rights, changes, contact
+- Terms page (#/terms): 12 sections — acceptance, portal account, courses/batches, payments (bKash/Nagad/Rocket/Bank/Cash + TrxID verification), portal content license/copyright, shop & delivery, certificates, conduct, liability, suspension, Bangladesh governing law
+- Refund & Return page (#/refund-policy): 7 sections — full refund before batch start, 50%/transfer within 7 days, 7-10 working-day processing, book return/exchange rules, digital content non-refundable after access
+- Sitemap page (#/sitemap): data-driven groups (Main Pages, Courses, Shop Books, Student Account, Legal) auto-generated from site-data courses/books + legal-doc descriptions card
+- Wired 4 routes in site-router.tsx; footer bottom bar Privacy/Terms/Sitemap placeholders converted to real links (+ Refund Policy)
+- Fixed runtime crash: sections prop not passed → LegalDoc made defensive (items = sections ?? [])
+- Fixed sticky TOC broken by overflow-hidden ancestor → overflow-x-clip (preserves position:sticky)
+- Verified on :81 via agent-browser: privacy/terms/refund/sitemap desktop 1440x900 + mobile 390x844, TOC click scroll-sync (item 05 highlight), mobile TOC expand + navigate, footer link navigation to #/refund-policy, zero console errors
+- bun run lint clean; committed 3aea304
+
+Stage Summary:
+- 4 new legal routes live: #/privacy, #/terms, #/refund-policy, #/sitemap — all Bengali-first with gold #d9b75c branding
+- LegalDoc is reusable: any future legal page = sections array + <LegalSection> children
+- Key gotchas recorded: overflow-hidden kills sticky (use overflow-x-clip); hash routing forbids in-page href anchors (scroll via JS)
+- Payment/delivery/legal facts aligned to real app flows (manual TrxID verification, COD, HMAC portal tokens)
+---
+Task ID: 24-b
+Agent: general-purpose (dash sweep: public components + portal)
+Task: Remove em-dash from visible copy and rewrite copywriting
+
+Work Log:
+- Read worklog tail for context; censused em/en dashes across src/components/site (admin/ excluded) with rg.
+- Swept every user-visible occurrence in scope: JSX text nodes, subtitles/intros, toast/error strings, placeholders, aria-labels, alt text, sr-only strings, generated certificate <title>, table-cell "—" placeholders, bilingual nav labels.
+- Rewrites followed the style rules: Bengali clause dashes became comma/danda or connectives (এবং/সহ/অথবা), title-like "Name — Variant" became colon/parentheses ("IELTS Reading"-style), time/number ranges kept a plain hyphen (Sat-Thu, 9AM-9PM, Books 1-19, ২-৫ কর্মদিবস, Part 1-3, ৫-৭ মিনিট), existing "·" separators kept and reused for bilingual label pairs (admin sidebar, Checkout button, delivery-zone fee chips, book-detail test label). No "|", no emojis, Bengali/English numerals preserved, comments/code/regex/routes untouched (e.g. test-player's "Part 1 —" stripping regex left as-is).
+- Files by group: pages/ (all 24 pages incl. legal pages + pages/admin-page.tsx nav labels), top-level components (site-header/footer/router, hero, sections, cart-checkout/cart-sheet, enroll, instructor, routine-banner/weekly-routine/locked-routine, team-marquee, partner-strip, search-dialog, free-resources, floating-cta, live-schedule/live-gate/live-classroom, cambridge-teaser), portal/ (all 14 files incl. portal-utils untouched-by-dash), legal/legal-doc, live/ (stage, side-panels, video-tile), cambridge/ (book-cover, book-detail, test-player).
+- One incidental syntax break during bulk edit (video-tile aria-label lost a brace) was caught by lint and fixed immediately.
+- Verification: rg sweep of scope shows zero em/en dashes outside comments (only the 2 multi-line comment blocks + inline comments keep them); bun run lint -> clean; bunx tsc --noEmit shows only the pre-existing error set (live-classroom, checkout-page certificates, portal-login AuthResponse, scores-section bnNum null, stats-strip, admin/lib/api files) - none introduced by string edits; git diff for my scope touches only src/components/site non-admin files, 414 changed lines, string-only.
+
+Stage Summary:
+- ~370 em-dash and ~20 en-dash instances removed from visible copy across 66 files in scope (347 changed lines); all sentences reworded with commas, danda, colons or parentheses so nothing reads abruptly.
+- Highest-traffic rewrites: routine-page hero ("সপ্তাহে ৬ দিন, সকাল ১০টা থেকে..."), checkout flows (English error strings now comma-joined), admin-page sidebar labels ("Dashboard · ড্যাশবোর্ড"), verify-page status line, portal overview/scores/certificates strings, legal pages contact lines (Sat-Thu, 9AM-9PM hyphen style).
+- Zero visible em/en dashes remain in scope; lint passes; meaning, numbers and prices unchanged; admin/ subfolder, src/lib, src/app, public, prisma untouched (other agents' concurrent edits there left alone).
+
+---
+Task ID: 24-a
+Agent: general-purpose (dash sweep: site-data, api, admin, lib)
+Task: Remove em-dash from visible copy and rewrite copywriting
+
+Work Log:
+- Read worklog (Tasks 21-d/22/23) for prior context; census of "—"/"–" across the assigned scope (site-data.ts, layout.tsx, src/app root files, src/app/api/**, src/components/site/admin/**, src/lib/*.ts except site-data.ts).
+- site-data.ts (113 string em-dashes + 13 en-dashes rewritten): course/certificate/batch titles "Basic to IELTS — In/Private/One to One" → "(In Batch)"/"(Private Batch)"/"(One to One)" with Bengali mirrors "(ইন ব্যাচ)" etc.; book/notice/download/tip/live-class titles "X — Y" → "X: Y" (IELTS Reading: Top 10 Short Tricks, Weekly full mock: Thursday, 10:00 AM); promo bar → "নতুন ব্যাচে ভর্তি চলছে, সেপ্টেম্বরের শেষ পর্যন্ত সব কোর্সে ৩৩% পর্যন্ত ছাড়"; schedule/time ranges "Sat – Thu · 10:00 AM – 11:30 AM" → "Sat-Thu · 10:00AM-11:30AM" (and 4 more course scheduleNotes + 4 upcomingBatches times + "(10 AM – 12 PM)" → "(10AM-12PM)"); team bios/taglines/quotes rewritten with comma/danda/Bengali connectives (e.g. "লুকোচুরি চলে না। যে দুর্বলতা...", "real exam situation, যেমন cue card...", "সবচেয়ে জরুরি হলো কোন ভুল band কমায়", "উত্তর হয়ে যায়, কারণ সেখানে শেখানো হয় skimming..."); English whyUs/skills/story quotes → period/comma ("bigger scholarships. We prepare you to win them."); en-dash ranges "Speaking Part 1–3"/"(Part 1–3)" → plain hyphen. Bengali/ASCII-unsafe duplicates handled via line-number-targeted Python with per-line assert (Edit tool failed on decomposed য়/ড় codepoints); every replacement asserted count==expected, diff-limited to the " — " span.
+- layout.tsx: metadata title + openGraph title "Sadia's IELTS — Unlock Your Future" → "Sadia's IELTS: Unlock Your Future" (font-pack comment untouched). page.tsx had zero em-dashes.
+- src/app/api/**: 84 error/response strings across 36 route files fixed ("Session expired, please log in again.", "নেটওয়ার্ক/সমস্যা... , আবার চেষ্টা করুন।", zod messages "সঠিক মোবাইল নম্বর দিন, যেমন 01712345678।", live-class demo seed titles → colon form, auto-brand template `<title>Sadia's IELTS: ${title}</title>` in upload + suggestion-files routes). All JSDoc/inline comments left as-is.
+- src/components/site/admin/** (307 em-dash chars + 3 en-dashes across all 22 files): bilingual labels/titles/buttons "Total — মোট", "Save — সেভ", "Add Book — নতুন বই" → ": " form; Bengali sentences/toasts/hints → comma or danda ("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।", "…খালি — …" → comma); confirm dialogs "{X} — সরে যাবে" → ", "; empty-state "—" placeholders → "-" (admin-shared formatDate/formatDateTime, courses duration, routine courseSlug); routine time templates ` – ${end}` → `-${end}` (2 spots) and delete-confirm now reads "Thursday, 10:00 AM-11:30 AM, Weekly Full Mock Test। #/routine পেজ থেকেও…"; "— কোনো ফাইল না —" select item → "কোনো ফাইল না"; placeholder "Cambridge & IDP certified, ৯ বছরে…" mirrors new site-data tagline; Rating (0–5) → (0-5).
+- src/lib (non-site-data): delivery.ts labels "Campus Pickup — Chowmuhona" → ":" form + Bengali note comma + "২–৩"/"৩–৫ কর্মদিবস" → "২-৩"/"৩-৫"; admin-store network error (both EN+BN parts), admin-auth "Unauthorized, invalid or missing admin key.", use-live-media 3 camera/mic error toasts, upload-server 3 UploadError messages → comma/colon forms. offer.ts / admin-types.ts occurrences are all comments (nothing to fix).
+- Verification: `bun run lint` → clean; `bunx tsc --noEmit` shows only the pre-existing Task-22 debt (certificate-uploads/admin-settings/admin-faq/admin-gallery/otp/verify stale-type errors), none on touched lines; rg sweep of scope shows zero em/en-dashes in string literals (remaining hits are code comments only).
+
+Stage Summary:
+- 536 dash characters removed/rewritten total: site-data.ts 113 em + 13 en; layout.tsx 2; api/ 84; admin/ 307 em + 3 en; lib/ 13 em + 2 en. Copy now reads naturally with commas, danda, colons (title/subtitle pattern), parentheses (variant pattern) and plain hyphens for numeric/time ranges; meanings, numbers, prices, Bengali/English numerals unchanged; slugs/hrefs/comments untouched.
+- Intentionally left: all code comments with dashes (per rules); live-protocol.ts RTC_NOTES template string (dead developer-doc constant, imported nowhere, never rendered); 2 inline // comments in admin-site-team/admin-suggestions.
+- Note for reviewers: an earlier MultiEdit batch partially applied before failing on a Unicode normalization mismatch (decomposed য়); state was verified line-by-line afterwards and completed with asserted line-targeted replacements — final file state is the source of truth.
+---
+Task ID: 24
+Agent: Z.ai Code (main)
+Task: Remove circled eyebrow badges from all pages + remove all em-dash symbols and fix copywriting site-wide
+
+Work Log:
+- Removed eyebrow badge blocks: PageHeader (prop + rendering, all ~25 call sites), SectionHeading in reveal.tsx, PortalSectionHeader in portal-shell.tsx, hero "SADIA'S IELTS — SREEMANGAL, SYLHET" badge, hand-rolled eyebrow spans in instructor-section, team-page, routine-banner, enroll-section, cambridge-teaser, live-classroom, live/stage ("Lesson"); sed-deleted all eyebrow= attribute lines
+- Delegated parallel sweep agents (24-a: site-data/layout/api/admin/lib, 24-b: public components + portal/legal/live/cambridge): ~900 em/en pause dashes rewritten from visible copy — English "Name — Sub" titles to colon style, course variants to parentheses, Bengali sentence dashes to comma/danda/connectives, time/number ranges to plain hyphens; code comments, routes, slugs, regex untouched
+- Discovered DB-stale copy: course detail/shop/tips/routine/portal read from Prisma DB, not site-data; re-ran bun prisma/seed.ts (upserts by slug/id) to sync dash-free catalog; deleted 3 duplicate dashed tips + 1 dashed notice (title-match seeding had created duplicates); liveClass deleteMany + auto-reseed on next GET (fresh clean titles/times); in-place colonize fixes for routineSlot topics, downloadResource descs, suggestion titles ("Listening Test 27: Full Practice"), enrollment/mock/certificate strings; fixed missed en-dash "Section 3–4" in live-classes route + DB
+- Verified :81 via agent-browser (desktop 1440x900 + mobile 390x844): home (hero badge gone, promo bar dash-free), courses (eyebrow gone), course detail "Basic to IELTS (In Batch)", shop colon book titles, tips (3 clean, no duplicates), routine (colon topics, hyphen time ranges), privacy (no LEGAL eyebrow), portal dashboard as Anika (clean live class title), zero console errors everywhere
+- bun run lint clean; commits 25b836a (badge removal) + 9e37a8a (dash sweep)
+
+Stage Summary:
+- All eyebrow badges removed site-wide; zero visible em-dashes remain in UI copy or DB-backed content
+- Key learning: site content has TWO sources — site-data.ts (static) and Prisma DB via /api/catalog etc.; after changing site-data, re-run bun prisma/seed.ts; seed matches tips by title (rename breaks match -> duplicates), liveClass/routine seed only when table empty
+- Scan scripts pattern (node + direct .prisma client path) available for future DB content audits
+
+---
+Task ID: 25
+Agent: Z.ai Code (main)
+Task: Custom 404 page (user: "custom 404 page")
+
+Work Log:
+- Created src/components/site/pages/not-found-page.tsx: shared branded 404 (Bengali-first) used by BOTH entry points. Oversized "404" numeral in text-brand-gradient (font-display), Bengali headline "পাতাটি খুঁজে পাওয়া যায়নি" + "PAGE NOT FOUND · ERROR 404" eyebrow-style line (no badge), body copy in Bengali, two pill CTAs (হোমপেজে ফিরুন bg-ink / কোর্স দেখুন outline), 8-chip popular-pages grid (courses/cambridge/routine/tips/shop/portal/verify/contact, gold icon circles, hover invert), contact strip with site.phone + site.email from site-data. Pure presentational (no hooks) so it renders from client router AND server not-found. No em-dashes anywhere (Task 24 policy).
+- site-router.tsx: unknown hash routes now render NotFoundPage instead of silently falling back to HomePage. CRITICAL fix during implementation: home "/" normalizes to segments [] so the old bare else branch WAS the home case; added explicit `segments.length === 0` → HomePage branch before the 404 else, otherwise the homepage itself would 404.
+- src/app/not-found.tsx: Next.js-level 404 for real non-hash paths, renders the same NotFoundPage + metadata (Bengali title, robots noindex).
+- Verified detail pages already had their own unknown-slug fallbacks (CourseNotFound, team/live/test/book) so no changes needed there.
+- Verified via agent-browser at :81: desktop 1440x900 (#/this-page-does-not-exist renders 404 hero + chips + contact strip + natural footer; zero console errors), client-side nav from 404 "কোর্স দেখুন" → courses page works, "#/" home intact, legacy anchor "#faq" still lands home, real path /this-path-never-existed serves branded 404 with Bengali <title>, mobile 390x844 clean 2-col grid + footer. lint clean.
+- Commit ab5b89a.
+
+Stage Summary:
+- Unknown routes now show a branded Bengali-first 404 at both the hash-router level and the Next.js level, each with recovery paths (home/courses CTAs, 8 popular chips, phone/email strip).
+- Gotcha recorded: in site-router the home case is segments.length === 0 (empty hash + legacy anchors normalize to "/"); any new top-level route addition must stay above the 404 else.

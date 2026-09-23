@@ -60,13 +60,12 @@ export function HowItWorksSection() {
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="How It Works"
           title={
             <>
-              ভর্তি থেকে <span className="text-brand-gradient">সার্টিফিকেট</span> — চারটি ধাপ
+              ভর্তি থেকে <span className="text-brand-gradient">সার্টিফিকেট</span>: চারটি ধাপ
             </>
           }
-          subtitle="কোনো ধাপে একা থাকতে হবে না — প্রতিটি ধাপে গাইডলাইন, সাপোর্ট আর পরিষ্কার উত্তর।"
+          subtitle="কোনো ধাপে একা থাকতে হবে না, প্রতিটি ধাপে গাইডলাইন, সাপোর্ট আর পরিষ্কার উত্তর।"
         />
 
         <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -122,7 +121,7 @@ export function HowItWorksSection() {
               <span className="font-display text-lg font-bold text-[#f6ecd4]">
                 {learners ? `${learners.value.toLocaleString("en-US")}${learners.suffix}` : "5,983+"}
               </span>{" "}
-              শিক্ষার্থীর প্রমাণিত রুটিন — প্রতি সপ্তাহে নতুন ব্যাচ শুরু হয়।
+              শিক্ষার্থীর প্রমাণিত রুটিন, প্রতি সপ্তাহে নতুন ব্যাচ শুরু হয়।
             </p>
             <Button
               asChild

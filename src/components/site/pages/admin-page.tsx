@@ -90,35 +90,35 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: "Overview",
     items: [
-      { key: "dashboard", label: "Dashboard — ড্যাশবোর্ড", icon: LayoutDashboard, roles: ALL_ROLES },
+      { key: "dashboard", label: "Dashboard · ড্যাশবোর্ড", icon: LayoutDashboard, roles: ALL_ROLES },
     ],
   },
   {
     label: "Catalog",
     items: [
-      { key: "courses", label: "Courses — কোর্স", icon: BookOpen, roles: ["owner", "admin"] },
-      { key: "books", label: "Shop Books — বই", icon: Library, roles: ["owner", "admin"] },
+      { key: "courses", label: "Courses · কোর্স", icon: BookOpen, roles: ["owner", "admin"] },
+      { key: "books", label: "Shop Books · বই", icon: Library, roles: ["owner", "admin"] },
     ],
   },
   {
     label: "Learning",
     items: [
-      { key: "live-classes", label: "Live Classes — লাইভ ক্লাস", icon: Radio, roles: ALL_ROLES },
-      { key: "routine", label: "Routine — রুটিন", icon: CalendarDays, roles: ALL_ROLES },
-      { key: "students", label: "Students — শিক্ষার্থী", icon: GraduationCap, roles: ALL_ROLES },
-      { key: "certificates", label: "Certificates — সার্টিফিকেট", icon: Award, roles: ALL_ROLES },
-      { key: "tips", label: "Free Tips — টিপস", icon: Lightbulb, roles: ALL_ROLES },
-      { key: "suggestions", label: "Suggestions — সাজেশন", icon: FileUp, roles: ALL_ROLES },
+      { key: "live-classes", label: "Live Classes · লাইভ ক্লাস", icon: Radio, roles: ALL_ROLES },
+      { key: "routine", label: "Routine · রুটিন", icon: CalendarDays, roles: ALL_ROLES },
+      { key: "students", label: "Students · শিক্ষার্থী", icon: GraduationCap, roles: ALL_ROLES },
+      { key: "certificates", label: "Certificates · সার্টিফিকেট", icon: Award, roles: ALL_ROLES },
+      { key: "tips", label: "Free Tips · টিপস", icon: Lightbulb, roles: ALL_ROLES },
+      { key: "suggestions", label: "Suggestions · সাজেশন", icon: FileUp, roles: ALL_ROLES },
     ],
   },
   {
     label: "Library",
     items: [
-      { key: "resources", label: "Resources — রিসোর্স", icon: FolderDown, roles: ["owner", "admin"] },
-      { key: "notices", label: "Notices — নোটিশ", icon: Megaphone, roles: ALL_ROLES },
+      { key: "resources", label: "Resources · রিসোর্স", icon: FolderDown, roles: ["owner", "admin"] },
+      { key: "notices", label: "Notices · নোটিশ", icon: Megaphone, roles: ALL_ROLES },
       {
         key: "site-team",
-        label: "Website Team — ওয়েবসাইট টিম",
+        label: "Website Team · ওয়েবসাইট টিম",
         icon: IdCard,
         roles: ["owner", "admin"],
       },
@@ -127,32 +127,32 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: "Sales",
     items: [
-      { key: "orders", label: "Orders — অর্ডার", icon: ShoppingBag, roles: ["owner", "admin"] },
-      { key: "leads", label: "Leads — লিড", icon: UserPlus, roles: ["owner", "admin"] },
+      { key: "orders", label: "Orders · অর্ডার", icon: ShoppingBag, roles: ["owner", "admin"] },
+      { key: "leads", label: "Leads · লিড", icon: UserPlus, roles: ["owner", "admin"] },
     ],
   },
   {
     label: "System",
-    items: [{ key: "team", label: "Team — টিম", icon: Users, roles: ["owner"] }],
+    items: [{ key: "team", label: "Team · টিম", icon: Users, roles: ["owner"] }],
   },
 ];
 
 const SECTION_TITLE: Record<AdminSectionKey, string> = {
-  dashboard: "Dashboard — ড্যাশবোর্ড",
-  orders: "Orders — অর্ডার",
-  "live-classes": "Live Classes — লাইভ ক্লাস",
-  leads: "Leads — লিড",
-  students: "Students — শিক্ষার্থী",
-  certificates: "Certificates — সার্টিফিকেট",
-  courses: "Courses — কোর্স",
-  books: "Shop Books — বই",
-  resources: "Resources — রিসোর্স",
-  notices: "Notices — নোটিশ",
-  team: "Team — টিম",
-  tips: "Free Tips — টিপস",
-  "site-team": "Website Team — ওয়েবসাইট টিম",
-  routine: "Routine — রুটিন",
-  suggestions: "Suggestions — সাজেশন",
+  dashboard: "Dashboard · ড্যাশবোর্ড",
+  orders: "Orders · অর্ডার",
+  "live-classes": "Live Classes · লাইভ ক্লাস",
+  leads: "Leads · লিড",
+  students: "Students · শিক্ষার্থী",
+  certificates: "Certificates · সার্টিফিকেট",
+  courses: "Courses · কোর্স",
+  books: "Shop Books · বই",
+  resources: "Resources · রিসোর্স",
+  notices: "Notices · নোটিশ",
+  team: "Team · টিম",
+  tips: "Free Tips · টিপস",
+  "site-team": "Website Team · ওয়েবসাইট টিম",
+  routine: "Routine · রুটিন",
+  suggestions: "Suggestions · সাজেশন",
 };
 
 const ROLE_TONE: Record<AdminRole, Tone> = {
@@ -285,7 +285,7 @@ function LoginGate({
               Admin Panel
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              সাদিয়া'স আইএলটিএস — ম্যানেজমেন্ট প্যানেল
+              সাদিয়া'স আইএলটিএস ম্যানেজমেন্ট প্যানেল
             </p>
           </div>
 
@@ -344,7 +344,7 @@ function LoginGate({
                   Checking…
                 </>
               ) : (
-                "Log in — লগ ইন"
+                "Log in · লগ ইন"
               )}
             </Button>
           </form>
@@ -605,7 +605,7 @@ function NavList({
           className="flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
         >
           <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
-          View Site — সাইট
+          View Site · সাইট
         </a>
         <button
           type="button"
@@ -613,7 +613,7 @@ function NavList({
           className="flex min-h-11 w-full items-center gap-2.5 rounded-xl px-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
         >
           <LogOut className="h-4 w-4 shrink-0" aria-hidden="true" />
-          Logout — লগ আউট
+          Logout · লগ আউট
         </button>
       </div>
     </nav>

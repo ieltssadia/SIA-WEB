@@ -114,7 +114,7 @@ export function AdminTeam() {
       if (res.ok && data?.ok && data.members) setMembers(data.members);
       else setError(data?.error ?? "টিম লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -204,7 +204,7 @@ export function AdminTeam() {
         toast.error(data?.error ?? "সেভ করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -234,7 +234,7 @@ export function AdminTeam() {
         toast.error(data?.error ?? "স্ট্যাটাস বদলানো যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setBusyId(null);
     }
@@ -257,7 +257,7 @@ export function AdminTeam() {
         toast.error(data?.error ?? "ডিলিট করা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
@@ -266,8 +266,8 @@ export function AdminTeam() {
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Team — টিম"
-        sub="অ্যাডমিন প্যানেলের সদস্য ও রোল ম্যানেজ করুন — শুধু Owner-এর জন্য"
+        title="Team: টিম"
+        sub="অ্যাডমিন প্যানেলের সদস্য ও রোল ম্যানেজ করুন, শুধু Owner-এর জন্য"
       >
         <Button
           type="button"
@@ -275,16 +275,16 @@ export function AdminTeam() {
           className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
         >
           <PlusCircle className="h-4 w-4" aria-hidden="true" />
-          Add Member — নতুন সদস্য
+          Add Member: নতুন সদস্য
         </Button>
       </SectionHeading>
 
       {/* Role stat strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCard icon={Users} label="Total — মোট" value={counts.total} tone="blue" />
-        <StatCard icon={ShieldCheck} label="Owners — মালিক" value={counts.owners} tone="amber" />
-        <StatCard icon={UserRound} label="Admins — অ্যাডমিন" value={counts.admins} tone="emerald" />
-        <StatCard icon={UserRound} label="Teachers — শিক্ষক" value={counts.teachers} tone="sky" />
+        <StatCard icon={Users} label="Total: মোট" value={counts.total} tone="blue" />
+        <StatCard icon={ShieldCheck} label="Owners: মালিক" value={counts.owners} tone="amber" />
+        <StatCard icon={UserRound} label="Admins: অ্যাডমিন" value={counts.admins} tone="emerald" />
+        <StatCard icon={UserRound} label="Teachers: শিক্ষক" value={counts.teachers} tone="sky" />
       </div>
 
       {loading && !members ? (
@@ -312,10 +312,10 @@ export function AdminTeam() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50 hover:bg-muted/50">
-                      <TableHead>Member — সদস্য</TableHead>
-                      <TableHead>Role — রোল</TableHead>
-                      <TableHead>Status — স্ট্যাটাস</TableHead>
-                      <TableHead>Joined — যোগদান</TableHead>
+                      <TableHead>Member: সদস্য</TableHead>
+                      <TableHead>Role: রোল</TableHead>
+                      <TableHead>Status: স্ট্যাটাস</TableHead>
+                      <TableHead>Joined: যোগদান</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -483,12 +483,12 @@ export function AdminTeam() {
         <DialogContent className="rounded-2xl sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {editing ? `Edit ${editing.name} — এডিট` : "Add Member — নতুন সদস্য"}
+              {editing ? `Edit ${editing.name}: এডিট` : "Add Member: নতুন সদস্য"}
             </DialogTitle>
             <DialogDescription>
               {editing
-                ? "তথ্য হালনাগাদ করুন — পাসওয়ার্ড না দিলে পুরোনোটাই থাকবে।"
-                : "নতুন সদস্য লগ ইন করে প্যানেলে ঢুকবে — রোল অনুযায়ী সেকশন দেখা যাবে।"}
+                ? "তথ্য হালনাগাদ করুন, পাসওয়ার্ড না দিলে পুরোনোটাই থাকবে।"
+                : "নতুন সদস্য লগ ইন করে প্যানেলে ঢুকবে, রোল অনুযায়ী সেকশন দেখা যাবে।"}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={submit} className="space-y-3">
@@ -539,7 +539,7 @@ export function AdminTeam() {
               </Select>
               {editing && isSelf(editing) ? (
                 <p className="text-[11px] text-muted-foreground">
-                  নিজের রোল বদলানো যাবে না — অন্য একজন Owner দিয়ে করান।
+                  নিজের রোল বদলানো যাবে না, অন্য একজন Owner দিয়ে করান।
                 </p>
               ) : null}
             </div>
@@ -559,7 +559,7 @@ export function AdminTeam() {
                 className="min-h-11 rounded-xl border-border bg-muted/40 font-mono text-sm"
               />
               <p className="text-[11px] text-muted-foreground">
-                {editing ? "লিখলে সেট হবে — কমপক্ষে ৬ অক্ষর।" : "সদস্য এই পাসওয়ার্ড দিয়ে লগ ইন করবে।"}
+                {editing ? "লিখলে সেট হবে, কমপক্ষে ৬ অক্ষর।" : "সদস্য এই পাসওয়ার্ড দিয়ে লগ ইন করবে।"}
               </p>
             </div>
             <DialogFooter className="gap-2 pt-1">
@@ -576,7 +576,7 @@ export function AdminTeam() {
                 disabled={saving}
                 className="min-h-11 rounded-full bg-ink px-5 text-white hover:bg-ink/90"
               >
-                {saving ? "Saving…" : editing ? "Save — সেভ" : "Add — যোগ করুন"}
+                {saving ? "Saving…" : editing ? "Save: সেভ" : "Add: যোগ করুন"}
               </Button>
             </DialogFooter>
           </form>
@@ -589,7 +589,7 @@ export function AdminTeam() {
           <AlertDialogHeader>
             <AlertDialogTitle>সদস্য ডিলিট করবেন?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget ? `${deleteTarget.name} (${deleteTarget.email})` : ""} — ডিলিট হলে এই
+              {deleteTarget ? `${deleteTarget.name} (${deleteTarget.email})` : ""}, ডিলিট হলে এই
               অ্যাকাউন্ট দিয়ে আর লগ ইন করা যাবে না। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>

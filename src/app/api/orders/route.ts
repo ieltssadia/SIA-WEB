@@ -12,10 +12,10 @@ const orderSchema = z.object({
   phone: z
     .string()
     .trim()
-    .min(10, "সঠিক মোবাইল নম্বর দিন — যেমন 01712345678।")
-    .max(20, "সঠিক মোবাইল নম্বর দিন — যেমন 01712345678।")
+    .min(10, "সঠিক মোবাইল নম্বর দিন, যেমন 01712345678।")
+    .max(20, "সঠিক মোবাইল নম্বর দিন, যেমন 01712345678।")
     .transform(canonicalPhone)
-    .refine((p) => /^01[3-9]\d{8}$/.test(p), "সঠিক মোবাইল নম্বর দিন — যেমন 01712345678।"),
+    .refine((p) => /^01[3-9]\d{8}$/.test(p), "সঠিক মোবাইল নম্বর দিন, যেমন 01712345678।"),
   email: z.string().trim().email().max(120).optional().or(z.literal("")),
   zone: z.enum(zoneValues),
   address: z.string().trim().max(400).optional().or(z.literal("")),
@@ -145,7 +145,7 @@ export async function POST(req: Request) {
       const book = findBook(item.slug);
       if (!book) {
         return NextResponse.json(
-          { error: `"${item.slug}" is no longer available — please refresh your cart.` },
+          { error: `"${item.slug}" is no longer available, please refresh your cart.` },
           { status: 400 }
         );
       }
@@ -177,7 +177,7 @@ export async function POST(req: Request) {
 
     if (!order) {
       return NextResponse.json(
-        { error: "Could not generate an order number — please try again." },
+        { error: "Could not generate an order number, please try again." },
         { status: 500 }
       );
     }
@@ -186,7 +186,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("[api/orders] Failed:", error);
     return NextResponse.json(
-      { error: "Something went wrong placing the order — please try again in a moment." },
+      { error: "Something went wrong placing the order, please try again in a moment." },
       { status: 500 }
     );
   }
@@ -271,6 +271,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ order: serializeOrder(order) });
   } catch (error) {
     console.error("[api/orders] Lookup failed:", error);
-    return NextResponse.json({ error: "Lookup failed — please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Lookup failed, please try again." }, { status: 500 });
   }
 }

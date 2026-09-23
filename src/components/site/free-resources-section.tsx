@@ -15,8 +15,8 @@ const iconMap: Record<string, React.ElementType> = {
 
 /* 10MS-style one-liners — site-data descs are the long-form fallback */
 const shortDesc: Record<string, string> = {
-  "Free Video Lessons": "মডিউল-ভিত্তিক ফ্রি ভিডিও ক্লাস — আজই দেখা শুরু করুন।",
-  "Free Mock Test": "ফুল-লেন্থ মক টেস্ট ফ্রি — বর্তমান ব্যান্ড জানুন।",
+  "Free Video Lessons": "মডিউল-ভিত্তিক ফ্রি ভিডিও ক্লাস, আজই দেখা শুরু করুন।",
+  "Free Mock Test": "ফুল-লেন্থ মক টেস্ট ফ্রি, বর্তমান ব্যান্ড জানুন।",
   "Free Tips & Tricks": "প্রতিটি প্রশ্ন টাইপের প্রমাণিত শর্টকাট পড়ুন।",
 };
 
@@ -32,13 +32,12 @@ export function FreeResourcesSection() {
     <section id="free-resources" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Start Free Today"
           title={
             <>
               Free Classes &amp; <span className="text-brand-gradient">Resources</span>
             </>
           }
-          subtitle="ফ্রি ভিডিও লেসন, ফ্রি মক টেস্ট আর প্রমাণিত টিপস — সবই একদম বিনামূল্যে।"
+          subtitle="ফ্রি ভিডিও লেসন, ফ্রি মক টেস্ট আর প্রমাণিত টিপস, সবই একদম বিনামূল্যে।"
         />
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -72,7 +71,7 @@ export function FreeResourcesSection() {
                         href={res.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`${res.cta} — opens in a new tab`}
+                        aria-label={`${res.cta} (opens in a new tab)`}
                         className="flex h-full flex-col"
                       >
                         {inner}
@@ -114,7 +113,7 @@ export function FreeResourcesSection() {
                   href={site.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Chat with us on WhatsApp — opens in a new tab"
+                  aria-label="Chat with us on WhatsApp (opens in a new tab)"
                 >
                   Ask on WhatsApp
                 </a>

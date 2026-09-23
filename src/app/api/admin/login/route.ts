@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
     if (user.status !== "active") {
       return NextResponse.json(
-        { ok: false, error: "এই অ্যাকাউন্টটি নিষ্ক্রিয় করা হয়েছে — মালিকের সাথে যোগাযোগ করুন।" },
+        { ok: false, error: "এই অ্যাকাউন্টটি নিষ্ক্রিয় করা হয়েছে, মালিকের সাথে যোগাযোগ করুন।" },
         { status: 403 }
       );
     }
@@ -94,7 +94,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("[api/admin/login] Failed:", error);
     return NextResponse.json(
-      { ok: false, error: "Something went wrong — please try again." },
+      { ok: false, error: "Something went wrong, please try again." },
       { status: 500 }
     );
   }

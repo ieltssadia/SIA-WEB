@@ -76,9 +76,8 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Weekly Schedule"
           title="আমার সাপ্তাহিক রুটিন"
-          desc="সপ্তাহের প্রতিটি ক্লাস, সময় আর মাধ্যম এক জায়গায় — শুক্রবার ছাড়া প্রতিদিনই ক্লাস চলে।"
+          desc="সপ্তাহের প্রতিটি ক্লাস, সময় আর মাধ্যম এক জায়গায়, শুক্রবার ছাড়া প্রতিদিনই ক্লাস চলে।"
         />
       </Reveal>
 
@@ -109,7 +108,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                   <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#c6b995]">
                     <span className="inline-flex items-center gap-1">
                       <Clock3 className="h-3.5 w-3.5" aria-hidden />
-                      {bnNum(next.row.start)} – {bnNum(next.row.end)}
+                      {bnNum(next.row.start)}-{bnNum(next.row.end)}
                     </span>
                     <span className="inline-flex items-center gap-1">
                       <nextMode.icon className="h-3.5 w-3.5" aria-hidden />
@@ -149,7 +148,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                 type="button"
                 onClick={() => setDay(d)}
                 aria-pressed={isActive}
-                aria-label={`${dayBn[d]} — ${bnNum(count)} টি ক্লাস`}
+                aria-label={`${dayBn[d]}, ${bnNum(count)} টি ক্লাস`}
                 className={`flex flex-col items-center gap-1 rounded-2xl border px-1 py-2.5 transition-all sm:py-3 ${
                   isActive
                     ? "border-[#d9b75c] bg-[#d9b75c]/10 shadow-[0_6px_18px_rgba(217,183,92,0.15)]"
@@ -223,7 +222,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                 <CalendarDays className="h-7 w-7 text-primary/60" aria-hidden />
                 <p className="text-sm font-medium text-foreground">শুক্রবার সাপ্তাহিক ছুটি</p>
                 <p className="text-xs text-muted-foreground">
-                  কাল শনিবার সকাল ১০টায় ক্লাস শুরু হবে — WhatsApp গ্রুপে রুটিন আপডেট পাবেন।
+                  কাল শনিবার সকাল ১০টায় ক্লাস শুরু হবে, WhatsApp গ্রুপে রুটিন আপডেট পাবেন।
                 </p>
               </div>
             ) : visibleRows.length > 0 ? (
@@ -233,7 +232,7 @@ export function RoutineSection({ courseSlugs }: { courseSlugs: string[] }) {
                 <CalendarDays className="h-7 w-7 text-primary/60" aria-hidden />
                 <p className="text-sm font-medium text-foreground">এই দিনে আপনার ব্যাচের ক্লাস নেই</p>
                 <p className="text-xs text-muted-foreground">
-                  {dayBn[activeDay]}-এ অন্য ব্যাচের ক্লাস আছে — &quot;পুরো রুটিন&quot; টগল করে দেখুন।
+                  {dayBn[activeDay]}-এ অন্য ব্যাচের ক্লাস আছে, &quot;পুরো রুটিন&quot; টগল করে দেখুন।
                 </p>
               </div>
             )}

@@ -57,3 +57,4 @@ server.log
 # git/dev-server when the backend stalls
 /upload/.shots/
 tool-results/
+upload/siasuggetionmat.zip

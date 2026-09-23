@@ -113,9 +113,8 @@ export function NoticesSection() {
     <div className="space-y-6">
       <Reveal y={12}>
         <PortalSectionHeader
-          eyebrow="Notice Board"
           title="নোটিশ বোর্ড"
-          desc="রুটিন পরিবর্তন, mock test আর ব্যাচের সব আপডেট — সব নোটিশ এক জায়গায়, সময়ের ক্রমে সাজানো।"
+          desc="রুটিন পরিবর্তন, mock test আর ব্যাচের সব আপডেট, সব নোটিশ এক জায়গায়, সময়ের ক্রমে সাজানো।"
           action={
             <Badge variant="outline" className="border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
               <Bell className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -224,7 +223,7 @@ export function NoticesSection() {
         <div className="rounded-3xl border border-border bg-card p-6">
           <h2 className="font-display text-lg font-bold text-foreground">সাপোর্ট দরকার?</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            যেকোনো সমস্যায় সরাসরি কথা বলুন — আমরা সকাল ৯টা থেকে রাত ৯টা পর্যন্ত পাশে আছি।
+            যেকোনো সমস্যায় সরাসরি কথা বলুন, আমরা সকাল ৯টা থেকে রাত ৯টা পর্যন্ত পাশে আছি।
           </p>
           <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
             {supportItems.map(({ icon: Icon, label, desc, href, external }) => (
@@ -246,7 +245,7 @@ export function NoticesSection() {
           </div>
           <p className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground">
             <CalendarClock className="h-3.5 w-3.5 text-primary" aria-hidden />
-            সাপোর্ট আওয়ার: শনিবার – বৃহস্পতিবার, সকাল ৯টা – রাত ৯টা (GMT+6)
+            সাপোর্ট আওয়ার: শনিবার-বৃহস্পতিবার, সকাল ৯টা-রাত ৯টা (GMT+6)
           </p>
         </div>
       </Reveal>

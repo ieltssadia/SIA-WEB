@@ -702,7 +702,7 @@ export default function TestPlayer({
             {skill === "listening" ? (
               listeningParts.length === 0 || totalQuestions === 0 ? (
                 <Card className="p-8 text-center text-sm text-muted-foreground">
-                  This test doesn&apos;t have listening content yet — please check back soon.
+                  This test doesn&apos;t have listening content yet, please check back soon.
                 </Card>
               ) : submitted ? (
                 <ScoreAndReview
@@ -769,7 +769,7 @@ export default function TestPlayer({
             {skill === "reading" ? (
               readingPassages.length === 0 || totalQuestions === 0 ? (
                 <Card className="p-8 text-center text-sm text-muted-foreground">
-                  This test doesn&apos;t have reading content yet — please check back soon.
+                  This test doesn&apos;t have reading content yet, please check back soon.
                 </Card>
               ) : (
                 <div className="grid gap-6 lg:grid-cols-2">
@@ -902,7 +902,7 @@ export default function TestPlayer({
                 </div>
               ) : (
                 <Card className="p-8 text-center text-sm text-muted-foreground">
-                  This test doesn&apos;t have writing content yet — please check back soon.
+                  This test doesn&apos;t have writing content yet, please check back soon.
                 </Card>
               )
             ) : null}
@@ -1038,7 +1038,7 @@ export default function TestPlayer({
                 </div>
               ) : (
                 <Card className="p-8 text-center text-sm text-muted-foreground">
-                  This test doesn&apos;t have speaking content yet — please check back soon.
+                  This test doesn&apos;t have speaking content yet, please check back soon.
                 </Card>
               )
             ) : null}

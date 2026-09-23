@@ -20,11 +20,11 @@ const SEED_CLASSES: Array<{
 }> = [
   {
     slug: "speaking-cue-card-marathon",
-    title: "Speaking Cue Card Marathon — Part 2 Mastery",
+    title: "Speaking Cue Card Marathon: Part 2 Mastery",
     courseSlug: "basic-to-ielts-in-batch",
     teacher: "Sadia Ma'am",
     description:
-      "Part 2 cue card নিয়ে ভয়? আজকের ম্যারাথনে live practice + instant feedback — Band 7+ fluency strategy সহ।",
+      "Part 2 cue card নিয়ে ভয়? আজকের ম্যারাথনে live practice + instant feedback, Band 7+ fluency strategy সহ।",
     offsetMinutes: -15,
     durationMin: 60,
     status: "live",
@@ -41,7 +41,7 @@ const SEED_CLASSES: Array<{
       {
         title: "Fluency-এর ৩টি নিয়ম",
         bullets: [
-          "থামবেন না — fillers ব্যবহার করুন: well, actually, you know",
+          "থামবেন না, fillers ব্যবহার করুন: well, actually, you know",
           "ছোট বাক্যে শুরু করুন, ধীরে জটিল structure-এ যান",
           "প্রতিদিন ২ মিনিট নিজের সাথে speaking practice",
         ],
@@ -66,17 +66,17 @@ const SEED_CLASSES: Array<{
   },
   {
     slug: "writing-task2-masterclass",
-    title: "Writing Task 2 Masterclass — Band 7 Essays",
+    title: "Writing Task 2 Masterclass: Band 7 Essays",
     courseSlug: "basic-to-ielts-in-batch",
     teacher: "Sadia Ma'am",
     description:
-      "Opinion essay এর proven structure, Band 7+ linking words আর examiner যা দেখে — সব এক ক্লাসে।",
+      "Opinion essay এর proven structure, Band 7+ linking words আর examiner যা দেখে, সব এক ক্লাসে।",
     offsetMinutes: 60 * 26, // tomorrow evening
     durationMin: 75,
     status: "scheduled",
     slides: [
       {
-        title: "Task 2 — The 4-Paragraph Formula",
+        title: "Task 2: The 4-Paragraph Formula",
         bullets: [
           "Introduction: paraphrase + clear thesis",
           "Body 1: topic sentence + example",
@@ -100,20 +100,20 @@ const SEED_CLASSES: Array<{
   },
   {
     slug: "listening-strategy-session",
-    title: "Listening Strategy Session — Section 3 & 4 Hacks",
+    title: "Listening Strategy Session: Section 3 & 4 Hacks",
     courseSlug: "ielts-crash-course",
     teacher: "Sadia Ma'am",
     description:
-      "Section 3–4 এ মনোযোগ হারান? Prediction technique, paraphrase trapping আর spelling traps নিয়ে ফুল সেশন।",
+      "Section 3-4 এ মনোযোগ হারান? Prediction technique, paraphrase trapping আর spelling traps নিয়ে ফুল সেশন।",
     offsetMinutes: 60 * 24 * 3, // in 3 days
     durationMin: 60,
     status: "scheduled",
     slides: [
       {
-        title: "Section 4 — Prediction Technique",
+        title: "Section 4: Prediction Technique",
         bullets: [
           "Question word দেখে answer type অনুমান করুন",
-          "Number? Name? Noun? — আগেই ঠিক করুন",
+          "Number? Name? Noun?, আগেই ঠিক করুন",
           "Answer আসার আগেই কান ধারালো করুন",
         ],
       },
@@ -122,17 +122,17 @@ const SEED_CLASSES: Array<{
         bullets: [
           "Audio কখনো সরাসরি question এর শব্দ বলে না",
           "Synonym শুনলেই সতর্ক হোন",
-          "Speaker মাঝপথে মত বদলায় — শেষ কথাটাই answer",
+          "Speaker মাঝপথে মত বদলায়, শেষ কথাটাই answer",
         ],
       },
     ],
   },
   {
     slug: "free-demo-ielts-roadmap",
-    title: "Free Demo Class — IELTS-এ 7+ স্কোরের রুটম্যাপ",
+    title: "Free Demo Class: IELTS-এ 7+ স্কোরের রুটম্যাপ",
     courseSlug: "free-course",
     teacher: "Sadia Ma'am",
-    description: "নতুনদের জন্য ফ্রি ডেমো ক্লাস — ৩০ দিনের study plan, exam pattern আর common mistakes।",
+    description: "নতুনদের জন্য ফ্রি ডেমো ক্লাস, ৩০ দিনের study plan, exam pattern আর common mistakes।",
     offsetMinutes: -60 * 24, // yesterday
     durationMin: 45,
     status: "ended",
@@ -201,7 +201,7 @@ export async function GET() {
   } catch (error) {
     console.error("[api/live-classes] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "লাইভ ক্লাস লিস্ট লোড করতে সমস্যা হয়েছে — কিছুক্ষণ পর আবার চেষ্টা করুন।" },
+      { ok: false, error: "লাইভ ক্লাস লিস্ট লোড করতে সমস্যা হয়েছে, কিছুক্ষণ পর আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

@@ -99,7 +99,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[api/admin/orders] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "অর্ডার লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "অর্ডার লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

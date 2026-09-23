@@ -25,18 +25,17 @@ function BookShopTeaser() {
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Book Shop"
           title={
             <>
               ক্লাসরুমে পরীক্ষিত <span className="text-brand-gradient">বই ও নোটস</span>
             </>
           }
-          subtitle="বছরের পর বছর ক্লাসে ব্যবহৃত ম্যাটেরিয়ালস — বাংলা ব্যাখ্যাসহ। WhatsApp-এ অর্ডার করুন, সারা বাংলাদেশে ডেলিভারি।"
+          subtitle="বছরের পর বছর ক্লাসে ব্যবহৃত ম্যাটেরিয়ালস, বাংলা ব্যাখ্যাসহ। WhatsApp-এ অর্ডার করুন, সারা বাংলাদেশে ডেলিভারি।"
         />
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6">
           {featured.map((book, i) => (
             <Reveal key={book.slug} delay={i * 0.07}>
-              <a href="#/shop" className="group block" aria-label={`Shop page — ${book.title}`}>
+              <a href="#/shop" className="group block" aria-label={`Shop page: ${book.title}`}>
                 <Card className="overflow-hidden border-border bg-card transition-colors group-hover:border-primary/40">
                   <CardContent className="p-3">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-primary/20 bg-forest">
@@ -105,7 +104,7 @@ function HomeCta() {
                 পরের সাফল্যের গল্পটা <span className="text-[#d9b75c]">আপনার হোক</span>
               </h2>
               <p className="mx-auto mt-4 max-w-xl leading-relaxed text-[#c6b995]">
-                আসন শেষ হওয়ার আগেই ভর্তি নিশ্চিত করুন — ভর্তির আগে ফ্রি assessment,
+                আসন শেষ হওয়ার আগেই ভর্তি নিশ্চিত করুন। ভর্তির আগে ফ্রি assessment,
                 রুটিন বান্ধব ব্যাচ, আর শুরু থেকে শেষ পর্যন্ত একজন mentor-এর সাপোর্ট।
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -144,13 +143,12 @@ function TeamStrip() {
     <section id="team" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Our Team"
           title={
             <>
-              যাঁরা আপনাকে পড়াবেন — <span className="text-brand-gradient">পরিচিত হোন</span>
+              যাঁরা আপনাকে পড়াবেন, <span className="text-brand-gradient">পরিচিত হোন</span>
             </>
           }
-          subtitle="প্রতিটি খাতা, প্রতিটি mock test, প্রতিটি প্রশ্নের উত্তর — এঁদের হাতে। ছবিতে ক্লিক করলেই প্রোফাইল।"
+          subtitle="প্রতিটি খাতা, প্রতিটি mock test, প্রতিটি প্রশ্নের উত্তর, এঁদের হাতে। ছবিতে ক্লিক করলেই প্রোফাইল।"
         />
       </div>
       <TeamMarquee />

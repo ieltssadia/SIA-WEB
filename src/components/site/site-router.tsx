@@ -31,6 +31,11 @@ import { PortalPage } from "@/components/site/pages/portal-page";
 import { CheckoutPage } from "@/components/site/pages/checkout-page";
 import { VerifyPage } from "@/components/site/pages/verify-page";
 import { AdminPage } from "@/components/site/pages/admin-page";
+import { PrivacyPage } from "@/components/site/pages/privacy-page";
+import { TermsPage } from "@/components/site/pages/terms-page";
+import { RefundPolicyPage } from "@/components/site/pages/refund-policy-page";
+import { SitemapPage } from "@/components/site/pages/sitemap-page";
+import { NotFoundPage } from "@/components/site/pages/not-found-page";
 
 function subscribe(callback: () => void) {
   window.addEventListener("hashchange", callback);
@@ -153,8 +158,20 @@ export function SiteRouter() {
     page = <CheckoutPage initialCourse={query.get("course")} />;
   } else if (segments[0] === "verify") {
     page = <VerifyPage />;
-  } else {
+  } else if (segments[0] === "privacy") {
+    page = <PrivacyPage />;
+  } else if (segments[0] === "terms") {
+    page = <TermsPage />;
+  } else if (segments[0] === "refund-policy") {
+    page = <RefundPolicyPage />;
+  } else if (segments[0] === "sitemap") {
+    page = <SitemapPage />;
+  } else if (segments.length === 0) {
+    // "/" (also legacy anchors like "#faq", which normalize to "/") = home.
     page = <HomePage />;
+  } else {
+    // Unknown hash route: branded 404 instead of silently showing the homepage.
+    page = <NotFoundPage />;
   }
 
   return (

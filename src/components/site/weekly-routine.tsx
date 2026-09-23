@@ -127,7 +127,7 @@ function RoutineRows({
           >
             <TableCell className="whitespace-nowrap align-top">
               <p className="font-semibold text-foreground">{row.start}</p>
-              <p className="text-xs text-muted-foreground">– {row.end}</p>
+              <p className="text-xs text-muted-foreground">- {row.end}</p>
             </TableCell>
             <TableCell className="min-w-44 align-top">
               <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
@@ -195,7 +195,7 @@ function FridayOff() {
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
         <Coffee className="h-7 w-7 text-primary" aria-hidden />
       </span>
-      <p className="font-display text-lg font-bold text-foreground">Friday — Weekly Off</p>
+      <p className="font-display text-lg font-bold text-foreground">Friday (Weekly Off)</p>
       <p className="max-w-sm text-sm text-muted-foreground">
         শুক্রবার সাপ্তাহিক ছুটি। Jummah Mubarak! কাল সকাল ১০টায় আবার ক্লাস শুরু হবে।
       </p>
@@ -313,7 +313,7 @@ export function CourseRoutineTable({ courseSlug }: { courseSlug: string }) {
                 {row.day}
               </TableCell>
               <TableCell className="whitespace-nowrap align-top text-muted-foreground">
-                {row.start} – {row.end}
+                {row.start}-{row.end}
               </TableCell>
               <TableCell className="align-top font-medium text-foreground/90">
                 {row.topic}

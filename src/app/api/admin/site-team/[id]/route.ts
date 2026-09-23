@@ -32,7 +32,7 @@ export async function PATCH(
 
   if (data.slug && data.slug !== existing.slug) {
     const dup = await db.siteTeamMember.findUnique({ where: { slug: data.slug } });
-    if (dup) return badRequest("এই স্লাগে আরেকজন সদস্য আছে — অন্য স্লাগ দিন।");
+    if (dup) return badRequest("এই স্লাগে আরেকজন সদস্য আছে, অন্য স্লাগ দিন।");
   }
 
   const row = await db.siteTeamMember.update({

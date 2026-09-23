@@ -72,7 +72,7 @@ export function AdminDashboard({
         setError(data?.error ?? "Stats লোড করা যায়নি।");
       }
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export function AdminDashboard({
             {!isTeacher ? (
               <StatCard
                 icon={Wallet}
-                label="Revenue — আয়"
+                label="Revenue: আয়"
                 sub="paid + verified"
                 value={formatBDT(stats.revenue)}
                 tone="emerald"
@@ -111,7 +111,7 @@ export function AdminDashboard({
             {!isTeacher ? (
               <StatCard
                 icon={ShoppingBag}
-                label="Orders — অর্ডার"
+                label="Orders: অর্ডার"
                 sub={`${stats.orders.byStatus.placed} placed`}
                 value={stats.orders.total}
                 tone="sky"
@@ -119,14 +119,14 @@ export function AdminDashboard({
             ) : null}
             <StatCard
               icon={GraduationCap}
-              label="Students — শিক্ষার্থী"
+              label="Students: শিক্ষার্থী"
               value={stats.students}
               tone="blue"
             />
             {!isTeacher ? (
               <StatCard
                 icon={UserPlus}
-                label="New Leads — নতুন লিড"
+                label="New Leads: নতুন লিড"
                 sub={`${stats.leads.contacted} contacted`}
                 value={stats.leads.new}
                 tone="amber"
@@ -134,14 +134,14 @@ export function AdminDashboard({
             ) : null}
             <StatCard
               icon={Radio}
-              label="Live Now — চলছে"
+              label="Live Now: চলছে"
               sub={`${stats.liveClasses.scheduled} upcoming`}
               value={stats.liveClasses.live}
               tone={stats.liveClasses.live > 0 ? "red" : "muted"}
             />
             <StatCard
               icon={Award}
-              label="Certificates — সার্টিফিকেট"
+              label="Certificates: সার্টিফিকেট"
               value={stats.certificates}
               tone="muted"
             />
@@ -151,34 +151,34 @@ export function AdminDashboard({
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             <StatCard
               icon={BookOpen}
-              label="Courses — কোর্স"
+              label="Courses: কোর্স"
               sub={`${stats.catalog.publishedCourses} published`}
               value={stats.catalog.courses}
               tone="blue"
             />
             <StatCard
               icon={Library}
-              label="Shop Books — বই"
+              label="Shop Books: বই"
               sub={`${stats.catalog.listedBooks} listed`}
               value={stats.catalog.books}
               tone="amber"
             />
             <StatCard
               icon={FolderDown}
-              label="Resources — রিসোর্স"
+              label="Resources: রিসোর্স"
               value={stats.catalog.resources}
               tone="sky"
             />
             <StatCard
               icon={Megaphone}
-              label="Notices — নোটিশ"
+              label="Notices: নোটিশ"
               value={stats.catalog.notices}
               tone="emerald"
             />
             {isOwner ? (
               <StatCard
                 icon={Users}
-                label="Team — টিম"
+                label="Team: টিম"
                 sub={`${stats.team.owners} owner · ${stats.team.admins} admin · ${stats.team.teachers} teacher`}
                 value={stats.team.total}
                 tone="muted"
@@ -192,7 +192,7 @@ export function AdminDashboard({
               <Card className="rounded-2xl border-border bg-card lg:col-span-3">
                 <CardContent className="p-4 sm:p-6">
                   <SectionHeading
-                    title="Revenue — শেষ ৭ দিন"
+                    title="Revenue: শেষ ৭ দিন"
                     sub="paid + verified orders, Asia/Dhaka"
                   />
                   <div
@@ -227,7 +227,7 @@ export function AdminDashboard({
 
               <Card className="rounded-2xl border-border bg-card lg:col-span-2">
                 <CardContent className="p-4 sm:p-6">
-                  <SectionHeading title="Recent Orders — সাম্প্রতিক" />
+                  <SectionHeading title="Recent Orders: সাম্প্রতিক" />
                   {stats.recentOrders.length === 0 ? (
                     <div className="mt-4">
                       <EmptyState
@@ -270,7 +270,7 @@ export function AdminDashboard({
           {/* Quick links */}
           <Card className="rounded-2xl border-border bg-card">
             <CardContent className="p-4 sm:p-6">
-              <SectionHeading title="Quick Actions — দ্রুত কাজ" />
+              <SectionHeading title="Quick Actions: দ্রুত কাজ" />
               <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
                 {!isTeacher ? (
                   <QuickLink

@@ -59,7 +59,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[api/admin/certificates] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "সার্টিফিকেট লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "সার্টিফিকেট লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
 
     if (!cert) {
       return NextResponse.json(
-        { ok: false, error: "ID তৈরি করা যায়নি — আবার চেষ্টা করুন।" },
+        { ok: false, error: "ID তৈরি করা যায়নি, আবার চেষ্টা করুন।" },
         { status: 500 }
       );
     }
@@ -137,7 +137,7 @@ export async function POST(req: Request) {
     }
     console.error("[api/admin/certificates] Issue failed:", error);
     return NextResponse.json(
-      { ok: false, error: "সার্টিফিকেট ইস্যু করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "সার্টিফিকেট ইস্যু করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

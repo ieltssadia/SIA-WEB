@@ -60,7 +60,7 @@ export const useAdminStore = create<AdminState>()(
         } catch {
           return {
             ok: false,
-            error: "নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন। (Network error — please try again.)",
+            error: "নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন। (Network error, please try again.)",
           };
         }
       },

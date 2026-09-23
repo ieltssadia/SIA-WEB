@@ -58,7 +58,7 @@ function formatStudents(n: number) {
 /** 10MS course-page FAQ — payment question first, then the global FAQs. */
 const paymentFaq = {
   q: "ভর্তি ও পেমেন্ট কীভাবে করব?",
-  a: "এই পেজের Enroll Now বাটনে ক্লিক করে account খুলে bKash/Nagad/Rocket/Cash — যেকোনো মাধ্যমে পেমেন্ট করা যায়। অথবা সরাসরি কল করুন +880 1752-716238।",
+  a: "এই পেজের Enroll Now বাটনে ক্লিক করে account খুলে bKash/Nagad/Rocket/Cash সহ যেকোনো মাধ্যমে পেমেন্ট করা যায়। অথবা সরাসরি কল করুন +880 1752-716238।",
 };
 
 const courseFaqs = [paymentFaq, ...faqs];
@@ -76,7 +76,7 @@ function courseIncludes(course: Course): {
       label: isFree ? `${course.lessons} Video Lessons` : `${course.lessons} Live Classes`,
       sub: isFree ? "Self-paced" : "Zoom + campus hybrid",
     },
-    { icon: FileText, label: `${course.lessons} Lecture Sheets`, sub: "PDF — বাংলা ব্যাখ্যাসহ" },
+    { icon: FileText, label: `${course.lessons} Lecture Sheets`, sub: "PDF, বাংলা ব্যাখ্যাসহ" },
     { icon: ClipboardCheck, label: "Weekly Full Mock", sub: "Band report সহ" },
     { icon: BookOpen, label: "Study Materials", sub: "Templates & practice packs" },
     course.category === "complete"
@@ -148,8 +148,8 @@ function CourseRoutineGate({ courseSlug }: { courseSlug: string }) {
       }
       desc={
         hasHydrated && user
-          ? "আপনার account-এ এই কোর্সের enrollment নেই — ভর্তি হলেই এখানে পুরো দিন-ভিত্তিক রুটিন (টপিক, সময় ও Zoom লিংক) দেখা যাবে।"
-          : "এই কোর্সের দিন-ভিত্তিক পুরো রুটিন (প্রতিটি ক্লাসের টপিক, সময় ও Zoom লিংক) Student Portal-এ দেখা যায় — ভর্তির সময় দেওয়া মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগ ইন করুন।"
+          ? "আপনার account-এ এই কোর্সের enrollment নেই। ভর্তি হলেই এখানে পুরো দিন-ভিত্তিক রুটিন (টপিক, সময় ও Zoom লিংক) দেখা যাবে।"
+          : "এই কোর্সের দিন-ভিত্তিক পুরো রুটিন (প্রতিটি ক্লাসের টপিক, সময় ও Zoom লিংক) Student Portal-এ দেখা যায়। ভর্তির সময় দেওয়া মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগ ইন করুন।"
       }
     />
   );
@@ -159,7 +159,6 @@ function CourseNotFound() {
   return (
     <>
       <PageHeader
-        eyebrow="Oops"
         title={
           <>
             Course <span className="text-brand-gradient">Not Found</span>
@@ -228,7 +227,6 @@ export function CourseDetailPage({ slug }: { slug: string }) {
   return (
     <>
       <PageHeader
-        eyebrow={course.tag}
         title={course.title}
         subtitle={course.desc}
         crumbs={[{ label: "Courses", href: "/courses" }, { label: course.title }]}
@@ -275,7 +273,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                 </h2>
                 <p className="mt-3 leading-relaxed text-muted-foreground">{course.desc}</p>
                 <p className="mt-3 leading-relaxed text-muted-foreground">
-                  {course.titleBn} — ৯ বছরের অভিজ্ঞতায় তৈরি structured curriculum, নিয়মিত
+                  {course.titleBn}, ৯ বছরের অভিজ্ঞতায় তৈরি structured curriculum, নিয়মিত
                   mock test আর personal feedback-এর সাথে আপনার টার্গেট ব্যান্ড স্কোর এখন হাতের
                   নাগালে।
                 </p>
@@ -357,7 +355,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                   What Our Students Say
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  রিয়েল স্টুডেন্টস, রিয়েল রেজাল্ট — সরাসরি আমাদের রেজাল্ট পোস্ট থেকে।
+                  রিয়েল স্টুডেন্টস, রিয়েল রেজাল্ট। সরাসরি আমাদের রেজাল্ট পোস্ট থেকে।
                 </p>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {reviews.map((r) => (
@@ -485,7 +483,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                           </div>
                           {discount ? (
                             <p className="mt-1 text-xs font-semibold text-[#d9b75c]">
-                              {discount} admission offer — limited seats
+                              {discount} admission offer, limited seats
                             </p>
                           ) : null}
                         </>
@@ -500,7 +498,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                       <div>
                         <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs">
                           <span className="font-medium text-foreground">
-                            {batchLabel} — {course.seatsLeft}/{course.seatsTotal} seats left
+                            {batchLabel}, {course.seatsLeft}/{course.seatsTotal} seats left
                           </span>
                           {course.seatsLeft <= 5 ? (
                             <span className="font-semibold text-destructive">
@@ -593,7 +591,7 @@ export function CourseDetailPage({ slug }: { slug: string }) {
                         href={site.whatsapp}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Ask about this course on WhatsApp — opens in a new tab"
+                        aria-label="Ask about this course on WhatsApp (opens in a new tab)"
                       >
                         <MessageCircle className="mr-2 h-4.5 w-4.5" aria-hidden />
                         Ask on WhatsApp
@@ -621,7 +619,6 @@ export function CourseDetailPage({ slug }: { slug: string }) {
       <section className="border-t border-primary/10 py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <SectionHeading
-            eyebrow="Keep Exploring"
             title={
               <>
                 Related <span className="text-brand-gradient">Courses</span>

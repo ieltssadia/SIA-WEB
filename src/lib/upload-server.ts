@@ -66,18 +66,18 @@ export async function saveUploadedFile(
     : "general";
 
   if (!file || typeof file.arrayBuffer !== "function") {
-    throw new UploadError("ফাইল পাওয়া যায়নি — আবার সিলেক্ট করুন।");
+    throw new UploadError("ফাইল পাওয়া যায়নি, আবার সিলেক্ট করুন।");
   }
   if (file.size === 0) throw new UploadError("ফাইলটি খালি।");
   if (file.size > MAX_UPLOAD_BYTES) {
-    throw new UploadError("ফাইল খুব বড় — সর্বোচ্চ ৬০ MB আপলোড করা যাবে।");
+    throw new UploadError("ফাইল খুব বড়, সর্বোচ্চ ৬০ MB আপলোড করা যাবে।");
   }
 
   const rawName = (file.name || "file").slice(0, 120);
   const ext = (rawName.split(".").pop() ?? "").toLowerCase();
   if (!ext || !EXT_WHITELIST.has(ext)) {
     throw new UploadError(
-      "এই ধরনের ফাইল আপলোড করা যাবে না — HTML, PDF, MP3, ছবি বা Office ফাইল দিন।"
+      "এই ধরনের ফাইল আপলোড করা যাবে না: HTML, PDF, MP3, ছবি বা Office ফাইল দিন।"
     );
   }
 

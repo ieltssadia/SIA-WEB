@@ -79,7 +79,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
             আপনার account তৈরি আছে, কিন্তু কোনো কোর্সে ভর্তি হয়নি। কোর্সে ভর্তি হলেই এখানে
-            পাবেন — আপনার ব্যাচের রুটিন, লাইভ ক্লাস, study materials, mock scores আর batch
+            পাবেন, আপনার ব্যাচের রুটিন, লাইভ ক্লাস, study materials, mock scores আর batch
             notices।
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
@@ -150,7 +150,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
       <Reveal y={12} delay={0.12}>
         <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/[0.05] p-5 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            ভর্তি বা payment নিয়ে প্রশ্ন আছে? আমরা আছি — Sat–Thu, 9 AM – 9 PM।
+            ভর্তি বা payment নিয়ে প্রশ্ন আছে? আমরা আছি: Sat-Thu, 9AM-9PM।
           </p>
           <div className="flex shrink-0 gap-2.5">
             <Button

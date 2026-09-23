@@ -48,7 +48,7 @@ export async function PATCH(
   } catch (error) {
     console.error("[api/admin/orders] Patch failed:", error);
     return NextResponse.json(
-      { ok: false, error: "স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

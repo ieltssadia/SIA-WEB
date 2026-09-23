@@ -167,7 +167,7 @@ export async function isOwner(req: Request): Promise<boolean> {
 
 export function unauthorized(): NextResponse {
   return NextResponse.json(
-    { ok: false, error: "Unauthorized — invalid or missing admin key." },
+    { ok: false, error: "Unauthorized, invalid or missing admin key." },
     { status: 401 }
   );
 }

@@ -48,7 +48,7 @@ import {
 import { useAdminStore } from "@/lib/admin-store";
 import { courses } from "@/lib/site-data";
 
-const SITE_URL_HINT = "শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করে — লিংক শেয়ারের দরকার নেই";
+const SITE_URL_HINT = "শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করে, লিংক শেয়ারের দরকার নেই";
 
 type FormState = {
   slug: string;
@@ -117,7 +117,7 @@ export function AdminLiveClasses() {
       if (res.ok && data?.ok && data.classes) setClasses(data.classes);
       else setError(data?.error ?? "লাইভ ক্লাস লোড করা যায়নি।");
     } catch {
-      setError("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      setError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -224,7 +224,7 @@ export function AdminLiveClasses() {
         }
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     } finally {
       setSaving(false);
     }
@@ -248,7 +248,7 @@ export function AdminLiveClasses() {
         toast.error(data?.error ?? "মুছে ফেলা যায়নি।");
       }
     } catch {
-      toast.error("নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন।");
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
     }
   }
 
@@ -258,8 +258,8 @@ export function AdminLiveClasses() {
   return (
     <div className="space-y-4">
       <SectionHeading
-        title="Live Classes — লাইভ ক্লাস"
-        sub="ক্লাস শিডিউল করুন — এনরোল্ড শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করবে"
+        title="Live Classes: লাইভ ক্লাস"
+        sub="ক্লাস শিডিউল করুন, এনরোল্ড শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করবে"
       />
 
       {/* Schedule / edit form */}
@@ -268,7 +268,7 @@ export function AdminLiveClasses() {
           <form onSubmit={submit} className="space-y-4">
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-semibold text-foreground">
-                {editingId ? "Edit class — ক্লাস এডিট" : "Schedule a class — নতুন ক্লাস"}
+                {editingId ? "Edit class: ক্লাস এডিট" : "Schedule a class: নতুন ক্লাস"}
               </h3>
               {editingId ? (
                 <Button type="button" variant="outline" size="sm" className="rounded-full border-border bg-card" onClick={resetForm}>
@@ -388,7 +388,7 @@ export function AdminLiveClasses() {
                   maxLength={1000}
                   value={form.description}
                   onChange={(e) => setField("description", e.target.value)}
-                  placeholder="ক্লাসে কী থাকবে — সংক্ষেপে লিখুন"
+                  placeholder="ক্লাসে কী থাকবে, সংক্ষেপে লিখুন"
                   className="rounded-xl border-border bg-muted/40"
                 />
               </div>
@@ -431,7 +431,7 @@ export function AdminLiveClasses() {
         <div className="space-y-4">
           <ClassGroup
             icon={Radio}
-            title="Live now — চলছে"
+            title="Live now: চলছে"
             items={grouped.live}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
@@ -440,16 +440,16 @@ export function AdminLiveClasses() {
           />
           <ClassGroup
             icon={CalendarClock}
-            title="Upcoming — আসছে"
+            title="Upcoming: আসছে"
             items={[...grouped.upcoming, ...grouped.overdue]}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
             courseTitle={courseTitle}
-            emptyHint="কোনো আসন্ন ক্লাস নেই — উপরের ফর্ম থেকে শিডিউল করুন।"
+            emptyHint="কোনো আসন্ন ক্লাস নেই, উপরের ফর্ম থেকে শিডিউল করুন।"
           />
           <ClassGroup
             icon={Clock}
-            title="Ended — শেষ হয়েছে"
+            title="Ended: শেষ হয়েছে"
             items={grouped.ended}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
@@ -457,7 +457,7 @@ export function AdminLiveClasses() {
             emptyHint="এখনো কোনো ক্লাস শেষ হয়নি।"
           />
           <p className="rounded-xl border border-border bg-muted/40 p-3 text-xs text-muted-foreground">
-            Tip: public GET /api/live-classes প্রথমবার কল হলে ৪টি ডেমো ক্লাস auto-seed করে —
+            Tip: public GET /api/live-classes প্রথমবার কল হলে ৪টি ডেমো ক্লাস auto-seed করে,
             সেগুলোও এখান থেকে এডিট বা ডিলিট করা যাবে।
           </p>
         </div>
@@ -469,7 +469,7 @@ export function AdminLiveClasses() {
           <AlertDialogHeader>
             <AlertDialogTitle>ক্লাসটি মুছে ফেলবেন? (Delete this class?)</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title} — এটি আর পোর্টালের লাইভ সেকশনে দেখা যাবে না। এটি ফেরানো যাবে না।
+              {deleteTarget?.title}, এটি আর পোর্টালের লাইভ সেকশনে দেখা যাবে না। এটি ফেরানো যাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

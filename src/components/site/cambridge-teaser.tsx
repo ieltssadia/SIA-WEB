@@ -52,16 +52,12 @@ export function CambridgeTeaser() {
           <div className="grid gap-10 p-6 sm:p-10 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-14 lg:p-14">
             {/* Copy side */}
             <div>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9b75c]">
-                <BookOpenCheck className="h-4 w-4" aria-hidden />
-                Cambridge IELTS Library
-              </span>
-              <h2 className="mt-4 font-display text-3xl font-extrabold leading-tight text-[#f6ecd4] sm:text-4xl">
-                পুরো Cambridge সিরিজ —{" "}
+              <h2 className="font-display text-3xl font-extrabold leading-tight text-[#f6ecd4] sm:text-4xl">
+                পুরো Cambridge সিরিজ,{" "}
                 <span className="text-[#d9b75c]">এখন ইন্টার‌্যাক্টিভ</span>
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-[#c6b995] sm:text-base">
-                Books 1–19 (Academic + GT) · {total || 140} প্র্যাকটিস টেস্ট — সম্পূর্ণ ফ্রি।
+                Books 1-19 (Academic + GT) · {total || 140} প্র্যাকটিস টেস্ট, সম্পূর্ণ ফ্রি।
               </p>
 
               {/* Per-skill perk pills — 10MS-style, icon + one word */}
@@ -91,7 +87,7 @@ export function CambridgeTeaser() {
                   href="#/cambridge/book/19?module=academic"
                   className="text-sm font-semibold text-[#d9b75c] underline-offset-4 transition-colors hover:text-white hover:underline"
                 >
-                  Try the latest test — Book 19
+                  Try the latest test (Book 19)
                 </a>
               </div>
             </div>
@@ -100,7 +96,7 @@ export function CambridgeTeaser() {
             <Reveal delay={0.1}>
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#a3977b]">
-                  On the shelf — latest editions
+                  On the shelf: latest editions
                 </p>
                 <div className="mt-4 flex items-end gap-2 sm:gap-2.5">
                   {(books.length ? books : Array.from({ length: 7 }, (_, i) => null)).map(

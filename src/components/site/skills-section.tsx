@@ -17,13 +17,12 @@ export function SkillsSection() {
     <section id="skills" className="scroll-mt-24 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          eyebrow="Four Modules"
           title={
             <>
               Master All Four <span className="text-brand-gradient">IELTS Skills</span>
             </>
           }
-          subtitle="Listening, Reading, Writing ও Speaking — প্রতিটি মডিউলের জন্য আলাদা কৌশল, নিয়মিত প্র্যাকটিস ও ব্যক্তিগত ফিডব্যাক।"
+          subtitle="Listening, Reading, Writing ও Speaking: প্রতিটি মডিউলের জন্য আলাদা কৌশল, নিয়মিত প্র্যাকটিস ও ব্যক্তিগত ফিডব্যাক।"
         />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -59,7 +59,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[api/admin/live-classes] List failed:", error);
     return NextResponse.json(
-      { ok: false, error: "লাইভ ক্লাস লিস্ট লোড করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "লাইভ ক্লাস লিস্ট লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }
@@ -111,13 +111,13 @@ export async function POST(req: Request) {
     const message = error instanceof Error ? error.message : "";
     if (message.includes("Unique constraint")) {
       return NextResponse.json(
-        { ok: false, error: "এই slug দিয়ে আগেই ক্লাস আছে — অন্য slug দিন।" },
+        { ok: false, error: "এই slug দিয়ে আগেই ক্লাস আছে, অন্য slug দিন।" },
         { status: 409 }
       );
     }
     console.error("[api/admin/live-classes] Create failed:", error);
     return NextResponse.json(
-      { ok: false, error: "ক্লাস তৈরি করতে সমস্যা হয়েছে — আবার চেষ্টা করুন।" },
+      { ok: false, error: "ক্লাস তৈরি করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
       { status: 500 }
     );
   }

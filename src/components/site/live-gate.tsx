@@ -39,7 +39,7 @@ export function LiveGate({ children }: { children: React.ReactNode }) {
             লাইভ ক্লাস শুধু এনরোল্ড স্টুডেন্টদের জন্য
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            ক্লাসরুম, রেকর্ডিং আর লাইভ শিডিউল পোর্টালের ভেতরে — এনরোলমেন্টের সময়
+            ক্লাসরুম, রেকর্ডিং আর লাইভ শিডিউল পোর্টালের ভেতরে, এনরোলমেন্টের সময়
             দেওয়া মোবাইল নম্বর আর পাসওয়ার্ড দিয়ে লগ ইন করুন।
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-2 sm:flex-row">

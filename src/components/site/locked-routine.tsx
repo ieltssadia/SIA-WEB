@@ -74,7 +74,7 @@ export function LockedRoutineSection() {
             For Enrolled Students Only
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            সম্পূর্ণ সাপ্তাহিক রুটিন, আপনার ব্যাচের ক্লাস, Zoom লিংক — সব কিছু দেখতে Student
+            সম্পূর্ণ সাপ্তাহিক রুটিন, আপনার ব্যাচের ক্লাস, Zoom লিংক, সব কিছু দেখতে Student
             Portal-এ লগ ইন করুন (ভর্তির সময় দেওয়া মোবাইল নম্বর দিয়ে)।
           </p>
           <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">

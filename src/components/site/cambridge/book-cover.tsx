@@ -46,7 +46,7 @@ export function BookCover({
         <>
           <Image
             src={src}
-            alt={`Cambridge IELTS ${bookNumber} ${moduleLabel(bookModule)} — real book cover`}
+            alt={`Cambridge IELTS ${bookNumber} ${moduleLabel(bookModule)}, real book cover`}
             fill
             sizes={large ? "320px" : "(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 300px"}
             className="object-cover"

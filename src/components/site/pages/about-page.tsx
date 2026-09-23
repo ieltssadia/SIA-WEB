@@ -9,13 +9,12 @@ export function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About Us"
         title={
           <>
             Meet <span className="text-brand-gradient">Sadia Rahman</span> &amp; Her Mission
           </>
         }
-        subtitle="৯ বছর, ৩১৬+ ব্যাচ, ৫,০০০+ শিক্ষার্থী — ছোট শহর Sreemangal থেকে কীভাবে একটি বিশ্বস্ত নাম তৈরি হলো, সেই গল্প।"
+        subtitle="৯ বছর, ৩১৬+ ব্যাচ, ৫,০০০+ শিক্ষার্থী। ছোট শহর Sreemangal থেকে কীভাবে একটি বিশ্বস্ত নাম তৈরি হলো, সেই গল্প।"
         crumbs={[{ label: "About" }]}
       />
       <InstructorSection />
