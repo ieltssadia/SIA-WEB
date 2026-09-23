@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { canonicalPhone } from "@/lib/phone";
-import { DEMO_OTP, getPortalPayload } from "@/lib/portal-server";
+import { DEMO_OTP, getPortalPayload, issueToken } from "@/lib/portal-server";
 
 const verifySchema = z.object({
   phone: z.string().trim().min(6).max(20),
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json(payload);
+    return NextResponse.json({ ...payload, token: issueToken(phone) });
   } catch (error) {
     console.error("[api/portal/verify] Failed:", error);
     return NextResponse.json(
