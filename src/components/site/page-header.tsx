@@ -27,9 +27,9 @@ export function PageHeader({
         aria-hidden
         className="pointer-events-none absolute -right-24 bottom-0 h-[320px] w-[320px] rounded-full bg-radial-glow blur-2xl"
       />
-      <div className="relative mx-auto max-w-7xl px-4 py-14 md:py-20 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:py-14 md:py-20 lg:px-8">
         <Reveal y={12}>
-          <nav aria-label="Breadcrumb" className="mb-4">
+          <nav aria-label="Breadcrumb" className="mb-3 sm:mb-4 overflow-x-auto pb-1">
             <ol className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
               <li>
                 <Link
@@ -59,11 +59,11 @@ export function PageHeader({
             </ol>
           </nav>
 
-          <h1 className="font-display text-3xl font-bold leading-tight text-foreground md:text-5xl">
+          <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground break-words">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-muted-foreground">
+            <p className="mt-3 sm:mt-4 max-w-2xl text-pretty leading-relaxed text-sm sm:text-base text-muted-foreground break-words">
               {subtitle}
             </p>
           ) : null}

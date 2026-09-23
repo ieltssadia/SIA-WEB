@@ -160,8 +160,8 @@ export function SiteHeader() {
       <div
         className={`border-b transition-all duration-300 ${
           scrolled
-            ? "border-border/80 bg-card/90 shadow-[0_12px_32px_rgba(30,27,20,0.08)] backdrop-blur-xl"
-            : "border-transparent bg-card/60 backdrop-blur-md"
+            ? "border-border/80 bg-card/98 shadow-[0_12px_32px_rgba(30,27,20,0.08)] backdrop-blur-xl"
+            : "border-border/40 bg-card/95 backdrop-blur-md"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 lg:px-8">
@@ -341,7 +341,7 @@ export function SiteHeader() {
                 </SheetTrigger>
               <SheetContent
                   side="right"
-                  className="flex w-[280px] flex-col border-l border-border bg-card"
+                  className="flex w-[88vw] max-w-[340px] sm:max-w-sm flex-col border-l border-border bg-card p-5 sm:p-6 overflow-y-auto"
                 >
                   <SheetTitle className="flex items-center gap-2 font-display text-lg font-bold">
                     <Image
@@ -353,8 +353,8 @@ export function SiteHeader() {
                     />
                     Sadia&apos;s <span className="text-brand-gradient">IELTS</span>
                   </SheetTitle>
-                  <Separator className="bg-primary/10" />
-                  <nav aria-label="Mobile navigation" className="mt-2 flex flex-col gap-1">
+                  <Separator className="bg-primary/10 my-2" />
+                  <nav aria-label="Mobile navigation" className="flex flex-col gap-1">
                     {navPrimary.map((link) => (
                       <a
                         key={link.href}
@@ -379,7 +379,7 @@ export function SiteHeader() {
                       </a>
                     ))}
                   </nav>
-                  <div className="mt-auto space-y-3 pb-2">
+                  <div className="mt-auto space-y-2.5 pt-4 pb-2">
                     <Button asChild className="w-full rounded-full bg-ink font-semibold text-white transition-opacity hover:opacity-85">
                       <a href={portalAuthed ? "#/portal" : "#/checkout"} onClick={() => setOpen(false)}>
                         {portalAuthed ? (
@@ -401,7 +401,7 @@ export function SiteHeader() {
                     <Button asChild variant="outline" className="w-full border-primary/25 hover:text-primary">
                       <a href={site.phoneHref}>
                         <Phone className="mr-1 h-4 w-4" aria-hidden />
-                        {site.phone}
+                        <span className="truncate">{site.phone}</span>
                       </a>
                     </Button>
                   </div>

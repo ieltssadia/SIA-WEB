@@ -114,44 +114,44 @@ export function EnrollSection() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Info side */}
           <div>
-            <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight break-words">
               Enroll Today, <span className="text-[#d9b75c]">Seats Fill Fast!</span>
             </h2>
-            <p className="mt-4 max-w-lg leading-relaxed text-[#c6b995]">
+            <p className="mt-3 sm:mt-4 max-w-lg leading-relaxed text-sm sm:text-base text-[#c6b995] break-words">
               New students join every week, কোর্সটি শুরু করতে হবে কবে? ফর্মটি পূরণ করুন,
               আমাদের টিম ২৪ ঘণ্টার মধ্যে কল করে ব্যাচের সময়সূচি ও ভর্তি প্রক্রিয়া জানিয়ে দেবে।
             </p>
 
-            <ul className="mt-6 space-y-2.5 text-sm text-[#c6b995]">
+            <ul className="mt-5 sm:mt-6 space-y-2.5 text-xs sm:text-sm text-[#c6b995]">
               <li className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
-                Free level assessment before you join
+                <span>Free level assessment before you join</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
-                bKash / Nagad / Bank, pay however you like
+                <span>bKash / Nagad / Bank, pay however you like</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-[#d9b75c]" aria-hidden />
-                অনলাইন ও অফলাইন, দুই ধরনের ব্যাচই আছে
+                <span>অনলাইন ও অফলাইন, দুই ধরনের ব্যাচই আছে</span>
               </li>
             </ul>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className="mt-6 sm:mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2">
               {contactCards.map(({ icon: Icon, label, value, href }) => {
                 const inner = (
                   <>
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10">
                       <Icon className="h-4.5 w-4.5 text-primary" aria-hidden />
                     </span>
-                    <span className="min-w-0">
-                      <span className="block text-[11px] uppercase tracking-wider text-muted-foreground">
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground">
                         {label}
                       </span>
-                      <span className="block truncate text-sm font-medium text-foreground">
+                      <span className="block truncate text-xs sm:text-sm font-medium text-foreground">
                         {value}
                       </span>
                     </span>
@@ -163,14 +163,14 @@ export function EnrollSection() {
                     href={href}
                     target={href.startsWith("http") ? "_blank" : undefined}
                     rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 sm:p-4 transition-colors hover:border-primary/40"
                   >
                     {inner}
                   </a>
                 ) : (
                   <div
                     key={label}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 sm:p-4"
                   >
                     {inner}
                   </div>

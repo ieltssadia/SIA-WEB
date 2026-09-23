@@ -30,30 +30,30 @@ export function StoriesPage() {
         crumbs={[{ label: "Success Stories" }]}
       />
 
-      <section className="py-14 md:py-20">
+      <section className="py-8 sm:py-14 md:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stories.map((story, i) => (
               <Reveal key={story.name} delay={(i % 3) * 0.08} className="h-full">
                 <Card className="flex h-full flex-col border-border bg-card transition-colors hover:border-primary/40">
-                  <CardContent className="flex flex-1 flex-col p-6">
-                    <Quote className="h-6 w-6 text-primary/50" aria-hidden />
-                    <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">
+                  <CardContent className="flex flex-1 flex-col p-4 sm:p-6">
+                    <Quote className="h-5 w-5 sm:h-6 sm:w-6 text-primary/50" aria-hidden />
+                    <p className="mt-3 sm:mt-4 flex-1 text-xs sm:text-sm leading-relaxed text-foreground/90 break-words text-pretty">
                       &ldquo;{story.quote}&rdquo;
                     </p>
-                    <div className="mt-6 flex items-center gap-3 border-t border-border/70 pt-5">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-brand-gradient font-display text-sm font-bold text-white">
+                    <div className="mt-5 sm:mt-6 flex items-center gap-2.5 sm:gap-3 border-t border-border/70 pt-4 sm:pt-5">
+                      <span className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-brand-gradient font-display text-xs sm:text-sm font-bold text-white">
                         {initials(story.name)}
                       </span>
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-foreground">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs sm:text-sm font-semibold text-foreground">
                           {story.name}
                         </p>
-                        <p className="truncate text-xs text-muted-foreground">
+                        <p className="truncate text-[10px] sm:text-xs text-muted-foreground">
                           {story.course} · {story.date}
                         </p>
                       </div>
-                      <Badge className="ml-auto shrink-0 border-primary/40 bg-primary/15 text-primary hover:bg-primary/15">
+                      <Badge className="ml-auto shrink-0 border-primary/40 bg-primary/15 text-primary hover:bg-primary/15 text-xs">
                         <Trophy className="mr-1 h-3 w-3" aria-hidden />
                         {story.band}
                       </Badge>

@@ -25,7 +25,6 @@ export function Reveal({ children, delay = 0, y = 24, className }: RevealProps) 
   );
 }
 
-/** Section heading block with serif title and subtitle. */
 export function SectionHeading({
   title,
   subtitle,
@@ -34,12 +33,14 @@ export function SectionHeading({
   subtitle?: string;
 }) {
   return (
-    <Reveal className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-      <h2 className="font-display text-3xl font-bold leading-tight text-foreground md:text-4xl">
+    <Reveal className="mx-auto mb-8 sm:mb-10 max-w-2xl text-center md:mb-14 px-2">
+      <h2 className="font-display text-2xl sm:text-3xl font-bold leading-tight text-foreground md:text-4xl break-words">
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-3 text-balance text-[15px] leading-relaxed text-muted-foreground md:text-base">{subtitle}</p>
+        <p className="mt-2.5 sm:mt-3 text-pretty text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground break-words">
+          {subtitle}
+        </p>
       ) : null}
     </Reveal>
   );
