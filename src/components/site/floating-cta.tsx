@@ -11,11 +11,19 @@ import { site } from "@/lib/site-data";
  */
 export function FloatingCta() {
   const [visible, setVisible] = useState(false);
-  const [inPortal, setInPortal] = useState(false);
+  const [hiddenRoute, setHiddenRoute] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 480);
-    const readRoute = () => setInPortal(window.location.hash.startsWith("#/portal"));
+    const readRoute = () => {
+      const hash = typeof window !== "undefined" ? window.location.hash : "";
+      // Hide on Cambridge practice tests, Student Portal, and exam views
+      const isHidden =
+        hash.startsWith("#/cambridge") ||
+        hash.startsWith("#/portal") ||
+        hash.startsWith("#/live-classes");
+      setHiddenRoute(isHidden);
+    };
     const raf = requestAnimationFrame(() => {
       onScroll();
       readRoute();
@@ -29,7 +37,7 @@ export function FloatingCta() {
     };
   }, []);
 
-  const show = visible && !inPortal;
+  const show = visible && !hiddenRoute;
 
   return (
     <div
