@@ -227,14 +227,8 @@ export function AdminPage() {
 }
 
 // ---------------------------------------------------------------------------
-// Login gate — per-member email + password (3 seeded demo accounts)
+// Login gate — per-member email + password
 // ---------------------------------------------------------------------------
-
-const DEMO_ACCOUNTS = [
-  { role: "Owner", email: "sadia@team.com", password: "owner123" },
-  { role: "Admin", email: "admin@team.com", password: "admin123" },
-  { role: "Teacher", email: "teacher@team.com", password: "teacher123" },
-];
 
 function LoginGate({
   login,
@@ -348,20 +342,6 @@ function LoginGate({
               )}
             </Button>
           </form>
-
-          <div className="w-full rounded-xl bg-muted/60 px-3 py-2.5 text-xs text-muted-foreground">
-            <p className="mb-1 text-center font-semibold text-foreground">Demo accounts</p>
-            <ul className="space-y-1">
-              {DEMO_ACCOUNTS.map((a) => (
-                <li key={a.email} className="flex items-center justify-between gap-2">
-                  <span className="font-semibold">{a.role}</span>
-                  <span className="truncate font-mono text-[11px]">
-                    {a.email} · {a.password}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </CardContent>
       </Card>
     </div>

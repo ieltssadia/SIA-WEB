@@ -8,7 +8,6 @@ import {
   BadgeCheck,
   Check,
   Copy,
-  GraduationCap,
   Loader2,
   SearchCheck,
   ShieldCheck,
@@ -21,7 +20,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal } from "@/components/site/reveal";
-import { certificateSeeds } from "@/lib/site-data";
 
 /**
  * Public "Verify Certificate" page (10MS /certificate pattern).
@@ -292,27 +290,10 @@ export function VerifyPage() {
             ) : null}
           </div>
 
-          {/* Demo IDs — lets anyone try the widget instantly */}
+          {/* Security badge notice */}
           <Reveal delay={0.08}>
             <div className="mt-10 text-center">
-              <p className="flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                <GraduationCap className="h-3.5 w-3.5 text-primary" aria-hidden />
-                Try a demo ID
-              </p>
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
-                {certificateSeeds.map((seed) => (
-                  <button
-                    key={seed.id}
-                    type="button"
-                    title={`${seed.name}, Band ${seed.band}`}
-                    onClick={() => void runVerify(seed.id)}
-                    className="rounded-full border border-border bg-card px-3.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-                  >
-                    {seed.id}
-                  </button>
-                ))}
-              </div>
-              <p className="mt-6 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+              <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
                 প্রতিটি সার্টিফিকেট সরাসরি আমাদের অফিসিয়াল রেকর্ড থেকে যাচাই হয়,
                 এডিট বা নকল করা সম্ভব নয়।

@@ -17,17 +17,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Reveal } from "@/components/site/reveal";
 import { site, stats } from "@/lib/site-data";
 import { usePortalStore } from "@/lib/portal-store";
-
-const demoAccounts = [
-  { phone: "01712000001", label: "Anika (2 courses)" },
-  { phone: "01712000004", label: "Emran (Crash Course)" },
-  { phone: "01712000006", label: "Rakib (no enrollment, empty)" },
-];
 
 const benefits = [
   "ভর্তি করা কোর্সের সম্পূর্ণ weekly routine ও class links",
@@ -294,34 +287,7 @@ function LoginForm({
         </Button>
       </form>
 
-      <Separator className="my-5 bg-primary/10" />
-      <details className="group rounded-xl border border-dashed border-border bg-muted/50 px-4 py-3">
-        <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-wider text-muted-foreground transition-colors group-open:text-primary">
-          Demo accounts (for testing)
-        </summary>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {demoAccounts.map((d) => (
-            <button
-              key={d.phone}
-              type="button"
-              onClick={() => {
-                setPhone(d.phone);
-                setPassword("sadia123");
-                setError(null);
-              }}
-              className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
-            >
-              {d.phone} · {d.label}
-            </button>
-          ))}
-        </div>
-        <p className="mt-2.5 text-[11px] text-muted-foreground">
-          Password for all demo accounts:{" "}
-          <span className="font-mono font-bold text-primary">sadia123</span>
-        </p>
-      </details>
-
-      <p className="mt-5 text-center text-xs text-muted-foreground">
+      <p className="mt-6 text-center text-xs text-muted-foreground">
         কোর্স কিনে নিজের account খুলতে চান?{" "}
         <a href="#/checkout" className="font-semibold text-primary hover:underline">
           Course checkout
