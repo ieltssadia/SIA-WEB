@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { routeSegments, useHashRoute, useHashQuery } from "@/lib/router";
 import { useCartStore } from "@/lib/cart-store";
 import { usePortalStore } from "@/lib/portal-store";
+import { useAdminStore } from "@/lib/admin-store";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { PartnerStrip } from "@/components/site/partner-strip";
@@ -74,6 +75,7 @@ export function SiteRouter() {
   useEffect(() => {
     usePortalStore.persist.rehydrate();
     useCartStore.persist.rehydrate();
+    useAdminStore.persist.rehydrate();
   }, []);
 
   // Scroll management: legacy anchors scroll to their section, pages go to top.
