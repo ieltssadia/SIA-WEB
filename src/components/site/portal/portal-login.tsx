@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Reveal } from "@/components/site/reveal";
 import { site, stats } from "@/lib/site-data";
@@ -31,9 +32,10 @@ const benefits = [
 
 type AuthResponse = {
   user?: { name: string; phone: string };
-  enrollments?: never[];
-  mocks?: never[];
+  enrollments?: any[];
+  mocks?: any[];
   token?: string;
+  certificates?: any[];
   error?: string;
 };
 
