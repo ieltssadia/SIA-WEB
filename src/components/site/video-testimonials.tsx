@@ -31,6 +31,7 @@ export interface VideoReview {
   id: string;
   name: string;
   band: string;
+  score: number;
   course: string;
   duration: string;
   quote: string;
@@ -45,6 +46,7 @@ export const videoReviews: VideoReview[] = [
     id: "review-1",
     name: "Sumaiya Rahman",
     band: "Band 7.5",
+    score: 7.5,
     course: "IELTS Live Interactive Batch",
     duration: "0:45",
     quote: "Sadia আপুর ক্লাসের গাইডলাইন আর স্পিকিং প্র্যাকটিস সেশন আমাকে প্রথমবারেই কাঙ্ক্ষিত স্কোর এনে দিয়েছে।",
@@ -55,8 +57,9 @@ export const videoReviews: VideoReview[] = [
   },
   {
     id: "review-2",
-    name: "Nusrat Jahan",
+    name: "Mahmudul Hasan",
     band: "Band 7.0",
+    score: 7.0,
     course: "Basic to IELTS VIP Care",
     duration: "0:50",
     quote: "কাজের পাশাপাশি প্রিপারেশন নেওয়া কঠিন ছিল, কিন্তু এই কোর্সের রেকর্ডেড ক্লাস ও মেন্টরিং অসাধারণ ছিল।",
@@ -69,6 +72,7 @@ export const videoReviews: VideoReview[] = [
     id: "review-3",
     name: "Tanvir Hasan",
     band: "Band 7.5",
+    score: 7.5,
     course: "IELTS Intensive Crash Course",
     duration: "0:50",
     quote: "মক টেস্ট এবং রাইটিং-এর ওয়ান-টু-ওয়ান ফিডব্যাক আমার স্কোর বৃদ্ধির মূল চাবিকাঠি ছিল।",
@@ -81,6 +85,7 @@ export const videoReviews: VideoReview[] = [
     id: "review-4",
     name: "Afrin Sultana",
     band: "Band 8.0",
+    score: 8.0,
     course: "Complete IELTS Masterclass",
     duration: "1:43",
     quote: "রিডিং ও লিসেনিং-এর ইউনিক ট্রিকস এবং প্রতিদিনের এক্সাম প্র্যাকটিস আমাকে আত্মবিশ্বাসী করেছে।",
@@ -237,57 +242,60 @@ export function VideoTestimonials() {
                 {videoReviews.map((review) => (
                   <CarouselItem
                     key={review.id}
-                    className="pl-3 sm:pl-4 basis-[72%] sm:basis-[46%] md:basis-[32%] lg:basis-1/4"
+                    className="pl-3 sm:pl-4 basis-[75%] sm:basis-[48%] md:basis-[34%] lg:basis-1/4"
                   >
                     <div
                       onClick={() => openVideo(review)}
-                      className="group relative cursor-pointer overflow-hidden rounded-2xl border border-primary/20 bg-card/70 shadow-md backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_12px_28px_rgba(217,183,92,0.18)]"
+                      className="group relative cursor-pointer overflow-hidden rounded-2xl border-2 border-primary/30 bg-[#0f0d09] shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-primary hover:shadow-[0_12px_32px_rgba(217,183,92,0.25)]"
                     >
-                      {/* 9:16 Aspect ratio video thumbnail frame */}
-                      <div className="relative aspect-[9/15] w-full overflow-hidden bg-black/40">
+                      {/* 9:15 Aspect ratio video thumbnail frame */}
+                      <div className="relative aspect-[9/15] w-full overflow-hidden bg-black">
                         <Image
                           src={review.thumbnailSrc}
                           alt={`${review.name} - ${review.band} Review`}
                           fill
-                          sizes="(max-width: 640px) 75vw, (max-width: 1024px) 45vw, 25vw"
+                          sizes="(max-width: 640px) 75vw, (max-width: 1024px) 48vw, 25vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
 
-                        {/* Top Gradient & Badges */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/40" />
+                        {/* Top Gradient & High-Contrast Badges */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-black/60" />
 
-                        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
-                          <Badge className="border-primary/40 bg-black/65 font-display text-[11px] font-bold text-primary backdrop-blur">
-                            <Trophy className="mr-1 h-3 w-3 text-primary" />
-                            {review.band}
-                          </Badge>
-                          <span className="rounded-full bg-black/65 px-2 py-0.5 font-mono text-[10px] font-semibold text-white/90 backdrop-blur">
+                        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3.5 z-10">
+                          {/* Ultra Visible High-Contrast Gold Band Badge */}
+                          <div className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#d9b75c] via-[#f7e098] to-[#d9b75c] px-3 py-1 text-xs font-black text-black shadow-[0_3px_10px_rgba(0,0,0,0.7)] border border-[#ffea9f]">
+                            <Trophy className="h-3.5 w-3.5 fill-black text-black" />
+                            <span>{review.band}</span>
+                          </div>
+
+                          {/* High Contrast Duration Pill */}
+                          <span className="rounded-full bg-black/85 px-2.5 py-1 font-mono text-[11px] font-bold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)] border border-white/25 backdrop-blur-md">
                             {review.duration}
                           </span>
                         </div>
 
                         {/* Center Animated Play Button */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-primary/50 bg-primary/25 text-white backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-black">
-                            <span className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
-                            <Play className="ml-0.5 h-5 w-5 fill-current" />
+                        <div className="absolute inset-0 flex items-center justify-center z-10">
+                          <div className="relative flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-amber-300 bg-black/60 text-[#f7e098] backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)] transition-all duration-300 group-hover:scale-115 group-hover:bg-[#d9b75c] group-hover:text-black group-hover:border-white">
+                            <span className="absolute inset-0 animate-ping rounded-full bg-amber-400/30" />
+                            <Play className="ml-1 h-6 w-6 fill-current" />
                           </div>
                         </div>
 
                         {/* Bottom Student Info Overlay */}
-                        <div className="absolute inset-x-0 bottom-0 p-3.5">
+                        <div className="absolute inset-x-0 bottom-0 p-4 z-10 bg-gradient-to-t from-black/95 via-black/80 to-transparent">
                           <div className="flex items-center gap-1.5">
-                            <p className="font-display text-sm sm:text-base font-bold text-white group-hover:text-primary transition-colors truncate">
+                            <p className="font-display text-sm sm:text-base font-bold text-white group-hover:text-[#f7e098] transition-colors truncate drop-shadow">
                               {review.name}
                             </p>
                             {review.verified && (
-                              <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-primary/20 shrink-0" />
+                              <CheckCircle2 className="h-4 w-4 text-[#d9b75c] fill-[#d9b75c]/20 shrink-0" />
                             )}
                           </div>
-                          <p className="mt-0.5 text-[11px] text-primary/90 font-medium truncate">
+                          <p className="mt-0.5 text-[11px] text-[#e8c878] font-semibold truncate">
                             {review.course}
                           </p>
-                          <p className="mt-1.5 text-[11px] leading-relaxed text-white/80 line-clamp-2">
+                          <p className="mt-1.5 text-[11px] leading-relaxed text-zinc-200 line-clamp-2">
                             &ldquo;{review.quote}&rdquo;
                           </p>
                         </div>
@@ -298,8 +306,8 @@ export function VideoTestimonials() {
               </CarouselContent>
 
               {/* Prev / Next Carousel Controls */}
-              <CarouselPrevious className="hidden sm:flex -left-3 lg:-left-5 border-primary/30 bg-card/90 text-foreground hover:border-primary hover:bg-primary hover:text-black transition-colors" />
-              <CarouselNext className="hidden sm:flex -right-3 lg:-right-5 border-primary/30 bg-card/90 text-foreground hover:border-primary hover:bg-primary hover:text-black transition-colors" />
+              <CarouselPrevious className="hidden sm:flex -left-3 lg:-left-5 border-2 border-primary/40 bg-[#16130c] text-[#f7e098] shadow-lg hover:border-primary hover:bg-[#d9b75c] hover:text-black transition-all" />
+              <CarouselNext className="hidden sm:flex -right-3 lg:-right-5 border-2 border-primary/40 bg-[#16130c] text-[#f7e098] shadow-lg hover:border-primary hover:bg-[#d9b75c] hover:text-black transition-all" />
             </Carousel>
           </div>
         </Reveal>
@@ -310,7 +318,7 @@ export function VideoTestimonials() {
             <Button
               asChild
               variant="outline"
-              className="rounded-full border-border bg-card/80 px-5 text-xs sm:text-sm font-semibold text-foreground hover:border-primary/50 hover:text-primary"
+              className="rounded-full border-2 border-primary/30 bg-card/80 px-6 py-2.5 text-xs sm:text-sm font-bold text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary transition-all shadow-sm"
             >
               <a href="#/stories">
                 <Video className="mr-1.5 h-4 w-4 text-primary" />
@@ -325,27 +333,27 @@ export function VideoTestimonials() {
       {/* Fullscreen Reels Video Modal Player */}
       {activeVideo && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-3 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
           onClick={closeVideo}
         >
           <div
-            className="relative flex max-h-[92vh] w-full max-w-[420px] flex-col overflow-hidden rounded-2xl border border-primary/30 bg-[#0c0a06] shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
+            className="relative flex max-h-[92vh] w-full max-w-[420px] flex-col overflow-hidden rounded-2xl border-2 border-amber-400/40 bg-[#0c0a06] shadow-[0_20px_60px_rgba(0,0,0,0.9)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header / Close Bar */}
-            <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/85 to-transparent p-3.5">
+            <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/90 to-transparent p-3.5">
               <div className="flex items-center gap-2">
-                <Badge className="border-primary/40 bg-primary/20 font-display text-xs font-bold text-primary backdrop-blur">
-                  <Trophy className="mr-1 h-3.5 w-3.5" />
-                  {activeVideo.band}
-                </Badge>
-                <span className="text-xs font-semibold text-white/90">
+                <div className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#d9b75c] to-[#f7e098] px-2.5 py-0.5 text-xs font-black text-black">
+                  <Trophy className="h-3 w-3 fill-black text-black" />
+                  <span>{activeVideo.band}</span>
+                </div>
+                <span className="text-xs font-bold text-white">
                   {activeVideo.name}
                 </span>
               </div>
               <button
                 onClick={closeVideo}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white/80 backdrop-blur transition-colors hover:bg-black hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white/90 backdrop-blur transition-colors hover:bg-white hover:text-black"
                 aria-label="Close video player"
               >
                 <X className="h-4 w-4" />
@@ -367,8 +375,8 @@ export function VideoTestimonials() {
 
               {/* Play / Pause Indicator on Click */}
               {!isPlaying && (
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/30">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black/70 text-primary border border-primary/40 backdrop-blur">
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[#f7e098] border-2 border-amber-400/60 backdrop-blur">
                     <Play className="ml-1 h-8 w-8 fill-current" />
                   </div>
                 </div>
@@ -380,7 +388,7 @@ export function VideoTestimonials() {
                   e.stopPropagation();
                   prevVideo();
                 }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white/90 backdrop-blur hover:bg-primary hover:text-black transition-colors"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white backdrop-blur hover:bg-[#d9b75c] hover:text-black transition-colors"
                 aria-label="Previous review video"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -390,7 +398,7 @@ export function VideoTestimonials() {
                   e.stopPropagation();
                   nextVideo();
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white/90 backdrop-blur hover:bg-primary hover:text-black transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white backdrop-blur hover:bg-[#d9b75c] hover:text-black transition-colors"
                 aria-label="Next review video"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -398,7 +406,7 @@ export function VideoTestimonials() {
 
               {/* Bottom Controls Bar */}
               <div
-                className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/95 via-black/75 to-transparent p-4 pt-8"
+                className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 pt-8"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Timeline Progress Bar */}
@@ -407,7 +415,7 @@ export function VideoTestimonials() {
                   onClick={handleSeek}
                 >
                   <div
-                    className="h-full rounded-full bg-primary transition-all group-hover/bar:h-2"
+                    className="h-full rounded-full bg-[#d9b75c] transition-all group-hover/bar:h-2"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -417,7 +425,7 @@ export function VideoTestimonials() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={togglePlay}
-                      className="hover:text-primary transition-colors"
+                      className="hover:text-[#f7e098] transition-colors"
                       aria-label={isPlaying ? "Pause" : "Play"}
                     >
                       {isPlaying ? (
@@ -428,7 +436,7 @@ export function VideoTestimonials() {
                     </button>
                     <button
                       onClick={toggleMute}
-                      className="hover:text-primary transition-colors"
+                      className="hover:text-[#f7e098] transition-colors"
                       aria-label={isMuted ? "Unmute" : "Mute"}
                     >
                       {isMuted ? (
@@ -437,14 +445,14 @@ export function VideoTestimonials() {
                         <Volume2 className="h-5 w-5" />
                       )}
                     </button>
-                    <span className="font-mono text-xs text-white/70">
+                    <span className="font-mono text-xs text-white/80 font-medium">
                       {currentTime} / {totalDuration || activeVideo.duration}
                     </span>
                   </div>
 
                   <button
                     onClick={toggleFullScreen}
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-[#f7e098] transition-colors"
                     aria-label="Fullscreen"
                   >
                     <Maximize className="h-4 w-4" />
@@ -452,14 +460,14 @@ export function VideoTestimonials() {
                 </div>
 
                 {/* Student Info Details */}
-                <div className="mt-3 border-t border-white/10 pt-2.5">
+                <div className="mt-3 border-t border-white/15 pt-2.5">
                   <p className="text-xs font-bold text-white flex items-center gap-1">
                     {activeVideo.name}
-                    <span className="text-[11px] font-normal text-primary">
+                    <span className="text-[11px] font-medium text-[#e8c878]">
                       · {activeVideo.course}
                     </span>
                   </p>
-                  <p className="mt-1 text-[11px] leading-relaxed text-white/80">
+                  <p className="mt-1 text-[11px] leading-relaxed text-zinc-200">
                     &ldquo;{activeVideo.quote}&rdquo;
                   </p>
                 </div>
