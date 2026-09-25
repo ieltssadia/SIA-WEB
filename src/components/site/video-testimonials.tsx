@@ -14,10 +14,17 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
-  GraduationCap,
+  Video,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 
 export interface VideoReview {
@@ -191,11 +198,11 @@ export function VideoTestimonials() {
   }, [activeVideo]);
 
   return (
-    <section className="relative overflow-hidden py-16 md:py-24">
+    <section className="relative overflow-hidden py-14 md:py-20">
       {/* Background ambient lighting */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-radial-glow opacity-30 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[450px] w-[750px] rounded-full bg-radial-glow opacity-25 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-7xl px-4 lg:px-8">
@@ -203,7 +210,7 @@ export function VideoTestimonials() {
           badge={
             <span className="inline-flex items-center gap-1.5 font-semibold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
-              100% Real Student Video Reviews
+              100% Real Video Testimonials
             </span>
           }
           title={
@@ -214,98 +221,119 @@ export function VideoTestimonials() {
           subtitle="আমাদের প্ল্যাটফর্ম ও মেন্টরিং নিয়ে শিক্ষার্থীরা কী বলছেন — সরাসরি ভিডিওতে দেখুন।"
         />
 
-        {/* 4-Card Vertical Reels Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {videoReviews.map((review, index) => (
-            <Reveal key={review.id} delay={index * 0.1}>
-              <div
-                onClick={() => openVideo(review)}
-                className="group relative cursor-pointer overflow-hidden rounded-2xl border border-primary/20 bg-card/60 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_12px_30px_rgba(217,183,92,0.15)]"
-              >
-                {/* 9:16 Video Container */}
-                <div className="relative aspect-[9/16] w-full overflow-hidden bg-black/40">
-                  <Image
-                    src={review.thumbnailSrc}
-                    alt={`${review.name} - ${review.band} Review`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+        {/* Side-by-Side Sliding Carousel */}
+        <Reveal className="mt-10">
+          <div className="relative px-2 sm:px-6 md:px-8">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+                dragFree: true,
+              }}
+              className="w-full"
+              aria-label="Student Video Reviews Carousel"
+            >
+              <CarouselContent className="-ml-3 sm:-ml-4 pb-3">
+                {videoReviews.map((review) => (
+                  <CarouselItem
+                    key={review.id}
+                    className="pl-3 sm:pl-4 basis-[72%] sm:basis-[46%] md:basis-[32%] lg:basis-1/4"
+                  >
+                    <div
+                      onClick={() => openVideo(review)}
+                      className="group relative cursor-pointer overflow-hidden rounded-2xl border border-primary/20 bg-card/70 shadow-md backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_12px_28px_rgba(217,183,92,0.18)]"
+                    >
+                      {/* 9:16 Aspect ratio video thumbnail frame */}
+                      <div className="relative aspect-[9/15] w-full overflow-hidden bg-black/40">
+                        <Image
+                          src={review.thumbnailSrc}
+                          alt={`${review.name} - ${review.band} Review`}
+                          fill
+                          sizes="(max-width: 640px) 75vw, (max-width: 1024px) 45vw, 25vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
 
-                  {/* Gradient overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/40" />
+                        {/* Top Gradient & Badges */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/40" />
 
-                  {/* Top Badges */}
-                  <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3.5">
-                    <Badge className="border-primary/40 bg-black/60 font-display text-xs font-bold text-primary backdrop-blur">
-                      <Trophy className="mr-1 h-3.5 w-3.5 text-primary" />
-                      {review.band}
-                    </Badge>
-                    <span className="rounded-full bg-black/60 px-2 py-0.5 font-mono text-[11px] font-semibold text-white/90 backdrop-blur">
-                      {review.duration}
-                    </span>
-                  </div>
+                        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
+                          <Badge className="border-primary/40 bg-black/65 font-display text-[11px] font-bold text-primary backdrop-blur">
+                            <Trophy className="mr-1 h-3 w-3 text-primary" />
+                            {review.band}
+                          </Badge>
+                          <span className="rounded-full bg-black/65 px-2 py-0.5 font-mono text-[10px] font-semibold text-white/90 backdrop-blur">
+                            {review.duration}
+                          </span>
+                        </div>
 
-                  {/* Center Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative flex h-14 w-14 items-center justify-center rounded-full border border-primary/50 bg-primary/25 text-white backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-black">
-                      <span className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
-                      <Play className="ml-1 h-6 w-6 fill-current" />
+                        {/* Center Animated Play Button */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-primary/50 bg-primary/25 text-white backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-black">
+                            <span className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
+                            <Play className="ml-0.5 h-5 w-5 fill-current" />
+                          </div>
+                        </div>
+
+                        {/* Bottom Student Info Overlay */}
+                        <div className="absolute inset-x-0 bottom-0 p-3.5">
+                          <div className="flex items-center gap-1.5">
+                            <p className="font-display text-sm sm:text-base font-bold text-white group-hover:text-primary transition-colors truncate">
+                              {review.name}
+                            </p>
+                            {review.verified && (
+                              <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-primary/20 shrink-0" />
+                            )}
+                          </div>
+                          <p className="mt-0.5 text-[11px] text-primary/90 font-medium truncate">
+                            {review.course}
+                          </p>
+                          <p className="mt-1.5 text-[11px] leading-relaxed text-white/80 line-clamp-2">
+                            &ldquo;{review.quote}&rdquo;
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
 
-                  {/* Bottom Student Info Card */}
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <div className="flex items-center gap-1.5">
-                      <p className="font-display text-base font-bold text-white group-hover:text-primary transition-colors">
-                        {review.name}
-                      </p>
-                      {review.verified && (
-                        <CheckCircle2 className="h-4 w-4 text-primary fill-primary/20" />
-                      )}
-                    </div>
-                    <p className="mt-0.5 text-xs text-primary/90 font-medium">
-                      {review.course}
-                    </p>
-                    <p className="mt-2 text-xs leading-relaxed text-white/80 line-clamp-2">
-                      &ldquo;{review.quote}&rdquo;
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+              {/* Prev / Next Carousel Controls */}
+              <CarouselPrevious className="hidden sm:flex -left-3 lg:-left-5 border-primary/30 bg-card/90 text-foreground hover:border-primary hover:bg-primary hover:text-black transition-colors" />
+              <CarouselNext className="hidden sm:flex -right-3 lg:-right-5 border-primary/30 bg-card/90 text-foreground hover:border-primary hover:bg-primary hover:text-black transition-colors" />
+            </Carousel>
+          </div>
+        </Reveal>
 
-        {/* CTA Footer */}
-        <Reveal delay={0.2}>
-          <div className="mt-10 flex items-center justify-center gap-4">
+        {/* Action Link below */}
+        <Reveal delay={0.15}>
+          <div className="mt-8 flex items-center justify-center gap-3">
             <Button
               asChild
-              className="rounded-full bg-brand-gradient px-6 font-semibold text-white shadow-md hover:opacity-95"
+              variant="outline"
+              className="rounded-full border-border bg-card/80 px-5 text-xs sm:text-sm font-semibold text-foreground hover:border-primary/50 hover:text-primary"
             >
               <a href="#/stories">
-                সব সাফল্যের গল্প দেখুন
-                <ChevronRight className="ml-1.5 h-4 w-4" />
+                <Video className="mr-1.5 h-4 w-4 text-primary" />
+                সব স্টুডেন্ট রিভিউ ও স্কোর দেখুন
+                <ChevronRight className="ml-1 h-3.5 w-3.5" />
               </a>
             </Button>
           </div>
         </Reveal>
       </div>
 
-      {/* Fullscreen Reels-Style Video Modal */}
+      {/* Fullscreen Reels Video Modal Player */}
       {activeVideo && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
           onClick={closeVideo}
         >
-          {/* Modal Container */}
           <div
             className="relative flex max-h-[92vh] w-full max-w-[420px] flex-col overflow-hidden rounded-2xl border border-primary/30 bg-[#0c0a06] shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header / Close Bar */}
-            <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-3.5">
+            <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/85 to-transparent p-3.5">
               <div className="flex items-center gap-2">
                 <Badge className="border-primary/40 bg-primary/20 font-display text-xs font-bold text-primary backdrop-blur">
                   <Trophy className="mr-1 h-3.5 w-3.5" />
@@ -370,7 +398,7 @@ export function VideoTestimonials() {
 
               {/* Bottom Controls Bar */}
               <div
-                className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-4 pt-8"
+                className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/95 via-black/75 to-transparent p-4 pt-8"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Timeline Progress Bar */}
