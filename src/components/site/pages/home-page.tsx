@@ -13,6 +13,7 @@ import { HowItWorksSection } from "@/components/site/how-it-works-section";
 import { FreeResourcesSection } from "@/components/site/free-resources-section";
 import { RoutineBanner } from "@/components/site/routine-banner";
 import { SkillsSection } from "@/components/site/skills-section";
+import { VideoTestimonials } from "@/components/site/video-testimonials";
 import { StoriesSection } from "@/components/site/stories-section";
 import { TeamMarquee } from "@/components/site/team-marquee";
 import { FaqSection } from "@/components/site/faq-section";
@@ -176,6 +177,7 @@ export function HomePage() {
       <FreeResourcesSection />
       <RoutineBanner />
       <SkillsSection />
+      <VideoTestimonials />
       <StoriesSection />
       <TeamStrip />
       <BookShopTeaser />

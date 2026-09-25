@@ -5,7 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/site/page-header";
-import { Reveal } from "@/components/site/reveal";
+import { Reveal, SectionHeading } from "@/components/site/reveal";
+import { VideoTestimonials } from "@/components/site/video-testimonials";
 import { stories, site } from "@/lib/site-data";
 
 function initials(name: string) {
@@ -30,9 +31,19 @@ export function StoriesPage() {
         crumbs={[{ label: "Success Stories" }]}
       />
 
-      <section className="py-8 sm:py-14 md:py-20">
+      <VideoTestimonials />
+
+      <section className="py-8 sm:py-14 md:py-20 border-t border-border/40">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading
+            title={
+              <>
+                লিখিত অভিজ্ঞতা ও <span className="text-brand-gradient">স্কোর বিবরণী</span>
+              </>
+            }
+            subtitle="সরাসরি শিক্ষার্থীদের শেয়ার করা স্কোর ও রিভিউ।"
+          />
+          <div className="mt-8 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stories.map((story, i) => (
               <Reveal key={story.name} delay={(i % 3) * 0.08} className="h-full">
                 <Card className="flex h-full flex-col border-border bg-card transition-colors hover:border-primary/40">
