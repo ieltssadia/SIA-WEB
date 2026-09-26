@@ -21,7 +21,7 @@ const SEED_CLASSES: Array<{
   {
     slug: "speaking-cue-card-marathon",
     title: "Speaking Cue Card Marathon: Part 2 Mastery",
-    courseSlug: "basic-to-ielts-in-batch",
+    courseSlug: "basic-to-ielts",
     teacher: "Sadia Ma'am",
     description:
       "Part 2 cue card নিয়ে ভয়? আজকের ম্যারাথনে live practice + instant feedback, Band 7+ fluency strategy সহ।",
@@ -67,7 +67,7 @@ const SEED_CLASSES: Array<{
   {
     slug: "writing-task2-masterclass",
     title: "Writing Task 2 Masterclass: Band 7 Essays",
-    courseSlug: "basic-to-ielts-in-batch",
+    courseSlug: "basic-to-ielts",
     teacher: "Sadia Ma'am",
     description:
       "Opinion essay এর proven structure, Band 7+ linking words আর examiner যা দেখে, সব এক ক্লাসে।",

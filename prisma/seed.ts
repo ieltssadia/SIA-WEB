@@ -85,7 +85,7 @@ const students: SeedStudent[] = [
     // active enrollments — multi-course portal demo
     enrollments: [
       {
-        courseSlug: "pre-ielts",
+        courseSlug: "spoken-english-course",
         batch: "Batch 311",
         targetBand: "7.5",
         examDate: "2025-03-18",
@@ -94,8 +94,8 @@ const students: SeedStudent[] = [
         status: "completed",
       },
       {
-        courseSlug: "basic-to-ielts-in-batch",
-        batch: "Batch 317",
+        courseSlug: "basic-to-ielts",
+        batch: "Batch 318",
         targetBand: "8.0",
         examDate: daysFromNow(38),
         progress: 68,
@@ -104,7 +104,7 @@ const students: SeedStudent[] = [
       },
       {
         courseSlug: "ielts-crash-course",
-        batch: "Batch 318-C",
+        batch: "Batch 320-C",
         targetBand: "8.0",
         examDate: daysFromNow(38),
         progress: 45,
@@ -119,7 +119,7 @@ const students: SeedStudent[] = [
     ],
     certificate: {
       id: "SIE-CERT-2455",
-      course: "Pre-IELTS Foundation",
+      course: "Spoken English Fluency",
       batch: "Batch 311",
       band: "7.5",
       issued: "18 Mar 2025",
@@ -130,8 +130,8 @@ const students: SeedStudent[] = [
     phone: "01712000002",
     enrollments: [
       {
-        courseSlug: "basic-to-ielts-private-batch",
-        batch: "Batch 319",
+        courseSlug: "ielts-premium",
+        batch: "Batch 319-VIP",
         targetBand: "7.5",
         examDate: daysFromNow(52),
         progress: 55,
@@ -150,8 +150,8 @@ const students: SeedStudent[] = [
     phone: "01712000003",
     enrollments: [
       {
-        courseSlug: "basic-to-ielts-one-to-one",
-        batch: "One-to-One",
+        courseSlug: "basic-to-ielts",
+        batch: "Batch 318",
         targetBand: "7.5",
         examDate: daysFromNow(26),
         progress: 80,
@@ -170,7 +170,7 @@ const students: SeedStudent[] = [
     enrollments: [
       {
         courseSlug: "ielts-crash-course",
-        batch: "Batch 318-C",
+        batch: "Batch 320-C",
         targetBand: "7.0",
         examDate: daysFromNow(12),
         progress: 75,
@@ -189,8 +189,8 @@ const students: SeedStudent[] = [
     phone: "01712000005",
     enrollments: [
       {
-        courseSlug: "pre-ielts",
-        batch: "Batch 320",
+        courseSlug: "kid-english-course",
+        batch: "Batch 322-Kids",
         targetBand: "6.5",
         examDate: daysFromNow(90),
         progress: 30,
