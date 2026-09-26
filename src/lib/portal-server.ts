@@ -79,6 +79,7 @@ export function bearerPhone(req: Request): string | null {
 export type PortalUserPayload = {
   name: string;
   phone: string;
+  email?: string | null;
 };
 
 export type PortalEnrollmentPayload = {
@@ -143,7 +144,7 @@ export async function getPortalPayload(phone: string): Promise<{
   });
 
   return {
-    user: { name: student.name, phone: student.phone },
+    user: { name: student.name, phone: student.phone, email: student.email },
     enrollments: student.enrollments.map((e) => ({
       id: e.id,
       courseSlug: e.courseSlug,

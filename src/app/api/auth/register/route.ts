@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 
 const registerSchema = z.object({
   name: z.string().trim().min(2, "Name is too short").max(60),
+  email: z.string().trim().email().optional(),
   phone: z
     .string()
     .trim()
@@ -64,7 +65,9 @@ export async function POST(req: Request) {
       data: {
         name: parsed.data.name,
         phone,
+        email: parsed.data.email ? parsed.data.email.toLowerCase() : undefined,
         passwordHash: hashPassword(phone, parsed.data.password),
+        isVerified: true,
       },
     });
 

@@ -19,34 +19,86 @@ const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "Sadia's IELTS <onboarding
 const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "sadiasielts@gmail.com";
 
 /**
- * Send an OTP code to a student via email
+ * Send an OTP verification code to a student via email
  */
-export async function sendOtpEmail(to: string, otp: string) {
+export async function sendOtpEmail(to: string, otp: string, name?: string) {
   const client = getResendClient();
   if (!client) return { ok: false, error: "Resend not configured" };
 
   try {
+    const greeting = name ? `প্রিয় ${name},` : "প্রিয় শিক্ষার্থী,";
     const { data, error } = await client.emails.send({
       from: DEFAULT_FROM,
       to,
-      subject: `Your Login Verification Code: ${otp} - Sadia's IELTS`,
+      subject: `${otp} - Sadia's IELTS Verification Code`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 24px; border: 1px solid #e6dec8; border-radius: 16px; background-color: #fdfbf7;">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <h1 style="color: #262012; font-size: 24px; margin: 0;">Sadia's <span style="color: #a97f2a;">IELTS</span></h1>
-            <p style="color: #786d54; font-size: 13px; margin: 4px 0 0 0;">Unlock Your Future</p>
-          </div>
-          <div style="background-color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #ece4d0; text-align: center;">
-            <p style="font-size: 15px; color: #332b1a; margin-top: 0;">আপনার স্টুডেন্ট পোর্টাল লগইন ভেরিফিকেশন কোড:</p>
-            <div style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #a97f2a; padding: 16px 0; font-family: monospace;">
-              ${otp}
-            </div>
-            <p style="font-size: 13px; color: #786d54; margin-bottom: 0;">এই কোডটি আগামী ১০ মিনিট কার্যকর থাকবে। কোডটি কারও সাথে শেয়ার করবেন না।</p>
-          </div>
-          <p style="font-size: 12px; color: #a0957b; text-align: center; margin-top: 20px;">
-            যেকোনো প্রয়োজনে কল করুন: +880 1752-716238 | Sreemangal, Sylhet
-          </p>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Verification Code</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f7f4ee; color: #211b10;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f7f4ee; padding: 32px 16px;">
+            <tr>
+              <td align="center">
+                <table role="presentation" width="100%" style="max-width: 520px; background-color: #ffffff; border-radius: 20px; border: 1px solid #e7dcbe; overflow: hidden; box-shadow: 0 10px 30px rgba(30,27,20,0.06);">
+                  
+                  <!-- Header with Luxury Gold Accent -->
+                  <tr>
+                    <td style="padding: 32px 32px 20px; text-align: center; background: linear-gradient(135deg, #1c1810 0%, #2a2215 100%);">
+                      <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff;">
+                        Sadia's <span style="color: #dfb758;">IELTS</span>
+                      </h1>
+                      <p style="margin: 6px 0 0 0; font-size: 13px; color: #c8beab; font-weight: 500; letter-spacing: 1px;">
+                        STUDENT PORTAL VERIFICATION
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Main Content -->
+                  <tr>
+                    <td style="padding: 32px 32px 24px; text-align: center;">
+                      <h2 style="margin: 0 0 12px 0; font-size: 18px; color: #211b10; font-weight: 700;">
+                        ${greeting}
+                      </h2>
+                      <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #5c5240;">
+                        Sadia's IELTS অ্যাকাউন্টের ইমেইল যাচাইকরণের জন্য আপনার ৬ ডিজিটের ওটিপি (OTP) ভেরিফিকেশন কোড নিচে দেওয়া হলো:
+                      </p>
+
+                      <!-- OTP Box -->
+                      <div style="background: linear-gradient(180deg, #fbf8f1 0%, #f4ede0 100%); border: 2px dashed #cca953; border-radius: 14px; padding: 22px 16px; margin: 20px 0;">
+                        <div style="font-size: 38px; font-weight: 800; letter-spacing: 8px; color: #8a6417; font-family: 'Courier New', Courier, monospace; text-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                          ${otp}
+                        </div>
+                        <p style="margin: 10px 0 0 0; font-size: 12px; color: #807460; font-weight: 600;">
+                          ⏱️ মেয়াদ: আগামী ১০ মিনিট কার্যকর থাকবে
+                        </p>
+                      </div>
+
+                      <p style="margin: 24px 0 0 0; font-size: 13px; line-height: 1.5; color: #736754;">
+                        নিরাপত্তার স্বার্থে এই কোডটি অন্য কারও সাথে শেয়ার করবেন না। আপনি যদি এই অ্যাকাউন্ট খোলার অনুরোধ না করে থাকেন, তবে এই ইমেইলটি এড়িয়ে চলুন।
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="padding: 20px 32px; background-color: #fbf9f4; border-top: 1px solid #efe8d8; text-align: center;">
+                      <p style="margin: 0; font-size: 12px; color: #8e8371; line-height: 1.5;">
+                        Sadia's IELTS Care | Sreemangal, Sylhet<br/>
+                        হেল্পলাইন: <a href="tel:+8801752716238" style="color: #996e1a; font-weight: 700; text-decoration: none;">+880 1752-716238</a>
+                      </p>
+                    </td>
+                  </tr>
+
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
       `,
     });
 

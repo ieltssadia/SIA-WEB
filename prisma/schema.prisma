@@ -23,17 +23,33 @@ model Lead {
   @@index([status])
 }
 
-// Student accounts — created when someone enrolls. They log into the private
-// Student Portal with phone + password (issued at enrollment time).
+// Student accounts — created when someone enrolls or registers.
 model Student {
   id           String       @id @default(cuid())
   name         String
   phone        String       @unique // canonical BD mobile: 01XXXXXXXXX
+  email        String?      @unique
   passwordHash String       // sha256("<phone>:<password>")
+  isVerified   Boolean      @default(true)
   createdAt    DateTime     @default(now())
 
   enrollments Enrollment[]
   mockResults MockResult[]
+}
+
+// Temporary OTP storage for student email verification during sign-up
+model EmailOtp {
+  id           String   @id @default(cuid())
+  email        String
+  phone        String
+  name         String
+  passwordHash String
+  code         String   // 6-digit OTP code
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+  @@index([code])
 }
 
 // A paid course enrollment. The portal only shows content for courses the

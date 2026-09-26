@@ -6,6 +6,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export type PortalUser = {
   name: string;
   phone: string;
+  email?: string | null;
 };
 
 export type PortalEnrollment = {
