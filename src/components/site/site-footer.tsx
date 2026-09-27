@@ -93,8 +93,8 @@ export function SiteFooter() {
                   <p className="font-display text-lg font-bold tracking-wide text-[#f6ecd4]">
                     Sadia&apos;s <span className="font-bold text-[#D9B75C]">IELTS</span>
                   </p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#b3a787]">
-                    Unlock Your Future
+                  <p className="text-[10px] uppercase tracking-[0.15em] text-[#b3a787]">
+                    Unlock Your Future With Sadia&apos;s IELTS Academy
                   </p>
                 </div>
               </div>

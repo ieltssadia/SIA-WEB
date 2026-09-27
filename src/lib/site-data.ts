@@ -5,7 +5,7 @@
 
 export const site = {
   name: "Sadia's IELTS",
-  tagline: "Unlock Your Future",
+  tagline: "Unlock Your Future With Sadia's IELTS Academy",
   subTagline: "Transform Your English Skills to Perfection",
   phone: "+880 1752-716238",
   phoneHref: "tel:+8801752716238",

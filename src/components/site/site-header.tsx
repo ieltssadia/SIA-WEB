@@ -179,8 +179,8 @@ export function SiteHeader() {
               <span className="block truncate font-display text-lg font-bold leading-tight tracking-wide">
                 Sadia&apos;s <span className="text-brand-gradient">IELTS</span>
               </span>
-              <span className="hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:block">
-                Unlock Your Future
+              <span className="hidden text-[10px] uppercase tracking-[0.15em] text-muted-foreground sm:block">
+                Unlock Your Future With Sadia&apos;s IELTS Academy
               </span>
             </span>
           </Link>
