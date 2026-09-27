@@ -811,7 +811,7 @@ const SPEAKING_TOPICS: SpeakingTopic[] = [
 ];
 
 /* ═════════════════════ TEST BUILDER ════════════════════════════════════ */
-const BOOK_YEARS = [1995, 2000, 2002, 2005, 2006, 2007, 2008, 2011, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+const BOOK_YEARS = [1995, 2000, 2002, 2005, 2006, 2007, 2008, 2011, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
 const ACCENTS = ["#262012", "#2E5FA3", "#2E7D5B", "#A63A4C", "#7A5AA0", "#B5771E", "#171410", "#332B1A", "#2C4F8A", "#1E1B14"];
 
 /** Rotate a bank of questions and renumber them sequentially from `start`. */
@@ -889,20 +889,20 @@ const BLURBS: Record<string, string> = {
 
 /* ═════════════════════ MAIN ════════════════════════════════════════════ */
 async function main() {
-  const existing = await db.cambridgeTest.count();
-  if (existing > 0) {
-    console.log(`Cambridge library already seeded (${existing} tests). Skipping.`);
-    return;
-  }
-
   let bookCount = 0;
   let testCount = 0;
 
-  for (let number = 1; number <= 19; number++) {
+  for (let number = 1; number <= 21; number++) {
     const editions = number <= 3 ? ["academic"] : ["academic", "general"];
     for (const edition of editions) {
       const year = BOOK_YEARS[number - 1];
       const title = `Cambridge IELTS ${number} ${edition === "academic" ? "Academic" : "General Training"}`;
+      const existingBook = await db.cambridgeBook.findUnique({
+        where: { number_module: { number, module: edition } },
+      });
+      if (existingBook) {
+        continue;
+      }
       const book = await db.cambridgeBook.create({
         data: {
           number,

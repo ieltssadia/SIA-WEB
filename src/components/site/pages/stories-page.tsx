@@ -48,8 +48,9 @@ interface VideoStoryDetail extends VideoReview {
 const detailedVideoStories: VideoStoryDetail[] = [
   {
     ...videoReviews[0],
-    listening: "8.5",
-    reading: "8.0",
+    name: "Sumaiya Akter",
+    listening: "8.0",
+    reading: "7.5",
     writing: "7.0",
     speaking: "7.5",
     batch: "Live Interactive Batch 312",
@@ -61,11 +62,11 @@ const detailedVideoStories: VideoStoryDetail[] = [
   },
   {
     ...videoReviews[1],
-    name: "Mahmudul Hasan",
-    listening: "7.5",
+    name: "Tahmidur Raeid",
+    listening: "8.0",
     reading: "7.5",
-    writing: "6.5",
-    speaking: "7.0",
+    writing: "7.0",
+    speaking: "7.5",
     batch: "VIP Executive Batch 289",
     highlights: [
       "ফুল-টাইম জবের পাশাপাশি চমৎকার স্কোর",
@@ -75,11 +76,11 @@ const detailedVideoStories: VideoStoryDetail[] = [
   },
   {
     ...videoReviews[2],
-    name: "Tanvir Hasan",
-    listening: "8.0",
-    reading: "7.5",
-    writing: "7.0",
-    speaking: "7.5",
+    name: "Raju Das",
+    listening: "7.0",
+    reading: "6.5",
+    writing: "6.5",
+    speaking: "6.5",
     batch: "IELTS Crash Care 305",
     highlights: [
       "১ মাসের ক্র্যাশ কোর্সে কাঙ্ক্ষিত স্কোর",
@@ -89,6 +90,7 @@ const detailedVideoStories: VideoStoryDetail[] = [
   },
   {
     ...videoReviews[3],
+    name: "Sonia Rani Das",
     listening: "8.5",
     reading: "8.5",
     writing: "7.5",

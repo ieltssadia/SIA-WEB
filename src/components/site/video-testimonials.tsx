@@ -44,7 +44,7 @@ export interface VideoReview {
 export const videoReviews: VideoReview[] = [
   {
     id: "review-1",
-    name: "Sumaiya Rahman",
+    name: "Sumaiya Akter",
     band: "Band 7.5",
     score: 7.5,
     course: "IELTS Live Interactive Batch",
@@ -57,9 +57,9 @@ export const videoReviews: VideoReview[] = [
   },
   {
     id: "review-2",
-    name: "Mahmudul Hasan",
-    band: "Band 7.0",
-    score: 7.0,
+    name: "Tahmidur Raeid",
+    band: "Band 7.5",
+    score: 7.5,
     course: "Basic to IELTS VIP Care",
     duration: "0:50",
     quote: "কাজের পাশাপাশি প্রিপারেশন নেওয়া কঠিন ছিল, কিন্তু এই কোর্সের রেকর্ডেড ক্লাস ও মেন্টরিং অসাধারণ ছিল।",
@@ -70,9 +70,9 @@ export const videoReviews: VideoReview[] = [
   },
   {
     id: "review-3",
-    name: "Tanvir Hasan",
-    band: "Band 7.5",
-    score: 7.5,
+    name: "Raju Das",
+    band: "Band 6.5",
+    score: 6.5,
     course: "IELTS Intensive Crash Course",
     duration: "0:50",
     quote: "মক টেস্ট এবং রাইটিং-এর ওয়ান-টু-ওয়ান ফিডব্যাক আমার স্কোর বৃদ্ধির মূল চাবিকাঠি ছিল।",
@@ -83,7 +83,7 @@ export const videoReviews: VideoReview[] = [
   },
   {
     id: "review-4",
-    name: "Afrin Sultana",
+    name: "Sonia Rani Das",
     band: "Band 8.0",
     score: 8.0,
     course: "Complete IELTS Masterclass",

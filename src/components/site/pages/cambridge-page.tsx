@@ -227,7 +227,7 @@ export default function CambridgePage() {
             Every Cambridge book. Now <span className="text-brand-gradient">fully interactive.</span>
           </>
         }
-        subtitle="১৯টি বই · ১৪০টি টেস্ট · উত্তর, ট্রান্সক্রিপ্ট, Band-9 স্যাম্পল ও অডিও সহ। সব একসাথে, একদম ফ্রি।"
+        subtitle="২১টি বই · ১৫৬টি টেস্ট · উত্তর, ট্রান্সক্রিপ্ট, Band-9 স্যাম্পল ও অডিও সহ। সব একসাথে, একদম ফ্রি।"
         crumbs={[{ label: "Cambridge Library" }]}
       />
 
