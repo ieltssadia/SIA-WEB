@@ -41,7 +41,7 @@ export function isEmailConfigured(): boolean {
   return getResendClient() !== null || getSmtpTransporter() !== null;
 }
 
-const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "Sadia's IELTS <onboarding@resend.dev>";
+const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "Sadia's IELTS <noreply@sadiasielts.com>";
 const SMTP_FROM = process.env.SMTP_FROM || process.env.GMAIL_USER || "Sadia's IELTS <support@sadiasielts.com>";
 const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "sadiasielts@gmail.com";
 
