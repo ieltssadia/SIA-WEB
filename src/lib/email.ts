@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-import nodemailer from "nodemailer";
 
 let resendInstance: Resend | null = null;
 
@@ -12,43 +11,23 @@ export function getResendClient(): Resend | null {
   return resendInstance;
 }
 
-export function getSmtpTransporter() {
-  const host = process.env.SMTP_HOST;
-  const port = Number(process.env.SMTP_PORT) || 587;
-  const user = process.env.SMTP_USER || process.env.GMAIL_USER;
-  const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
-
-  if (user && pass) {
-    if (!host && (user.includes("@gmail.com") || process.env.GMAIL_USER)) {
-      return nodemailer.createTransport({
-        service: "gmail",
-        auth: { user, pass },
-      });
-    }
-    if (host) {
-      return nodemailer.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: { user, pass },
-      });
-    }
-  }
-  return null;
-}
-
 export function isEmailConfigured(): boolean {
-  return getResendClient() !== null || getSmtpTransporter() !== null;
+  return getResendClient() !== null;
 }
 
 const DEFAULT_FROM = process.env.RESEND_FROM_EMAIL || "Sadia's IELTS <noreply@sadiasielts.com>";
-const SMTP_FROM = process.env.SMTP_FROM || process.env.GMAIL_USER || "Sadia's IELTS <support@sadiasielts.com>";
 const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "sadiasielts@gmail.com";
 
 /**
- * Send an OTP verification code to a student via email (SMTP or Resend)
+ * Send an OTP verification code to a student via email
  */
 export async function sendOtpEmail(to: string, otp: string, name?: string) {
+  const client = getResendClient();
+  if (!client) {
+    console.warn("[sendOtpEmail] Resend API key is not configured");
+    return { ok: false, error: "No email service configured" };
+  }
+
   const greeting = name ? `প্রিয় ${name},` : "প্রিয় শিক্ষার্থী,";
   const htmlContent = `
     <!DOCTYPE html>
@@ -120,46 +99,23 @@ export async function sendOtpEmail(to: string, otp: string, name?: string) {
     </html>
   `;
 
-  // 1. Attempt via SMTP if configured
-  const smtp = getSmtpTransporter();
-  if (smtp) {
-    try {
-      const info = await smtp.sendMail({
-        from: SMTP_FROM,
-        to,
-        subject: `${otp} - Sadia's IELTS Verification Code`,
-        html: htmlContent,
-      });
-      console.log("[sendOtpEmail] Sent via SMTP:", info.messageId);
-      return { ok: true, method: "smtp", data: info };
-    } catch (smtpErr) {
-      console.error("[sendOtpEmail] SMTP failed:", smtpErr);
+  try {
+    const { data, error } = await client.emails.send({
+      from: DEFAULT_FROM,
+      to,
+      subject: `${otp} - Sadia's IELTS Verification Code`,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error("[sendOtpEmail] Resend API error:", error);
+      return { ok: false, error: error.message || "Resend error" };
     }
+    return { ok: true, method: "resend", data };
+  } catch (err: any) {
+    console.error("[sendOtpEmail] Resend exception:", err);
+    return { ok: false, error: err?.message || "Email exception" };
   }
-
-  // 2. Attempt via Resend
-  const client = getResendClient();
-  if (client) {
-    try {
-      const { data, error } = await client.emails.send({
-        from: DEFAULT_FROM,
-        to,
-        subject: `${otp} - Sadia's IELTS Verification Code`,
-        html: htmlContent,
-      });
-
-      if (error) {
-        console.error("[sendOtpEmail] Resend API error:", error);
-        return { ok: false, error: error.message || "Resend error" };
-      }
-      return { ok: true, method: "resend", data };
-    } catch (err: any) {
-      console.error("[sendOtpEmail] Resend exception:", err);
-      return { ok: false, error: err?.message || "Email exception" };
-    }
-  }
-
-  return { ok: false, error: "No email service configured" };
 }
 
 /**
