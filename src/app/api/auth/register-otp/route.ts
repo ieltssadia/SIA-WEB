@@ -93,7 +93,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // Send the email via SMTP or Resend
+    // Send the email via Resend
     const sendResult = await sendOtpEmail(email, otp, parsed.data.name);
     if (!sendResult.ok) {
       console.warn("[register-otp] Email dispatch returned non-ok:", sendResult.error);
@@ -102,11 +102,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       email,
-      devOtp: otp, // Available for development/testing and instant OTP fill
-      emailSent: sendResult.ok,
-      message: sendResult.ok
-        ? `আপনার ইমেইল (${email})-এ ৬ ডিজিটের ওটিপি ভেরিফিকেশন কোড পাঠানো হয়েছে।`
-        : `আপনার ৬ ডিজিটের ওটিপি ভেরিফিকেশন কোড তৈরি হয়েছে।`,
+      message: `আপনার ইমেইল (${email})-এ ৬ ডিজিটের ওটিপি ভেরিফিকেশন কোড পাঠানো হয়েছে। ইনবক্স অথবা স্প্যাম ফোল্ডার চেক করুন।`,
     });
   } catch (error) {
     console.error("[api/auth/register-otp] Failed:", error);
