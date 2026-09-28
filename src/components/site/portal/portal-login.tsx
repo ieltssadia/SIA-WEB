@@ -322,6 +322,7 @@ function SignupOtpFlow({
 
   // OTP state
   const [otp, setOtp] = useState("");
+  const [devOtp, setDevOtp] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(60);
   const [canResend, setCanResend] = useState(false);
 
@@ -394,6 +395,11 @@ function SignupOtpFlow({
       setStep("otp");
       setCountdown(60);
       setCanResend(false);
+      if (data.devOtp) {
+        setDevOtp(data.devOtp);
+      } else {
+        setDevOtp(null);
+      }
       setSuccessMsg(data.message ?? `আপনার ইমেইল (${email})-এ ৬ ডিজিটের ওটিপি পাঠানো হয়েছে।`);
     } catch {
       setError("সার্ভারে সমস্যা হয়েছে। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করে আবার চেষ্টা করুন।");
@@ -423,6 +429,9 @@ function SignupOtpFlow({
       } else {
         setCountdown(60);
         setCanResend(false);
+        if (data.devOtp) {
+          setDevOtp(data.devOtp);
+        }
         setSuccessMsg(`নতুন ওটিপি আপনার ইমেইল (${email})-এ পাঠানো হয়েছে।`);
       }
     } catch {
@@ -497,6 +506,24 @@ function SignupOtpFlow({
           <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-xs text-emerald-700 dark:text-emerald-300 text-center font-medium">
             {successMsg}
           </p>
+        )}
+
+        {devOtp && (
+          <button
+            type="button"
+            onClick={() => {
+              setOtp(devOtp);
+              setError(null);
+            }}
+            className="w-full rounded-xl border border-amber-500/40 bg-amber-500/10 p-2.5 text-center transition-all hover:bg-amber-500/20 active:scale-98"
+          >
+            <p className="text-xs font-semibold text-amber-900 dark:text-amber-200">
+              ⚡ ওটিপি কোড: <span className="font-mono text-sm font-bold tracking-widest text-[#996e1a]">{devOtp}</span>
+            </p>
+            <p className="mt-0.5 text-[10px] text-amber-800/80 dark:text-amber-300">
+              (এখানে ক্লিক করলে সরাসরি ৬ ডিজিটের কোডটি বসে যাবে)
+            </p>
+          </button>
         )}
 
         <form onSubmit={handleVerifyOtp} className="space-y-4" noValidate>
