@@ -775,6 +775,29 @@ export const teamMembers: TeamMember[] = [
     ],
     quote: "শিক্ষার্থীদের ক্লাসের অভিজ্ঞতা ও পড়াশোনার পথকে সহজ ও নির্বিঘ্ন করাই আমাদের লক্ষ্য।",
   },
+  {
+    slug: "suborna-ghosh",
+    name: "Suborna Ghosh",
+    role: "Admission Counselor",
+    tagline: "কোর্স সিলেকেশন, ক্যারিয়ার কাউন্সেলিং ও শিক্ষার্থীদের সঠিক ব্যাচে ভর্তির দিকনির্দেশনা প্রদানকারী।",
+    photo: "/images/team/suborna-ghosh.jpg",
+    chip: "bg-pastel-butter text-[#7a5a16]",
+    bio: [
+      "IELTS ও Spoken English কোর্সে ভর্তির ক্ষেত্রে শিক্ষার্থীদের প্রাথমিক লেভেল অ্যাসেসমেন্ট এবং তাদের লক্ষ্যের সাথে মিলিয়ে সঠিক কোর্স বেছে নিতে সহায়তা করেন।",
+      "ভর্তি সংক্রান্ত সকল তথ্য, ব্যাচের সময়সূচি ও কোর্স প্ল্যান সম্পর্কে শিক্ষার্থীদের স্পষ্ট গাইডলাইন প্রদান করেন।",
+    ],
+    specialties: ["Admission Counseling", "Course Guidance", "Student Support", "Batch Placement"],
+    credentials: [
+      "Admission Counselor",
+      "Academic & Career Counseling Specialist",
+    ],
+    stats: [
+      { value: "3+", label: "Years experience" },
+      { value: "4,000+", label: "Students counseled" },
+      { value: "100%", label: "Guidance care" },
+    ],
+    quote: "সঠিক প্রস্তুতি শুরু করার জন্য সঠিক কোর্স বেছে নেওয়াটাই প্রথম ও সবচেয়ে গুরুত্বপূর্ণ ধাপ।",
+  },
 ];
 
 /** 10MS "choose your batch" board — next admission batches per course. */
