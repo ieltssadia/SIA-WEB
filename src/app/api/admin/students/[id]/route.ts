@@ -77,3 +77,38 @@ export async function GET(
     );
   }
 }
+
+/**
+ * DELETE /api/admin/students/[id] — remove a student account or an enrollment.
+ */
+export async function DELETE(
+  req: Request,
+  ctx: { params: Promise<{ id: string }> }
+) {
+  if (!(await getAuth(req))) return unauthorized();
+
+  try {
+    const { id } = await ctx.params;
+    const { searchParams } = new URL(req.url);
+    const enrollmentId = searchParams.get("enrollmentId");
+
+    if (enrollmentId) {
+      await db.enrollment.delete({ where: { id: enrollmentId } });
+      return NextResponse.json({ ok: true, message: "এনরোলমেন্ট মুছে ফেলা হয়েছে।" });
+    }
+
+    // Delete student and all associated records
+    await db.enrollment.deleteMany({ where: { studentId: id } });
+    await db.mockResult.deleteMany({ where: { studentId: id } });
+    await db.certificate.updateMany({ where: { studentId: id }, data: { studentId: null } });
+    await db.student.delete({ where: { id } });
+
+    return NextResponse.json({ ok: true, message: "শিক্ষার্থীর অ্যাকাউন্ট মুছে ফেলা হয়েছে।" });
+  } catch (error) {
+    console.error("[api/admin/students] Delete failed:", error);
+    return NextResponse.json(
+      { ok: false, error: "মুছে ফেলতে সমস্যা হয়েছে, আবার চেষ্টা করুন।" },
+      { status: 500 }
+    );
+  }
+}

@@ -274,6 +274,14 @@ export function AdminDashboard({
               <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
                 {!isTeacher ? (
                   <QuickLink
+                    icon={GraduationCap}
+                    title="Offline Enrollment"
+                    sub="অফলাইন ভর্তি ও কোর্স প্রদান"
+                    onClick={() => onNavigate?.("students")}
+                  />
+                ) : null}
+                {!isTeacher ? (
+                  <QuickLink
                     icon={BookOpen}
                     title="Manage Courses"
                     sub="কোর্স ক্যাটালগ"
