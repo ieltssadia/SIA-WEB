@@ -49,7 +49,7 @@ export const videoReviews: VideoReview[] = [
     score: 7.5,
     course: "IELTS Live Interactive Batch",
     duration: "0:45",
-    quote: "Sadia আপুর ক্লাসের গাইডলাইন আর স্পিকিং প্র্যাকটিস সেশন আমাকে প্রথমবারেই কাঙ্ক্ষিত স্কোর এনে দিয়েছে।",
+    quote: "Sadia ম্যামের ক্লাসের গাইডলাইন আর স্পিকিং প্র্যাকটিস সেশন আমাকে প্রথমবারেই কাঙ্ক্ষিত স্কোর এনে দিয়েছে।",
     videoSrc: "/videos/reviews/review-1.mp4",
     thumbnailSrc: "/videos/reviews/thumb-1.jpg",
     date: "Recent Batch",

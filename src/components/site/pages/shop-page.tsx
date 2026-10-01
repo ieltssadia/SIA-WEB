@@ -370,7 +370,7 @@ export function ShopPage() {
                 Books পড়ে লাভ হয়, কিন্তু গাইড ছাড়া প্রস্তুতি অসম্পূর্ণ!
               </p>
               <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-                Sadia apa-র লাইভ ক্লাসে জয়েন করুন। বইয়ের প্রতিটি trick ক্লাসে হাতে-কলমে শেখানো হয়।
+                Sadia Ma&apos;am-এর লাইভ ক্লাসে জয়েন করুন। বইয়ের প্রতিটি trick ক্লাসে হাতে-কলমে শেখানো হয়।
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <Button

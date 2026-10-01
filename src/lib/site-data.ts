@@ -1052,7 +1052,7 @@ export const stories = [
     course: "Basic to IELTS (Private Batch)",
     date: "30 May 2025",
     quote:
-      "Sadia apa's Reading short tricks saved me so much time in the exam. The personal feedback on every writing was priceless. Band 7.5 became possible.",
+      "Sadia Ma'am's Reading short tricks saved me so much time in the exam. The personal feedback on every writing was priceless. Band 7.5 became possible.",
   },
   {
     name: "Raihan Ahmed (Emon)",

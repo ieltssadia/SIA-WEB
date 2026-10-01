@@ -57,7 +57,7 @@ const detailedVideoStories: VideoStoryDetail[] = [
     highlights: [
       "প্রথমবারেই Overall Band 7.5 অর্জন",
       "ডেইলি স্পিকিং পার্টনার ক্লাব প্র্যাকটিস",
-      "Sadia আপুর ওয়ান-টু-ওয়ান গাইডলাইন",
+      "Sadia ম্যামের ওয়ান-টু-ওয়ান গাইডলাইন",
     ],
   },
   {
