@@ -11,7 +11,6 @@ import { CoursesSection } from "@/components/site/courses-section";
 import { CambridgeTeaser } from "@/components/site/cambridge-teaser";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
 import { FreeResourcesSection } from "@/components/site/free-resources-section";
-import { RoutineBanner } from "@/components/site/routine-banner";
 import { SkillsSection } from "@/components/site/skills-section";
 import { VideoTestimonials } from "@/components/site/video-testimonials";
 import { StoriesSection } from "@/components/site/stories-section";
@@ -175,7 +174,6 @@ export function HomePage() {
       <CambridgeTeaser />
       <HowItWorksSection />
       <FreeResourcesSection />
-      <RoutineBanner />
       <SkillsSection />
       <VideoTestimonials />
       <StoriesSection />
