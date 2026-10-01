@@ -34,31 +34,51 @@ export function PortalPage() {
   const logout = usePortalStore((s) => s.logout);
   const [section, setSection] = useState<PortalSection>("overview");
 
-  // Refresh fresh data from the server once per visit (best effort)
+  // Refresh fresh data from the server (on mount, on tab focus, and polling when empty)
   useEffect(() => {
     const phone = usePortalStore.getState().user?.phone;
     if (!phone) return;
-    let cancelled = false;
-    fetch(`/api/portal/data?phone=${encodeURIComponent(phone)}`)
-      .then(async (r) => (r.ok ? { ok: true, data: await r.json().catch(() => null) } : { ok: false, data: null }))
-      .then(({ ok, data }) => {
-        if (cancelled) return;
-        if (ok && data?.user) {
-          setSession(
-            data.user,
-            data.enrollments ?? [],
-            data.mocks ?? [],
-            data.token,
-            data.certificates ?? []
-          );
-        } else if (!ok) {
-          // Account no longer exists — force re-login
-          logout();
-        }
-      })
-      .catch(() => {});
+
+    let isMounted = true;
+    const fetchLatest = () => {
+      fetch(`/api/portal/data?phone=${encodeURIComponent(phone)}`)
+        .then(async (r) => (r.ok ? { ok: true, data: await r.json().catch(() => null) } : { ok: false, data: null }))
+        .then(({ ok, data }) => {
+          if (!isMounted) return;
+          if (ok && data?.user) {
+            setSession(
+              data.user,
+              data.enrollments ?? [],
+              data.mocks ?? [],
+              data.token,
+              data.certificates ?? []
+            );
+          } else if (!ok) {
+            // Account no longer exists — force re-login
+            logout();
+          }
+        })
+        .catch(() => {});
+    };
+
+    // Initial fetch
+    fetchLatest();
+
+    // On window focus
+    const onFocus = () => fetchLatest();
+    window.addEventListener("focus", onFocus);
+
+    // If student has 0 enrollments, poll every 4 seconds so when admin assigns course it appears instantly!
+    const timer = setInterval(() => {
+      if (usePortalStore.getState().enrollments.length === 0) {
+        fetchLatest();
+      }
+    }, 4000);
+
     return () => {
-      cancelled = true;
+      isMounted = false;
+      window.removeEventListener("focus", onFocus);
+      clearInterval(timer);
     };
   }, [setSession, logout]);
 

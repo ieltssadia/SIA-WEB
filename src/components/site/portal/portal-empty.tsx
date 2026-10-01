@@ -8,6 +8,7 @@ import {
   LogOut,
   MessageCircle,
   Phone,
+  RefreshCw,
   ShieldCheck,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -84,9 +85,33 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
             <Button
+              type="button"
+              size="lg"
+              onClick={async () => {
+                try {
+                  const r = await fetch(`/api/portal/data?phone=${encodeURIComponent(user.phone)}`);
+                  const data = await r.json();
+                  if (r.ok && data?.user) {
+                    usePortalStore.getState().setSession(
+                      data.user,
+                      data.enrollments ?? [],
+                      data.mocks ?? [],
+                      data.token,
+                      data.certificates ?? []
+                    );
+                  }
+                } catch {}
+              }}
+              className="rounded-full bg-primary font-semibold text-primary-foreground shadow-md hover:opacity-90"
+            >
+              <RefreshCw className="mr-2 h-4.5 w-4.5" />
+              কোর্স স্ট্যাটাস রিফ্রেশ করুন
+            </Button>
+            <Button
               asChild
               size="lg"
-              className="rounded-full bg-ink font-semibold text-white shadow-[0_8px_30px_rgba(30,27,20,0.18)] hover:opacity-85"
+              variant="outline"
+              className="rounded-full border-border font-semibold hover:bg-muted"
             >
               <a href="#/checkout">
                 <GraduationCap className="mr-2 h-4.5 w-4.5" aria-hidden />
@@ -97,7 +122,7 @@ export function EmptyPortal({ user }: { user: PortalUser }) {
               asChild
               size="lg"
               variant="outline"
-              className="border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
+              className="rounded-full border-primary/30 font-medium hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
             >
               <a href={site.phoneHref}>
                 <Phone className="mr-2 h-4 w-4" aria-hidden />
