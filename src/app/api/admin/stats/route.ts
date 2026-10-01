@@ -196,6 +196,7 @@ export async function GET(req: Request) {
       revenueByDay,
     };
 
+    return NextResponse.json({ ok: true, stats });
   } catch (error) {
     console.error("[api/admin/stats] Failed, providing fallback stats:", error);
     const now = new Date();
