@@ -205,18 +205,23 @@ export function AdminStudents() {
                         {formatDate(s.createdAt)}
                       </span>
                     </div>
-                    {s.latestEnrollment ? (
-                      <p className="mt-2 truncate rounded-lg bg-muted/50 px-2 py-1.5 text-xs">
-                        <span className="font-medium text-foreground">
-                          {courseTitle(s.latestEnrollment.courseSlug)}
-                        </span>{" "}
-                        · {s.latestEnrollment.batch}
-                      </p>
-                    ) : (
-                      <p className="mt-2 rounded-lg bg-muted/50 px-2 py-1.5 text-xs text-muted-foreground">
-                        কোনো ভর্তি নেই, খালি পোর্টাল
-                      </p>
-                    )}
+                    <div className="mt-2.5 flex items-center justify-between gap-2">
+                      {s.latestEnrollment ? (
+                        <p className="truncate rounded-lg bg-muted/50 px-2 py-1.5 text-xs flex-1">
+                          <span className="font-medium text-foreground">
+                            {courseTitle(s.latestEnrollment.courseSlug)}
+                          </span>{" "}
+                          · {s.latestEnrollment.batch}
+                        </p>
+                      ) : (
+                        <p className="rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-300 px-2 py-1.5 text-xs font-medium flex-1">
+                          কোনো কোর্স নেই
+                        </p>
+                      )}
+                      <span className="text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg shrink-0 flex items-center gap-0.5">
+                        কোর্স দিন &rarr;
+                      </span>
+                    </div>
                   </CardContent>
                 </Card>
               </li>
@@ -229,6 +234,9 @@ export function AdminStudents() {
       <StudentSheet
         id={activeId}
         onClose={() => setActiveId(null)}
+        onChanged={() => {
+          void load();
+        }}
         onAddCourse={(student) => {
           setPrefilledStudent(student);
           setEnrollDialogOpen(true);
@@ -541,11 +549,13 @@ function DirectEnrollmentDialog({
 function StudentSheet({
   id,
   onClose,
+  onChanged,
   onAddCourse,
   onDeleted,
 }: {
   id: string | null;
   onClose: () => void;
+  onChanged?: () => void;
   onAddCourse: (student: { id: string; name: string; phone: string; email?: string }) => void;
   onDeleted: () => void;
 }) {
@@ -554,6 +564,14 @@ function StudentSheet({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Inline Quick Course Assignment State
+  const [inlineCourseSlug, setInlineCourseSlug] = useState(courses[0]?.slug ?? "basic-to-ielts");
+  const [inlineBatch, setInlineBatch] = useState("Offline Direct Batch");
+  const [inlineTargetBand, setInlineTargetBand] = useState("7.5");
+  const [inlineBusy, setInlineBusy] = useState(false);
+  const [inlineError, setInlineError] = useState<string | null>(null);
+  const [inlineSuccess, setInlineSuccess] = useState<string | null>(null);
 
   const fetchDetail = useCallback(() => {
     if (!id || !token) return;
@@ -576,7 +594,51 @@ function StudentSheet({
 
   useEffect(() => {
     fetchDetail();
+    setInlineError(null);
+    setInlineSuccess(null);
   }, [fetchDetail]);
+
+  async function handleInlineEnroll(e: React.FormEvent) {
+    e.preventDefault();
+    if (!detail || !token) return;
+    setInlineBusy(true);
+    setInlineError(null);
+    setInlineSuccess(null);
+    try {
+      const res = await fetch("/api/admin/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": token,
+        },
+        body: JSON.stringify({
+          studentId: detail.id,
+          name: detail.name,
+          phone: detail.phone,
+          email: detail.email || null,
+          courseSlug: inlineCourseSlug,
+          batch: inlineBatch.trim() || "Offline Direct Batch",
+          targetBand: inlineTargetBand.trim() || "7.5",
+          progress: 0,
+          attendance: 100,
+          status: "active",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setInlineError(data.error ?? "কোর্স এনরোল করতে সমস্যা হয়েছে।");
+      } else {
+        setInlineSuccess(data.message ?? "কোর্স সফলভাবে যুক্ত করা হয়েছে!");
+        fetchDetail();
+        onChanged?.();
+        setTimeout(() => setInlineSuccess(null), 4000);
+      }
+    } catch {
+      setInlineError("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
+    } finally {
+      setInlineBusy(false);
+    }
+  }
 
   async function handleDeleteEnrollment(enrollmentId: string) {
     if (!id || !token) return;
@@ -590,6 +652,7 @@ function StudentSheet({
       const data = await res.json();
       if (res.ok && data.ok) {
         fetchDetail();
+        onChanged?.();
       } else {
         alert(data.error ?? "মুছে ফেলতে সমস্যা হয়েছে।");
       }
@@ -661,32 +724,108 @@ function StudentSheet({
 
           {detail && !loading ? (
             <>
-              {/* Enrollments */}
+              {/* Quick Assign Course Section */}
+              <div className="rounded-2xl border-2 border-primary/30 bg-primary/[0.04] p-4 space-y-3.5 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <h3 className="flex items-center gap-2 text-sm font-bold text-foreground">
+                    <Plus className="h-4 w-4 text-primary" />
+                    কোর্স সিলেক্ট ও যুক্ত করুন (Assign Course)
+                  </h3>
+                  <span className="text-[11px] font-bold text-primary bg-primary/15 px-2.5 py-0.5 rounded-full">
+                    ইনস্ট্যান্ট অ্যাক্সেস
+                  </span>
+                </div>
+
+                <form onSubmit={handleInlineEnroll} className="space-y-3">
+                  <div className="space-y-1">
+                    <Label htmlFor="inline-course-select" className="text-xs font-semibold text-foreground">
+                      কোর্স নির্বাচন করুন <span className="text-destructive">*</span>
+                    </Label>
+                    <select
+                      id="inline-course-select"
+                      value={inlineCourseSlug}
+                      onChange={(e) => setInlineCourseSlug(e.target.value)}
+                      className="w-full rounded-xl border border-input bg-card px-3 py-2.5 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary font-semibold text-foreground"
+                    >
+                      {courses.map((c) => (
+                        <option key={c.slug} value={c.slug}>
+                          {c.title} {c.price ? `— ৳${c.price.toLocaleString("en-BD")}` : ""}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="space-y-1">
+                      <Label htmlFor="inline-batch" className="text-[11px] font-semibold text-muted-foreground">
+                        ব্যাচ নাম
+                      </Label>
+                      <Input
+                        id="inline-batch"
+                        value={inlineBatch}
+                        onChange={(e) => setInlineBatch(e.target.value)}
+                        placeholder="Offline Direct Batch"
+                        className="h-9 rounded-xl text-xs bg-card"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="inline-band" className="text-[11px] font-semibold text-muted-foreground">
+                        টার্গেট ব্যান্ড
+                      </Label>
+                      <Input
+                        id="inline-band"
+                        value={inlineTargetBand}
+                        onChange={(e) => setInlineTargetBand(e.target.value)}
+                        placeholder="7.5"
+                        className="h-9 rounded-xl text-xs bg-card"
+                      />
+                    </div>
+                  </div>
+
+                  {inlineError && (
+                    <p className="rounded-xl bg-destructive/10 p-2.5 text-xs text-destructive text-center font-medium">
+                      {inlineError}
+                    </p>
+                  )}
+
+                  {inlineSuccess && (
+                    <p className="rounded-xl bg-emerald-500/15 p-2.5 text-xs text-emerald-700 dark:text-emerald-300 text-center font-bold">
+                      {inlineSuccess}
+                    </p>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={inlineBusy}
+                    className="w-full h-10 rounded-xl bg-primary text-primary-foreground font-bold shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                  >
+                    {inlineBusy ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        যুক্ত করা হচ্ছে...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="h-4 w-4" />
+                        এই শিক্ষার্থীকে কোর্স দিন (Assign Course)
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </div>
+
+              {/* Current Enrollments */}
               <section aria-label="Enrollments">
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Layers className="h-4 w-4 text-primary" aria-hidden="true" />
-                    Enrollments: ভর্তি ({detail.enrollments.length})
+                    Enrollments: বর্তমান ভর্তি ({detail.enrollments.length})
                   </h3>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                      onAddCourse({
-                        id: detail.id,
-                        name: detail.name,
-                        phone: detail.phone,
-                      })
-                    }
-                    className="h-8 rounded-full text-xs font-semibold"
-                  >
-                    <Plus className="mr-1 h-3.5 w-3.5" /> আরেকটি কোর্স দিন
-                  </Button>
                 </div>
 
                 {detail.enrollments.length === 0 ? (
-                  <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground text-center">
-                    এই অ্যাকাউন্টে কোনো ভর্তি নেই। উপরে &apos;আরেকটি কোর্স দিন&apos; বাটনে ক্লিক করে কোর্স প্রদান করতে পারেন।
+                  <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3.5 text-sm text-muted-foreground text-center">
+                    এই একাউন্টে বর্তমানে কোনো ভর্তি নেই। উপরের বক্স থেকে কোর্স সিলেক্ট করে &apos;এই শিক্ষার্থীকে কোর্স দিন&apos; বাটনে চাপুন।
                   </p>
                 ) : (
                   <ul className="space-y-3">

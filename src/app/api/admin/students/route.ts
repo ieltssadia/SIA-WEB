@@ -170,9 +170,21 @@ export async function POST(req: Request) {
       });
     }
 
-    // Create the course enrollment
-    const enrollment = await db.enrollment.create({
-      data: {
+    // Create or update the course enrollment
+    const enrollment = await db.enrollment.upsert({
+      where: {
+        studentId_courseSlug: {
+          studentId: student.id,
+          courseSlug,
+        },
+      },
+      update: {
+        batch: batch || "Offline Direct Admission",
+        targetBand: targetBand || "7.5",
+        examDate: examDate && examDate.trim().length > 0 ? examDate.trim() : null,
+        status: status || "active",
+      },
+      create: {
         studentId: student.id,
         courseSlug,
         batch: batch || "Offline Direct Admission",
