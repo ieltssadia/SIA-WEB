@@ -19,6 +19,14 @@ import {
   classRoutine,
 } from "@/lib/site-data";
 
+type CachedCatalog = {
+  data: any;
+  expires: number;
+};
+
+let cachedCatalog: CachedCatalog | null = null;
+const CATALOG_CACHE_TTL_MS = 30_000; // 30 seconds
+
 /**
  * GET /api/catalog — the public, CMS-managed catalog in ONE payload.
  *
@@ -29,6 +37,15 @@ import {
  * public site never renders empty.
  */
 export async function GET() {
+  const now = Date.now();
+  if (cachedCatalog && cachedCatalog.expires > now) {
+    return NextResponse.json(cachedCatalog.data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=30, stale-while-revalidate=120",
+      },
+    });
+  }
+
   try {
     const [dbCourses, dbBooks, dbResources, dbNotices, dbTips, dbTeam, dbRoutine] =
       await Promise.all([
@@ -41,7 +58,7 @@ export async function GET() {
         db.routineSlot.findMany({ where: { published: true }, orderBy: { createdAt: "asc" } }),
       ]);
 
-    return NextResponse.json({
+    const payload = {
       ok: true,
       courses: dbCourses.length ? dbCourses.map(courseToPublic) : courses,
       books: dbBooks.length ? dbBooks.map(bookToPublic) : books,
@@ -50,11 +67,19 @@ export async function GET() {
       tips: dbTips.length ? dbTips.map(tipToPublic) : tips,
       team: dbTeam.length ? dbTeam.map(siteTeamToPublic) : teamMembers,
       routine: dbRoutine.length ? dbRoutine.map(routineToPublic) : classRoutine,
+    };
+
+    cachedCatalog = { data: payload, expires: Date.now() + CATALOG_CACHE_TTL_MS };
+
+    return NextResponse.json(payload, {
+      headers: {
+        "Cache-Control": "public, s-maxage=30, stale-while-revalidate=120",
+      },
     });
   } catch (error) {
     // DB hiccup → static defaults keep the public site alive.
     console.error("[api/catalog] Falling back to static catalog:", error);
-    return NextResponse.json({
+    const fallback = {
       ok: true,
       courses,
       books,
@@ -63,6 +88,7 @@ export async function GET() {
       tips,
       team: teamMembers,
       routine: classRoutine,
-    });
+    };
+    return NextResponse.json(fallback);
   }
 }

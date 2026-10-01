@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Reveal } from "@/components/site/reveal";
 import { courses, classRoutine, weekDays, type RoutineClass, type WeekDay } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 const emptySubscribe = () => () => {};
 
@@ -37,21 +38,7 @@ export function useToday(): string {
  * table, today banners, course-detail tables, locked preview).
  */
 export function useCatalogRoutine(): RoutineClass[] {
-  const [routine, setRoutine] = useState<RoutineClass[]>(classRoutine);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setRoutine(d.routine as RoutineClass[]);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
+  const { routine } = useCatalog();
   return routine;
 }
 

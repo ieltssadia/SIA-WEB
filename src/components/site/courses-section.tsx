@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { courseCategories, courses, site, type Course } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 export const courseIconMap: Record<string, React.ElementType> = {
   users: Users,
@@ -392,23 +393,7 @@ function CounselingTile({ span2 }: { span2: boolean }) {
  */
 export function CoursesSection({ featured = false }: { featured?: boolean }) {
   const [category, setCategory] = useState<string>("all");
-  const [catalog, setCatalog] = useState<{ courses: Course[] }>({ courses });
-
-  /* CMS-managed course list — static import paints first, then /api/catalog swaps in. */
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setCatalog({ courses: d.courses as Course[] });
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const allCourses = catalog.courses;
+  const { courses: allCourses } = useCatalog();
 
   const filtered = useMemo(() => {
     if (featured) return allCourses.slice(0, 3);

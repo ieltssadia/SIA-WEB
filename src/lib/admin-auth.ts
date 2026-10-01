@@ -121,6 +121,9 @@ export const DEMO_ADMIN_ACCOUNTS: Array<{
   { id: "demo-teacher-1", name: "IELTS Instructor", email: "teacher@team.com", password: "sadiasielts@#cxp!vvxaw@IELTS", role: "teacher" },
 ];
 
+const authUserCache = new Map<string, { user: AuthUser; expires: number }>();
+const AUTH_CACHE_TTL_MS = 60_000; // 60 seconds
+
 /**
  * Resolve the request's session → active AdminUser, or null.
  * Disabled accounts never resolve, regardless of a valid signature.
@@ -134,12 +137,29 @@ export async function getAuth(req: Request): Promise<AuthUser | null> {
     return { id: demo.id, name: demo.name, email: demo.email, role: demo.role };
   }
 
+  const now = Date.now();
+  const cached = authUserCache.get(userId);
+  if (cached && cached.expires > now) {
+    return cached.user;
+  }
+
   try {
-    const user = await db.adminUser.findUnique({ where: { id: userId } });
-    if (!user || user.status !== "active") return null;
+    const user = await db.adminUser.findUnique({
+      where: { id: userId },
+      select: { id: true, name: true, email: true, role: true, status: true },
+    });
+    if (!user || user.status !== "active") {
+      authUserCache.delete(userId);
+      return null;
+    }
     const role = asRole(user.role);
-    if (!role) return null;
-    return { id: user.id, name: user.name, email: user.email, role };
+    if (!role) {
+      authUserCache.delete(userId);
+      return null;
+    }
+    const authUser: AuthUser = { id: user.id, name: user.name, email: user.email, role };
+    authUserCache.set(userId, { user: authUser, expires: now + AUTH_CACHE_TTL_MS });
+    return authUser;
   } catch {
     return null;
   }

@@ -41,6 +41,7 @@ import { LockedRoutineCard } from "@/components/site/locked-routine";
 import { courses, faqs, stories, upcomingBatches, site, type Course } from "@/lib/site-data";
 import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 import { usePortalStore } from "@/lib/portal-store";
+import { useCatalog } from "@/lib/use-catalog";
 
 function formatBDT(n: number) {
   return `৳${n.toLocaleString("en-US")}`;
@@ -180,23 +181,8 @@ function CourseNotFound() {
 }
 
 export function CourseDetailPage({ slug }: { slug: string }) {
-  /* CMS-managed course list — static import paints first, then /api/catalog swaps in. */
-  const [catalog, setCatalog] = useState<{ courses: Course[] }>({ courses });
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setCatalog({ courses: d.courses as Course[] });
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const course = catalog.courses.find((c) => c.slug === slug);
+  const { courses: catalogCourses } = useCatalog();
+  const course = catalogCourses.find((c) => c.slug === slug);
 
   if (!course) return <CourseNotFound />;
 

@@ -1,9 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { teamMembers, type TeamMember } from "@/lib/site-data";
+import { type TeamMember } from "@/lib/site-data";
 import { Reveal } from "@/components/site/reveal";
+import { useCatalog } from "@/lib/use-catalog";
 
 /**
  * Moving team strip — studio portraits drifting slowly left, pausing on
@@ -41,21 +39,7 @@ function TeamCard({ member }: { member: TeamMember }) {
 }
 
 export function TeamMarquee() {
-  /* CMS-managed team — static import paints first, then /api/catalog swaps in. */
-  const [team, setTeam] = useState<TeamMember[]>(teamMembers);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setTeam(d.team as TeamMember[]);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const { team } = useCatalog();
 
   // Track = two copies of the list; translating -50% loops seamlessly.
   const loop = [...team, ...team];

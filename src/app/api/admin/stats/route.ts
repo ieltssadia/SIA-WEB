@@ -41,10 +41,20 @@ function dhakaWeekday(d: Date): string {
  * Teachers get operational stats but never financials: revenue is zeroed
  * and recent orders are omitted.
  */
+const statsCache = new Map<string, { stats: AdminStats; expires: number }>();
+const STATS_CACHE_TTL_MS = 8_000; // 8 seconds
+
 export async function GET(req: Request) {
   const auth = await getAuth(req);
   if (!auth) return unauthorized();
   const isTeacher = auth.role === "teacher";
+
+  const cacheKey = `${auth.role}`;
+  const now = Date.now();
+  const cached = statsCache.get(cacheKey);
+  if (cached && cached.expires > now) {
+    return NextResponse.json({ ok: true, stats: cached.stats });
+  }
 
   try {
     const [
@@ -195,6 +205,8 @@ export async function GET(req: Request) {
       recentOrders,
       revenueByDay,
     };
+
+    statsCache.set(cacheKey, { stats, expires: Date.now() + STATS_CACHE_TTL_MS });
 
     return NextResponse.json({ ok: true, stats });
   } catch (error) {

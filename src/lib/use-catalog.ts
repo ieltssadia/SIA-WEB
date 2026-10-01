@@ -6,6 +6,8 @@ import {
   classRoutine,
   courses,
   faqs,
+  portalDownloads,
+  portalNotices,
   routineNote,
   site,
   teamMembers,
@@ -44,6 +46,8 @@ export type CatalogState = {
   gallery: CatalogGallery[];
   courses: Course[];
   books: Book[];
+  resources: typeof portalDownloads;
+  notices: typeof portalNotices;
   settings: CatalogSettings;
 };
 
@@ -57,13 +61,15 @@ function initialState(): CatalogState {
     gallery: [],
     courses,
     books,
+    resources: portalDownloads,
+    notices: portalNotices,
     settings: { ...site, routineNote },
   };
 }
 
 let state: CatalogState = initialState();
 const listeners = new Set<() => void>();
-let fetchStarted = false;
+let fetchPromise: Promise<void> | null = null;
 
 function setState(next: CatalogState) {
   state = next;
@@ -71,10 +77,10 @@ function setState(next: CatalogState) {
 }
 
 function ensureFetch() {
-  if (fetchStarted || typeof window === "undefined") return;
-  fetchStarted = true;
-  fetch("/api/catalog", { cache: "no-store" })
-    .then((res) => res.json())
+  if (typeof window === "undefined" || fetchPromise) return;
+
+  fetchPromise = fetch("/api/catalog")
+    .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
       if (!data?.ok) return;
       setState({
@@ -86,6 +92,8 @@ function ensureFetch() {
         gallery: Array.isArray(data.gallery) ? data.gallery : [],
         courses: Array.isArray(data.courses) && data.courses.length ? data.courses : courses,
         books: Array.isArray(data.books) && data.books.length ? data.books : books,
+        resources: Array.isArray(data.resources) && data.resources.length ? data.resources : portalDownloads,
+        notices: Array.isArray(data.notices) && data.notices.length ? data.notices : portalNotices,
         settings: data.settings ?? { ...site, routineNote },
       });
     })

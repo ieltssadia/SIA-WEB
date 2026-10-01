@@ -26,6 +26,7 @@ import {
   portalDownloads,
   type PortalDownload,
 } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 const categoryIcon: Record<PortalDownload["category"], LucideIcon> = {
   writing: PenLine,
@@ -96,23 +97,7 @@ function DownloadCard({ item }: { item: PortalDownload }) {
 export function DownloadsSection() {
   const [category, setCategory] = useState<string>("all");
   const [query, setQuery] = useState("");
-  // CMS-managed resources (admin panel) — static site-data is the fallback.
-  const [resources, setResources] = useState<PortalDownload[]>(portalDownloads);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok && Array.isArray(d.resources)) {
-          setResources(d.resources as PortalDownload[]);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const { resources } = useCatalog();
 
   const counts = useMemo(() => {
     const map = new Map<string, number>();

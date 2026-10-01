@@ -28,6 +28,7 @@ import {
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal } from "@/components/site/reveal";
 import { bookCategories, books, site, type Book } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 import { useCartStore } from "@/lib/cart-store";
 
 function taka(n: number) {
@@ -194,24 +195,9 @@ function BookCard({ book, onDetails }: { book: Book; onDetails: (b: Book) => voi
 export function ShopPage() {
   const [category, setCategory] = useState<string>("all");
   const [selected, setSelected] = useState<Book | null>(null);
-  const [catalog, setCatalog] = useState<{ books: Book[] }>({ books });
+  const { books: catalogBooks } = useCatalog();
   const addToCart = useAddToCart();
 
-  /* CMS-managed book list — static import paints first, then /api/catalog swaps in. */
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setCatalog({ books: d.books as Book[] });
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const catalogBooks = catalog.books;
   const bundleBook = catalogBooks.length ? catalogBooks[catalogBooks.length - 1] : books[0];
   const bundleTotal = catalogBooks.reduce(
     (s, b) => s + (b.slug === "complete-bundle" ? 0 : b.price),

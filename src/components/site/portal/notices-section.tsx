@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { PortalSectionHeader } from "@/components/site/portal/portal-shell";
 import { bnNum } from "@/components/site/portal/portal-utils";
 import { portalNotices, routineNote, site } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 /** Notice shape served by /api/catalog (matches the static portalNotices rows). */
 type CatalogNotice = { date: string; tag: string; title: string; body: string };
@@ -84,25 +85,7 @@ const supportItems = [
 
 export function NoticesSection() {
   const [filter, setFilter] = useState<(typeof filterTags)[number]>("সব");
-  const [catalog, setCatalog] = useState<{ notices: CatalogNotice[] }>({
-    notices: portalNotices,
-  });
-
-  /* CMS-managed notices — static import paints first, then /api/catalog swaps in. */
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setCatalog({ notices: d.notices as CatalogNotice[] });
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const allNotices = catalog.notices;
+  const { notices: allNotices } = useCatalog();
 
   const notices = useMemo(
     () => (filter === "সব" ? allNotices : allNotices.filter((n) => n.tag === filter)),

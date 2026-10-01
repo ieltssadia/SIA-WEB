@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
-import { site, tips } from "@/lib/site-data";
+import { site } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 const iconMap: Record<string, React.ElementType> = {
   lightbulb: Lightbulb,
@@ -15,21 +16,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export function TipsSection() {
-  /* CMS-managed tips — static import paints first, then /api/catalog swaps in. */
-  const [tipList, setTipList] = useState(tips);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setTipList(d.tips as typeof tips);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const { tips: tipList } = useCatalog();
 
   return (
     <section

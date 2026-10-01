@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { TeamMarquee } from "@/components/site/team-marquee";
 import { Reveal } from "@/components/site/reveal";
 import { site, teamMembers, type TeamMember } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 /**
  * #/team — "The People Behind the Bands."
@@ -14,21 +15,7 @@ import { site, teamMembers, type TeamMember } from "@/lib/site-data";
  * portrait strip, and a trust row — every card opens the member's profile.
  */
 export function TeamPage() {
-  /* CMS-managed team — static import paints first, then /api/catalog swaps in. */
-  const [team, setTeam] = useState<TeamMember[]>(teamMembers);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/catalog")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d?.ok) setTeam(d.team as TeamMember[]);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const { team } = useCatalog();
 
   return (
     <>
