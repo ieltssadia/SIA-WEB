@@ -18,7 +18,7 @@ import { db } from "@/lib/db";
  */
 
 export const ADMIN_PASSWORD =
-  process.env.ADMIN_PASSWORD?.trim() || "sadia-admin-2025";
+  process.env.ADMIN_PASSWORD?.trim() || "sadiasielts@#cxp!vvxaw@IELTS";
 
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 24 * 30; // 30 days
 
@@ -115,9 +115,10 @@ export const DEMO_ADMIN_ACCOUNTS: Array<{
   password: string;
   role: AdminRole;
 }> = [
-  { id: "demo-owner-1", name: "Sadia Rahman", email: "sadia@team.com", password: "owner123", role: "owner" },
-  { id: "demo-admin-1", name: "Admin Manager", email: "admin@team.com", password: "admin123", role: "admin" },
-  { id: "demo-teacher-1", name: "IELTS Instructor", email: "teacher@team.com", password: "teacher123", role: "teacher" },
+  { id: "demo-owner-1", name: "Sadia Rahman", email: "admin@sadiasielts.com", password: "sadiasielts@#cxp!vvxaw@IELTS", role: "owner" },
+  { id: "demo-owner-2", name: "Sadia Rahman", email: "sadia@team.com", password: "sadiasielts@#cxp!vvxaw@IELTS", role: "owner" },
+  { id: "demo-admin-1", name: "Admin Manager", email: "admin@team.com", password: "sadiasielts@#cxp!vvxaw@IELTS", role: "admin" },
+  { id: "demo-teacher-1", name: "IELTS Instructor", email: "teacher@team.com", password: "sadiasielts@#cxp!vvxaw@IELTS", role: "teacher" },
 ];
 
 /**
