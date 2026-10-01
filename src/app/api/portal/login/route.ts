@@ -71,14 +71,14 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!verifyPassword(phone, parsed.data.password, student.passwordHash)) {
+    if (!verifyPassword(student.phone, parsed.data.password, student.passwordHash)) {
       return NextResponse.json(
         { error: "ভুল পাসওয়ার্ড! Incorrect password, আবার চেষ্টা করুন।" },
         { status: 401 }
       );
     }
 
-    const payload = await getPortalPayload(phone);
+    const payload = await getPortalPayload(student.phone);
     if (!payload) {
       return NextResponse.json(
         { error: "Could not load your portal, please try again." },
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json({ ...payload, token: issueToken(phone) });
+    return NextResponse.json({ ...payload, token: issueToken(student.phone) });
   } catch (error) {
     console.error("[api/portal/login] Failed:", error);
     return NextResponse.json(
