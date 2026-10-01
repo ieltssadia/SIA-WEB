@@ -34,6 +34,7 @@ export const navPrimary = [
 
 /** Secondary links grouped under the "More" dropdown in the desktop nav. */
 export const navMore = [
+  { label: "Exam Registration", href: "#/ielts-registration", desc: "Official IELTS Exam Registration Form" },
   { label: "Team", href: "#/team", desc: "যাঁরা আপনাকে পড়াবেন" },
   { label: "About", href: "#/about", desc: "Sadia's story, mission & team" },
   { label: "Stories", href: "#/stories", desc: "Band 8+ success stories" },

@@ -30,6 +30,7 @@ const columns = [
     links: [
       { label: "Courses", href: "#/courses" },
       { label: "Student Portal", href: "#/portal" },
+      { label: "Exam Registration", href: "#/ielts-registration" },
       { label: "Events", href: "#/routine" },
       { label: "Gallery", href: site.facebook, external: true },
       { label: "FAQs", href: "#faq" },

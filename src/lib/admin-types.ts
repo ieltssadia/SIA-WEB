@@ -434,3 +434,49 @@ export type AdminUploadInfo = {
   folder: string;
   kind: string;
 };
+
+export type AdminIeltsRegistrationStatus =
+  | "new"
+  | "reviewing"
+  | "submitted"
+  | "registered"
+  | "rejected";
+
+export type AdminIeltsRegistrationRow = {
+  id: string;
+  regNo: string;
+  fullName: string;
+  fatherName: string | null;
+  motherName: string | null;
+  dob: string;
+  gender: string;
+  nationality: string;
+  identityNumber: string;
+  phone: string;
+  whatsapp: string | null;
+  email: string;
+  presentAddress: string;
+  permanentAddress: string | null;
+  examType: string;
+  testFormat: string;
+  modules: string;
+  preferredDate: string;
+  preferredCentre: string;
+  previousExam: boolean;
+  previousScore: string | null;
+  targetScore: string | null;
+  highestEducation: string | null;
+  institutionName: string | null;
+  occupation: string | null;
+  passportCopyUrl: string | null;
+  photoUrl: string | null;
+  otherDocsUrl: string | null;
+  examFee: number | null;
+  paymentStatus: "unpaid" | "paid" | "partial";
+  receivedBy: string | null;
+  status: AdminIeltsRegistrationStatus;
+  remarks: string | null;
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+};
+

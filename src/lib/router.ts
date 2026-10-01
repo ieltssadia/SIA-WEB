@@ -24,6 +24,8 @@ function normalize(hash: string): string {
       "cambridge",
       "checkout",
       "verify",
+      "ielts-registration",
+      "exam-registration",
     ];
     if (appRoutes.includes(firstSegment)) {
       return `/${raw}`;

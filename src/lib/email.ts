@@ -231,3 +231,169 @@ export async function sendOrderConfirmationEmail(order: {
     return { ok: false, error: err };
   }
 }
+
+/**
+ * Send an IELTS Exam Registration Confirmation Email (to candidate & admin)
+ */
+export async function sendIeltsRegistrationEmail(reg: {
+  regNo: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  examType: string;
+  testFormat: string;
+  preferredDate: string;
+  preferredCentre: string;
+  identityNumber: string;
+  targetScore?: string | null;
+}) {
+  const client = getResendClient();
+  if (!client) return { ok: false, error: "Email client not configured" };
+
+  try {
+    // 1. Notify Admin Team
+    await client.emails.send({
+      from: DEFAULT_FROM,
+      to: ADMIN_NOTIFICATION_EMAIL,
+      subject: `[নতুন IELTS রেজিস্ট্রেশন] ${reg.fullName} - #${reg.regNo}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; background-color: #ffffff; border: 1px solid #e0d8c3; border-radius: 12px;">
+          <h2 style="color: #211b10; border-bottom: 2px solid #dfb758; padding-bottom: 8px;">নতুন IELTS Exam Registration এসেছে!</h2>
+          <p><strong>Registration ID:</strong> <span style="color: #996e1a; font-weight: bold;">${reg.regNo}</span></p>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
+            <tr style="background-color: #fbf9f4;"><td style="padding: 8px; font-weight: bold; width: 140px;">ক্যান্ডিডেট নাম:</td><td style="padding: 8px;">${reg.fullName}</td></tr>
+            <tr><td style="padding: 8px; font-weight: bold;">মোবাইল:</td><td style="padding: 8px;"><a href="tel:${reg.phone}">${reg.phone}</a></td></tr>
+            <tr style="background-color: #fbf9f4;"><td style="padding: 8px; font-weight: bold;">ইমেইল:</td><td style="padding: 8px;"><a href="mailto:${reg.email}">${reg.email}</a></td></tr>
+            <tr><td style="padding: 8px; font-weight: bold;">NID / Passport:</td><td style="padding: 8px;">${reg.identityNumber}</td></tr>
+            <tr style="background-color: #fbf9f4;"><td style="padding: 8px; font-weight: bold;">Exam Type:</td><td style="padding: 8px;">${reg.examType}</td></tr>
+            <tr><td style="padding: 8px; font-weight: bold;">Test Format:</td><td style="padding: 8px;">${reg.testFormat}</td></tr>
+            <tr style="background-color: #fbf9f4;"><td style="padding: 8px; font-weight: bold;">Preferred Date:</td><td style="padding: 8px;">${reg.preferredDate}</td></tr>
+            <tr><td style="padding: 8px; font-weight: bold;">Exam Centre:</td><td style="padding: 8px;">${reg.preferredCentre}</td></tr>
+            <tr style="background-color: #fbf9f4;"><td style="padding: 8px; font-weight: bold;">Target Band:</td><td style="padding: 8px;">${reg.targetScore || "N/A"}</td></tr>
+          </table>
+          <p style="margin-top: 16px; font-size: 13px; color: #666;">অ্যাডমিন প্যানেলে লগইন করে সম্পূর্ণ তথ্য এবং ডকুমেন্টস চেক করুন।</p>
+        </div>
+      `,
+    }).catch((e) => console.error("Admin registration email failed:", e));
+
+    // 2. Candidate Confirmation Email
+    if (reg.email) {
+      const candidateHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>IELTS Exam Registration Confirmation</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f7f4ee; color: #211b10;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f7f4ee; padding: 32px 16px;">
+            <tr>
+              <td align="center">
+                <table role="presentation" width="100%" style="max-width: 560px; background-color: #ffffff; border-radius: 20px; border: 1px solid #e7dcbe; overflow: hidden; box-shadow: 0 10px 30px rgba(30,27,20,0.06);">
+                  
+                  <!-- Header with Luxury Dark Gold Theme -->
+                  <tr>
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #1c1810 0%, #2a2215 100%);">
+                      <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff;">
+                        Sadia's <span style="color: #dfb758;">IELTS</span>
+                      </h1>
+                      <p style="margin: 6px 0 0 0; font-size: 13px; color: #c8beab; font-weight: 600; letter-spacing: 1px;">
+                        IELTS EXAM REGISTRATION CONFIRMATION
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Main Content -->
+                  <tr>
+                    <td style="padding: 32px 32px 24px;">
+                      <h2 style="margin: 0 0 8px 0; font-size: 20px; color: #211b10; font-weight: 700;">
+                        Congratulations, ${reg.fullName}!
+                      </h2>
+                      <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #5c5240;">
+                        Sadia's IELTS Academy-তে আপনার অফিসিয়াল <strong>IELTS Exam Registration</strong> আবেদন সফলভাবে জমা হয়েছে।
+                      </p>
+
+                      <!-- Registration ID Box -->
+                      <div style="background: linear-gradient(180deg, #fbf8f1 0%, #f4ede0 100%); border: 2px dashed #cca953; border-radius: 14px; padding: 18px 20px; text-align: center; margin: 16px 0 24px 0;">
+                        <span style="font-size: 12px; font-weight: 700; color: #786438; text-transform: uppercase; letter-spacing: 1px;">Registration Tracking ID</span>
+                        <div style="font-size: 26px; font-weight: 800; letter-spacing: 2px; color: #8a6417; margin-top: 4px; font-family: 'Courier New', Courier, monospace;">
+                          ${reg.regNo}
+                        </div>
+                      </div>
+
+                      <!-- Candidate Exam Summary Table -->
+                      <h3 style="margin: 0 0 12px 0; font-size: 15px; color: #211b10; font-weight: 700; border-bottom: 1px solid #efe8d8; padding-bottom: 6px;">
+                        📋 পরীক্ষার আবেদন সংক্রান্ত বিবরণ:
+                      </h3>
+                      <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.5; margin-bottom: 24px;">
+                        <tr>
+                          <td style="padding: 8px 0; color: #736754; width: 45%;">পরীক্ষার ধরন (Exam Type):</td>
+                          <td style="padding: 8px 0; color: #211b10; font-weight: 600;">${reg.examType}</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #f6f1e6;">
+                          <td style="padding: 8px 0; color: #736754;">ফরম্যাট (Test Format):</td>
+                          <td style="padding: 8px 0; color: #211b10; font-weight: 600;">${reg.testFormat}</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #f6f1e6;">
+                          <td style="padding: 8px 0; color: #736754;">পছন্দের তারিখ (Exam Date):</td>
+                          <td style="padding: 8px 0; color: #211b10; font-weight: 600;">${reg.preferredDate}</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #f6f1e6;">
+                          <td style="padding: 8px 0; color: #736754;">পরীক্ষা কেন্দ্র (Exam Centre):</td>
+                          <td style="padding: 8px 0; color: #211b10; font-weight: 600;">${reg.preferredCentre}</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #f6f1e6;">
+                          <td style="padding: 8px 0; color: #736754;">যোগাযোগ নম্বর:</td>
+                          <td style="padding: 8px 0; color: #211b10; font-weight: 600;">${reg.phone}</td>
+                        </tr>
+                      </table>
+
+                      <!-- Next Steps Guidance -->
+                      <div style="background-color: #fbf9f4; border-left: 4px solid #caa44c; border-radius: 0 12px 12px 0; padding: 14px 16px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 6px 0; font-size: 14px; color: #211b10; font-weight: 700;">পরবর্তী ধাপ:</h4>
+                        <p style="margin: 0; font-size: 13px; color: #5c5240; line-height: 1.5;">
+                          আমাদের অফিসিয়াল রেজিস্ট্রেশন টিম আপনার প্রদত্ত পাসপোর্ট/এনআইডি তথ্য যাচাই করে আপনার সিট কনফার্মেশন ও অফিসিয়াল পেমেন্ট প্রসিসের জন্য শীঘ্রই সরাসরি ফোনে যোগাযোগ করবে।
+                        </p>
+                      </div>
+
+                      <p style="margin: 16px 0 0 0; font-size: 13px; color: #736754;">
+                        যেকোনো জরুরি প্রয়োজনে আমাদের শ্রীমঙ্গল সেন্টারে যোগাযোগ করুন অথবা কল করুন: <strong>+880 1752-716238</strong>।
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="padding: 20px 32px; background-color: #fbf9f4; border-top: 1px solid #efe8d8; text-align: center;">
+                      <p style="margin: 0; font-size: 12px; color: #8e8371; line-height: 1.6;">
+                        <strong>Sadia's IELTS Academy</strong><br/>
+                        সৈয়দ মুজিবুর রহমান মার্কেট (২য় তলা), চৌমোহনা, শ্রীমঙ্গল, মৌলভীবাজার<br/>
+                        হটলাইন: <a href="tel:+8801752716238" style="color: #996e1a; font-weight: 700; text-decoration: none;">01752-716238</a> | <a href="https://sadiasielts.com" style="color: #996e1a; text-decoration: none;">sadiasielts.com</a>
+                      </p>
+                    </td>
+                  </tr>
+
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `;
+
+      await client.emails.send({
+        from: DEFAULT_FROM,
+        to: reg.email,
+        subject: `IELTS Exam Registration Confirmed: #${reg.regNo} - Sadia's IELTS`,
+        html: candidateHtml,
+      }).catch((e) => console.error("Candidate registration email failed:", e));
+    }
+
+    return { ok: true };
+  } catch (err: any) {
+    console.error("sendIeltsRegistrationEmail exception:", err);
+    return { ok: false, error: err?.message || "Email error" };
+  }
+}
+

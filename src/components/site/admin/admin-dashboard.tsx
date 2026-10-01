@@ -5,6 +5,7 @@ import {
   Award,
   BookOpen,
   CalendarDays,
+  FileCheck2,
   FileUp,
   FolderDown,
   GraduationCap,
@@ -360,6 +361,14 @@ export function AdminDashboard({
                     title="Review Leads"
                     sub="লিড ফলো-আপ"
                     onClick={() => onNavigate?.("leads")}
+                  />
+                ) : null}
+                {!isTeacher ? (
+                  <QuickLink
+                    icon={FileCheck2}
+                    title="IELTS Exam Registration"
+                    sub="পরীক্ষা নিবন্ধন ও তালিকা"
+                    onClick={() => onNavigate?.("ielts-registrations")}
                   />
                 ) : null}
                 <QuickLink

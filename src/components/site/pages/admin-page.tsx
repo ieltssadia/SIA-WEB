@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
+  FileCheck2,
   FileUp,
   FolderDown,
   GraduationCap,
@@ -57,6 +58,7 @@ import { AdminTips } from "@/components/site/admin/admin-tips";
 import { AdminSiteTeam } from "@/components/site/admin/admin-site-team";
 import { AdminRoutine } from "@/components/site/admin/admin-routine";
 import { AdminSuggestions } from "@/components/site/admin/admin-suggestions";
+import { AdminIeltsRegistrations } from "@/components/site/admin/admin-ielts-registrations";
 
 /** Every switchable panel of the admin shell (nav + section router). */
 export type AdminSectionKey =
@@ -74,7 +76,8 @@ export type AdminSectionKey =
   | "tips"
   | "site-team"
   | "routine"
-  | "suggestions";
+  | "suggestions"
+  | "ielts-registrations";
 
 const ALL_ROLES: AdminRole[] = ["owner", "admin", "teacher"];
 
@@ -125,10 +128,16 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
-    label: "Sales",
+    label: "Sales & Registration",
     items: [
       { key: "orders", label: "Orders · অর্ডার", icon: ShoppingBag, roles: ["owner", "admin"] },
       { key: "leads", label: "Leads · লিড", icon: UserPlus, roles: ["owner", "admin"] },
+      {
+        key: "ielts-registrations",
+        label: "IELTS Exam · পরীক্ষা নিবন্ধন",
+        icon: FileCheck2,
+        roles: ["owner", "admin"],
+      },
     ],
   },
   {
@@ -153,6 +162,7 @@ const SECTION_TITLE: Record<AdminSectionKey, string> = {
   "site-team": "Website Team · ওয়েবসাইট টিম",
   routine: "Routine · রুটিন",
   suggestions: "Suggestions · সাজেশন",
+  "ielts-registrations": "IELTS Exam Registrations · আইইএলটিএস পরীক্ষা নিবন্ধন",
 };
 
 const ROLE_TONE: Record<AdminRole, Tone> = {
@@ -469,6 +479,7 @@ function AdminShell({
           {section === "site-team" ? <AdminSiteTeam /> : null}
           {section === "routine" ? <AdminRoutine /> : null}
           {section === "suggestions" ? <AdminSuggestions /> : null}
+          {section === "ielts-registrations" ? <AdminIeltsRegistrations /> : null}
         </main>
       </div>
 

@@ -32,6 +32,7 @@ import { PortalPage } from "@/components/site/pages/portal-page";
 import { CheckoutPage } from "@/components/site/pages/checkout-page";
 import { VerifyPage } from "@/components/site/pages/verify-page";
 import { AdminPage } from "@/components/site/pages/admin-page";
+import { IeltsRegistrationPage } from "@/components/site/pages/ielts-registration-page";
 import { PrivacyPage } from "@/components/site/pages/privacy-page";
 import { TermsPage } from "@/components/site/pages/terms-page";
 import { RefundPolicyPage } from "@/components/site/pages/refund-policy-page";
@@ -160,6 +161,8 @@ export function SiteRouter() {
     page = <CheckoutPage initialCourse={query.get("course")} />;
   } else if (segments[0] === "verify") {
     page = <VerifyPage />;
+  } else if (segments[0] === "ielts-registration" || segments[0] === "exam-registration") {
+    page = <IeltsRegistrationPage />;
   } else if (segments[0] === "privacy") {
     page = <PrivacyPage />;
   } else if (segments[0] === "terms") {

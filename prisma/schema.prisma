@@ -381,3 +381,55 @@ model Suggestion {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Official IELTS Exam Candidate Registration submissions
+model IeltsRegistration {
+  id               String   @id @default(cuid())
+  regNo            String   @unique // e.g. "SIA-REG-2610-1234"
+  // 1. Personal Information
+  fullName         String
+  fatherName       String?
+  motherName       String?
+  dob              String   // Date of birth
+  gender           String   // Male | Female | Other
+  nationality      String   @default("Bangladeshi")
+  identityNumber   String   // NID / Birth Reg / Passport
+  // 2. Contact Information
+  phone            String   // Mobile
+  whatsapp         String?
+  email            String   // Candidate Email (for confirmation)
+  presentAddress   String
+  permanentAddress String?
+  // 3. IELTS Exam Information
+  examType         String   // IELTS Academic | IELTS General Training
+  testFormat       String   // Computer-Delivered | Paper-Based
+  modules          String   @default("Listening, Reading, Writing, Speaking")
+  preferredDate    String   // Preferred Exam Date
+  preferredCentre  String   // Preferred Exam Centre (e.g. Sylhet, Dhaka, etc.)
+  previousExam     Boolean  @default(false)
+  previousScore    String?  // Previous overall band score
+  targetScore      String?  // Target band score
+  // 4. Educational & Professional Information
+  highestEducation String?  // e.g. Bachelor's / Master's / HSC
+  institutionName  String?
+  occupation       String?
+  // 5. Documents & Files
+  passportCopyUrl  String?  // Uploaded passport copy or NID
+  photoUrl         String?  // Recent Photograph
+  otherDocsUrl     String?  // Extra document
+  // 6. Office / Admin Management
+  examFee          Int?     // BDT e.g. 23500
+  paymentStatus    String   @default("unpaid") // unpaid | paid | partial
+  receivedBy       String?  // Officer name
+  status           String   @default("new") // new | reviewing | submitted | registered | rejected
+  remarks          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([regNo])
+  @@index([phone])
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
