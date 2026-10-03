@@ -7,7 +7,6 @@ import {
   Clock,
   Copy,
   ExternalLink,
-  Link2,
   Pencil,
   PlusCircle,
   Radio,
@@ -53,7 +52,6 @@ import { useAdminStore } from "@/lib/admin-store";
 import { courses } from "@/lib/site-data";
 
 type FormState = {
-  slug: string;
   title: string;
   teacher: string;
   courseSlug: string; // "none" → null
@@ -71,12 +69,11 @@ type FormState = {
 
 function emptyForm(): FormState {
   return {
-    slug: "",
     title: "",
     teacher: "Sadia Ma'am",
     courseSlug: "none",
     targetBatch: "All Students",
-    platform: "zoom",
+    platform: "meet",
     meetingUrl: "",
     meetingId: "",
     passcode: "",
@@ -89,26 +86,27 @@ function emptyForm(): FormState {
 }
 
 function slugify(title: string): string {
-  return title
+  const base = title
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/[\s_]+/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "")
-    .slice(0, 60);
+    .slice(0, 45);
+  return `${base || "live-class"}-${Date.now().toString().slice(-4)}`;
 }
 
 const PLATFORM_LABELS: Record<string, { label: string; badge: string; color: string }> = {
-  zoom: { label: "Zoom Meeting", badge: "Zoom", color: "bg-blue-600 text-white" },
   meet: { label: "Google Meet", badge: "Google Meet", color: "bg-emerald-600 text-white" },
+  zoom: { label: "Zoom Meeting", badge: "Zoom", color: "bg-blue-600 text-white" },
   teams: { label: "Microsoft Teams", badge: "MS Teams", color: "bg-indigo-600 text-white" },
   other: { label: "Custom Live Link", badge: "Custom Link", color: "bg-stone-700 text-white" },
 };
 
 /**
  * Admin Live Classes — Google Meet / Zoom meeting management.
- * Admin inputs meeting link / ID / Passcode and status, students get direct button.
+ * Admin inputs meeting link & schedule, students get direct launch button on portal.
  */
 export function AdminLiveClasses() {
   const token = useAdminStore((s) => s.token);
@@ -119,7 +117,6 @@ export function AdminLiveClasses() {
 
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<AdminLiveClass | null>(null);
 
@@ -165,24 +162,14 @@ export function AdminLiveClasses() {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
-  function handleTitle(value: string) {
-    setForm((f) => ({
-      ...f,
-      title: value,
-      slug: slugTouched ? f.slug : slugify(value),
-    }));
-  }
-
   function startEdit(c: AdminLiveClass) {
     setEditingId(c.id);
-    setSlugTouched(true);
     setForm({
-      slug: c.slug,
       title: c.title,
       teacher: c.teacher,
       courseSlug: c.courseSlug ?? "none",
       targetBatch: c.targetBatch ?? "All Students",
-      platform: (c.platform as FormState["platform"]) || "zoom",
+      platform: (c.platform as FormState["platform"]) || "meet",
       meetingUrl: c.meetingUrl ?? "",
       meetingId: c.meetingId ?? "",
       passcode: c.passcode ?? "",
@@ -197,7 +184,6 @@ export function AdminLiveClasses() {
 
   function resetForm() {
     setEditingId(null);
-    setSlugTouched(false);
     setForm(emptyForm());
   }
 
@@ -211,7 +197,7 @@ export function AdminLiveClasses() {
       });
       const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
       if (res.ok && data?.ok) {
-        toast.success(`স্ট্যাটাস পরিবর্তন হয়েছে: ${LIVE_STATUS_LABEL[newStatus as keyof typeof LIVE_STATUS_LABEL] ?? newStatus}`);
+        toast.success(`স্ট্যাটাস আপডেট হয়েছে: ${LIVE_STATUS_LABEL[newStatus as keyof typeof LIVE_STATUS_LABEL] ?? newStatus}`);
         void load();
       } else {
         toast.error(data?.error ?? "স্ট্যাটাস পরিবর্তন করা যায়নি।");
@@ -225,7 +211,7 @@ export function AdminLiveClasses() {
     e.preventDefault();
     if (!token) return;
     if (!form.startsAt) {
-      toast.error("শুরুর সময় নির্বাচন করুন। (Pick a start time.)");
+      toast.error("শুরুর সময় ও তারিখ নির্বাচন করুন।");
       return;
     }
     setSaving(true);
@@ -253,14 +239,14 @@ export function AdminLiveClasses() {
         });
         const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
         if (res.ok && data?.ok) {
-          toast.success("লাইভ ক্লাস আপডেট হয়েছে। (Class updated.)");
+          toast.success("লাইভ ক্লাস আপডেট হয়েছে।");
           resetForm();
           void load();
         } else {
           toast.error(data?.error ?? "আপডেট করা যায়নি।");
         }
       } else {
-        payload.slug = form.slug || slugify(form.title);
+        payload.slug = slugify(form.title);
         const res = await fetch("/api/admin/live-classes", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-admin-key": token },
@@ -268,7 +254,7 @@ export function AdminLiveClasses() {
         });
         const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
         if (res.ok && data?.ok) {
-          toast.success("নতুন লাইভ ক্লাস তৈরি হয়েছে। (Class scheduled.)");
+          toast.success("নতুন লাইভ ক্লাস শিডিউল হয়েছে। স্টুডেন্ট পোর্টালে যুক্ত হয়েছে!");
           resetForm();
           void load();
         } else {
@@ -311,7 +297,7 @@ export function AdminLiveClasses() {
     <div className="space-y-6">
       <SectionHeading
         title="Live Classes (Google Meet / Zoom Bridge)"
-        sub="গুগল মিট বা জুম ক্লাসের লিংক ও সময়সূচী নির্ধারণ করুন। এনরোল্ড শিক্ষার্থীরা পোর্টালে সরাসরি জয়েন বাটন ও রেকর্ডিং পাবেন।"
+        sub="গুগল মিট বা জুম ক্লাসের লিংক দিন। শিক্ষার্থীরা পোর্টাল থেকে সরাসরি ক্লাসে জয়েন করবে।"
       />
 
       {/* Schedule / edit form */}
@@ -324,7 +310,7 @@ export function AdminLiveClasses() {
                   {editingId ? "Edit Live Class · লাইভ ক্লাস এডিট" : "Schedule New Live Class · নতুন লাইভ ক্লাস শিডিউল"}
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  Google Meet বা Zoom লিংক দিলে ছাত্রছাত্রীরা এক ক্লিকে জয়েন করতে পারবে
+                  Google Meet বা Zoom লিংক দিলে ছাত্রছাত্রীরা তাদের স্টুডেন্ট পোর্টালে সরাসরি জয়েন বাটন পাবে
                 </p>
               </div>
               {editingId ? (
@@ -336,21 +322,21 @@ export function AdminLiveClasses() {
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-1.5 md:col-span-2">
-                <Label htmlFor="lc-title">Class Title · ক্লাসের শিরোনাম *</Label>
+                <Label htmlFor="lc-title">Class Title / Topic · ক্লাসের শিরোনাম *</Label>
                 <Input
                   id="lc-title"
                   required
                   minLength={3}
                   maxLength={140}
                   value={form.title}
-                  onChange={(e) => handleTitle(e.target.value)}
+                  onChange={(e) => setField("title", e.target.value)}
                   placeholder="e.g. Speaking Cue Card Marathon: Part 2 Mastery"
                   className="min-h-11 rounded-xl border-border bg-muted/30"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="lc-platform">Meeting Platform · মাধ্যম *</Label>
+                <Label htmlFor="lc-platform">Meeting Platform · ক্লাস মাধ্যম *</Label>
                 <Select
                   value={form.platform}
                   onValueChange={(v) => setField("platform", v as FormState["platform"])}
@@ -368,9 +354,10 @@ export function AdminLiveClasses() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="lc-url">Meeting URL · জয়েন লিংক *</Label>
+                <Label htmlFor="lc-url">Google Meet / Zoom URL · ক্লাসের লিংক *</Label>
                 <Input
                   id="lc-url"
+                  required
                   value={form.meetingUrl}
                   onChange={(e) => setField("meetingUrl", e.target.value)}
                   placeholder={
@@ -383,7 +370,7 @@ export function AdminLiveClasses() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="lc-mid">Meeting ID (Optional · ঐচ্ছিক)</Label>
+                <Label htmlFor="lc-mid">Meeting ID (ঐচ্ছিক)</Label>
                 <Input
                   id="lc-mid"
                   value={form.meetingId}
@@ -394,7 +381,7 @@ export function AdminLiveClasses() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="lc-pass">Passcode / Password (Optional)</Label>
+                <Label htmlFor="lc-pass">Passcode / Password (ঐচ্ছিক)</Label>
                 <Input
                   id="lc-pass"
                   value={form.passcode}
@@ -411,7 +398,7 @@ export function AdminLiveClasses() {
                     <SelectValue placeholder="কোর্স বাছুন" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">All Courses / Free for Everyone</SelectItem>
+                    <SelectItem value="none">All Courses / সবার জন্য উন্মুক্ত</SelectItem>
                     {courses.map((c) => (
                       <SelectItem key={c.slug} value={c.slug}>
                         {c.title}
@@ -502,7 +489,7 @@ export function AdminLiveClasses() {
               </div>
 
               <div className="space-y-1.5 md:col-span-2">
-                <Label htmlFor="lc-desc">Agenda / Instructions · ক্লাসের বিবরণ</Label>
+                <Label htmlFor="lc-desc">Agenda / Instructions · ক্লাসের নির্দেশনা</Label>
                 <Textarea
                   id="lc-desc"
                   rows={2}
@@ -651,7 +638,7 @@ function ClassGroup({
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {items.map((c) => {
-            const platformInfo = PLATFORM_LABELS[c.platform] ?? PLATFORM_LABELS.zoom;
+            const platformInfo = PLATFORM_LABELS[c.platform] ?? PLATFORM_LABELS.meet;
             return (
               <div
                 key={c.id}
@@ -803,4 +790,3 @@ function ClassGroup({
     </section>
   );
 }
-
