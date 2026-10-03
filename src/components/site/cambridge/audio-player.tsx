@@ -9,9 +9,9 @@ import {
   VolumeX,
   FastForward,
   Rewind,
-  Sparkles,
   Headphones,
-  Gauge,
+  FileText,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -39,83 +39,35 @@ export function CambridgeAudioPlayer({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [isSyntheticSpeech, setIsSyntheticSpeech] = useState(false);
-  const [synthSpeaking, setSynthSpeaking] = useState(false);
+  const [showTranscript, setShowTranscript] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // High quality Web Speech API British English synthesis fallback for crystal clear accent
   useEffect(() => {
-    return () => {
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, []);
-
-  const playSpeechSynthesis = () => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window) || !transcript) return;
-
-    if (synthSpeaking) {
-      window.speechSynthesis.pause();
-      setSynthSpeaking(false);
-      setIsPlaying(false);
-      return;
+    setIsPlaying(false);
+    setCurrentTime(0);
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
     }
-
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-      setSynthSpeaking(true);
-      setIsPlaying(true);
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-    const cleanText = transcript.replace(/^[A-Z\s]+:\s*/gm, "");
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-
-    // Pick British or Australian native voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const britishVoice =
-      voices.find((v) => v.lang === "en-GB" && (v.name.includes("Natural") || v.name.includes("Online") || v.name.includes("Google") || v.name.includes("George") || v.name.includes("Hazel"))) ||
-      voices.find((v) => v.lang === "en-GB") ||
-      voices.find((v) => v.lang.startsWith("en-AU")) ||
-      voices.find((v) => v.lang.startsWith("en-US"));
-
-    if (britishVoice) utterance.voice = britishVoice;
-    utterance.rate = playbackRate;
-    utterance.pitch = 1.0;
-
-    utterance.onstart = () => {
-      setSynthSpeaking(true);
-      setIsPlaying(true);
-      setIsSyntheticSpeech(true);
-    };
-
-    utterance.onend = () => {
-      setSynthSpeaking(false);
-      setIsPlaying(false);
-      setIsSyntheticSpeech(false);
-    };
-
-    utterance.onerror = () => {
-      setSynthSpeaking(false);
-      setIsPlaying(false);
-    };
-
-    window.speechSynthesis.speak(utterance);
-  };
+  }, [audioSrc]);
 
   const togglePlay = () => {
-    if (audioRef.current && audioSrc && !isSyntheticSpeech) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(() => {
-          // If audio file is missing or fails to load, fallback to high-definition speech synthesis!
-          playSpeechSynthesis();
-        });
-      }
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      playSpeechSynthesis();
+      setIsLoading(true);
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error("Audio playback error:", err);
+          setIsLoading(false);
+          setIsPlaying(false);
+        });
     }
   };
 
@@ -127,13 +79,14 @@ export function CambridgeAudioPlayer({
 
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
-      setDuration(audioRef.current.duration);
+      setDuration(audioRef.current.duration || 0);
+      setIsLoading(false);
     }
   };
 
   const handleSeek = (val: number[]) => {
     const time = val[0];
-    if (audioRef.current && !isSyntheticSpeech) {
+    if (audioRef.current) {
       audioRef.current.currentTime = time;
       setCurrentTime(time);
     }
@@ -144,13 +97,25 @@ export function CambridgeAudioPlayer({
     if (audioRef.current) {
       audioRef.current.playbackRate = speed;
     }
-    if (isSyntheticSpeech && synthSpeaking) {
-      // restart with new rate
-      playSpeechSynthesis();
+  };
+
+  const handleSkip = (seconds: number) => {
+    if (audioRef.current) {
+      const target = Math.max(0, Math.min(duration, audioRef.current.currentTime + seconds));
+      audioRef.current.currentTime = target;
+      setCurrentTime(target);
+    }
+  };
+
+  const handleVolumeToggle = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
   };
 
   const formatTime = (secs: number) => {
+    if (isNaN(secs) || secs < 0) return "0:00";
     const mins = Math.floor(secs / 60);
     const rem = Math.floor(secs % 60);
     return `${mins}:${rem.toString().padStart(2, "0")}`;
@@ -162,145 +127,166 @@ export function CambridgeAudioPlayer({
         <audio
           ref={audioRef}
           src={audioSrc}
+          preload="metadata"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onEnded={() => setIsPlaying(false)}
-          onError={() => {
-            // Gracefully handle missing audio source
+          onWaiting={() => setIsLoading(true)}
+          onPlaying={() => {
+            setIsLoading(false);
+            setIsPlaying(true);
           }}
-          className="hidden"
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => {
+            setIsPlaying(false);
+            setCurrentTime(0);
+          }}
         />
       )}
 
-      {/* Track info & Voice Quality Tag */}
+      {/* Header Info */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-3">
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <Headphones className="h-4.5 w-4.5" />
-          </span>
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <Headphones className="h-4 w-4" />
+          </div>
           <div>
-            <h4 className="text-sm font-bold text-foreground">
-              {title || `Part ${partNumber} Audio Track`}
-            </h4>
-            <p className="text-xs text-muted-foreground">{scenario || "Cambridge IELTS Exam Recording"}</p>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="bg-primary/5 text-primary text-[10px] font-bold">
+                Part {partNumber} Official Audio
+              </Badge>
+              <span className="text-xs font-semibold text-foreground truncate max-w-[200px] sm:max-w-md">
+                {title || `Cambridge IELTS Listening — Part ${partNumber}`}
+              </span>
+            </div>
+            {scenario && (
+              <p className="text-[11px] text-muted-foreground line-clamp-1 mt-0.5">{scenario}</p>
+            )}
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <Badge variant="outline" className="gap-1 border-primary/25 bg-primary/5 text-[11px] font-semibold text-primary">
-            <Sparkles className="h-3 w-3" />
-            Official Cambridge Standard
-          </Badge>
+        {/* Speed Controls */}
+        <div className="flex items-center gap-1 bg-muted/60 p-1 rounded-xl">
+          {[0.75, 1, 1.25, 1.5].map((speed) => (
+            <button
+              key={speed}
+              type="button"
+              onClick={() => handleSpeedChange(speed)}
+              className={`rounded-lg px-2 py-0.5 text-[10px] font-bold transition ${
+                playbackRate === speed
+                  ? "bg-primary text-primary-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {speed}x
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Main player controls */}
-      <div className="mt-4 flex flex-col gap-3">
-        {/* Scrubber */}
-        {!isSyntheticSpeech && duration > 0 ? (
-          <div className="space-y-1">
-            <Slider
-              value={[currentTime]}
-              max={duration}
-              step={1}
-              onValueChange={handleSeek}
-              className="cursor-pointer"
-            />
-            <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
-        ) : null}
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            {/* Rewind 5s */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => {
-                if (audioRef.current) audioRef.current.currentTime = Math.max(0, currentTime - 5);
-              }}
-              className="h-9 w-9 rounded-full border-border/80"
-              title="Rewind 5s"
-            >
-              <Rewind className="h-4 w-4" />
-            </Button>
-
-            {/* Play/Pause */}
-            <Button
-              onClick={togglePlay}
-              size="default"
-              className="h-10 rounded-full bg-ink px-5 font-bold text-white shadow hover:opacity-90"
-            >
-              {isPlaying ? (
-                <>
-                  <Pause className="mr-1.5 h-4 w-4 fill-white" />
-                  Pause
-                </>
-              ) : (
-                <>
-                  <Play className="mr-1.5 h-4 w-4 fill-white" />
-                  Play Audio
-                </>
-              )}
-            </Button>
-
-            {/* Fast forward 5s */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => {
-                if (audioRef.current) audioRef.current.currentTime = Math.min(duration, currentTime + 5);
-              }}
-              className="h-9 w-9 rounded-full border-border/80"
-              title="Forward 5s"
-            >
-              <FastForward className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Speed & Accent Controls */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center rounded-lg border border-border/80 bg-muted/40 p-0.5 text-xs font-semibold">
-              {[0.8, 1.0, 1.25, 1.5].map((speed) => (
-                <button
-                  key={speed}
-                  type="button"
-                  onClick={() => handleSpeedChange(speed)}
-                  className={`rounded-md px-2 py-1 transition-colors ${
-                    playbackRate === speed
-                      ? "bg-card font-bold text-primary shadow-xs"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {speed}x
-                </button>
-              ))}
-            </div>
-
-            {/* British Accent Studio Voice Toggle */}
-            {transcript ? (
-              <Button
-                variant={isSyntheticSpeech ? "default" : "outline"}
-                size="sm"
-                onClick={playSpeechSynthesis}
-                className={`h-8 rounded-lg text-xs font-semibold ${
-                  isSyntheticSpeech ? "bg-primary text-primary-foreground" : "border-primary/30 text-primary hover:bg-primary/10"
-                }`}
-                title="Narrate with British native accent audio synthesis"
-              >
-                <Sparkles className="mr-1 h-3 w-3" />
-                {isSyntheticSpeech && isPlaying ? "Speaking (British)..." : "British Voice (HD)"}
-              </Button>
-            ) : null}
-          </div>
+      {/* Progress & Time */}
+      <div className="mt-4 space-y-1.5">
+        <Slider
+          value={[currentTime]}
+          max={duration || 100}
+          step={0.5}
+          onValueChange={handleSeek}
+          className="cursor-pointer"
+        />
+        <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+          <span>{formatTime(currentTime)}</span>
+          <span>{duration > 0 ? formatTime(duration) : "--:--"}</span>
         </div>
       </div>
+
+      {/* Playback Actions */}
+      <div className="mt-3 flex items-center justify-between gap-2 pt-1">
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleSkip(-5)}
+            className="h-9 w-9 rounded-xl p-0"
+            title="Rewind 5s"
+          >
+            <Rewind className="h-4 w-4" />
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={togglePlay}
+            disabled={isLoading}
+            className="h-10 rounded-xl px-5 font-semibold bg-primary text-primary-foreground shadow-md shadow-primary/20 hover:shadow-lg transition"
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+            ) : isPlaying ? (
+              <Pause className="h-4 w-4 mr-1.5 fill-current" />
+            ) : (
+              <Play className="h-4 w-4 mr-1.5 fill-current" />
+            )}
+            {isPlaying ? "Pause Audio" : "Play Audio"}
+          </Button>
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleSkip(5)}
+            className="h-9 w-9 rounded-xl p-0"
+            title="Forward 5s"
+          >
+            <FastForward className="h-4 w-4" />
+          </Button>
+
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => {
+              if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                setCurrentTime(0);
+              }
+            }}
+            className="h-9 w-9 rounded-xl p-0 text-muted-foreground hover:text-foreground"
+            title="Restart"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {transcript && (
+            <Button
+              size="sm"
+              variant={showTranscript ? "secondary" : "ghost"}
+              onClick={() => setShowTranscript(!showTranscript)}
+              className="h-8 rounded-xl text-xs gap-1.5"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              {showTranscript ? "Hide Script" : "Transcript"}
+            </Button>
+          )}
+
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleVolumeToggle}
+            className="h-8 w-8 rounded-xl p-0 text-muted-foreground"
+            title={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? <VolumeX className="h-4 w-4 text-red-500" /> : <Volume2 className="h-4 w-4" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Transcript Accordion if open */}
+      {showTranscript && transcript && (
+        <div className="mt-4 rounded-xl bg-muted/40 p-4 text-xs leading-relaxed text-foreground border border-border/60 max-h-60 overflow-y-auto font-sans whitespace-pre-line">
+          <p className="font-bold text-primary mb-2 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+            <FileText className="h-3.5 w-3.5" /> Official Audio Transcript
+          </p>
+          {transcript}
+        </div>
+      )}
     </div>
   );
 }

@@ -204,25 +204,32 @@ function LiveHero({
   const routineNext = mounted ? findNextClass(new Date()) : null;
 
   type Hero =
-    | { kind: "live"; slug: string; title: string; meta: string }
-    | { kind: "soon"; slug: string; title: string; meta: string; countdown: string }
+    | { kind: "live"; slug: string; title: string; meta: string; platform: string; meetingUrl?: string | null }
+    | { kind: "soon"; slug: string; title: string; meta: string; countdown: string; platform: string }
     | { kind: "routine"; title: string; meta: string };
 
   let hero: Hero | null = null;
   if (live.length > 0) {
+    const top = live[0];
+    const platName = top.platform === "meet" ? "Google Meet" : top.platform === "zoom" ? "Zoom" : "Live Class";
     hero = {
       kind: "live",
-      slug: live[0].slug,
-      title: live[0].title,
-      meta: `${live[0].teacher} · ${live.length > 1 ? `${live.length}টি ক্লাস লাইভ` : "এখন চলছে"}`,
+      slug: top.slug,
+      title: top.title,
+      platform: top.platform || "zoom",
+      meetingUrl: top.meetingUrl,
+      meta: `${top.teacher} · ${platName} · ${live.length > 1 ? `${live.length}টি ক্লাস লাইভ` : "এখন চলছে"}`,
     };
   } else if (mounted && now !== null && upcoming.length > 0) {
+    const top = upcoming[0];
+    const platName = top.platform === "meet" ? "Google Meet" : top.platform === "zoom" ? "Zoom" : "Live";
     hero = {
       kind: "soon",
-      slug: upcoming[0].slug,
-      title: upcoming[0].title,
-      meta: `${upcoming[0].teacher} · ${dhakaShort.format(new Date(upcoming[0].startsAt))} Dhaka · ${upcoming[0].durationMin} মিনিট`,
-      countdown: untilLabel(upcoming[0].startsAt, now),
+      slug: top.slug,
+      title: top.title,
+      platform: top.platform || "zoom",
+      meta: `${top.teacher} (${platName}) · ${dhakaShort.format(new Date(top.startsAt))} Dhaka · ${top.durationMin} মিনিট`,
+      countdown: untilLabel(top.startsAt, now),
     };
   } else if (routineNext) {
     hero = {
@@ -253,11 +260,11 @@ function LiveHero({
                     <span className="absolute h-full w-full animate-ping rounded-full bg-white opacity-70" />
                     <span className="relative h-1.5 w-1.5 rounded-full bg-white" />
                   </span>
-                  লাইভ চলছে
+                  {hero.platform === "meet" ? "Google Meet লাইভ" : "Zoom লাইভ চলছে"}
                 </span>
               ) : hero.kind === "soon" ? (
                 <span className="rounded-full bg-[#d9b75c] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-ink">
-                  আসন্ন ক্লাস · {hero.countdown}
+                  আসন্ন ক্লাস ({hero.platform === "meet" ? "Google Meet" : "Zoom"}) · {hero.countdown}
                 </span>
               ) : (
                 <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white/90 backdrop-blur">
@@ -277,19 +284,23 @@ function LiveHero({
                 >
                   <a href="#/live">
                     <CalendarClock className="mr-1.5 h-4 w-4" aria-hidden />
-                    লাইভ হাব দেখুন
+                    লাইভ শিডিউল দেখুন
                   </a>
                 </Button>
               ) : (
                 <Button
                   asChild
                   className={`rounded-full font-bold transition-opacity hover:opacity-90 ${
-                    hero.kind === "live" ? "bg-[#d9b75c] text-ink" : "bg-white text-ink"
+                    hero.kind === "live" ? "bg-[#d9b75c] text-ink shadow-lg" : "bg-white text-ink"
                   }`}
                 >
                   <a href={`#/live/${hero.slug}`}>
                     <Play className="mr-1.5 h-4 w-4" aria-hidden />
-                    {hero.kind === "live" ? "এখনই জয়েন করুন" : "ওয়েটিং রুমে ঢুকুন"}
+                    {hero.kind === "live"
+                      ? hero.platform === "meet"
+                        ? "Google Meet-এ জয়েন করুন"
+                        : "Zoom-এ জয়েন করুন"
+                      : "ক্লাসরুম ও মিটিং লিংক"}
                   </a>
                 </Button>
               )}
@@ -353,7 +364,7 @@ function LiveClassRows({
       <div className="flex items-center justify-between gap-3">
         <h3 className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
           <Radio className="h-4.5 w-4.5 text-primary" aria-hidden />
-          লাইভ ক্লাস
+          লাইভ ক্লাস (Google Meet / Zoom)
         </h3>
         <Button
           variant="ghost"
@@ -387,9 +398,11 @@ function LiveClassRows({
                 <Play className="h-5 w-5 text-red-600" aria-hidden />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-foreground">{c.title}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="truncate text-sm font-semibold text-foreground">{c.title}</p>
+                </div>
                 <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                  {c.teacher} · এখন চলছে
+                  {c.teacher} · {c.platform === "meet" ? "Google Meet" : "Zoom"} · এখন চলছে
                 </p>
               </div>
               <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white sm:flex">
@@ -397,7 +410,7 @@ function LiveClassRows({
                   <span className="absolute h-full w-full animate-ping rounded-full bg-white opacity-70" />
                   <span className="relative h-1.5 w-1.5 rounded-full bg-white" />
                 </span>
-                লাইভ
+                Live
               </span>
               <Button
                 asChild
@@ -405,7 +418,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full bg-ink px-4 font-semibold text-white hover:opacity-85"
               >
                 <a href={`#/live/${c.slug}`}>
-                  Join<span className="sr-only">: {c.title}</span>
+                  Join Meeting<span className="sr-only">: {c.title}</span>
                 </a>
               </Button>
             </li>
@@ -418,7 +431,7 @@ function LiveClassRows({
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">{c.title}</p>
                 <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                  {dhakaShort.format(new Date(c.startsAt))} Dhaka · {c.durationMin} মিনিট
+                  {c.platform === "meet" ? "Google Meet" : "Zoom"} · {dhakaShort.format(new Date(c.startsAt))} · {c.durationMin}m
                   {now !== null ? ` · ${untilLabel(c.startsAt, now)}` : ""}
                 </p>
               </div>
@@ -432,7 +445,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full border-border px-4 font-semibold text-foreground hover:border-primary/50 hover:text-primary"
               >
                 <a href={`#/live/${c.slug}`}>
-                  রুম<span className="sr-only">: {c.title}</span>
+                  ডিটেইলস<span className="sr-only">: {c.title}</span>
                 </a>
               </Button>
             </li>
@@ -457,7 +470,7 @@ function LiveClassRows({
                 className="h-9 shrink-0 rounded-full border-border px-4 font-semibold text-foreground hover:border-primary/50 hover:text-primary"
               >
                 <a href="#/live">
-                  হাব<span className="sr-only">: {row.topic}</span>
+                  রুটিন<span className="sr-only">: {row.topic}</span>
                 </a>
               </Button>
             </li>

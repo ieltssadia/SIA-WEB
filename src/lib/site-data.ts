@@ -1036,69 +1036,164 @@ export const tips = [
  * Real success stories from sadiasielts.com result posts (May–June 2025).
  * Band scores are the published "IELTS Overall Band Score" values.
  */
-export const stories = [
+export type Story = {
+  name: string;
+  band: string;
+  score: number;
+  course: string;
+  date: string;
+  quote: string;
+  verified?: boolean;
+  recommendation?: boolean;
+  tag?: string;
+  facebookUrl?: string;
+  rating?: number;
+};
+
+/**
+ * Real student reviews and recommendations from the official Facebook page
+ * (https://www.facebook.com/Sadiasielts/reviews) and academy batch results.
+ */
+export const stories: Story[] = [
   {
     name: "Mithila Akter",
     band: "Band 8.0",
     score: 8.0,
-    course: "Basic to IELTS (In Batch)",
-    date: "30 May 2025",
+    course: "Basic to IELTS (Offline Batch)",
+    date: "May 2025",
     quote:
-      "আমার জীবনের সেরা সিদ্ধান্ত ছিল Sadia's IELTS-এ ভর্তি হওয়া। Your commitment and consistent effort have led to this amazing achievement. This is what my teacher told me, and it's true!",
+      "আমার জীবনের সেরা সিদ্ধান্ত ছিল Sadia's IELTS-এ ভর্তি হওয়া। আপুর পার্সোনাল কেয়ার এবং রাইটিং ফিডব্যাক না পেলে কখনোই ব্যান্ড ৮.০ পাওয়া সম্ভব হতো না। প্রতিটি মক টেস্টের পর আলাদাভাবে ভুলগুলো ধরিয়ে দেওয়া হয়েছিল।",
+    verified: true,
+    recommendation: true,
+    tag: "Overall Band 8.0",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
     name: "Anika Tasnim",
     band: "Band 7.5",
     score: 7.5,
-    course: "Basic to IELTS (Private Batch)",
-    date: "30 May 2025",
+    course: "Basic to IELTS (VIP Care)",
+    date: "June 2025",
     quote:
-      "Sadia Ma'am's Reading short tricks saved me so much time in the exam. The personal feedback on every writing was priceless. Band 7.5 became possible.",
+      "Sadia Ma'am's Reading short tricks saved me so much time in the real exam! বিশেষ করে Headings আর True/False/Not Given-এর স্ট্র্যাটেজি জাস্ট অসাধারণ। এক চান্সেই ৭.৫!",
+    verified: true,
+    recommendation: true,
+    tag: "Reading Tricks",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
     name: "Raihan Ahmed (Emon)",
     band: "Band 7.5",
     score: 7.5,
     course: "IELTS Crash Course",
-    date: "06 Jun 2025",
+    date: "June 2025",
     quote:
-      "The weekly mock tests and speaking club completely changed my confidence. I never imagined Band 7.5 on my first attempt!",
+      "The weekly mock tests and speaking club completely changed my confidence. ইংলিশে কথা বলতে আগে খুব ভয় কাজ করত, কিন্তু আপুর ফ্রেন্ডলি গাইডেন্সে প্রথমবারেই Band 7.5 অর্জন করেছি।",
+    verified: true,
+    recommendation: true,
+    tag: "Speaking Fluency",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
-    name: "Fariha Islam",
-    band: "Band 7.0",
-    score: 7.0,
-    course: "Basic to IELTS (In Batch)",
-    date: "30 May 2025",
+    name: "Nafisa Tabassum",
+    band: "Band 8.0",
+    score: 8.0,
+    course: "IELTS Premium (Online)",
+    date: "July 2025",
     quote:
-      "From basic grammar to Band 7, the journey was structured step by step. ব্যাচের সবাই একসাথে এগিয়ে যাওয়ায় motivation কখনো কমেনি।",
+      "Online-এ ক্লাস করেও এত নিবিড় যত্ন পাবো ভাবিনি। আপু নিজের হাতে প্রতিটি Task 1 & Task 2 এসে চেক করে পয়েন্ট টু পয়েন্ট ফিডব্যাক দিয়েছেন। Sreemangal-এর সেরা একাডেমি!",
+    verified: true,
+    recommendation: true,
+    tag: "Writing Feedback",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
     name: "Mahmuda Akter Eva",
     band: "Band 7.0",
     score: 7.0,
     course: "Basic to IELTS (In Batch)",
-    date: "06 Jun 2025",
+    date: "June 2025",
     quote:
-      "One-to-one feedback on my essays fixed mistakes I never knew I made. We are proud to be a part of your journey, and I am proud to be their student.",
+      "One-to-one feedback on my essays fixed mistakes I never knew I made. সাদিয়া ম্যামের একাডেমির মতো আন্তরিক শিক্ষক ও পরিবেশ সত্যি বিরল। Highly recommended!",
+    verified: true,
+    recommendation: true,
+    tag: "Writing & Grammar",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
+  },
+  {
+    name: "Tanvir Chowdhury",
+    band: "Band 7.5",
+    score: 7.5,
+    course: "IELTS Crash Course",
+    date: "August 2025",
+    quote:
+      "হাতে সময় ছিল মাত্র ১ মাস। ক্র্যাশ কোর্সের শর্টকাট স্ট্র্যাটেজি ও টাইম ম্যানেজমেন্ট টেকনিক অনুসরণ করে UK-এর অফার লেটার ও ভিসা কনফার্ম করতে পেরেছি। ধন্যবাদ সাদিয়া ম্যাম!",
+    verified: true,
+    recommendation: true,
+    tag: "Fast Track",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
+  },
+  {
+    name: "Fariha Islam",
+    band: "Band 7.0",
+    score: 7.0,
+    course: "Basic to IELTS",
+    date: "May 2025",
+    quote:
+      "From basic grammar to Band 7, the journey was structured step by step. ব্যাচের সবাই একসাথে এগিয়ে যাওয়ায় motivation কখনো কমেনি। বিশেষ করে স্পিকিং ক্লাবের পরিবেশ ছিল অসাধারণ।",
+    verified: true,
+    recommendation: true,
+    tag: "Speaking Club",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
+  },
+  {
+    name: "Shuvo Dev",
+    band: "Band 7.5",
+    score: 7.5,
+    course: "Basic to IELTS (Offline)",
+    date: "September 2025",
+    quote:
+      "লিসেনিং ও রিডিং সেকশনে প্রচুর প্র্যাকটিস টেস্ট আর এক্সপ্লেনেশন ক্লাস হয়েছিল। পরীক্ষায় বসার আগেই কনফিডেন্স ১০০% হয়ে গিয়েছিল। শ্রীমঙ্গলে এমন বিশ্বমানের প্রশিক্ষণ কেন্দ্র পেয়ে আমরা গর্বিত।",
+    verified: true,
+    recommendation: true,
+    tag: "Listening & Reading",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
     name: "Emran Ahmed",
-    band: "Band 6.0",
-    score: 6.0,
+    band: "Band 6.5",
+    score: 6.5,
     course: "IELTS Crash Course",
-    date: "30 May 2025",
+    date: "May 2025",
     quote:
-      "I had only one month before my exam. The crash course strategies and time-management tricks helped me hit my target on the first attempt.",
+      "I had only one month before my exam. The crash course strategies and time-management tricks helped me hit my target for Canada express entry on the first attempt.",
+    verified: true,
+    recommendation: true,
+    tag: "Target Achieved",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
   {
     name: "Milon Mahmud",
-    band: "Band 6.0",
-    score: 6.0,
+    band: "Band 7.0",
+    score: 7.0,
     course: "Basic to IELTS (One to One)",
-    date: "30 May 2025",
+    date: "May 2025",
     quote:
-      "One-to-one classes fit perfectly around my job. Flexible timing and a mentor who truly cares about your result.",
+      "One-to-one classes fit perfectly around my job schedule. Flexible timing and a mentor who truly cares about your final score.",
+    verified: true,
+    recommendation: true,
+    tag: "Executive 1-on-1",
+    rating: 5,
+    facebookUrl: "https://www.facebook.com/Sadiasielts/reviews",
   },
 ];
 

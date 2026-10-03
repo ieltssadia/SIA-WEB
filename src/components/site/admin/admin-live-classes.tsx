@@ -3,12 +3,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   CalendarClock,
+  Check,
   Clock,
+  Copy,
+  ExternalLink,
   Link2,
   Pencil,
   PlusCircle,
   Radio,
   Trash2,
+  Video,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -48,13 +52,17 @@ import {
 import { useAdminStore } from "@/lib/admin-store";
 import { courses } from "@/lib/site-data";
 
-const SITE_URL_HINT = "শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করে, লিংক শেয়ারের দরকার নেই";
-
 type FormState = {
   slug: string;
   title: string;
   teacher: string;
   courseSlug: string; // "none" → null
+  targetBatch: string;
+  platform: "zoom" | "meet" | "teams" | "other";
+  meetingUrl: string;
+  meetingId: string;
+  passcode: string;
+  recordingUrl: string;
   startsAt: string; // datetime-local value
   durationMin: string;
   status: string;
@@ -67,6 +75,12 @@ function emptyForm(): FormState {
     title: "",
     teacher: "Sadia Ma'am",
     courseSlug: "none",
+    targetBatch: "All Students",
+    platform: "zoom",
+    meetingUrl: "",
+    meetingId: "",
+    passcode: "",
+    recordingUrl: "",
     startsAt: "",
     durationMin: "60",
     status: "scheduled",
@@ -85,10 +99,16 @@ function slugify(title: string): string {
     .slice(0, 60);
 }
 
+const PLATFORM_LABELS: Record<string, { label: string; badge: string; color: string }> = {
+  zoom: { label: "Zoom Meeting", badge: "Zoom", color: "bg-blue-600 text-white" },
+  meet: { label: "Google Meet", badge: "Google Meet", color: "bg-emerald-600 text-white" },
+  teams: { label: "Microsoft Teams", badge: "MS Teams", color: "bg-indigo-600 text-white" },
+  other: { label: "Custom Live Link", badge: "Custom Link", color: "bg-stone-700 text-white" },
+};
+
 /**
- * Admin Live Classes — schedule form + upcoming/live/ended lists with
- * edit & delete. Field names mirror the LiveClass schema (slug, title,
- * teacher, courseSlug, startsAt, durationMin, status, description).
+ * Admin Live Classes — Google Meet / Zoom meeting management.
+ * Admin inputs meeting link / ID / Passcode and status, students get direct button.
  */
 export function AdminLiveClasses() {
   const token = useAdminStore((s) => s.token);
@@ -161,6 +181,12 @@ export function AdminLiveClasses() {
       title: c.title,
       teacher: c.teacher,
       courseSlug: c.courseSlug ?? "none",
+      targetBatch: c.targetBatch ?? "All Students",
+      platform: (c.platform as FormState["platform"]) || "zoom",
+      meetingUrl: c.meetingUrl ?? "",
+      meetingId: c.meetingId ?? "",
+      passcode: c.passcode ?? "",
+      recordingUrl: c.recordingUrl ?? "",
       startsAt: toLocalInputValue(c.startsAt),
       durationMin: String(c.durationMin),
       status: c.status,
@@ -173,6 +199,26 @@ export function AdminLiveClasses() {
     setEditingId(null);
     setSlugTouched(false);
     setForm(emptyForm());
+  }
+
+  async function updateStatus(id: string, newStatus: string) {
+    if (!token) return;
+    try {
+      const res = await fetch(`/api/admin/live-classes/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-key": token },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (res.ok && data?.ok) {
+        toast.success(`স্ট্যাটাস পরিবর্তন হয়েছে: ${LIVE_STATUS_LABEL[newStatus as keyof typeof LIVE_STATUS_LABEL] ?? newStatus}`);
+        void load();
+      } else {
+        toast.error(data?.error ?? "স্ট্যাটাস পরিবর্তন করা যায়নি।");
+      }
+    } catch {
+      toast.error("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন।");
+    }
   }
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -188,6 +234,12 @@ export function AdminLiveClasses() {
         title: form.title,
         teacher: form.teacher,
         courseSlug: form.courseSlug === "none" ? "" : form.courseSlug,
+        targetBatch: form.targetBatch,
+        platform: form.platform,
+        meetingUrl: form.meetingUrl,
+        meetingId: form.meetingId,
+        passcode: form.passcode,
+        recordingUrl: form.recordingUrl,
         description: form.description,
         startsAt: new Date(form.startsAt).toISOString(),
         durationMin: Number(form.durationMin) || 60,
@@ -201,7 +253,7 @@ export function AdminLiveClasses() {
         });
         const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
         if (res.ok && data?.ok) {
-          toast.success("ক্লাস আপডেট হয়েছে। (Class updated.)");
+          toast.success("লাইভ ক্লাস আপডেট হয়েছে। (Class updated.)");
           resetForm();
           void load();
         } else {
@@ -216,7 +268,7 @@ export function AdminLiveClasses() {
         });
         const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
         if (res.ok && data?.ok) {
-          toast.success("নতুন ক্লাস শিডিউল হয়েছে। (Class scheduled.)");
+          toast.success("নতুন লাইভ ক্লাস তৈরি হয়েছে। (Class scheduled.)");
           resetForm();
           void load();
         } else {
@@ -256,30 +308,35 @@ export function AdminLiveClasses() {
     slug ? courses.find((c) => c.slug === slug)?.title ?? slug : null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <SectionHeading
-        title="Live Classes: লাইভ ক্লাস"
-        sub="ক্লাস শিডিউল করুন, এনরোল্ড শিক্ষার্থীরা পোর্টালের লাইভ সেকশন থেকে জয়েন করবে"
+        title="Live Classes (Google Meet / Zoom Bridge)"
+        sub="গুগল মিট বা জুম ক্লাসের লিংক ও সময়সূচী নির্ধারণ করুন। এনরোল্ড শিক্ষার্থীরা পোর্টালে সরাসরি জয়েন বাটন ও রেকর্ডিং পাবেন।"
       />
 
       {/* Schedule / edit form */}
-      <Card className="rounded-2xl border-border bg-card">
+      <Card className="rounded-2xl border-border bg-card shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <form onSubmit={submit} className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-foreground">
-                {editingId ? "Edit class: ক্লাস এডিট" : "Schedule a class: নতুন ক্লাস"}
-              </h3>
+          <form onSubmit={submit} className="space-y-5">
+            <div className="flex items-center justify-between gap-2 border-b border-border/80 pb-3">
+              <div>
+                <h3 className="font-display text-base font-bold text-foreground">
+                  {editingId ? "Edit Live Class · লাইভ ক্লাস এডিট" : "Schedule New Live Class · নতুন লাইভ ক্লাস শিডিউল"}
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Google Meet বা Zoom লিংক দিলে ছাত্রছাত্রীরা এক ক্লিকে জয়েন করতে পারবে
+                </p>
+              </div>
               {editingId ? (
-                <Button type="button" variant="outline" size="sm" className="rounded-full border-border bg-card" onClick={resetForm}>
+                <Button type="button" variant="outline" size="sm" className="rounded-full" onClick={resetForm}>
                   Cancel · বাতিল
                 </Button>
               ) : null}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-1.5">
-                <Label htmlFor="lc-title">Title · শিরোনাম *</Label>
+              <div className="space-y-1.5 md:col-span-2">
+                <Label htmlFor="lc-title">Class Title · ক্লাসের শিরোনাম *</Label>
                 <Input
                   id="lc-title"
                   required
@@ -287,46 +344,74 @@ export function AdminLiveClasses() {
                   maxLength={140}
                   value={form.title}
                   onChange={(e) => handleTitle(e.target.value)}
-                  placeholder="Writing Task 2 Masterclass"
-                  className="min-h-11 rounded-xl border-border bg-muted/40"
+                  placeholder="e.g. Speaking Cue Card Marathon: Part 2 Mastery"
+                  className="min-h-11 rounded-xl border-border bg-muted/30"
                 />
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="lc-slug">Slug · লিংক</Label>
+                <Label htmlFor="lc-platform">Meeting Platform · মাধ্যম *</Label>
+                <Select
+                  value={form.platform}
+                  onValueChange={(v) => setField("platform", v as FormState["platform"])}
+                >
+                  <SelectTrigger id="lc-platform" className="min-h-11 rounded-xl border-border bg-muted/30">
+                    <SelectValue placeholder="সিলেক্ট করুন" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="meet">🟢 Google Meet (গুগল মিট)</SelectItem>
+                    <SelectItem value="zoom">🔵 Zoom (জুম মিটিং)</SelectItem>
+                    <SelectItem value="teams">🟣 Microsoft Teams</SelectItem>
+                    <SelectItem value="other">🔗 Other / Custom Live Link</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="lc-url">Meeting URL · জয়েন লিংক *</Label>
                 <Input
-                  id="lc-slug"
-                  required
-                  minLength={3}
-                  maxLength={60}
-                  value={form.slug}
-                  onChange={(e) => {
-                    setSlugTouched(true);
-                    setField("slug", e.target.value);
-                  }}
-                  placeholder="writing-task2-masterclass"
-                  className="min-h-11 rounded-xl border-border bg-muted/40 font-mono text-sm"
-                  disabled={!!editingId}
+                  id="lc-url"
+                  value={form.meetingUrl}
+                  onChange={(e) => setField("meetingUrl", e.target.value)}
+                  placeholder={
+                    form.platform === "meet"
+                      ? "https://meet.google.com/abc-defg-hij"
+                      : "https://zoom.us/j/1234567890?pwd=..."
+                  }
+                  className="min-h-11 rounded-xl border-border bg-muted/30 font-mono text-sm"
                 />
-                <p className="text-[11px] text-muted-foreground">{SITE_URL_HINT}</p>
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="lc-teacher">Instructor · শিক্ষক</Label>
+                <Label htmlFor="lc-mid">Meeting ID (Optional · ঐচ্ছিক)</Label>
                 <Input
-                  id="lc-teacher"
-                  maxLength={80}
-                  value={form.teacher}
-                  onChange={(e) => setField("teacher", e.target.value)}
-                  className="min-h-11 rounded-xl border-border bg-muted/40"
+                  id="lc-mid"
+                  value={form.meetingId}
+                  onChange={(e) => setField("meetingId", e.target.value)}
+                  placeholder="e.g. 842 1928 3491"
+                  className="min-h-11 rounded-xl border-border bg-muted/30 font-mono text-sm"
                 />
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="lc-course">Subject · কোর্স</Label>
+                <Label htmlFor="lc-pass">Passcode / Password (Optional)</Label>
+                <Input
+                  id="lc-pass"
+                  value={form.passcode}
+                  onChange={(e) => setField("passcode", e.target.value)}
+                  placeholder="e.g. SIA2026"
+                  className="min-h-11 rounded-xl border-border bg-muted/30 font-mono text-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="lc-course">Course · কোর্স</Label>
                 <Select value={form.courseSlug} onValueChange={(v) => setField("courseSlug", v)}>
-                  <SelectTrigger id="lc-course" className="min-h-11 rounded-xl border-border bg-muted/40">
+                  <SelectTrigger id="lc-course" className="min-h-11 rounded-xl border-border bg-muted/30">
                     <SelectValue placeholder="কোর্স বাছুন" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">No linked course · নেই</SelectItem>
+                    <SelectItem value="none">All Courses / Free for Everyone</SelectItem>
                     {courses.map((c) => (
                       <SelectItem key={c.slug} value={c.slug}>
                         {c.title}
@@ -335,20 +420,44 @@ export function AdminLiveClasses() {
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="lc-starts">Starts at · শুরু</Label>
+                <Label htmlFor="lc-batch">Target Batch / গ্রুপ</Label>
+                <Input
+                  id="lc-batch"
+                  value={form.targetBatch}
+                  onChange={(e) => setField("targetBatch", e.target.value)}
+                  placeholder="e.g. Batch 318, Spoken VIP, All Students"
+                  className="min-h-11 rounded-xl border-border bg-muted/30"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="lc-teacher">Instructor · শিক্ষক</Label>
+                <Input
+                  id="lc-teacher"
+                  maxLength={80}
+                  value={form.teacher}
+                  onChange={(e) => setField("teacher", e.target.value)}
+                  className="min-h-11 rounded-xl border-border bg-muted/30"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="lc-starts">Starts at · শুরুর তারিখ ও সময় *</Label>
                 <Input
                   id="lc-starts"
                   type="datetime-local"
                   required
                   value={form.startsAt}
                   onChange={(e) => setField("startsAt", e.target.value)}
-                  className="min-h-11 rounded-xl border-border bg-muted/40"
+                  className="min-h-11 rounded-xl border-border bg-muted/30"
                 />
               </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label htmlFor="lc-duration">Minutes · মিনিট</Label>
+                  <Label htmlFor="lc-duration">Duration (Minutes)</Label>
                   <Input
                     id="lc-duration"
                     type="number"
@@ -357,7 +466,7 @@ export function AdminLiveClasses() {
                     step={5}
                     value={form.durationMin}
                     onChange={(e) => setField("durationMin", e.target.value)}
-                    className="min-h-11 rounded-xl border-border bg-muted/40"
+                    className="min-h-11 rounded-xl border-border bg-muted/30"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -367,7 +476,7 @@ export function AdminLiveClasses() {
                     onValueChange={(v) => setField("status", v)}
                     disabled={!editingId}
                   >
-                    <SelectTrigger id="lc-status" className="min-h-11 rounded-xl border-border bg-muted/40">
+                    <SelectTrigger id="lc-status" className="min-h-11 rounded-xl border-border bg-muted/30">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -380,16 +489,28 @@ export function AdminLiveClasses() {
                   </Select>
                 </div>
               </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="lc-rec">Post-Class Recording Link (Drive / YouTube)</Label>
+                <Input
+                  id="lc-rec"
+                  value={form.recordingUrl}
+                  onChange={(e) => setField("recordingUrl", e.target.value)}
+                  placeholder="https://drive.google.com/file/... or YouTube"
+                  className="min-h-11 rounded-xl border-border bg-muted/30 font-mono text-sm"
+                />
+              </div>
+
               <div className="space-y-1.5 md:col-span-2">
-                <Label htmlFor="lc-desc">Description · বিবরণ</Label>
+                <Label htmlFor="lc-desc">Agenda / Instructions · ক্লাসের বিবরণ</Label>
                 <Textarea
                   id="lc-desc"
-                  rows={3}
+                  rows={2}
                   maxLength={1000}
                   value={form.description}
                   onChange={(e) => setField("description", e.target.value)}
-                  placeholder="ক্লাসে কী থাকবে, সংক্ষেপে লিখুন"
-                  className="rounded-xl border-border bg-muted/40"
+                  placeholder="যেমন: আজকের ক্লাসে Writing Task 2-এর ৪টি স্ট্রাকচার এবং প্র্যাকটিস থাকবে।"
+                  className="rounded-xl border-border bg-muted/30"
                 />
               </div>
             </div>
@@ -397,17 +518,17 @@ export function AdminLiveClasses() {
             <Button
               type="submit"
               disabled={saving}
-              className="min-h-11 rounded-full bg-ink px-6 text-white hover:bg-ink/90"
+              className="min-h-11 rounded-full bg-ink px-6 text-white hover:bg-ink/90 font-medium"
             >
               {saving ? (
                 "Saving…"
               ) : editingId ? (
                 <>
-                  <Pencil className="h-4 w-4" aria-hidden="true" /> Update class · আপডেট
+                  <Pencil className="mr-1.5 h-4 w-4" aria-hidden="true" /> Update Live Class · আপডেট করুন
                 </>
               ) : (
                 <>
-                  <PlusCircle className="h-4 w-4" aria-hidden="true" /> Schedule class · শিডিউল
+                  <PlusCircle className="mr-1.5 h-4 w-4" aria-hidden="true" /> Schedule Live Class · শিডিউল করুন
                 </>
               )}
             </Button>
@@ -418,7 +539,7 @@ export function AdminLiveClasses() {
       {loading && !classes ? (
         <div className="space-y-3" aria-busy="true">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-20 rounded-2xl" />
+            <Skeleton key={i} className="h-24 rounded-2xl" />
           ))}
         </div>
       ) : null}
@@ -428,38 +549,37 @@ export function AdminLiveClasses() {
       ) : null}
 
       {classes && !loading ? (
-        <div className="space-y-4">
+        <div className="space-y-6">
           <ClassGroup
             icon={Radio}
-            title="Live now: চলছে"
+            title="Live Now: এখন চলছে"
             items={grouped.live}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
+            onStatusChange={updateStatus}
             courseTitle={courseTitle}
-            emptyHint="এই মুহূর্তে কোনো লাইভ ক্লাস নেই।"
+            emptyHint="এই মুহূর্তে কোনো লাইভ ক্লাস চলছে না।"
           />
           <ClassGroup
             icon={CalendarClock}
-            title="Upcoming: আসছে"
+            title="Upcoming Scheduled: আসন্ন ক্লাস"
             items={[...grouped.upcoming, ...grouped.overdue]}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
+            onStatusChange={updateStatus}
             courseTitle={courseTitle}
-            emptyHint="কোনো আসন্ন ক্লাস নেই, উপরের ফর্ম থেকে শিডিউল করুন।"
+            emptyHint="কোনো আসন্ন ক্লাস নেই, উপরের ফর্ম থেকে নতুন শিডিউল তৈরি করুন।"
           />
           <ClassGroup
             icon={Clock}
-            title="Ended: শেষ হয়েছে"
+            title="Completed / Ended: সম্পন্ন ক্লাস"
             items={grouped.ended}
             onEdit={startEdit}
             onDelete={setDeleteTarget}
+            onStatusChange={updateStatus}
             courseTitle={courseTitle}
-            emptyHint="এখনো কোনো ক্লাস শেষ হয়নি।"
+            emptyHint="এখনো কোনো ক্লাস সমাপ্ত তালিকায় নেই।"
           />
-          <p className="rounded-xl border border-border bg-muted/40 p-3 text-xs text-muted-foreground">
-            Tip: public GET /api/live-classes প্রথমবার কল হলে ৪টি ডেমো ক্লাস auto-seed করে,
-            সেগুলোও এখান থেকে এডিট বা ডিলিট করা যাবে।
-          </p>
         </div>
       ) : null}
 
@@ -469,7 +589,7 @@ export function AdminLiveClasses() {
           <AlertDialogHeader>
             <AlertDialogTitle>ক্লাসটি মুছে ফেলবেন? (Delete this class?)</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.title}, এটি আর পোর্টালের লাইভ সেকশনে দেখা যাবে না। এটি ফেরানো যাবে না।
+              &quot;{deleteTarget?.title}&quot; মুছে ফেললে শিক্ষার্থীরা আর এই মিটিং বা রেকর্ডিং লিংক দেখতে পাবে না।
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -493,6 +613,7 @@ function ClassGroup({
   items,
   onEdit,
   onDelete,
+  onStatusChange,
   courseTitle,
   emptyHint,
 }: {
@@ -501,75 +622,185 @@ function ClassGroup({
   items: AdminLiveClass[];
   onEdit: (c: AdminLiveClass) => void;
   onDelete: (c: AdminLiveClass) => void;
+  onStatusChange: (id: string, status: string) => void;
   courseTitle: (slug: string | null) => string | null;
   emptyHint: string;
 }) {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const copyLink = (c: AdminLiveClass) => {
+    const url = c.meetingUrl || `${window.location.origin}/#/live/${c.slug}`;
+    void navigator.clipboard.writeText(url);
+    setCopiedId(c.id);
+    toast.success("মিটিং লিংক কপি হয়েছে!");
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   return (
     <section aria-label={title}>
-      <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
+      <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
         <Icon className="h-4 w-4 text-primary" aria-hidden="true" /> {title}
-        <span className="text-muted-foreground">({items.length})</span>
+        <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+          {items.length}
+        </span>
       </h3>
       {items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+        <p className="rounded-2xl border border-dashed border-border bg-muted/20 px-4 py-4 text-sm text-muted-foreground">
           {emptyHint}
         </p>
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2">
-          {items.map((c) => (
-            <li
-              key={c.id}
-              className="rounded-2xl border border-border bg-card p-4 transition hover:border-primary/40"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <p className="truncate font-semibold text-foreground">{c.title}</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    {formatDateTime(c.startsAt)} · {c.durationMin} min · {c.teacher}
-                  </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          {items.map((c) => {
+            const platformInfo = PLATFORM_LABELS[c.platform] ?? PLATFORM_LABELS.zoom;
+            return (
+              <div
+                key={c.id}
+                className="flex flex-col justify-between rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 sm:p-5"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${platformInfo.color}`}>
+                          <Video className="h-3 w-3" />
+                          {platformInfo.badge}
+                        </span>
+                        {c.targetBatch ? (
+                          <span className="rounded-full border border-border bg-muted/60 px-2 py-0.5 text-[10px] font-medium text-foreground">
+                            {c.targetBatch}
+                          </span>
+                        ) : null}
+                      </div>
+                      <h4 className="mt-2 text-base font-bold text-foreground">{c.title}</h4>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {formatDateTime(c.startsAt)} · {c.durationMin} মিনিট · {c.teacher}
+                      </p>
+                    </div>
+                    <ToneBadge tone={LIVE_STATUS_TONE[c.status as keyof typeof LIVE_STATUS_TONE] ?? "muted"}>
+                      {c.status === "live" ? "● Live Now" : c.status}
+                    </ToneBadge>
+                  </div>
+
+                  {courseTitle(c.courseSlug) ? (
+                    <p className="mt-2 text-xs font-semibold text-primary">{courseTitle(c.courseSlug)}</p>
+                  ) : null}
+
+                  {c.description ? (
+                    <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{c.description}</p>
+                  ) : null}
+
+                  {/* Credentials block */}
+                  <div className="mt-3 rounded-xl border border-border/70 bg-muted/40 p-2.5 text-xs">
+                    {c.meetingUrl ? (
+                      <div className="flex items-center justify-between gap-2 truncate font-mono text-[11px] text-foreground">
+                        <span className="truncate">🔗 {c.meetingUrl}</span>
+                        <a
+                          href={c.meetingUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="shrink-0 text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      </div>
+                    ) : (
+                      <span className="text-[11px] text-muted-foreground">
+                        Portal Direct Waiting Room (/live/{c.slug})
+                      </span>
+                    )}
+                    {(c.meetingId || c.passcode) && (
+                      <div className="mt-1.5 flex flex-wrap gap-x-3 text-[11px] text-muted-foreground">
+                        {c.meetingId && <span>ID: <strong className="text-foreground">{c.meetingId}</strong></span>}
+                        {c.passcode && <span>Pass: <strong className="text-foreground">{c.passcode}</strong></span>}
+                      </div>
+                    )}
+                    {c.recordingUrl && (
+                      <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-emerald-700">
+                        <span>📹 Recording Available</span>
+                        <a href={c.recordingUrl} target="_blank" rel="noreferrer" className="underline">
+                          Watch
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <ToneBadge tone={LIVE_STATUS_TONE[c.status as keyof typeof LIVE_STATUS_TONE] ?? "muted"}>
-                  {c.status === "live" ? "● live" : c.status}
-                </ToneBadge>
+
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-3">
+                  {/* Status quick toggles */}
+                  <div className="flex items-center gap-1.5">
+                    {c.status !== "live" ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="h-8 rounded-full border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100"
+                        onClick={() => onStatusChange(c.id, "live")}
+                      >
+                        🔴 Go Live Now
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="h-8 rounded-full border-stone-300 bg-stone-100 text-xs font-semibold text-stone-800 hover:bg-stone-200"
+                        onClick={() => onStatusChange(c.id, "ended")}
+                      >
+                        ⏹ End Class
+                      </Button>
+                    )}
+
+                    {c.meetingUrl ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 rounded-full text-xs"
+                        onClick={() => copyLink(c)}
+                      >
+                        {copiedId === c.id ? (
+                          <>
+                            <Check className="mr-1 h-3.5 w-3.5 text-emerald-600" /> Copied
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="mr-1 h-3.5 w-3.5" /> Copy Link
+                          </>
+                        )}
+                      </Button>
+                    ) : null}
+                  </div>
+
+                  {/* Edit / Delete */}
+                  <div className="flex items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 rounded-full"
+                      onClick={() => onEdit(c)}
+                      aria-label={`Edit ${c.title}`}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 rounded-full border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+                      onClick={() => onDelete(c)}
+                      aria-label={`Delete ${c.title}`}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </div>
               </div>
-              {courseTitle(c.courseSlug) ? (
-                <p className="mt-1 text-xs text-primary">{courseTitle(c.courseSlug)}</p>
-              ) : null}
-              {c.description ? (
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{c.description}</p>
-              ) : null}
-              <div className="mt-3 flex items-center justify-between gap-2">
-                <span className="flex min-w-0 items-center gap-1 font-mono text-[11px] text-muted-foreground">
-                  <Link2 className="h-3 w-3 shrink-0" aria-hidden="true" />
-                  /live/{c.slug}
-                </span>
-                <span className="flex shrink-0 gap-1">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 rounded-full border-border bg-card"
-                    onClick={() => onEdit(c)}
-                    aria-label={`Edit ${c.title}`}
-                  >
-                    <Pencil className="h-3.5 w-3.5" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 rounded-full border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
-                    onClick={() => onDelete(c)}
-                    aria-label={`Delete ${c.title}`}
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       )}
     </section>
   );
 }
+

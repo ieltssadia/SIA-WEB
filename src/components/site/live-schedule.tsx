@@ -97,7 +97,7 @@ export function LiveSchedule() {
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
           </span>
           <h2 id="live-now-heading" className="font-display text-xl font-bold">
-            এখন লাইভ
+            এখন লাইভ (Google Meet / Zoom)
           </h2>
           <span className="text-xs text-muted-foreground">({live.length})</span>
         </div>
@@ -111,27 +111,30 @@ export function LiveSchedule() {
             {live.map((c) => (
               <article
                 key={c.slug}
-                className="relative overflow-hidden rounded-2xl border border-red-500/30 bg-card p-5 shadow-[0_0_40px_rgba(220,38,38,0.08)]"
+                className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-red-500/30 bg-card p-5 shadow-[0_0_40px_rgba(220,38,38,0.08)]"
               >
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-                    <Radio className="h-3 w-3" aria-hidden />
-                    লাইভ চলছে
-                  </span>
-                  <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Users className="h-3.5 w-3.5" aria-hidden />
-                    চলমান
-                  </span>
+                <div>
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                      <Radio className="h-3 w-3" aria-hidden />
+                      লাইভ চলছে
+                    </span>
+                    <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-foreground">
+                      {c.platform === "meet" ? "🟢 Google Meet" : "🔵 Zoom"}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-base font-bold leading-snug">{c.title}</h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {c.teacher} {c.targetBatch ? `· ${c.targetBatch}` : ""}
+                  </p>
+                  {c.description ? (
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
+                  ) : null}
                 </div>
-                <h3 className="font-display text-base font-bold leading-snug">{c.title}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{c.teacher}</p>
-                {c.description ? (
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
-                ) : null}
                 <Button asChild className="mt-4 w-full rounded-full bg-ink font-semibold text-white hover:opacity-85">
                   <a href={`#/live/${c.slug}`}>
                     <Play className="mr-1.5 h-4 w-4" aria-hidden />
-                    ক্লাসে জয়েন করুন
+                    {c.platform === "meet" ? "Google Meet-এ জয়েন করুন" : "Zoom-এ জয়েন করুন"}
                   </a>
                 </Button>
               </article>
@@ -155,25 +158,27 @@ export function LiveSchedule() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {upcoming.map((c) => (
-              <article key={c.slug} className="rounded-2xl border border-primary/12 bg-card p-5">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
-                    আসন্ন
-                  </span>
-                  {now !== null ? (
-                    <span className="text-xs font-medium tabular-nums text-primary/90">{untilLabel(c.startsAt, now)}</span>
+              <article key={c.slug} className="flex flex-col justify-between rounded-2xl border border-primary/12 bg-card p-5">
+                <div>
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
+                      {c.platform === "meet" ? "Google Meet" : "Zoom"}
+                    </span>
+                    {now !== null ? (
+                      <span className="text-xs font-medium tabular-nums text-primary/90">{untilLabel(c.startsAt, now)}</span>
+                    ) : null}
+                  </div>
+                  <h3 className="font-display text-base font-bold leading-snug">{c.title}</h3>
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    {dhakaFull.format(new Date(c.startsAt))} · {c.durationMin} মিনিট
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{c.teacher} {c.targetBatch ? `· ${c.targetBatch}` : ""}</p>
+                  {c.description ? (
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
                   ) : null}
                 </div>
-                <h3 className="font-display text-base font-bold leading-snug">{c.title}</h3>
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  {dhakaFull.format(new Date(c.startsAt))} · Dhaka time
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">{c.teacher} · {c.durationMin} মিনিট</p>
-                {c.description ? (
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-foreground/75">{c.description}</p>
-                ) : null}
                 <Button asChild variant="outline" className="mt-4 w-full rounded-full border-border bg-card font-semibold text-foreground hover:border-primary/50 hover:text-primary">
-                  <a href={`#/live/${c.slug}`}>ওয়েটিং রুমে ঢুকুন</a>
+                  <a href={`#/live/${c.slug}`}>ক্লাসরুম ডিটেইলস ও লিংক</a>
                 </Button>
               </article>
             ))}
@@ -187,23 +192,31 @@ export function LiveSchedule() {
           <div className="mb-4 flex items-center gap-2.5">
             <History className="h-4.5 w-4.5 text-muted-foreground" aria-hidden />
             <h2 id="ended-heading" className="font-display text-xl font-bold text-muted-foreground">
-              সম্পন্ন ক্লাস
+              সম্পন্ন ক্লাস ও রেকর্ডিং
             </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {ended.map((c) => (
-              <article key={c.slug} className="rounded-2xl border border-primary/8 bg-card/50 p-5 opacity-80">
-                <span className="mb-3 inline-block rounded-full bg-muted px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                  শেষ হয়েছে
-                </span>
-                <h3 className="font-display text-sm font-bold leading-snug text-foreground/85">{c.title}</h3>
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  {dhakaFull.format(new Date(c.startsAt))} · {c.teacher}
-                </p>
-                <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Loader2 className="h-3 w-3" aria-hidden />
-                  রেকর্ডিং শীঘ্রই পোর্টালে যুক্ত হবে
-                </p>
+              <article key={c.slug} className="flex flex-col justify-between rounded-2xl border border-primary/8 bg-card/50 p-5 opacity-90">
+                <div>
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="inline-block rounded-full bg-muted px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                      শেষ হয়েছে
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {c.platform === "meet" ? "Google Meet" : "Zoom"}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-sm font-bold leading-snug text-foreground/85">{c.title}</h3>
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    {dhakaFull.format(new Date(c.startsAt))} · {c.teacher}
+                  </p>
+                </div>
+                <Button asChild variant="ghost" size="sm" className="mt-3 w-full rounded-full text-xs text-primary hover:bg-primary/10">
+                  <a href={`#/live/${c.slug}`}>
+                    {c.recordingUrl ? "📹 রেকর্ডিং দেখুন" : "ক্লাস বিস্তারিত"}
+                  </a>
+                </Button>
               </article>
             ))}
           </div>

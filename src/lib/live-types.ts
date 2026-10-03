@@ -9,8 +9,14 @@ export type LiveClassDetail = {
   slug: string;
   title: string;
   courseSlug: string | null;
+  targetBatch: string | null;
   teacher: string;
   description: string | null;
+  platform: string; // "zoom" | "meet" | "teams" | "other"
+  meetingUrl: string | null;
+  meetingId: string | null;
+  passcode: string | null;
+  recordingUrl: string | null;
   startsAt: string; // ISO
   durationMin: number;
   status: "scheduled" | "live" | "ended";
@@ -21,8 +27,14 @@ export type LiveClassListItem = {
   slug: string;
   title: string;
   courseSlug: string | null;
+  targetBatch: string | null;
   teacher: string;
   description: string | null;
+  platform: string; // "zoom" | "meet" | "teams" | "other"
+  meetingUrl: string | null;
+  meetingId: string | null;
+  passcode: string | null;
+  recordingUrl: string | null;
   startsAt: string; // ISO
   durationMin: number;
   status: "scheduled" | "live" | "ended";

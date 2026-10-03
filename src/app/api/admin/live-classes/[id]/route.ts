@@ -13,7 +13,13 @@ const patchSchema = z.object({
   title: z.string().trim().min(3, "ক্লাসের শিরোনাম লিখুন।").max(140).optional(),
   teacher: z.string().trim().min(2).max(80).optional(),
   courseSlug: z.string().trim().max(80).optional().or(z.literal("")),
+  targetBatch: z.string().trim().max(100).optional().or(z.literal("")),
   description: z.string().trim().max(1000).optional().or(z.literal("")),
+  platform: z.enum(["zoom", "meet", "teams", "other"]).optional(),
+  meetingUrl: z.string().trim().max(500).optional().or(z.literal("")),
+  meetingId: z.string().trim().max(100).optional().or(z.literal("")),
+  passcode: z.string().trim().max(100).optional().or(z.literal("")),
+  recordingUrl: z.string().trim().max(500).optional().or(z.literal("")),
   startsAt: z.coerce.date({ message: "শুরুর সময় নির্বাচন করুন।" }).optional(),
   durationMin: z.coerce
     .number()
@@ -60,8 +66,24 @@ export async function PATCH(
         ...(parsed.data.courseSlug !== undefined
           ? { courseSlug: parsed.data.courseSlug || null }
           : {}),
+        ...(parsed.data.targetBatch !== undefined
+          ? { targetBatch: parsed.data.targetBatch || null }
+          : {}),
         ...(parsed.data.description !== undefined
           ? { description: parsed.data.description || null }
+          : {}),
+        ...(parsed.data.platform !== undefined ? { platform: parsed.data.platform } : {}),
+        ...(parsed.data.meetingUrl !== undefined
+          ? { meetingUrl: parsed.data.meetingUrl || null }
+          : {}),
+        ...(parsed.data.meetingId !== undefined
+          ? { meetingId: parsed.data.meetingId || null }
+          : {}),
+        ...(parsed.data.passcode !== undefined
+          ? { passcode: parsed.data.passcode || null }
+          : {}),
+        ...(parsed.data.recordingUrl !== undefined
+          ? { recordingUrl: parsed.data.recordingUrl || null }
           : {}),
         ...(parsed.data.startsAt !== undefined ? { startsAt: parsed.data.startsAt } : {}),
         ...(parsed.data.durationMin !== undefined
@@ -76,8 +98,14 @@ export async function PATCH(
       slug: updated.slug,
       title: updated.title,
       courseSlug: updated.courseSlug,
+      targetBatch: updated.targetBatch,
       teacher: updated.teacher,
       description: updated.description,
+      platform: updated.platform || "zoom",
+      meetingUrl: updated.meetingUrl,
+      meetingId: updated.meetingId,
+      passcode: updated.passcode,
+      recordingUrl: updated.recordingUrl,
       startsAt: updated.startsAt.toISOString(),
       durationMin: updated.durationMin,
       status: updated.status,
