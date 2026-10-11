@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   BadgeCheck,
@@ -15,6 +16,7 @@ import {
   Loader2,
   Lock,
   LogIn,
+  QrCode,
   ShieldCheck,
   Smartphone,
   Timer,
@@ -37,13 +39,14 @@ import { compactCountdown, useOfferCountdown } from "@/lib/offer";
 import { usePortalStore } from "@/lib/portal-store";
 import { useCartStore } from "@/lib/cart-store";
 import { CartCheckout } from "@/components/site/cart-checkout";
+import { PRIME_BANK_PAYMENT, PUBALI_BANK_QR_PAYMENT, PAYMENT_RECEIVER } from "@/lib/delivery";
 
 /* ------------------------------------------------------------------ */
 /* Payment methods — 10MS-style branded options                        */
 /* ------------------------------------------------------------------ */
 
 type PayMethod = {
-  id: "bKash" | "Nagad" | "Rocket" | "Bank Transfer" | "Cash";
+  id: "Pubali Bank (Bangla QR)" | "Prime Bank" | "bKash" | "Nagad" | "Cash";
   label: string;
   note: string;
   icon: LucideIcon;
@@ -53,9 +56,25 @@ type PayMethod = {
 
 const payMethods: PayMethod[] = [
   {
+    id: "Pubali Bank (Bangla QR)",
+    label: "Pubali Bank Bangla QR (Scan & Pay)",
+    note: "যেকোনো Bank বা বিকাশ/নগদ/রকেট অ্যাপ দিয়ে QR স্ক্যান করে পেমেন্ট",
+    icon: QrCode,
+    color: "#006837",
+    needsTxId: true,
+  },
+  {
+    id: "Prime Bank",
+    label: "Prime Bank PLC (Bank Transfer)",
+    note: "A/C: 2116134025450 · Sadia's IELTS Academy",
+    icon: Landmark,
+    color: "#0054a6",
+    needsTxId: true,
+  },
+  {
     id: "bKash",
     label: "bKash",
-    note: "Send Money · 01752-716238 (Merchant)",
+    note: `Send Money · ${PAYMENT_RECEIVER.bkash} (Merchant)`,
     icon: Smartphone,
     color: "#e2136e",
     needsTxId: true,
@@ -63,31 +82,15 @@ const payMethods: PayMethod[] = [
   {
     id: "Nagad",
     label: "Nagad",
-    note: "Send Money · 01752-716238 (Merchant)",
+    note: `Send Money · ${PAYMENT_RECEIVER.nagad} (Merchant)`,
     icon: Wallet,
     color: "#f26522",
     needsTxId: true,
   },
   {
-    id: "Rocket",
-    label: "Rocket",
-    note: "Send Money · 017520716238 (Merchant)",
-    icon: Smartphone,
-    color: "#8c3494",
-    needsTxId: true,
-  },
-  {
-    id: "Bank Transfer",
-    label: "Bank Transfer",
-    note: "A/C: 1023 4567 8901 · Sonali Bank, Sreemangal",
-    icon: Landmark,
-    color: "#2e7d32",
-    needsTxId: true,
-  },
-  {
     id: "Cash",
     label: "Cash at Office",
-    note: "Pay at Sreemangal campus, receipt same day",
+    note: "শ্রীমঙ্গল ক্যাম্পাসে এসে সরাসরি ফি পরিশোধ",
     icon: Banknote,
     color: "#0f766e",
     needsTxId: false,
@@ -372,7 +375,7 @@ function PaymentStep({
   const batchOptions = useMemo(() => nextBatchOptions(course.slug), [course.slug]);
 
   const [batch, setBatch] = useState(batchOptions[0].batch);
-  const [method, setMethod] = useState<PayMethod["id"]>("bKash");
+  const [method, setMethod] = useState<PayMethod["id"]>("Pubali Bank (Bangla QR)");
   const [txId, setTxId] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -388,6 +391,16 @@ function PaymentStep({
 
   async function confirm() {
     setError(null);
+
+    if (selected.needsTxId) {
+      if (!txId.trim() || txId.trim().length < 3) {
+        setError(
+          "পেমেন্ট নিশ্চিত করতে Transaction ID (TrxID) দেওয়া আবশ্যক। অ্যাডমিন প্যানেল থেকে TrxID যাচাই করার পর আপনার ভর্তি কনফার্ম হবে।"
+        );
+        return;
+      }
+    }
+
     setBusy(true);
     try {
       const res = await fetch("/api/portal/enroll", {
@@ -488,21 +501,130 @@ function PaymentStep({
           })}
         </RadioGroup>
 
-        {selected.needsTxId ? (
-          <div className="mt-3 space-y-1.5">
-            <Label htmlFor="co-txid">Transaction ID (optional here)</Label>
-            <Input
-              id="co-txid"
-              placeholder="Demo checkout, any text works"
-              value={txId}
-              onChange={(e) => setTxId(e.target.value)}
-              maxLength={60}
-            />
-            <p className="text-xs text-muted-foreground">
-              ডেমো মোড। আসল পেমেন্ট হয় না। প্রোডাকশনে TrxID ভেরিফিকেশন যুক্ত হবে।
-            </p>
-          </div>
-        ) : null}
+        {/* Payment Channel Instructions */}
+        <div className="mt-4 space-y-4">
+          {selected.id === "Pubali Bank (Bangla QR)" ? (
+            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.04] p-4.5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                <div className="relative mx-auto h-48 w-40 shrink-0 overflow-hidden rounded-xl border border-border bg-white p-1 shadow-sm sm:mx-0">
+                  <Image
+                    src={PUBALI_BANK_QR_PAYMENT.qrImage}
+                    alt="Pubali Bank Bangla QR Code"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-[#006837] text-white">পূবালী ব্যাংক পিএলসি.</Badge>
+                    <Badge variant="outline" className="border-[#006837]/40 text-[#006837] dark:text-[#52c286]">
+                      BANGLA QR
+                    </Badge>
+                  </div>
+                  <h3 className="font-display text-base font-bold text-foreground">
+                    যেকোনো ব্যাংক অথবা MFS অ্যাপ থেকে স্ক্যান করে পেমেন্ট করুন
+                  </h3>
+                  <div className="space-y-1 text-xs text-muted-foreground">
+                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border">
+                      <span>মার্চেন্ট নাম:</span>
+                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
+                    </p>
+                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border font-mono">
+                      <span>Bangla QR ID:</span>
+                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.pblQrId}</strong>
+                    </p>
+                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border">
+                      <span>মোবাইল:</span>
+                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.mobile}</strong>
+                    </p>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    bKash, Nagad, Rocket, Upay, Cellfin বা যেকোনো ব্যাংকের অ্যাপ থেকে QR স্ক্যান করে কোর্স ফি{" "}
+                    <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> পরিশোধ করুন।
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : selected.id === "Prime Bank" ? (
+            <div className="rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.04] p-4.5 space-y-3">
+              <div className="flex items-center justify-between">
+                <Badge className="bg-[#0054a6] text-white">Prime Bank PLC</Badge>
+                <span className="text-xs font-semibold text-[#0054a6] dark:text-[#5fa8f5]">
+                  Direct Bank Transfer / Deposit
+                </span>
+              </div>
+              <h3 className="font-display text-base font-bold text-foreground">
+                প্রাইম ব্যাংক অ্যাকাউন্ট বিবরণী
+              </h3>
+              <div className="space-y-1.5 text-xs">
+                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border">
+                  <span className="text-muted-foreground">অ্যাকাউন্ট নাম:</span>
+                  <strong className="text-sm font-semibold text-foreground">
+                    {PRIME_BANK_PAYMENT.accountName}
+                  </strong>
+                </div>
+                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border font-mono">
+                  <span className="text-muted-foreground">অ্যাকাউন্ট নম্বর:</span>
+                  <strong className="text-base font-bold text-primary tracking-wider">
+                    {PRIME_BANK_PAYMENT.accountNumber}
+                  </strong>
+                </div>
+                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border">
+                  <span className="text-muted-foreground">ব্যাংক ও শাখা:</span>
+                  <span className="text-foreground font-medium">
+                    {PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                যেকোনো ব্যাংক অ্যাপ, ইন্টারনেট ব্যাংকিং (BEFTN/NPSB/RTGS) অথবা ব্রাঞ্চ ডিপোজিট করে কোর্স ফি{" "}
+                <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> ট্রান্সফার করুন।
+              </p>
+            </div>
+          ) : selected.id === "bKash" || selected.id === "Nagad" ? (
+            <div className="rounded-xl border border-border bg-muted/50 p-4">
+              <p className="text-sm font-bold text-foreground">
+                {selected.label}: Send Money · {course.price ? taka(course.price) : ""}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                {selected.label} অ্যাপ থেকে <span className="font-bold text-primary">{PAYMENT_RECEIVER.full}</span> নম্বরে টাকা Send Money করুন। Reference-এ আপনার ফোন নম্বর লিখুন।
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-border bg-muted/50 p-4">
+              <p className="text-sm font-bold text-foreground">অফিস পেমেন্ট</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                শ্রীমঙ্গল ক্যাম্পাসে (সৈয়দ মুজিবুর রহমান মার্কেট, ২য় তলা, চৌমুহনা) এসে সরাসরি ক্যাশ জমা দিয়ে ভর্তি নিশ্চিত করুন।
+              </p>
+            </div>
+          )}
+
+          {/* Mandatory Transaction ID field for online payments */}
+          {selected.needsTxId ? (
+            <div className="space-y-1.5 rounded-xl border border-primary/20 bg-primary/[0.03] p-3.5">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="co-txid" className="text-sm font-bold text-foreground">
+                  Transaction ID (TrxID) <span className="text-destructive">* (বাধ্যতামূলক)</span>
+                </Label>
+                <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                  অ্যাডমিন ম্যানুয়াল ভেরিফিকেশন
+                </span>
+              </div>
+              <Input
+                id="co-txid"
+                placeholder="e.g. 9GX7A2B1CD অথবা Bank Ref No"
+                value={txId}
+                onChange={(e) => setTxId(e.target.value)}
+                maxLength={80}
+                required
+                className="min-h-11 font-mono tracking-wider bg-card"
+              />
+              <p className="text-[11px] text-muted-foreground">
+                পেমেন্ট সম্পন্ন করার পর প্রাপ্ত TrxID এখানে লিখুন। অ্যাডমিন প্যানেল থেকে ম্যানুয়ালি TrxID ভেরিফিকেশনের পর আপনার কোর্সে অ্যাক্সেস নিশ্চিত হবে।
+              </p>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {error ? <ErrorNote text={error} /> : null}
@@ -532,7 +654,7 @@ function PaymentStep({
 
       <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
         <Lock className="h-3.5 w-3.5" aria-hidden />
-        Secure demo checkout · bKash / Nagad / Rocket / Bank / Cash accepted
+        Secure checkout · Pubali Bank Bangla QR / Prime Bank / bKash / Nagad accepted
       </p>
     </div>
   );

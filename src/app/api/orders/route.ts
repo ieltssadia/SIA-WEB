@@ -30,8 +30,8 @@ const orderSchema = z.object({
     )
     .min(1, "Cart is empty.")
     .max(12),
-  paymentMethod: z.enum(["bKash", "Nagad", "Cash on Delivery"]),
-  transactionId: z.string().trim().max(60).optional().or(z.literal("")),
+  paymentMethod: z.string().trim().min(2, "পেমেন্ট পদ্ধতি নির্বাচন করুন।").max(80),
+  transactionId: z.string().trim().max(80).optional().or(z.literal("")),
 });
 
 function makeOrderNo(): string {
@@ -116,6 +116,21 @@ export async function POST(req: Request) {
     if (zone.courier && (!data.address || data.address.length < 8)) {
       return NextResponse.json(
         { error: "Courier delivery-এর জন্য সম্পূর্ণ ঠিকানা লিখুন (house/road/area)." },
+        { status: 400 }
+      );
+    }
+
+    // Require Transaction ID for manual payments (Prime Bank, Pubali Bank QR, bKash, Nagad)
+    const isCash =
+      data.paymentMethod === "Cash on Delivery" ||
+      data.paymentMethod === "Cash" ||
+      data.paymentMethod === "Cash at Office";
+    if (!isCash && (!data.transactionId || data.transactionId.trim().length < 3)) {
+      return NextResponse.json(
+        {
+          error:
+            "পেমেন্ট নিশ্চিত করতে Transaction ID (TrxID) দেওয়া আবশ্যক। অ্যাডমিন প্যানেল থেকে TrxID যাচাই করার পর অর্ডার কনফার্ম হবে।",
+        },
         { status: 400 }
       );
     }

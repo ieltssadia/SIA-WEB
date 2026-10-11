@@ -180,6 +180,13 @@ export const PAYMENT_STATUS_TONE: Record<AdminPaymentStatus, Tone> = {
   failed: "red",
 };
 
+export const PAYMENT_STATUS_LABEL: Record<AdminPaymentStatus, string> = {
+  pending: "Pending · অপেক্ষমাণ",
+  verified: "Verified · যাচাইকৃত",
+  paid: "Paid · পরিশোধিত",
+  failed: "Failed · ব্যর্থ",
+};
+
 export const LEAD_STATUS_TONE: Record<AdminLeadStatus, Tone> = {
   new: "sky",
   contacted: "blue",

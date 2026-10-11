@@ -49,7 +49,15 @@ export const promoBar = {
   ctaHref: "#/checkout",
 };
 
-export const paymentMethods = ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash"];
+export const paymentMethods = [
+  "Pubali Bank (Bangla QR)",
+  "Prime Bank",
+  "bKash",
+  "Nagad",
+  "Rocket",
+  "Cash on Delivery",
+  "Cash at Office",
+];
 
 /** 10MS-style popular searches shown in the header search dialog. */
 export const popularSearches = [

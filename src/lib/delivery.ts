@@ -67,3 +67,28 @@ export const PAYMENT_RECEIVER = {
   nagad: "01752-716238",
   full: "01752716238",
 };
+
+/** Official Prime Bank Account for direct transfer / deposit */
+export const PRIME_BANK_PAYMENT = {
+  id: "Prime Bank",
+  bankName: "Prime Bank PLC",
+  accountName: "Sadia's IELTS Academy",
+  accountNumber: "2116134025450",
+  branch: "Sreemangal Branch",
+  note: "Account No: 2116134025450 · Sadia's IELTS Academy · Prime Bank PLC",
+};
+
+/** Official Pubali Bank Bangla QR (Interoperable QR — any Bank or bKash/Nagad/Rocket app) */
+export const PUBALI_BANK_QR_PAYMENT = {
+  id: "Pubali Bank (Bangla QR)",
+  bankName: "Pubali Bank PLC",
+  title: "Pubali Bank Bangla QR",
+  merchantName: "SADIA'S IELTS ACADEMY",
+  pblQrId: "PBLQR00504283",
+  mobile: "01710190068",
+  address: "Syed Mojibur Rahman Market, Habiganj Road, Sreemangal, Moulvibazar",
+  qrImage: "/images/payments/pubali-bank-qr-card.jpg",
+  fullImage: "/images/payments/pubali-bank-qr.jpg",
+  note: "PBLQR: PBLQR00504283 · Scan to pay with any Bank or bKash / Nagad / Rocket app",
+};
+

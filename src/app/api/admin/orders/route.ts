@@ -8,6 +8,9 @@ import type { AdminOrder, AdminOrderItem } from "@/lib/admin-types";
 
 const listQuerySchema = z.object({
   status: z.enum(ADMIN_ORDER_STATUSES as [string, ...string[]]).optional(),
+  paymentStatus: z
+    .enum(["pending", "verified", "paid", "failed"] as [string, ...string[]])
+    .optional(),
   q: z.string().trim().max(80).optional(),
 });
 
@@ -60,13 +63,15 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const parsed = listQuerySchema.safeParse({
       status: url.searchParams.get("status") ?? undefined,
+      paymentStatus: url.searchParams.get("paymentStatus") ?? undefined,
       q: url.searchParams.get("q") ?? undefined,
     });
-    if (!parsed.success) return badRequest("Invalid status or search query.");
+    if (!parsed.success) return badRequest("Invalid status, payment status, or search query.");
 
     const orders = await db.order.findMany({
       where: {
         ...(parsed.data.status ? { status: parsed.data.status } : {}),
+        ...(parsed.data.paymentStatus ? { paymentStatus: parsed.data.paymentStatus } : {}),
         ...(parsed.data.q
           ? {
               OR: [

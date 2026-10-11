@@ -19,6 +19,13 @@ export type AdminOrderStatus =
 
 export type AdminPaymentStatus = "pending" | "verified" | "paid" | "failed";
 
+export const ADMIN_PAYMENT_STATUSES: AdminPaymentStatus[] = [
+  "pending",
+  "verified",
+  "paid",
+  "failed",
+];
+
 export type AdminLeadStatus = "new" | "contacted" | "enrolled" | "closed";
 
 export type AdminLiveClassStatus = "scheduled" | "live" | "ended";
