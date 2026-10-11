@@ -26,16 +26,24 @@ export function FloatingCta() {
   }, []);
 
   // Hide on checkout, practice tests, portal, and exam registration views so buttons never overlap form fields
+  const rawHash = typeof window !== "undefined" ? window.location.hash : "";
   const isHiddenRoute =
     route === "/checkout" ||
+    rawHash.includes("checkout") ||
     route.startsWith("/cambridge") ||
+    rawHash.includes("cambridge") ||
     route.startsWith("/portal") ||
+    rawHash.includes("portal") ||
     route.startsWith("/admin") ||
+    rawHash.includes("admin") ||
     route.startsWith("/live-classes") ||
     route.startsWith("/live-classroom") ||
+    rawHash.includes("live-classroom") ||
     route === "/verify" ||
     route === "/ielts-registration" ||
-    route === "/exam-registration";
+    rawHash.includes("ielts-registration") ||
+    route === "/exam-registration" ||
+    rawHash.includes("exam-registration");
 
   const show = visible && !isHiddenRoute;
 

@@ -508,11 +508,11 @@ function PaymentStep({
       {selected.kind === "manual" ? (
         <div className="space-y-4">
           {selected.id === "Pubali Bank (Bangla QR)" ? (
-            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.03] p-4 sm:p-5 space-y-4">
+            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.03] p-3.5 sm:p-5 space-y-4">
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-2 border-b border-[#006837]/15 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#006837]/15 pb-3">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
                       src="/images/payments/pubali-bank-icon.png"
                       alt="Pubali Bank PLC"
@@ -521,17 +521,17 @@ function PaymentStep({
                       className="h-full w-full object-contain"
                     />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-bold text-foreground flex flex-wrap items-center gap-1.5 leading-snug">
                       পূবালী ব্যাংক বাংলা কিউআর
                       <Badge variant="outline" className="border-[#006837]/40 text-[#006837] dark:text-[#52c286] text-[10px] py-0 px-1.5 font-bold">
                         BANGLA QR
                       </Badge>
                     </h4>
-                    <p className="text-[11px] text-muted-foreground">Pubali Bank PLC · Interoperable QR</p>
+                    <p className="text-[11px] text-muted-foreground truncate">Pubali Bank PLC · Interoperable QR</p>
                   </div>
                 </div>
-                <div className="relative h-7 w-12 shrink-0 overflow-hidden">
+                <div className="relative h-6 w-10 sm:h-7 sm:w-12 shrink-0 overflow-hidden">
                   <Image
                     src="/images/payments/bangla-qr-icon.png"
                     alt="Bangla QR"
@@ -543,8 +543,8 @@ function PaymentStep({
               </div>
 
               {/* Center Pure QR Section */}
-              <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-zinc-950 p-4 border border-[#006837]/25 shadow-xs">
-                <div className="relative h-56 w-56 sm:h-64 sm:w-64 overflow-hidden rounded-lg bg-white p-2 border border-zinc-200 shadow-xs">
+              <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-zinc-950 p-3 sm:p-4 border border-[#006837]/25 shadow-xs">
+                <div className="relative h-48 w-48 sm:h-64 sm:w-64 max-w-full overflow-hidden rounded-lg bg-white p-2 border border-zinc-200 shadow-xs">
                   <Image
                     src={PUBALI_BANK_QR_PAYMENT.qrImage}
                     alt="Pubali Bank Bangla QR Code"
@@ -566,9 +566,9 @@ function PaymentStep({
               <div className="space-y-2">
                 <CartCopyRow label="Bangla QR ID (PBLQR)" value={PUBALI_BANK_QR_PAYMENT.pblQrId} />
                 <CartCopyRow label="মার্চেন্ট মোবাইল নম্বর" value={PUBALI_BANK_QR_PAYMENT.mobile} />
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
-                  <span className="text-muted-foreground">মার্চেন্ট একাউন্ট নাম:</span>
-                  <strong className="text-foreground font-semibold">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-xl bg-card p-2.5 border border-border text-xs">
+                  <span className="text-muted-foreground shrink-0">মার্চেন্ট একাউন্ট নাম:</span>
+                  <strong className="text-foreground font-semibold break-all">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
                 </div>
               </div>
 
@@ -577,11 +577,11 @@ function PaymentStep({
               </p>
             </div>
           ) : selected.id === "Prime Bank" ? (
-            <div className="overflow-hidden rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.03] p-4 sm:p-5 space-y-4">
+            <div className="overflow-hidden rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.03] p-3.5 sm:p-5 space-y-4">
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-2 border-b border-[#0054a6]/15 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#0054a6]/15 pb-3">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
                       src="/images/payments/prime-bank-icon.png"
                       alt="Prime Bank PLC"
@@ -590,12 +590,12 @@ function PaymentStep({
                       className="h-full w-full object-contain"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-bold text-foreground">Prime Bank PLC</h4>
-                    <p className="text-[11px] text-muted-foreground">Bank Transfer / BEFTN / NPSB / Deposit</p>
+                    <p className="text-[11px] text-muted-foreground truncate">Bank Transfer / BEFTN / NPSB / Deposit</p>
                   </div>
                 </div>
-                <Badge className="bg-[#0054a6] text-white hover:bg-[#0054a6] text-[10px]">
+                <Badge className="bg-[#0054a6] text-white hover:bg-[#0054a6] text-[10px] shrink-0">
                   Official Bank A/C
                 </Badge>
               </div>
@@ -604,9 +604,9 @@ function PaymentStep({
               <div className="space-y-2">
                 <CartCopyRow label="অ্যাকাউন্ট নম্বর (A/C No)" value={PRIME_BANK_PAYMENT.accountNumber} />
                 <CartCopyRow label="অ্যাকাউন্ট নাম (A/C Name)" value={PRIME_BANK_PAYMENT.accountName} />
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
-                  <span className="text-muted-foreground">ব্যাংক ও শাখা:</span>
-                  <strong className="text-foreground font-medium">{PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}</strong>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-xl bg-card p-2.5 border border-border text-xs">
+                  <span className="text-muted-foreground shrink-0">ব্যাংক ও শাখা:</span>
+                  <strong className="text-foreground font-medium break-words">{PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}</strong>
                 </div>
               </div>
 
@@ -1029,9 +1029,9 @@ export function CartCheckout() {
   return (
     <div>
       {/* Mobile Cart Summary (Visible on mobile/tablet so cart details & total are right at the top) */}
-      <div className="mb-6 block lg:hidden">
-        <Card className="overflow-hidden border-primary/25 bg-card shadow-sm">
-          <div className="flex items-center justify-between border-b border-primary/10 bg-primary/5 px-4 py-3">
+      <div className="mb-6 block lg:hidden w-full min-w-0">
+        <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/25 bg-card shadow-sm">
+          <div className="flex items-center justify-between border-b border-primary/10 bg-primary/5 px-3.5 py-3 sm:px-4">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="border-primary/40 bg-primary/10 text-[10px] font-bold uppercase tracking-wider text-primary">
                 Cart Summary
@@ -1051,7 +1051,7 @@ export function CartCheckout() {
               )}
             </button>
           </div>
-          <CardContent className="p-4 sm:p-5">
+          <CardContent className="p-3.5 sm:p-5">
             {mobileSummaryOpen ? (
               <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
             ) : (
@@ -1070,11 +1070,11 @@ export function CartCheckout() {
         </Card>
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
+      <div className="grid w-full min-w-0 max-w-full items-start gap-6 lg:grid-cols-[1fr_380px]">
         {/* Left: steps */}
-        <Reveal y={12}>
-          <Card className="border-primary/20 bg-card">
-            <CardContent className="space-y-6 p-6 md:p-8">
+        <Reveal y={12} className="w-full min-w-0 max-w-full">
+          <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/20 bg-card">
+            <CardContent className="space-y-6 p-4 sm:p-6 md:p-8">
               <Steps current={step} labels={["Details", "Payment", "Done"]} />
 
               {step === 1 ? (
@@ -1101,9 +1101,9 @@ export function CartCheckout() {
         </Reveal>
 
         {/* Right: cart summary (Desktop sticky sidebar) */}
-        <div className="hidden lg:block">
-          <Reveal y={12} delay={0.08}>
-            <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
+        <div className="hidden lg:block w-full min-w-0">
+          <Reveal y={12} delay={0.08} className="w-full min-w-0">
+            <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/20 bg-card lg:sticky lg:top-24">
               <CardContent className="p-6">
                 <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
                 <Separator className="my-4 bg-primary/10" />

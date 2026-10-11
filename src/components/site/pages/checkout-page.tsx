@@ -170,16 +170,16 @@ function nextBatchOptions(courseSlug: string) {
 function Steps({ current }: { current: 1 | 2 | 3 }) {
   const steps = ["Account", "Payment", "Done"];
   return (
-    <ol className="flex items-center gap-2" aria-label="Checkout steps">
+    <ol className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs" aria-label="Checkout steps">
       {steps.map((label, i) => {
         const n = (i + 1) as 1 | 2 | 3;
         const done = n < current;
         const active = n === current;
         return (
-          <li key={label} className="flex items-center gap-2">
+          <li key={label} className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <span
               aria-current={active ? "step" : undefined}
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
+              className={`flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                 done
                   ? "bg-primary text-white"
                   : active
@@ -197,7 +197,7 @@ function Steps({ current }: { current: 1 | 2 | 3 }) {
               {label}
             </span>
             {i < steps.length - 1 ? (
-              <ChevronRight className="h-4 w-4 text-muted-foreground/60" aria-hidden />
+              <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground/60 shrink-0" aria-hidden />
             ) : null}
           </li>
         );
@@ -511,14 +511,14 @@ function PaymentStep({
             <Label
               key={b.batch}
               htmlFor={`batch-${b.batch}`}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
+              className={`flex cursor-pointer items-center gap-2.5 sm:gap-3 rounded-xl border p-3 sm:p-3.5 transition-colors ${
                 batch === b.batch ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-muted/50 hover:border-primary/30"
               }`}
             >
-              <RadioGroupItem id={`batch-${b.batch}`} value={b.batch} />
-              <span className="min-w-0">
-                <span className="block text-sm font-bold text-foreground">{b.batch}</span>
-                <span className="block text-xs text-muted-foreground">{b.meta}</span>
+              <RadioGroupItem id={`batch-${b.batch}`} value={b.batch} className="shrink-0" />
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-bold text-foreground truncate">{b.batch}</span>
+                <span className="block text-xs text-muted-foreground break-words">{b.meta}</span>
               </span>
               <CalendarDays className="ml-auto h-4 w-4 shrink-0 text-primary" aria-hidden />
             </Label>
@@ -537,13 +537,13 @@ function PaymentStep({
               <Label
                 key={m.id}
                 htmlFor={`pay-${m.id}`}
-                className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
+                className={`flex cursor-pointer items-center gap-2.5 sm:gap-3 rounded-xl border p-3 sm:p-3.5 transition-colors ${
                   method === m.id ? "border-primary/60 bg-primary/[0.07]" : "border-border bg-muted/50 hover:border-primary/30"
                 }`}
               >
-                <RadioGroupItem id={`pay-${m.id}`} value={m.id} />
+                <RadioGroupItem id={`pay-${m.id}`} value={m.id} className="shrink-0" />
                 <span
-                  className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-white p-1.5 shadow-xs overflow-hidden"
+                  className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-white p-1.5 shadow-xs overflow-hidden"
                   aria-hidden
                 >
                   {m.logo ? (
@@ -558,8 +558,8 @@ function PaymentStep({
                     <Icon className="h-5 w-5 text-emerald-700" />
                   )}
                 </span>
-                <span className="min-w-0">
-                  <span className="block text-sm font-bold text-foreground">{m.label}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-bold text-foreground leading-snug">{m.label}</span>
                   <span className="block truncate text-xs text-muted-foreground">{m.note}</span>
                 </span>
               </Label>
@@ -570,11 +570,11 @@ function PaymentStep({
         {/* Payment Channel Instructions */}
         <div className="mt-4 space-y-4">
           {selected.id === "Pubali Bank (Bangla QR)" ? (
-            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.03] p-4 sm:p-5 space-y-4">
+            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.03] p-3.5 sm:p-5 space-y-4">
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-2 border-b border-[#006837]/15 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#006837]/15 pb-3">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
                       src="/images/payments/pubali-bank-icon.png"
                       alt="Pubali Bank PLC"
@@ -583,17 +583,17 @@ function PaymentStep({
                       className="h-full w-full object-contain"
                     />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-bold text-foreground flex flex-wrap items-center gap-1.5 leading-snug">
                       পূবালী ব্যাংক বাংলা কিউআর
                       <Badge variant="outline" className="border-[#006837]/40 text-[#006837] dark:text-[#52c286] text-[10px] py-0 px-1.5 font-bold">
                         BANGLA QR
                       </Badge>
                     </h4>
-                    <p className="text-[11px] text-muted-foreground">Pubali Bank PLC · Interoperable QR</p>
+                    <p className="text-[11px] text-muted-foreground truncate">Pubali Bank PLC · Interoperable QR</p>
                   </div>
                 </div>
-                <div className="relative h-7 w-12 shrink-0 overflow-hidden">
+                <div className="relative h-6 w-10 sm:h-7 sm:w-12 shrink-0 overflow-hidden">
                   <Image
                     src="/images/payments/bangla-qr-icon.png"
                     alt="Bangla QR"
@@ -605,8 +605,8 @@ function PaymentStep({
               </div>
 
               {/* Center Pure QR Section */}
-              <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-zinc-950 p-4 border border-[#006837]/25 shadow-xs">
-                <div className="relative h-56 w-56 sm:h-64 sm:w-64 overflow-hidden rounded-lg bg-white p-2 border border-zinc-200 shadow-xs">
+              <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-zinc-950 p-3 sm:p-4 border border-[#006837]/25 shadow-xs">
+                <div className="relative h-48 w-48 sm:h-64 sm:w-64 max-w-full overflow-hidden rounded-lg bg-white p-2 border border-zinc-200 shadow-xs">
                   <Image
                     src={PUBALI_BANK_QR_PAYMENT.qrImage}
                     alt="Pubali Bank Bangla QR Code"
@@ -628,9 +628,9 @@ function PaymentStep({
               <div className="space-y-2">
                 <CopyRow label="Bangla QR ID (PBLQR)" value={PUBALI_BANK_QR_PAYMENT.pblQrId} />
                 <CopyRow label="মার্চেন্ট মোবাইল নম্বর" value={PUBALI_BANK_QR_PAYMENT.mobile} />
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
-                  <span className="text-muted-foreground">মার্চেন্ট একাউন্ট নাম:</span>
-                  <strong className="text-foreground font-semibold">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-xl bg-card p-2.5 border border-border text-xs">
+                  <span className="text-muted-foreground shrink-0">মার্চেন্ট একাউন্ট নাম:</span>
+                  <strong className="text-foreground font-semibold break-all">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
                 </div>
               </div>
 
@@ -639,11 +639,11 @@ function PaymentStep({
               </p>
             </div>
           ) : selected.id === "Prime Bank" ? (
-            <div className="overflow-hidden rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.03] p-4 sm:p-5 space-y-4">
+            <div className="overflow-hidden rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.03] p-3.5 sm:p-5 space-y-4">
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-2 border-b border-[#0054a6]/15 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#0054a6]/15 pb-3">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
                       src="/images/payments/prime-bank-icon.png"
                       alt="Prime Bank PLC"
@@ -652,12 +652,12 @@ function PaymentStep({
                       className="h-full w-full object-contain"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-bold text-foreground">Prime Bank PLC</h4>
-                    <p className="text-[11px] text-muted-foreground">Bank Transfer / BEFTN / NPSB / Deposit</p>
+                    <p className="text-[11px] text-muted-foreground truncate">Bank Transfer / BEFTN / NPSB / Deposit</p>
                   </div>
                 </div>
-                <Badge className="bg-[#0054a6] text-white hover:bg-[#0054a6] text-[10px]">
+                <Badge className="bg-[#0054a6] text-white hover:bg-[#0054a6] text-[10px] shrink-0">
                   Official Bank A/C
                 </Badge>
               </div>
@@ -666,9 +666,9 @@ function PaymentStep({
               <div className="space-y-2">
                 <CopyRow label="অ্যাকাউন্ট নম্বর (A/C No)" value={PRIME_BANK_PAYMENT.accountNumber} />
                 <CopyRow label="অ্যাকাউন্ট নাম (A/C Name)" value={PRIME_BANK_PAYMENT.accountName} />
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
-                  <span className="text-muted-foreground">ব্যাংক ও শাখা:</span>
-                  <strong className="text-foreground font-medium">{PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}</strong>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-xl bg-card p-2.5 border border-border text-xs">
+                  <span className="text-muted-foreground shrink-0">ব্যাংক ও শাখা:</span>
+                  <strong className="text-foreground font-medium break-words">{PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}</strong>
                 </div>
               </div>
 
@@ -1025,17 +1025,17 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
       />
 
       <section className="pt-3 pb-12 sm:pt-6 sm:pb-16 md:py-14">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl min-w-0 px-3 sm:px-4 lg:px-8">
           {step === 3 && course && enrolledBatch && user ? (
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-3xl w-full min-w-0">
               <SuccessStep course={course} batch={enrolledBatch} name={user.name} />
             </div>
           ) : (
-            <div>
+            <div className="w-full min-w-0 max-w-full">
               {/* Mobile Order Summary (Visible on mobile/tablet so side panel info is right at the top) */}
-              <div className="mb-6 block lg:hidden">
-                <Card className="overflow-hidden border-primary/25 bg-card shadow-sm">
-                  <div className="flex items-center justify-between border-b border-primary/10 bg-primary/5 px-4 py-3">
+              <div className="mb-6 block lg:hidden w-full min-w-0">
+                <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/25 bg-card shadow-sm">
+                  <div className="flex items-center justify-between border-b border-primary/10 bg-primary/5 px-3.5 py-3 sm:px-4">
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="border-primary/40 bg-primary/10 text-[10px] font-bold uppercase tracking-wider text-primary">
                         Order Summary
@@ -1056,7 +1056,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                     </button>
                   </div>
 
-                  <CardContent className="p-4 sm:p-5">
+                  <CardContent className="p-3.5 sm:p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <h2 className="font-display text-base font-bold leading-snug text-foreground">
@@ -1128,11 +1128,11 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                 </Card>
               </div>
 
-              <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
+              <div className="grid w-full min-w-0 max-w-full items-start gap-6 lg:grid-cols-[1fr_380px]">
                 {/* Left: steps */}
-                <Reveal y={12}>
-                  <Card className="border-primary/20 bg-card">
-                    <CardContent className="space-y-6 p-6 md:p-8">
+                <Reveal y={12} className="w-full min-w-0 max-w-full">
+                  <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/20 bg-card">
+                    <CardContent className="space-y-6 p-4 sm:p-6 md:p-8">
                       <Steps current={step} />
 
                       {step === 1 ? (
@@ -1160,9 +1160,9 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                 </Reveal>
 
                 {/* Right: order summary (Desktop sticky sidebar) */}
-                <div className="hidden lg:block">
-                  <Reveal y={12} delay={0.08}>
-                    <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
+                <div className="hidden lg:block w-full min-w-0">
+                  <Reveal y={12} delay={0.08} className="w-full min-w-0">
+                    <Card className="w-full min-w-0 max-w-full overflow-hidden border-primary/20 bg-card lg:sticky lg:top-24">
                       <CardContent className="p-6">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                           Order summary

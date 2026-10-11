@@ -190,17 +190,18 @@ export function SiteRouter() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen w-full min-w-0 max-w-full flex-col overflow-x-clip">
       {/* Full-bleed site column — header/footer run edge-to-edge */}
-      <div className="flex w-full flex-1 flex-col">
+      <div className="flex w-full min-w-0 max-w-full flex-1 flex-col overflow-x-clip">
         <SiteHeader />
-        <main className="flex-1">
+        <main className="flex-1 w-full min-w-0 max-w-full overflow-x-clip">
           {/* Page transition — keyed cross-fade + rise on every navigation */}
           <motion.div
             key={routeKey}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="w-full min-w-0 max-w-full"
           >
             {page}
           </motion.div>
