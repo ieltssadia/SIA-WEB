@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { MessageCircle, Phone } from "lucide-react";
 import { site } from "@/lib/site-data";
 
+import { useHashRoute } from "@/lib/router";
+
 /**
  * Floating quick-contact widget (10MS/edtech style):
  * appears after the user scrolls past the hero, sticks bottom-right.
@@ -11,33 +13,31 @@ import { site } from "@/lib/site-data";
  */
 export function FloatingCta() {
   const [visible, setVisible] = useState(false);
-  const [hiddenRoute, setHiddenRoute] = useState(false);
+  const route = useHashRoute();
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 480);
-    const readRoute = () => {
-      const hash = typeof window !== "undefined" ? window.location.hash : "";
-      // Hide on Cambridge practice tests, Student Portal, and exam views
-      const isHidden =
-        hash.startsWith("#/cambridge") ||
-        hash.startsWith("#/portal") ||
-        hash.startsWith("#/live-classes");
-      setHiddenRoute(isHidden);
-    };
-    const raf = requestAnimationFrame(() => {
-      onScroll();
-      readRoute();
-    });
+    const raf = requestAnimationFrame(onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("hashchange", readRoute);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("hashchange", readRoute);
     };
   }, []);
 
-  const show = visible && !hiddenRoute;
+  // Hide on checkout, practice tests, portal, and exam registration views so buttons never overlap form fields
+  const isHiddenRoute =
+    route === "/checkout" ||
+    route.startsWith("/cambridge") ||
+    route.startsWith("/portal") ||
+    route.startsWith("/admin") ||
+    route.startsWith("/live-classes") ||
+    route.startsWith("/live-classroom") ||
+    route === "/verify" ||
+    route === "/ielts-registration" ||
+    route === "/exam-registration";
+
+  const show = visible && !isHiddenRoute;
 
   return (
     <div

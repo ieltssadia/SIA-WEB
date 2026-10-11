@@ -9,6 +9,8 @@ import {
   BookOpen,
   Check,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Clock,
   Copy,
   CreditCard,
@@ -896,6 +898,7 @@ export function CartCheckout() {
   const [formError, setFormError] = useState<string | null>(null);
   const [method, setMethod] = useState<OrderPayMethod["id"]>("bKash");
   const [busy, setBusy] = useState(false);
+  const [mobileSummaryOpen, setMobileSummaryOpen] = useState(true);
 
   const subtotal = cartSubtotal(items);
   const fee = deliveryFeeFor(form.zone, subtotal);
@@ -1024,60 +1027,108 @@ export function CartCheckout() {
 
   /* --- Steps 1–2 flow --- */
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
-      <Reveal y={12}>
-        <Card className="border-primary/20 bg-card">
-          <CardContent className="space-y-6 p-6 md:p-8">
-            <Steps current={step} labels={["Details", "Payment", "Done"]} />
-
-            {step === 1 ? (
-              <DetailsStep form={form} setField={setField} onNext={goNextFromDetails} />
-            ) : null}
-
-            {step === 2 ? (
-              <PaymentStep
-                form={form}
-                setField={setField}
-                method={method}
-                setMethod={setMethod}
-                total={total}
-                onBack={() => setStep(1)}
-                onPlace={placeOrder}
-                busy={busy}
-                error={formError}
-              />
-            ) : null}
-
-            {formError && step === 1 ? <ErrorNote text={formError} /> : null}
+    <div>
+      {/* Mobile Cart Summary (Visible on mobile/tablet so cart details & total are right at the top) */}
+      <div className="mb-6 block lg:hidden">
+        <Card className="overflow-hidden border-primary/25 bg-card shadow-sm">
+          <div className="flex items-center justify-between border-b border-primary/10 bg-primary/5 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="border-primary/40 bg-primary/10 text-[10px] font-bold uppercase tracking-wider text-primary">
+                Cart Summary
+              </Badge>
+              <span className="text-xs font-semibold text-foreground">অর্ডার সারসংক্ষেপ</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setMobileSummaryOpen((v) => !v)}
+              className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+            >
+              <span>{mobileSummaryOpen ? "সংক্ষিপ্ত করুন" : "বিস্তারিত দেখুন"}</span>
+              {mobileSummaryOpen ? (
+                <ChevronUp className="h-3.5 w-3.5" />
+              ) : (
+                <ChevronDown className="h-3.5 w-3.5" />
+              )}
+            </button>
+          </div>
+          <CardContent className="p-4 sm:p-5">
+            {mobileSummaryOpen ? (
+              <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
+            ) : (
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-foreground">{items.length}টি বই নির্বাচিত</p>
+                  <p className="text-xs text-muted-foreground">ট্যাপ করে বইয়ের তালিকা ও ফি দেখুন</p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <span className="block text-[11px] text-muted-foreground">সর্বমোট</span>
+                  <span className="font-display text-xl font-extrabold text-brand-gradient">{taka(total)}</span>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
-      </Reveal>
+      </div>
 
-      <Reveal y={12} delay={0.08}>
-        <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
-          <CardContent className="p-6">
-            <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
-            <Separator className="my-4 bg-primary/10" />
-            <ul className="space-y-2 text-xs text-muted-foreground">
-              <li className="flex items-start gap-2">
-                <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                100% original, Sadia Rahman-এর লেখা বই
-              </li>
-              <li className="flex items-start gap-2">
-                <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                {taka(FREE_COURIER_THRESHOLD)}+ অর্ডারে সারাদেশে ফ্রি কুরিয়ার
-              </li>
-              <li className="flex items-start gap-2">
-                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-                Cash on delivery available, ঝুঁকিমুক্ত কেনাকাটা
-              </li>
-            </ul>
-            <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
-              প্রশ্ন থাকলে কল করুন {site.phone}, অথবা অর্ডার করার পর আমরাই আপনাকে কল দেব।
-            </p>
-          </CardContent>
-        </Card>
-      </Reveal>
+      <div className="grid items-start gap-6 lg:grid-cols-[1fr_380px]">
+        {/* Left: steps */}
+        <Reveal y={12}>
+          <Card className="border-primary/20 bg-card">
+            <CardContent className="space-y-6 p-6 md:p-8">
+              <Steps current={step} labels={["Details", "Payment", "Done"]} />
+
+              {step === 1 ? (
+                <DetailsStep form={form} setField={setField} onNext={goNextFromDetails} />
+              ) : null}
+
+              {step === 2 ? (
+                <PaymentStep
+                  form={form}
+                  setField={setField}
+                  method={method}
+                  setMethod={setMethod}
+                  total={total}
+                  onBack={() => setStep(1)}
+                  onPlace={placeOrder}
+                  busy={busy}
+                  error={formError}
+                />
+              ) : null}
+
+              {formError && step === 1 ? <ErrorNote text={formError} /> : null}
+            </CardContent>
+          </Card>
+        </Reveal>
+
+        {/* Right: cart summary (Desktop sticky sidebar) */}
+        <div className="hidden lg:block">
+          <Reveal y={12} delay={0.08}>
+            <Card className="border-primary/20 bg-card lg:sticky lg:top-24">
+              <CardContent className="p-6">
+                <CartSummary zone={form.zone} onEdit={() => setStep(1)} />
+                <Separator className="my-4 bg-primary/10" />
+                <ul className="space-y-2 text-xs text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                    100% original, Sadia Rahman-এর লেখা বই
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Truck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                    {taka(FREE_COURIER_THRESHOLD)}+ অর্ডারে সারাদেশে ফ্রি কুরিয়ার
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                    Cash on delivery available, ঝুঁকিমুক্ত কেনাকাটা
+                  </li>
+                </ul>
+                <p className="mt-4 rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-[11px] leading-relaxed text-primary">
+                  প্রশ্ন থাকলে কল করুন {site.phone}, অথবা অর্ডার করার পর আমরাই আপনাকে কল দেব।
+                </p>
+              </CardContent>
+            </Card>
+          </Reveal>
+        </div>
+      </div>
     </div>
   );
 }
