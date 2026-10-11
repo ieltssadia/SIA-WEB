@@ -86,8 +86,7 @@ export const PUBALI_BANK_QR_PAYMENT = {
   merchantName: "SADIA'S IELTS ACADEMY",
   pblQrId: "PBLQR00504283",
   mobile: "01710190068",
-  address: "Syed Mojibur Rahman Market, Habiganj Road, Sreemangal, Moulvibazar",
-  qrImage: "/images/payments/pubali-bank-qr-card.jpg",
+  qrImage: "/images/payments/pubali-bangla-qr-only.png",
   fullImage: "/images/payments/pubali-bank-qr.jpg",
   note: "PBLQR: PBLQR00504283 · Scan to pay with any Bank or bKash / Nagad / Rocket app",
 };

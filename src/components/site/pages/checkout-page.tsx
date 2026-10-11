@@ -8,9 +8,11 @@ import {
   Banknote,
   BookOpen,
   CalendarDays,
+  Check,
   CheckCircle2,
   ChevronRight,
   Clock,
+  Copy,
   GraduationCap,
   Landmark,
   Loader2,
@@ -24,6 +26,7 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -50,6 +53,7 @@ type PayMethod = {
   label: string;
   note: string;
   icon: LucideIcon;
+  logo?: string;
   color: string;
   needsTxId: boolean;
 };
@@ -58,8 +62,9 @@ const payMethods: PayMethod[] = [
   {
     id: "Pubali Bank (Bangla QR)",
     label: "Pubali Bank Bangla QR (Scan & Pay)",
-    note: "যেকোনো Bank বা বিকাশ/নগদ/রকেট অ্যাপ দিয়ে QR স্ক্যান করে পেমেন্ট",
+    note: "যেকোনো Bank বা বিকাশ/নগদ/রকেট অ্যাপ দিয়ে QR স্ক্যান",
     icon: QrCode,
+    logo: "/images/payments/bangla-qr-icon.png",
     color: "#006837",
     needsTxId: true,
   },
@@ -68,22 +73,25 @@ const payMethods: PayMethod[] = [
     label: "Prime Bank PLC (Bank Transfer)",
     note: "A/C: 2116134025450 · Sadia's IELTS Academy",
     icon: Landmark,
+    logo: "/images/payments/prime-bank-icon.png",
     color: "#0054a6",
     needsTxId: true,
   },
   {
     id: "bKash",
-    label: "bKash",
+    label: "bKash (Send Money)",
     note: `Send Money · ${PAYMENT_RECEIVER.bkash} (Merchant)`,
     icon: Smartphone,
+    logo: "/images/payments/bkash-icon.png",
     color: "#e2136e",
     needsTxId: true,
   },
   {
     id: "Nagad",
-    label: "Nagad",
+    label: "Nagad (Send Money)",
     note: `Send Money · ${PAYMENT_RECEIVER.nagad} (Merchant)`,
     icon: Wallet,
+    logo: "/images/payments/nagad-icon.png",
     color: "#f26522",
     needsTxId: true,
   },
@@ -96,6 +104,48 @@ const payMethods: PayMethod[] = [
     needsTxId: false,
   },
 ];
+
+function CopyRow({ label, value, displayValue }: { label: string; value: string; displayValue?: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(value);
+      setCopied(true);
+      toast.success(`${label} কপি করা হয়েছে`);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-xl bg-card p-2.5 border border-border">
+      <div className="min-w-0 flex-1">
+        <span className="block text-[11px] text-muted-foreground">{label}</span>
+        <span className="block truncate font-mono text-sm font-semibold text-foreground">
+          {displayValue || value}
+        </span>
+      </div>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={handleCopy}
+        className="h-8 shrink-0 gap-1.5 px-2.5 text-xs font-medium"
+      >
+        {copied ? (
+          <>
+            <Check className="h-3.5 w-3.5 text-emerald-600" />
+            <span className="text-emerald-600 font-semibold">কপি হয়েছে</span>
+          </>
+        ) : (
+          <>
+            <Copy className="h-3.5 w-3.5 text-muted-foreground" />
+            <span>কপি</span>
+          </>
+        )}
+      </Button>
+    </div>
+  );
+}
 
 const taka = (n: number) => `৳${n.toLocaleString("en-IN")}`;
 
@@ -419,8 +469,9 @@ function PaymentStep({
       const data = (await res.json().catch(() => null)) as
         | {
             user?: { name: string; phone: string };
-            enrollments?: never[];
-            mocks?: never[];
+            enrollments?: any[];
+            mocks?: any[];
+            certificates?: any[];
             token?: string;
             error?: string;
           }
@@ -486,11 +537,20 @@ function PaymentStep({
               >
                 <RadioGroupItem id={`pay-${m.id}`} value={m.id} />
                 <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white"
-                  style={{ backgroundColor: m.color }}
+                  className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-white p-1.5 shadow-xs overflow-hidden"
                   aria-hidden
                 >
-                  <Icon className="h-4.5 w-4.5" />
+                  {m.logo ? (
+                    <Image
+                      src={m.logo}
+                      alt={m.label}
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <Icon className="h-5 w-5 text-emerald-700" />
+                  )}
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-bold text-foreground">{m.label}</span>
@@ -504,96 +564,150 @@ function PaymentStep({
         {/* Payment Channel Instructions */}
         <div className="mt-4 space-y-4">
           {selected.id === "Pubali Bank (Bangla QR)" ? (
-            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.04] p-4.5">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-                <div className="relative mx-auto h-48 w-40 shrink-0 overflow-hidden rounded-xl border border-border bg-white p-1 shadow-sm sm:mx-0">
+            <div className="overflow-hidden rounded-2xl border-2 border-[#006837]/30 bg-[#006837]/[0.03] p-4 sm:p-5 space-y-4">
+              {/* Card Header */}
+              <div className="flex items-center justify-between gap-2 border-b border-[#006837]/15 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+                    <Image
+                      src="/images/payments/pubali-bank-icon.png"
+                      alt="Pubali Bank PLC"
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                      পূবালী ব্যাংক বাংলা কিউআর
+                      <Badge variant="outline" className="border-[#006837]/40 text-[#006837] dark:text-[#52c286] text-[10px] py-0 px-1.5 font-bold">
+                        BANGLA QR
+                      </Badge>
+                    </h4>
+                    <p className="text-[11px] text-muted-foreground">Pubali Bank PLC · Interoperable QR</p>
+                  </div>
+                </div>
+                <div className="relative h-7 w-12 shrink-0 overflow-hidden">
+                  <Image
+                    src="/images/payments/bangla-qr-icon.png"
+                    alt="Bangla QR"
+                    width={48}
+                    height={28}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* Center Pure QR Section */}
+              <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-zinc-950 p-4 border border-[#006837]/25 shadow-xs">
+                <div className="relative h-56 w-56 sm:h-64 sm:w-64 overflow-hidden rounded-lg bg-white p-2 border border-zinc-200 shadow-xs">
                   <Image
                     src={PUBALI_BANK_QR_PAYMENT.qrImage}
                     alt="Pubali Bank Bangla QR Code"
-                    fill
-                    className="object-contain"
+                    width={256}
+                    height={256}
+                    className="h-full w-full object-contain"
+                    priority
                   />
                 </div>
-                <div className="min-w-0 flex-1 space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-[#006837] text-white">পূবালী ব্যাংক পিএলসি.</Badge>
-                    <Badge variant="outline" className="border-[#006837]/40 text-[#006837] dark:text-[#52c286]">
-                      BANGLA QR
-                    </Badge>
-                  </div>
-                  <h3 className="font-display text-base font-bold text-foreground">
-                    যেকোনো ব্যাংক অথবা MFS অ্যাপ থেকে স্ক্যান করে পেমেন্ট করুন
-                  </h3>
-                  <div className="space-y-1 text-xs text-muted-foreground">
-                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border">
-                      <span>মার্চেন্ট নাম:</span>
-                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
-                    </p>
-                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border font-mono">
-                      <span>Bangla QR ID:</span>
-                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.pblQrId}</strong>
-                    </p>
-                    <p className="flex items-center justify-between rounded-lg bg-card/80 p-2 border border-border">
-                      <span>মোবাইল:</span>
-                      <strong className="text-foreground">{PUBALI_BANK_QR_PAYMENT.mobile}</strong>
-                    </p>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed">
-                    bKash, Nagad, Rocket, Upay, Cellfin বা যেকোনো ব্যাংকের অ্যাপ থেকে QR স্ক্যান করে কোর্স ফি{" "}
-                    <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> পরিশোধ করুন।
-                  </p>
+                <p className="mt-3 text-center text-xs font-semibold text-foreground">
+                  যেকোনো ব্যাংক বা বিকাশ / নগদ / রকেট / উপায় অ্যাপ থেকে QR স্ক্যান করে পেমেন্ট করুন
+                </p>
+                <p className="mt-0.5 text-center text-xs text-muted-foreground">
+                  কোর্স ফি: <strong className="font-bold text-primary">{course.price ? taka(course.price) : ""}</strong>
+                </p>
+              </div>
+
+              {/* Key Details with 1-click Copy */}
+              <div className="space-y-2">
+                <CopyRow label="Bangla QR ID (PBLQR)" value={PUBALI_BANK_QR_PAYMENT.pblQrId} />
+                <CopyRow label="মার্চেন্ট মোবাইল নম্বর" value={PUBALI_BANK_QR_PAYMENT.mobile} />
+                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
+                  <span className="text-muted-foreground">মার্চেন্ট একাউন্ট নাম:</span>
+                  <strong className="text-foreground font-semibold">{PUBALI_BANK_QR_PAYMENT.merchantName}</strong>
                 </div>
               </div>
+
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                💡 QR স্ক্যান করে পেমেন্ট সম্পন্ন করার পর এসএমএস বা অ্যাপ থেকে প্রাপ্ত <strong className="text-foreground">TrxID</strong> নিচের বক্সে লিখে এনরোলমেন্ট কনফার্ম করুন।
+              </p>
             </div>
           ) : selected.id === "Prime Bank" ? (
-            <div className="rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.04] p-4.5 space-y-3">
-              <div className="flex items-center justify-between">
-                <Badge className="bg-[#0054a6] text-white">Prime Bank PLC</Badge>
-                <span className="text-xs font-semibold text-[#0054a6] dark:text-[#5fa8f5]">
-                  Direct Bank Transfer / Deposit
-                </span>
+            <div className="overflow-hidden rounded-2xl border-2 border-[#0054a6]/30 bg-[#0054a6]/[0.03] p-4 sm:p-5 space-y-4">
+              {/* Card Header */}
+              <div className="flex items-center justify-between gap-2 border-b border-[#0054a6]/15 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+                    <Image
+                      src="/images/payments/prime-bank-icon.png"
+                      alt="Prime Bank PLC"
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-foreground">Prime Bank PLC</h4>
+                    <p className="text-[11px] text-muted-foreground">Bank Transfer / BEFTN / NPSB / Deposit</p>
+                  </div>
+                </div>
+                <Badge className="bg-[#0054a6] text-white hover:bg-[#0054a6] text-[10px]">
+                  Official Bank A/C
+                </Badge>
               </div>
-              <h3 className="font-display text-base font-bold text-foreground">
-                প্রাইম ব্যাংক অ্যাকাউন্ট বিবরণী
-              </h3>
-              <div className="space-y-1.5 text-xs">
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border">
-                  <span className="text-muted-foreground">অ্যাকাউন্ট নাম:</span>
-                  <strong className="text-sm font-semibold text-foreground">
-                    {PRIME_BANK_PAYMENT.accountName}
-                  </strong>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border font-mono">
-                  <span className="text-muted-foreground">অ্যাকাউন্ট নম্বর:</span>
-                  <strong className="text-base font-bold text-primary tracking-wider">
-                    {PRIME_BANK_PAYMENT.accountNumber}
-                  </strong>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border">
+
+              {/* Bank Account Details with 1-click Copy */}
+              <div className="space-y-2">
+                <CopyRow label="অ্যাকাউন্ট নম্বর (A/C No)" value={PRIME_BANK_PAYMENT.accountNumber} />
+                <CopyRow label="অ্যাকাউন্ট নাম (A/C Name)" value={PRIME_BANK_PAYMENT.accountName} />
+                <div className="flex items-center justify-between rounded-xl bg-card p-2.5 border border-border text-xs">
                   <span className="text-muted-foreground">ব্যাংক ও শাখা:</span>
-                  <span className="text-foreground font-medium">
-                    {PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}
-                  </span>
+                  <strong className="text-foreground font-medium">{PRIME_BANK_PAYMENT.bankName} · {PRIME_BANK_PAYMENT.branch}</strong>
                 </div>
               </div>
+
               <p className="text-xs text-muted-foreground leading-relaxed">
                 যেকোনো ব্যাংক অ্যাপ, ইন্টারনেট ব্যাংকিং (BEFTN/NPSB/RTGS) অথবা ব্রাঞ্চ ডিপোজিট করে কোর্স ফি{" "}
-                <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> ট্রান্সফার করুন।
+                <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> ট্রান্সফার করুন এবং রেফারেন্স বা TrxID নিচে দিন।
               </p>
             </div>
           ) : selected.id === "bKash" || selected.id === "Nagad" ? (
-            <div className="rounded-xl border border-border bg-muted/50 p-4">
-              <p className="text-sm font-bold text-foreground">
-                {selected.label}: Send Money · {course.price ? taka(course.price) : ""}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                {selected.label} অ্যাপ থেকে <span className="font-bold text-primary">{PAYMENT_RECEIVER.full}</span> নম্বরে টাকা Send Money করুন। Reference-এ আপনার ফোন নম্বর লিখুন।
+            <div className="overflow-hidden rounded-2xl border-2 border-primary/20 bg-card p-4 sm:p-5 space-y-3.5">
+              <div className="flex items-center justify-between gap-2 border-b border-border pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
+                    <Image
+                      src={selected.id === "bKash" ? "/images/payments/bkash-icon.png" : "/images/payments/nagad-icon.png"}
+                      alt={selected.label}
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-foreground">{selected.label} Send Money</h4>
+                    <p className="text-[11px] text-muted-foreground">Personal / Merchant Receiver</p>
+                  </div>
+                </div>
+                <Badge variant="outline" className="text-xs font-bold">
+                  {course.price ? taka(course.price) : ""}
+                </Badge>
+              </div>
+
+              <CopyRow label="রিসিভার নম্বর (Send Money)" value={PAYMENT_RECEIVER.full} displayValue={PAYMENT_RECEIVER.bkash} />
+
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {selected.label} অ্যাপ থেকে <strong className="text-foreground">{PAYMENT_RECEIVER.full}</strong> নম্বরে{" "}
+                <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> Send Money করুন। টাকা পাঠানোর পর পাওয়া TrxID নিচে লিখুন।
               </p>
             </div>
           ) : (
-            <div className="rounded-xl border border-border bg-muted/50 p-4">
-              <p className="text-sm font-bold text-foreground">অফিস পেমেন্ট</p>
-              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+            <div className="rounded-2xl border border-border bg-card p-4.5 space-y-2">
+              <div className="flex items-center gap-2 text-foreground font-bold text-sm">
+                <Banknote className="h-4.5 w-4.5 text-primary" />
+                অফিস পেমেন্ট (ক্যাশ)
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 শ্রীমঙ্গল ক্যাম্পাসে (সৈয়দ মুজিবুর রহমান মার্কেট, ২য় তলা, চৌমুহনা) এসে সরাসরি ক্যাশ জমা দিয়ে ভর্তি নিশ্চিত করুন।
               </p>
             </div>
