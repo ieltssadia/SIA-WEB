@@ -214,7 +214,11 @@
   background: radial-gradient(closest-side, rgba(168, 127, 42, 0.14), transparent);
 }
 
-/* ── Lenis smooth scroll ────────────────────────────────────────────── */
+/* ── Lenis smooth scroll & sticky header offset ────────────────────── */
+html {
+  scroll-padding-top: 5rem;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;

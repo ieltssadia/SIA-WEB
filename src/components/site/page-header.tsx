@@ -18,7 +18,7 @@ export function PageHeader({
   crumbs?: Crumb[];
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-primary/10">
+    <section className="relative overflow-hidden border-b border-primary/10 scroll-mt-20">
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 top-0 h-[360px] w-[360px] rounded-full bg-radial-glow blur-2xl"
@@ -27,7 +27,7 @@ export function PageHeader({
         aria-hidden
         className="pointer-events-none absolute -right-24 bottom-0 h-[320px] w-[320px] rounded-full bg-radial-glow blur-2xl"
       />
-      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:py-14 md:py-20 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 py-6 sm:py-10 md:py-16 lg:px-8">
         <Reveal y={12}>
           <nav aria-label="Breadcrumb" className="mb-3 sm:mb-4 overflow-x-auto pb-1">
             <ol className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">

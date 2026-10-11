@@ -397,14 +397,18 @@ function OfferCountdownBanner() {
   if (!left) return null; // hydration-safe: nothing before mount
   return (
     <div
-      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-gradient-to-r from-[#211b10] via-[#15120b] to-[#211b10] px-4 py-3 text-center"
+      className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-gradient-to-r from-[#211b10] via-[#15120b] to-[#211b10] px-3.5 py-2.5 sm:px-4 sm:py-3 text-center"
       role="status"
     >
-      <Timer className="h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
-      <p className="text-sm text-[#f6ecd4]">
-        <span className="font-semibold text-[#d9b75c]">Admission offer শেষ হতে বাকি: {left}</span>{" "}
-        <span className="text-[#c6b995]">এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।</span>
-      </p>
+      <div className="flex items-center gap-1.5">
+        <Timer className="h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
+        <span className="font-semibold text-xs sm:text-sm text-[#d9b75c]">
+          Admission offer শেষ হতে বাকি: {left}
+        </span>
+      </div>
+      <span className="text-[11px] sm:text-xs text-[#c6b995]">
+        এই মূল্যে আপনার সিট এখনই নিশ্চিত করুন।
+      </span>
     </div>
   );
 }
@@ -913,6 +917,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
     return (
       <>
         <PageHeader
+          crumbs={[{ label: "Shop", href: "/shop" }, { label: "Checkout" }]}
           title={
             cartHasItems ? (
               <>
@@ -936,7 +941,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
                 : "যে কোর্সে ভর্তি হতে চান বেছে নিন। payment-এর পরই কোর্সটি আপনার Student Portal-এ চলে আসবে।"
           }
         />
-        <section className="py-10 md:py-14">
+        <section className="pt-3 pb-12 sm:pt-6 sm:pb-16 md:py-14">
           <div className="mx-auto max-w-7xl px-4 lg:px-8">
             <CartCheckout />
 
@@ -971,13 +976,14 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
     return (
       <>
         <PageHeader
+          crumbs={[{ label: "Courses", href: "/courses" }, { label: "Checkout" }]}
           title={
             <>
               Already <span className="text-brand-gradient">enrolled</span>
             </>
           }
         />
-        <section className="py-10 md:py-14">
+        <section className="pt-3 pb-12 sm:pt-6 sm:pb-16 md:py-14">
           <div className="mx-auto max-w-2xl px-4 lg:px-8">
             <div className="rounded-3xl border border-primary/25 bg-card p-8 text-center">
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient">
@@ -1006,6 +1012,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
   return (
     <>
       <PageHeader
+        crumbs={[{ label: "Courses", href: "/courses" }, { label: "Checkout" }]}
         title={
           <>
             Enroll in <span className="text-brand-gradient">{course.title}</span>
@@ -1014,7 +1021,7 @@ export function CheckoutPage({ initialCourse }: { initialCourse: string | null }
         subtitle="২ ধাপে ভর্তি সম্পন্ন করুন: account, তারপর payment। কোর্স সাথে সাথেই পোর্টালে যুক্ত হবে।"
       />
 
-      <section className="py-10 md:py-14">
+      <section className="pt-3 pb-12 sm:pt-6 sm:pb-16 md:py-14">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {step === 3 && course && enrolledBatch && user ? (
             <div className="mx-auto max-w-3xl">

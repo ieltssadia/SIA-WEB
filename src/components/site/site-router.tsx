@@ -97,10 +97,20 @@ export function SiteRouter() {
       };
       requestAnimationFrame(tick);
     } else {
-      if (lenis) lenis.scrollTo(0, { immediate: true });
-      else window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      if (typeof document !== "undefined") {
+        if (document.documentElement) document.documentElement.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
+      }
+      if (lenis) {
+        try {
+          lenis.scrollTo(0, { immediate: true });
+        } catch {
+          // lenis safely caught
+        }
+      }
     }
-  }, [rawHash]);
+  }, [rawHash, route]);
 
   // Admin panel renders FULL-SCREEN — no public header/footer/CTA.
   // (Early return: every hook above has already run, so this is safe.)
