@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, ExternalLink, Quote, Star, Trophy } from "lucide-react";
+import Image from "next/image";
+import { CheckCircle2, ExternalLink, FileCheck, Quote, Star, Trophy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +24,37 @@ function initials(name: string) {
     .join("")
     .toUpperCase();
 }
+
+const SCORECARDS = [
+  {
+    image: "/images/students/success-8.5-1.jpg",
+    band: "Band 8.5",
+    tag: "Overall Band 8.5",
+    details: "Listening 8.5 · Reading 9.0 · Speaking 8.0 · Writing 7.5",
+    caption: "Official British Council TRF",
+  },
+  {
+    image: "/images/students/success-8.0-1.jpg",
+    band: "Band 8.0",
+    tag: "Overall Band 8.0",
+    details: "Listening 8.5 · Reading 8.5 · Speaking 7.5 · Writing 7.0",
+    caption: "IDP IELTS Candidate Result",
+  },
+  {
+    image: "/images/students/success-8.0-2.jpg",
+    band: "Band 8.0",
+    tag: "Overall Band 8.0",
+    details: "Listening 8.0 · Reading 8.5 · Speaking 7.5 · Writing 7.5",
+    caption: "British Council Verified Result",
+  },
+  {
+    image: "/images/students/success-8.0-3.jpg",
+    band: "Band 8.0",
+    tag: "Overall Band 8.0",
+    details: "Listening 9.0 · Reading 8.0 · Speaking 7.5 · Writing 7.0",
+    caption: "Academic IELTS Report Form",
+  },
+];
 
 const CATEGORIES = [
   { id: "all", label: "সব রিভিউ" },
@@ -49,11 +81,75 @@ export function StoriesSection() {
         <SectionHeading
           title={
             <>
-              Real Students. <span className="text-brand-gradient">Real Facebook Reviews.</span>
+              Real Students. <span className="text-brand-gradient">Real IELTS Success.</span>
             </>
           }
-          subtitle="আমাদের ফেসবুক পেজের অফিসিয়াল রিভিউ ও রেকমেন্ডেশন — শিক্ষার্থীদের সরাসরি অভিজ্ঞতা।"
+          subtitle="ব্রিটিশ কাউন্সিল ও IDP পরীক্ষায় আমাদের শিক্ষার্থীদের ব্যান্ড স্কোর এবং অফিসিয়াল ফেসবুক রিভিউ।"
         />
+
+        {/* Verified IELTS TRF Scorecards Showcase (banglayielts style) */}
+        <div className="mb-14">
+          <Reveal y={10}>
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                  <FileCheck className="h-3.5 w-3.5" />
+                  Official Test Report Forms (TRF)
+                </span>
+                <h3 className="mt-2 font-display text-lg font-bold sm:text-xl text-foreground">
+                  ব্যান্ড ৮.০ ও ৮.৫ অর্জনের <span className="text-brand-gradient">অফিসিয়াল স্কোরকার্ড</span>
+                </h3>
+              </div>
+              <p className="text-xs text-muted-foreground sm:text-sm">
+                সরাসরি ব্রিটিশ কাউন্সিল ও IDP টেস্ট রেজাল্ট
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6">
+            {SCORECARDS.map((card, i) => (
+              <Reveal key={card.image} delay={i * 0.08}>
+                <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_15px_30px_rgba(169,127,42,0.12)]">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
+                    <Image
+                      src={card.image}
+                      alt={card.tag}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"
+                    />
+
+                    {/* Top Score Badge */}
+                    <div className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3">
+                      <Badge className="border-primary/40 bg-brand-gradient font-bold text-white shadow-md text-[10px] sm:text-xs">
+                        <Trophy className="mr-1 h-3 w-3" />
+                        {card.band}
+                      </Badge>
+                    </div>
+
+                    {/* Bottom info */}
+                    <div className="absolute inset-x-0 bottom-0 p-3 sm:p-3.5 text-white">
+                      <p className="font-display text-xs font-bold leading-tight">
+                        {card.caption}
+                      </p>
+                      <p className="mt-1 text-[10px] sm:text-[11px] font-medium text-[#f6ecd4] opacity-90 line-clamp-1">
+                        {card.details}
+                      </p>
+                      <div className="mt-1.5 flex items-center gap-1 text-[10px] font-semibold text-emerald-400">
+                        <CheckCircle2 className="h-3 w-3" />
+                        <span>Verified TRF</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
 
         {/* Official Facebook Rating Banner */}
         <Reveal y={10}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   BookOpen,
@@ -174,10 +175,39 @@ function EnrollCta({ course, large = false }: { course: Course; large?: boolean 
   );
 }
 
+const COURSE_PHOTOS: Record<string, string> = {
+  "complete-ielts": "/images/courses/ielts-complete.jpg",
+  "ielts-complete": "/images/courses/ielts-complete.jpg",
+  "basic-english": "/images/courses/ielts-beginner.jpg",
+  "beginner-ielts": "/images/courses/ielts-beginner.jpg",
+  "crash-course": "/images/courses/ielts-crash.jpg",
+  "ielts-crash": "/images/courses/ielts-crash.jpg",
+  "speaking-mock": "/images/courses/speaking-club.jpg",
+  "speaking-club": "/images/courses/speaking-club.jpg",
+  "writing-booster": "/images/courses/writing-clinic.jpg",
+  "writing-clinic": "/images/courses/writing-clinic.jpg",
+  "mock-test": "/images/courses/mock-test.jpg",
+};
+
+const COURSE_FALLBACKS = [
+  "/images/courses/ielts-complete.jpg",
+  "/images/courses/ielts-beginner.jpg",
+  "/images/courses/ielts-crash.jpg",
+  "/images/courses/speaking-club.jpg",
+  "/images/courses/writing-clinic.jpg",
+  "/images/courses/mock-test.jpg",
+];
+
+function getCoursePhoto(slug: string, category: string, index: number) {
+  if (COURSE_PHOTOS[slug]) return COURSE_PHOTOS[slug];
+  if (category === "beginner") return "/images/courses/ielts-beginner.jpg";
+  if (category === "exam") return "/images/courses/ielts-crash.jpg";
+  return COURSE_FALLBACKS[index % COURSE_FALLBACKS.length];
+}
+
 /**
- * 10MS-style course card: jewel pastel visual anchor on top, one-line title,
- * one hook line, 1–2 stats, price row + a single CTA. Body copy, feature
- * lists and batch blocks live on the course-detail page, not here.
+ * Course card: photographic academic visual anchor on top (banglayielts.com style),
+ * one-line title, one hook line, 1–2 stats, price row + a single CTA.
  *
  * `variant="featured"` renders the large horizontal bento card (col-span-2).
  */
@@ -191,7 +221,6 @@ export function CourseCard({
   variant?: "compact" | "featured";
 }) {
   const Icon = courseIconMap[course.icon] ?? BookOpen;
-  const pastel = PASTEL_PANELS[index % PASTEL_PANELS.length];
   const isFeatured = variant === "featured";
 
   return (
@@ -204,60 +233,55 @@ export function CourseCard({
           isFeatured ? "sm:flex-row" : ""
         }`}
       >
-        {/* Jewel pastel panel — the visual anchor */}
+        {/* Editorial photographic header — banglayielts.com style with subtle gradient & zoom */}
         <div
-          className={`relative shrink-0 ${pastel.panel} ${
+          className={`relative overflow-hidden shrink-0 ${
             isFeatured
-              ? "flex h-40 items-center justify-center sm:h-auto sm:min-h-[240px] sm:w-[42%]"
-              : "flex h-24 items-center justify-between gap-3 px-5"
+              ? "h-48 sm:h-auto sm:min-h-[240px] sm:w-[42%]"
+              : "h-36 sm:h-40 w-full"
           }`}
         >
-          {/* Decorative rings */}
-          <div
-            aria-hidden
-            className="absolute -right-8 -top-10 h-32 w-32 rounded-full border-[10px] border-white/35"
+          <Image
+            src={getCoursePhoto(course.slug, course.category, index)}
+            alt={course.title}
+            fill
+            sizes={isFeatured ? "(max-width: 640px) 100vw, 42vw" : "(max-width: 768px) 100vw, 33vw"}
+            className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
           />
+          {/* Dark gradient scrim for maximum legibility */}
           <div
             aria-hidden
-            className="absolute right-16 top-6 h-3 w-3 rounded-full bg-white/50"
+            className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10"
           />
 
-          {/* Tag chip — absolute on the bento panel, in-flow (left) on compact
-              cards so the hover-scaling icon can never cover the label */}
-          {isFeatured ? (
+          {/* Tag chip */}
+          {course.tag && (
             <span
-              className={`absolute left-4 top-4 rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
-            >
-              {course.tag}
-            </span>
-          ) : (
-            <span
-              className={`min-w-0 truncate rounded-full border border-ink/10 ${pastel.soft} px-3 py-1 text-[11px] font-bold ${pastel.ink}`}
+              className="absolute left-3.5 top-3.5 z-10 rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[11px] font-bold text-white shadow-sm backdrop-blur-md"
             >
               {course.tag}
             </span>
           )}
 
+          {/* Floating Icon disc */}
           <span
-            className={`flex shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(30,27,20,0.14)] transition-transform duration-300 group-hover:scale-110 ${pastel.ink} ${
-              isFeatured ? "h-20 w-20" : "h-14 w-14"
-            }`}
+            className="absolute right-3.5 top-3.5 z-10 flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/95 text-ink shadow-sm backdrop-blur-md transition-transform duration-300 group-hover:scale-110"
           >
-            <Icon className={isFeatured ? "h-10 w-10" : "h-7 w-7"} aria-hidden />
+            <Icon className="h-4.5 w-4.5 text-primary" aria-hidden />
           </span>
 
-          {isFeatured ? (
-            <span
-              className={`absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full ${pastel.soft} px-3 py-1 text-[11px] font-semibold ${pastel.ink}`}
-            >
-              <span
-                className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-600"
-                aria-hidden
-              />
+          {/* Bottom info strip on image */}
+          <div className="absolute inset-x-3.5 bottom-3 z-10 flex items-center justify-between text-[11px] font-semibold text-white/95">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-0.5 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
               ভর্তি চলমান
-              {course.seatsLeft ? `, মাত্র ${course.seatsLeft} সিট বাকি!` : ""}
             </span>
-          ) : null}
+            {course.seatsLeft ? (
+              <span className="rounded-full bg-red-600/90 px-2 py-0.5 text-[10px] text-white backdrop-blur-sm">
+                {course.seatsLeft} সিট বাকি
+              </span>
+            ) : null}
+          </div>
         </div>
 
         <CardContent

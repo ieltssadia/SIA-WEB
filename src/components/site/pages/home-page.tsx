@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Hero } from "@/components/site/hero";
 import { StatsStrip } from "@/components/site/stats-strip";
+import { AccreditationsSection } from "@/components/site/accreditations-section";
 import { CoursesSection } from "@/components/site/courses-section";
 import { CambridgeTeaser } from "@/components/site/cambridge-teaser";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
@@ -170,6 +171,7 @@ export function HomePage() {
     <>
       <Hero />
       <StatsStrip />
+      <AccreditationsSection />
       <CoursesSection featured />
       <CambridgeTeaser />
       <HowItWorksSection />
