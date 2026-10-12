@@ -63,9 +63,8 @@ export function zoneLabel(value: string): string {
 
 /** Manual send-money channels — the online gateway plugs in beside these later. */
 export const PAYMENT_RECEIVER = {
-  bkash: "01752-716238",
-  nagad: "01752-716238",
-  full: "01752716238",
+  bkash: "01710190068",
+  full: "01710190068",
 };
 
 /** Official Prime Bank Account for direct transfer / deposit */
@@ -78,7 +77,7 @@ export const PRIME_BANK_PAYMENT = {
   note: "Account No: 2116134025450 · Sadia's IELTS Academy · Prime Bank PLC",
 };
 
-/** Official Pubali Bank Bangla QR (Interoperable QR — any Bank or bKash/Nagad/Rocket app) */
+/** Official Pubali Bank Bangla QR (Interoperable QR — any Bank or bKash/Rocket app) */
 export const PUBALI_BANK_QR_PAYMENT = {
   id: "Pubali Bank (Bangla QR)",
   bankName: "Pubali Bank PLC",
@@ -88,6 +87,6 @@ export const PUBALI_BANK_QR_PAYMENT = {
   mobile: "01710190068",
   qrImage: "/images/payments/pubali-bangla-qr-only.png",
   fullImage: "/images/payments/pubali-bank-qr.jpg",
-  note: "PBLQR: PBLQR00504283 · Scan to pay with any Bank or bKash / Nagad / Rocket app",
+  note: "PBLQR: PBLQR00504283 · Scan to pay with any Bank or bKash / Rocket app",
 };
 

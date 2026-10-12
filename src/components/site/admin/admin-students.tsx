@@ -488,13 +488,13 @@ function DirectEnrollmentDialog({
 
               <div className="space-y-1">
                 <Label htmlFor="target-band" className="text-xs">
-                  টার্গেট ব্যান্ড (Target Band)
+                  টার্গেট ওভারঅল ব্যান্ড (Target Overall Band)
                 </Label>
                 <Input
                   id="target-band"
                   value={targetBand}
                   onChange={(e) => setTargetBand(e.target.value)}
-                  placeholder="7.5"
+                  placeholder="7.5 (Overall Band Score)"
                 />
               </div>
             </div>
@@ -770,7 +770,7 @@ function StudentSheet({
                     </div>
                     <div className="space-y-1">
                       <Label htmlFor="inline-band" className="text-[11px] font-semibold text-muted-foreground">
-                        টার্গেট ব্যান্ড
+                        টার্গেট ওভারঅল ব্যান্ড (Overall Band)
                       </Label>
                       <Input
                         id="inline-band"

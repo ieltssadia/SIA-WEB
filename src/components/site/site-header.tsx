@@ -3,7 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, HeartHandshake, Lightbulb, Mail, Menu, Phone, MapPin, Quote, Users, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X, type LucideIcon } from "lucide-react";
+import { Facebook, HeartHandshake, Instagram, Lightbulb, Mail, Menu, Phone, MapPin, Quote, Users, GraduationCap, LayoutDashboard, LogIn, Search, ShoppingBag, Timer, X, Youtube, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -143,15 +143,35 @@ export function SiteHeader() {
               <MapPin className="h-3 w-3 text-primary" aria-hidden />
               {site.addressShort}
             </span>
-            <a
-              href={site.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Sadia's IELTS on Facebook"
-              className="transition-colors hover:text-primary"
-            >
-              <Facebook className="h-3.5 w-3.5" />
-            </a>
+            <div className="flex items-center gap-3">
+              <a
+                href={site.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Sadia's IELTS on Facebook"
+                className="transition-colors hover:text-primary"
+              >
+                <Facebook className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href={site.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Sadia's IELTS on YouTube"
+                className="transition-colors hover:text-primary"
+              >
+                <Youtube className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href={site.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Sadia's IELTS on Instagram"
+                className="transition-colors hover:text-primary"
+              >
+                <Instagram className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -404,6 +424,35 @@ export function SiteHeader() {
                         <span className="truncate">{site.phone}</span>
                       </a>
                     </Button>
+                    <div className="flex items-center justify-center gap-4 pt-2">
+                      <a
+                        href={site.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/40 text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+                        aria-label="Facebook"
+                      >
+                        <Facebook className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={site.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/40 text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+                        aria-label="YouTube"
+                      >
+                        <Youtube className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={site.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/40 text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+                        aria-label="Instagram"
+                      >
+                        <Instagram className="h-4 w-4" />
+                      </a>
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>

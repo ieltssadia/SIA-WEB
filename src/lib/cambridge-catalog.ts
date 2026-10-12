@@ -72,112 +72,155 @@ export const SAMPLE_LISTENING_TEST_1: { durationMin: number; parts: ListeningPar
   parts: [
     {
       n: 1,
-      title: "Part 1 — Accommodation & City Relocation Inquiry",
-      scenario: "A conversation between a prospective tenant and a rental agent in Cambridge.",
-      audio: "/audio/cambridge/listening-part1.wav",
-      transcript: `AGENT: Good morning, City & Country Lettings. How can I help you?
-CALLER: Hello. I'm moving to Cambridge next month for post-graduate research, and I'm looking for a self-contained flat or studio.
-AGENT: Certainly. When exactly are you intending to move in?
-CALLER: My course starts on the 15th of October, so I'd like the lease to begin on the 1st of October if possible.
-AGENT: That's great. And what is your maximum monthly budget?
-CALLER: Well, ideally around eight hundred and fifty pounds, but I could stretch to nine hundred and twenty pounds including water and broadband.
-AGENT: We have a lovely furnished studio on Victoria Road. It's just a ten-minute walk from the city centre and very close to the river.
-CALLER: That sounds convenient. Does it have private laundry facilities?
-AGENT: Yes, there is a combined washer-dryer in the utility cupboard, and the heating is powered by electric radiators.
-CALLER: Perfect. Is parking available?
-AGENT: There is a secure underground space for one vehicle, but it requires a permit fee of twenty-five pounds per month.
-CALLER: I don't drive, so bicycle storage is more important for me.
-AGENT: There is a locked shed in the communal garden specifically for bikes.
-CALLER: Brilliant. Could I arrange a virtual viewing this Friday?
-AGENT: Friday at three fifteen in the afternoon is available. Can I take your full name and email?
-CALLER: Yes, my name is Edward Mitchell, and my email is edward.mitchell@studentmail.ac.uk.`,
+      title: "Part 1 — Hinchingbrooke Country Park School Visit",
+      scenario: "A telephone conversation between a school teaching assistant and a country park ranger discussing an educational field trip.",
+      audio: "/audio/cambridge/listening-part1.mp3",
+      transcript: `SALLY: Good morning. Hinchingbrooke Country Park, Sally speaking. I'm one of the rangers.
+JOHN: Oh hello. My name's John Chapman, and I'm a teaching assistant at a local primary school. I've been asked to arrange a visit to the park for two of our classes.
+SALLY: OK. What would you like to know?
+JOHN: Well, I'm new to this area, so perhaps you could tell me something about the park first, please.
+SALLY: Of course. Altogether the park covers 170 acres, that's 69 hectares. There are three main types of habitat: wetland, grassland and woodland. The woods are well established and varied, with an oak plantation, and other areas of mixed species.
+JOHN: Right.
+SALLY: The wetland is quite varied, too. The original farmland was dug up around 40 years ago to extract gravel. Once this work was completed, the gravel pits filled with water, forming the two large lakes. There are also several smaller ones, ponds and a stream that flows through the park.
+JOHN: OK, so I suppose with these different habitats there's quite a variety of wildlife.
+SALLY: There certainly is – a lot of different species of birds and insects, and also animals like deer and rabbits.
+JOHN: And I understand you organise educational visits for school parties.
+SALLY: That's right. We can organise a wide range of activities and adapt them to suit all ages.
+JOHN: Can you give me some examples of the activities?
+SALLY: Well, one focus is on science, where we help children to discover and study plants, trees and insects. They also collect and analyse data about the things they see.
+JOHN: Uhuh.
+SALLY: Another focus is on geography. The park is a great environment to learn and practice reading a map and using a compass to navigate around the park.
+JOHN: Do you do anything connected with history?
+SALLY: Yes, we do. For instance, the children can explore how the use of the land has changed over time. Then there's leisure and tourism.
+JOHN: That focuses on your visitors, I would imagine.
+SALLY: Yes, mostly. The children find out about them, their requirements, the problems they may cause and how we manage these. And another subject we cover is music: here the children experiment with natural materials to create sounds and explore rhythm and tempo.
+JOHN: That must be fun!
+SALLY: Most children really enjoy it. And of course, all the activities are educational, too. Learning outside the classroom encourages children to be creative, and to explore and discover for themselves.
+JOHN: I would imagine they get a sense of freedom that might not be a normal part of their lives.
+SALLY: That's right. And very often the children discover that they can do things they didn't know they could do, and they develop new skills. This gives them greater self-confidence.
+JOHN: It sounds great. So, what about the practical side of it? How much does it cost for a full-day visit? We would expect to bring between 30 and 40 children.
+SALLY: If there are over 30, it costs £4.95 for each child who attends on the day. We invoice you afterwards, so you don't pay for children who can't come because of sickness, for example. There's no charge for leaders and other adults - as many as you want to bring.
+JOHN: That sounds very fair. Well, thanks for all the information. I'll need to discuss it with my colleagues, and I hope to get back to you soon to make a booking.
+SALLY: We'll look forward to hearing from you. Goodbye.
+JOHN: Goodbye, and thank you.`,
       questions: [
-        { n: 1, type: "blank", label: "Preferred move-in date: 1st of ______", answer: "October", accept: ["Oct"], explanation: "Caller says 'I'd like the lease to begin on the 1st of October'." },
-        { n: 2, type: "blank", label: "Maximum monthly budget: £______", answer: "920", accept: ["nine hundred and twenty", "920 pounds"], explanation: "He states he could stretch to £920 including utilities." },
-        { n: 3, type: "blank", label: "Location of the studio: ______ Road", answer: "Victoria", accept: ["victoria"], explanation: "The agent describes a studio on Victoria Road." },
-        { n: 4, type: "blank", label: "Distance to city centre: ______ minutes on foot", answer: "10", accept: ["ten"], explanation: "Agent: 'just a ten-minute walk from the city centre'." },
-        { n: 5, type: "blank", label: "Heating type in the flat: ______ radiators", answer: "electric", explanation: "Agent mentions 'the heating is powered by electric radiators'." },
-        { n: 6, type: "blank", label: "Car parking permit costs £______ monthly", answer: "25", accept: ["twenty-five"], explanation: "Agent: 'it requires a permit fee of twenty-five pounds per month'." },
-        { n: 7, type: "blank", label: "Bicycles can be kept in a locked ______ in the garden", answer: "shed", explanation: "Agent: 'locked shed in the communal garden specifically for bikes'." },
-        { n: 8, type: "blank", label: "Viewing scheduled for Friday at ______ p.m.", answer: "3:15", accept: ["3.15", "three fifteen", "quarter past three"], explanation: "Agent: 'Friday at three fifteen in the afternoon'." },
-        { n: 9, type: "blank", label: "Tenant's surname: ______", answer: "Mitchell", explanation: "Caller gives name: 'Edward Mitchell'." },
-        { n: 10, type: "blank", label: "Tenant is coming to Cambridge for post-graduate ______", answer: "research", explanation: "Caller: 'moving to Cambridge next month for post-graduate research'." },
+        { n: 1, type: "blank", label: "Total area of the country park: ______ acres (69 hectares)", answer: "170", accept: ["one hundred and seventy", "170 acres"], explanation: "Sally mentions: 'Altogether the park covers 170 acres'." },
+        { n: 2, type: "blank", label: "Gravel extraction took place around ______ years ago", answer: "40", accept: ["forty"], explanation: "Sally notes: 'The original farmland was dug up around 40 years ago to extract gravel'." },
+        { n: 3, type: "blank", label: "Three main habitats: wetland, grassland and ______", answer: "woodland", accept: ["woods"], explanation: "Sally: 'three main types of habitat: wetland, grassland and woodland'." },
+        { n: 4, type: "blank", label: "Two large lakes formed after gravel pits filled with ______", answer: "water", explanation: "Sally: 'the gravel pits filled with water, forming the two large lakes'." },
+        { n: 5, type: "blank", label: "Science activity: study plants, trees and ______", answer: "insects", explanation: "Sally: 'help children to discover and study plants, trees and insects'." },
+        { n: 6, type: "blank", label: "Geography activity: practicing how to read a ______ and use a compass", answer: "map", explanation: "Sally: 'learn and practice reading a map and using a compass'." },
+        { n: 7, type: "blank", label: "History activity: exploring how the use of the ______ changed over time", answer: "land", explanation: "Sally: 'children can explore how the use of the land has changed over time'." },
+        { n: 8, type: "blank", label: "Music activity: using natural materials to explore rhythm and ______", answer: "tempo", explanation: "Sally: 'create sounds and explore rhythm and tempo'." },
+        { n: 9, type: "blank", label: "Developing new outdoor skills provides children with greater ______", answer: "self-confidence", accept: ["confidence"], explanation: "Sally: 'This gives them greater self-confidence'." },
+        { n: 10, type: "blank", label: "Cost per child for groups over 30: £______", answer: "4.95", accept: ["4.95 pounds", "four ninety-five"], explanation: "Sally: 'If there are over 30, it costs £4.95 for each child'." },
       ],
     },
     {
       n: 2,
-      title: "Part 2 — Local Heritage Park & Conservation Guide",
-      scenario: "A presentation by a park ranger introducing improvements to Oakwood Nature Reserve.",
-      audio: "/audio/cambridge/listening-part2.wav",
-      transcript: `RANGER: Good evening everyone, and welcome to this briefing on the redevelopment of Oakwood Nature Reserve. Over the last eighteen months, our volunteers and council team have completed several major conservation upgrades.
-First, regarding accessibility: the main wetland boardwalk has been completely reconstructed using recycled composite timber, ensuring wheelchair and pram access throughout the year, even during spring floods.
-For wildlife enthusiasts, we have opened two brand-new observation hides overlooking the western reedbeds. The Kingfisher Hide is open from dawn till dusk, while the Heron Pavilion requires advance key-card registration to prevent disturbance during the nesting season between March and July.
-If you're bringing children, the new sensory woodland trail starts right behind the Visitor Centre. It features touch-and-feel wood carvings, audio boxes playing native bird calls, and an interactive insect hotel designed by pupils from the local primary school.
-Please take note of a few safety regulations: dogs must remain on leads at all times in the meadow area to protect ground-nesting lapwings, and cycling is restricted strictly to the perimeter paved path marked with blue arrows.
-Finally, our annual bat-watching walk will take place on Saturday the 24th of August. Spaces are capped at thirty participants, so please sign up at the information desk before you leave tonight.`,
+      title: "Part 2 — Stanthorpe Twinning Association & Farley House",
+      scenario: "An address to the Stanthorpe Twinning Association detailing a French exchange visit and an excursion to Farley House.",
+      audio: "/audio/cambridge/listening-part2.mp3",
+      transcript: `SPEAKER: It's great to see so many members of the Twinning Association here tonight. Since the twinning link between our two towns, Stanthorpe here in England and Malatte in France, was established, the relationship between the towns has gone from strength to strength.
+Last month, 25 members of the association from Stanthorpe spent a weekend in Malatte. Our hosts had arranged a great programme. We learned how cheese is produced in the region and had the chance to taste the products. The theme park trip had to be cancelled, but we all had a great time on the final boat trip down the river - that was the real highlight.
+This is a special year for the Association because it's 25 years since we were founded. In Malatte, they're planning to mark this by building a footbridge in the municipal park. We've been discussing what to do here and we've decided to plant a poplar tree in the museum gardens. We considered buying a garden seat to put there, but the authorities weren't happy with that idea.
+In terms of fundraising to support our activities, we've done very well. Our pancake evening was well attended and made record profits. And everyone enjoyed the demonstration of French cookery, which was nearly as successful. Numbers for our film show were limited because of the venue so we're looking for somewhere bigger next year.
+We're looking forward to welcoming our French visitors here next week, and I know that many of you here will be hosting individuals or families. The coach from France will arrive at 5 pm on Friday. Don't try to do too much that first evening as they'll be tired, so have dinner in the house or garden rather than eating out. The weather looks as if it'll be OK so you might like to plan a barbecue. Then the next morning's market day in town, and that's always a good place to stroll round.
+On Saturday evening, we'll all meet up at the football club, where once again we'll have Toby Sharp and his band performing English and Scottish country songs. Toby will already be well known to many of you as last year he organized our special quiz night and presented the prizes.
+Now on Sunday, we'll be taking our visitors to Farley House. There's an excellent farm shop in the grounds where our visitors can buy local produce – it's in the old stables, which is the first building you come to. They're built round a courtyard, and the shop's in the far corner on the left. There's also a small café on the right as you go in.
+I know that one or two of our visitors may not be all that mobile. The main entrance to the house has a lot of steps so you might want to use the disabled entry. This is on the far side of the house from the car park.
+Children will probably be most interested in the adventure playground. That's at the northern end of the larger lake, in a bend on the path that leads to the lake.
+There are a number of lovely gardens near the house. The kitchen gardens are rectangular and surrounded by a wall. They're to the north-east of the house, quite near the smaller lake. They're still in use and have a great collection of fruit and vegetables.
+The Temple of the Four Winds is a bit more of a walk – but it's worth it. Take the path from the car park and go past the western sides of the stables and the house. Then when the path forks, take the right-hand path. Go up there with the woods on your left and the temple is right at the end. There are great views over the whole area.`,
       questions: [
-        { n: 11, type: "mcq", label: "What material was used to rebuild the wetland boardwalk?", options: ["Treated oak planks", "Recycled composite timber", "Reinforced concrete", "Stainless steel grid"], answer: "Recycled composite timber", explanation: "'completely reconstructed using recycled composite timber'." },
-        { n: 12, type: "mcq", label: "Why does the Heron Pavilion require key-card access?", options: ["To prevent overcrowding", "To charge entry fees", "To protect birds during nesting season", "For maintenance work"], answer: "To protect birds during nesting season", explanation: "'to prevent disturbance during the nesting season between March and July'." },
-        { n: 13, type: "mcq", label: "Where does the new sensory woodland trail begin?", options: ["Near the main car park", "Behind the Visitor Centre", "Beside the Kingfisher Hide", "At the south entrance"], answer: "Behind the Visitor Centre", explanation: "'starts right behind the Visitor Centre'." },
-        { n: 14, type: "blank", label: "Dogs must be kept on leads to protect ground-nesting ______.", answer: "lapwings", accept: ["birds", "lapwing birds"], explanation: "'to protect ground-nesting lapwings'." },
-        { n: 15, type: "blank", label: "Cyclists must follow the path marked with ______ arrows.", answer: "blue", explanation: "'strictly to the perimeter paved path marked with blue arrows'." },
-        { n: 16, type: "blank", label: "The annual bat-watching walk takes place on 24th ______.", answer: "August", accept: ["Aug"], explanation: "'Saturday the 24th of August'." },
-        { n: 17, type: "blank", label: "Maximum number of participants for the bat walk: ______", answer: "30", accept: ["thirty"], explanation: "'Spaces are capped at thirty participants'." },
-        { n: 18, type: "tfng", label: "The reserve was established eighteen months ago.", answer: "FALSE", explanation: "The speaker said conservation upgrades took 18 months, not the reserve's creation." },
-        { n: 19, type: "tfng", label: "Local school pupils helped build the insect hotel.", answer: "TRUE", explanation: "'interactive insect hotel designed by pupils from the local primary school'." },
-        { n: 20, type: "tfng", label: "The Heron Pavilion is open to all visitors every morning.", answer: "FALSE", explanation: "It requires key-card registration, unlike the Kingfisher hide." },
+        { n: 11, type: "mcq", label: "How many members travelled to Malatte on the recent trip?", options: ["15", "20", "25", "30"], answer: "25", explanation: "Speaker: '25 members of the association from Stanthorpe spent a weekend in Malatte'." },
+        { n: 12, type: "mcq", label: "Which event was described as the highlight of the weekend in France?", options: ["Cheese tasting session", "Boat trip on the river", "Theme park excursion", "French cookery class"], answer: "Boat trip on the river", explanation: "'the final boat trip down the river - that was the real highlight'." },
+        { n: 13, type: "blank", label: "Stanthorpe will celebrate its 25th anniversary by planting a poplar tree in the ______ gardens", answer: "museum", explanation: "Speaker: 'decided to plant a poplar tree in the museum gardens'." },
+        { n: 14, type: "blank", label: "The fundraising event that produced record profits was the ______ evening", answer: "pancake", explanation: "'Our pancake evening was well attended and made record profits'." },
+        { n: 15, type: "blank", label: "The coach carrying French visitors arrives at ______ pm on Friday", answer: "5", accept: ["5:00", "five"], explanation: "'The coach from France will arrive at 5 pm on Friday'." },
+        { n: 16, type: "blank", label: "Saturday evening musical performance is scheduled at the ______ club", answer: "football", explanation: "'we'll all meet up at the football club, where once again we'll have Toby Sharp'." },
+        { n: 17, type: "blank", label: "At Farley House, local produce can be purchased at the farm shop in the old ______", answer: "stables", explanation: "'farm shop in the grounds... it's in the old stables'." },
+        { n: 18, type: "blank", label: "Accessible entry for disabled visitors is located on the far side from the ______", answer: "car park", accept: ["carpark", "parking"], explanation: "'This is on the far side of the house from the car park'." },
+        { n: 19, type: "blank", label: "The adventure playground is situated at the northern end of the larger ______", answer: "lake", explanation: "'That's at the northern end of the larger lake'." },
+        { n: 20, type: "blank", label: "To reach the Temple of the Four Winds, take the ______ fork on the path", answer: "right-hand", accept: ["right"], explanation: "'when the path forks, take the right-hand path'." },
       ],
     },
     {
       n: 3,
-      title: "Part 3 — Academic Research Discussion on Urban Heat Islands",
-      scenario: "Two environmental science students discussing their dissertation methodology with their supervisor.",
-      audio: "/audio/cambridge/listening-part3.wav",
-      transcript: `PROFESSOR: Come in, Liam, Maya. Let's look over your research proposal on mitigating the urban heat island effect in Southeast Asian cities.
-LIAM: Thanks Professor. We've decided to compare cool roof coatings with vertical green walls across four high-density neighbourhoods in Singapore.
-MAYA: Our initial data shows that white reflective membranes can lower ambient surface temperatures by up to eight degrees Celsius during peak afternoon sun.
-PROFESSOR: That is a well-established finding, Maya. But what novel perspective is your study contributing?
-LIAM: We're examining the secondary impact on indoor air-conditioning demand and the resultant carbon emissions from power generation.
-MAYA: Exactly. Most previous papers only measured microclimate air temperatures. We're coupling thermal drone imaging with building management energy logs.
-PROFESSOR: That's a rigorous approach. Have you secured access to the building energy data yet?
-LIAM: Yes, two commercial office towers and three residential complexes have granted permission under a confidentiality agreement.
-PROFESSOR: Excellent. And what about your sensor calibration?
-MAYA: We're deploying sixteen ultrasonic weather stations at three-metre elevation intervals to control for wind tunnel effects created by surrounding skyscrapers.
-PROFESSOR: Make sure you account for humidity anomalies during the monsoon transition weeks. Otherwise, your dew-point readings will skew the cooling efficiency model.`,
+      title: "Part 3 — Food Waste Innovations & Consumer Trends",
+      scenario: "Two university students, Colin and Marie, discuss their food science projects and modern consumer eating trends.",
+      audio: "/audio/cambridge/listening-part3.mp3",
+      transcript: `COLIN: I haven't seen you for a bit, Marie.
+MARIE: No. I've been busy with my project.
+COLIN: You're making a vegan alternative to eggs, aren't you? Something that doesn't use animal products?
+MARIE: Yes. I'm using chickpeas. I had two main aims when I first started looking for an alternative to eggs, but actually I've found chickpeas have got more advantages.
+COLIN: Right.
+MARIE: But how about your project on reusing waste food – you were looking at bread, weren't you?
+COLIN: Yes. It's been hard work, but I've enjoyed it. The basic process was quite straightforward - breaking the stale bread down to a paste then reforming it.
+MARIE: But you were using 3-D printing, weren't you, to make the paste into biscuits?
+COLIN: Yeah, I'd used that before, but in this project, I had time to play around with different patterns for the biscuits and finding how I could add fruit and vegetables to make them a more appetising colour, and I was really pleased with what I managed to produce.
+MARIE: It must've been a great feeling to make something appetising out of bits of old bread that would've been thrown away otherwise.
+COLIN: It was. And I'm hoping that some of the restaurants in town will be interested in the biscuits. I'm going to send them some samples.
+MARIE: I came across something on the internet yesterday that might interest you. It was a company that's developed touch-sensitive sensors for food labels. It's a special sort of label on the food package. When the label's smooth, the food is fresh and then when you can feel bumps on the label, that means the food's gone bad. It started off as a project to help visually impaired people know whether food was fit to eat or not.
+COLIN: Interesting. So just solid food?
+MARIE: No, things like milk and juice as well. But actually, I thought it might be really good for drug storage in hospitals and pharmacies.
+COLIN: Right. And coming back to food, maybe it'd be possible to use it for other things besides freshness. Like how many kilograms a joint of meat is, for example.
+MARIE: Yes, there's all sorts of possibilities.
+COLIN: I was reading an article about food trends predicting how eating habits might change in the next few years.
+MARIE: Oh things like more focus on local products? That seems so obvious, but the shops are still full of imported foods.
+COLIN: Yes, they need to be more proactive to address that.
+MARIE: And somehow motivate consumers to change, yes.
+COLIN: One thing everyone's aware of is the need for a reduction in unnecessary packaging - but just about everything you buy in supermarkets is still covered in plastic. The government needs to do something about it.
+MARIE: Absolutely. It's got to change.
+COLIN: Do you think there'll be more interest in gluten and lactose-free food?
+MARIE: For people with allergies or food intolerances? I don't know. Lots of people I know have been buying that type of food for years now.
+COLIN: Yes, even if they haven't been diagnosed with an allergy.
+MARIE: That's right. One thing I've noticed is the number of branded products related to celebrity chefs – people watch them cooking on TV and then buy things like spice mixes or frozen foods with the chef's name on. I bought something like that once, but I won't again.
+COLIN: Yeah – I bought a ready-made spice mix for chicken which was supposed to be used by a chef I'd seen on television, and it didn't actually taste of anything.
+MARIE: Mm. Did the article mention 'ghost kitchens' used to produce takeaway food?
+COLIN: No. What are they?
+MARIE: Well, they might have the name of a restaurant, but actually they're a cooking facility just for delivery meals – the public don't ever go there. But people aren't aware of that – it's all kept very quiet.
+COLIN: So people don't realise the food's not actually from the restaurant?
+MARIE: Right.
+COLIN: Did you know more and more people are using all sorts of different mushrooms now, to treat different health concerns? Things like heart problems?
+MARIE: Hmm. They might be taking a big risk there.
+COLIN: Yes, it's hard to know which varieties are safe to eat.`,
       questions: [
-        { n: 21, type: "mcq", label: "The students are carrying out their fieldwork in", options: ["Bangkok", "Singapore", "Kuala Lumpur", "Jakarta"], answer: "Singapore", explanation: "'across four high-density neighbourhoods in Singapore'." },
-        { n: 22, type: "mcq", label: "Reflective roof coatings reduced surface temperature by up to", options: ["4 degrees Celsius", "8 degrees Celsius", "12 degrees Celsius", "15 degrees Celsius"], answer: "8 degrees Celsius", explanation: "'lower ambient surface temperatures by up to eight degrees Celsius'." },
-        { n: 23, type: "mcq", label: "The unique aspect of their research is combining thermal imaging with", options: ["satellite weather radar", "building energy consumption logs", "pedestrian traffic surveys", "air pollution monitors"], answer: "building energy consumption logs", explanation: "'coupling thermal drone imaging with building management energy logs'." },
-        { n: 24, type: "blank", label: "Energy data will be collected from two commercial ______ towers.", answer: "office", explanation: "'two commercial office towers'." },
-        { n: 25, type: "blank", label: "The team is deploying ______ weather stations.", answer: "16", accept: ["sixteen"], explanation: "'deploying sixteen ultrasonic weather stations'." },
-        { n: 26, type: "blank", label: "Sensors will be placed at ______-metre elevation intervals.", answer: "3", accept: ["three"], explanation: "'at three-metre elevation intervals'." },
-        { n: 27, type: "blank", label: "Wind tunnel effects are caused by nearby ______.", answer: "skyscrapers", accept: ["tall buildings", "buildings"], explanation: "'wind tunnel effects created by surrounding skyscrapers'." },
-        { n: 28, type: "blank", label: "The professor warns about humidity during the ______ transition.", answer: "monsoon", explanation: "'humidity anomalies during the monsoon transition weeks'." },
-        { n: 29, type: "tfng", label: "Residential building owners refused to share energy data.", answer: "FALSE", explanation: "Three residential complexes granted permission." },
-        { n: 30, type: "tfng", label: "The professor approves of their methodological approach.", answer: "TRUE", explanation: "Professor says 'That's a rigorous approach' and 'Excellent'." },
+        { n: 21, type: "blank", label: "Marie is developing a plant-based egg substitute made from ______", answer: "chickpeas", accept: ["chickpea"], explanation: "Marie: 'Yes. I'm using chickpeas.'" },
+        { n: 22, type: "blank", label: "Colin transformed stale bread paste into biscuits using ______ printing", answer: "3-D", accept: ["3D", "three dimensional", "3-dimensional"], explanation: "Marie: 'you were using 3-D printing, weren't you'." },
+        { n: 23, type: "blank", label: "Colin improved biscuit colour by introducing fruit and ______", answer: "vegetables", accept: ["veg"], explanation: "Colin: 'finding how I could add fruit and vegetables to make them a more appetising colour'." },
+        { n: 24, type: "blank", label: "Food label sensors indicate spoiled food when users can feel ______ on the surface", answer: "bumps", accept: ["bumps on the label"], explanation: "Marie: 'when you can feel bumps on the label, that means the food's gone bad'." },
+        { n: 25, type: "blank", label: "Marie believes the sensory packaging technology could also monitor ______ storage", answer: "drug", accept: ["medicine", "pharmaceutical", "drugs"], explanation: "Marie: 'thought it might be really good for drug storage in hospitals'." },
+        { n: 26, type: "blank", label: "Colin calls for government regulation to eliminate unnecessary supermarket ______", answer: "packaging", accept: ["plastic packaging", "plastic"], explanation: "Colin: 'need for a reduction in unnecessary packaging... The government needs to do something'." },
+        { n: 27, type: "blank", label: "Both students were disappointed because celebrity chef items lacked ______", answer: "taste", accept: ["flavor", "flavour"], explanation: "Colin: 'it didn't actually taste of anything'." },
+        { n: 28, type: "blank", label: "Ghost kitchens produce takeaway delivery meals without access for the ______", answer: "public", accept: ["customers"], explanation: "Marie: 'the public don't ever go there'." },
+        { n: 29, type: "blank", label: "Marie cautions that self-treating illness with wild ______ carries major risks", answer: "mushrooms", explanation: "Colin mentions mushrooms and Marie responds: 'They might be taking a big risk there'." },
+        { n: 30, type: "blank", label: "The sensory label innovation was originally designed for ______ impaired consumers", answer: "visually", accept: ["vision"], explanation: "Marie: 'started off as a project to help visually impaired people'." },
       ],
     },
     {
       n: 4,
-      title: "Part 4 — The Architecture and Engineering of Roman Aqueducts",
-      scenario: "A lecture by an architectural historian on Roman hydraulic engineering.",
-      audio: "/audio/cambridge/listening-part4.wav",
-      transcript: `LECTURER: Today we examine one of the greatest engineering feats of antiquity: the Roman aqueduct system. While modern popular culture associates aqueducts primarily with towering arched bridges like the Pont du Gard, arched structures accounted for less than twenty per cent of the total network. Over eighty per cent of the water conduits ran entirely underground in channels lined with hydraulic mortar called opus caementicium.
-The crucial technical achievement was the calculation of gradient. Roman surveyors used an instrument called a chorobates — a wooden bench twenty feet long with water levels and plumb lines — to calculate an extraordinary slope as gentle as one foot of drop for every thousand feet of distance.
-To maintain constant water velocity and prevent silt accumulation, settling basins, known as piscinae limariae, were installed at regular intervals. Here, suspended sediments would drop out before the water entered the urban distribution tanks, or castella aquae.
-From these castella, water flowed through lead and terracotta pipes to public fountains, imperial bath complexes, and private villas of the wealthy. The public fountains ran continuously, serving not only as drinking supplies for common citizens but also flushing the city's sophisticated subterranean drainage network, the Cloaca Maxima, thereby preventing outbreaks of waterborne disease.
-In conclusion, the Roman aqueduct was not merely a display of monumental imperial prestige; it was the biological life-support system that enabled millions to inhabit urban centres without succumbing to ecological collapse.`,
+      title: "Part 4 — Archaeology and Climate History at Céide Fields",
+      scenario: "An archaeological lecture examining prehistoric settlement, agriculture, and preservation at Céide Fields in Ireland.",
+      audio: "/audio/cambridge/listening-part4.mp3",
+      transcript: `LECTURER: For my presentation today, I'm going to talk about the Céide Fields in the northwest of Ireland, one of the largest Neolithic sites in the world. I recently visited this site and observed the work that is currently being done by a team of archaeologists there.
+The site was first discovered in the 1930s by a local teacher, Patrick Caulfield. He noticed that when local people were digging in the bog, they were constantly hitting against what seemed to be rows of stones. He realised that these must be walls and that they must be thousands of years old for them to predate the bog which subsequently grew over them.
+He wrote to the National Museum in Dublin to ask them to investigate, but no one took him seriously. It wasn't until 40 years later, when Patrick Caulfield's son Seamus, who had become an archaeologist by then, began to explore further. He inserted iron probes into the bog to map the formation of the stones, a traditional method which local people had always used for finding fuel buried in the bog for thousands of years. Carbon dating later proved that the site was over 5,000 years old and was the largest Neolithic site in Ireland.
+Thanks to the bog which covers the area, the remains of the settlement at Céide Fields, which is over 5,000 years old, are extremely well-preserved. A bog is 90 percent water; its soil is so saturated that when the grasses and heathers that grow on its surface die, they don't fully decay but accumulate in layers. Objects remain so well preserved in these conditions because of the acidity of the peat and the deficiency of oxygen. At least 175 days of rain a year are required for this to happen; this part of Ireland gets an average of 225 days.
+The Neolithic farmers at Céide would have enjoyed several centuries of relative peace and stability. Neolithic farmers generally lived in larger communities than their predecessors, with a number of houses built around a community building. As they lived in permanent settlements, Neolithic farmers were able to build bigger houses. These weren't round as people often assume, but rectangular with a small hole in the roof that allowed smoke to escape. This is one of many innovations and indicates that the Neolithic farmers were the first people to cook indoors. Another new technology that Neolithic settlers brought to Ireland was pottery. Fragments of Neolithic pots have been found in Céide and elsewhere in Ireland. The pots were used for many things; as well as for storing food, pots were filled with a small amount of fat and when this was set alight, they served as lamps.
+It's thought that the Céide Fields were mainly used as paddocks for animals to graze in. Evidence from the Céide Fields suggests that each plot of land was of a suitable size to sustain an extended family. They may have used a system of rotational grazing in order to prevent over-grazing and to allow for plant recovery and regrowth. This must have been a year-round activity as no structures have been found which would have been used to shelter animals in the winter.
+However, archaeologists believe that this way of life at Céide ceased abruptly. Why was this? Well, several factors may have contributed to the changing circumstances. The soil would have become less productive and led to the abandonment of farming. The crop rotation system was partly responsible for this as it would have been very intensive and was not sustainable. But there were also climatic pressures too. The farmers at Céide would have enjoyed a relatively dry period, but this began to change and the conditions became wetter as there was a lot more rain. It was these conditions that encouraged the bog to form over the area which survives today.`,
       questions: [
-        { n: 31, type: "blank", label: "Arched bridges made up less than ______ percent of the network.", answer: "20", accept: ["twenty"], explanation: "'arched structures accounted for less than twenty per cent'." },
-        { n: 32, type: "blank", label: "Most water channels were built ______ in the ground.", answer: "underground", explanation: "'Over eighty per cent of the water conduits ran entirely underground'." },
-        { n: 33, type: "blank", label: "Water channels were waterproofed with hydraulic ______.", answer: "mortar", accept: ["cement"], explanation: "'lined with hydraulic mortar called opus caementicium'." },
-        { n: 34, type: "blank", label: "Surveyors used a wooden instrument called a ______.", answer: "chorobates", explanation: "'instrument called a chorobates'." },
-        { n: 35, type: "blank", label: "The gradient was as gradual as 1 foot per ______ feet.", answer: "1000", accept: ["1,000", "one thousand"], explanation: "'one foot of drop for every thousand feet of distance'." },
-        { n: 36, type: "blank", label: "Special basins were designed to remove ______ from the water.", answer: "silt", accept: ["sediments", "sediment"], explanation: "'prevent silt accumulation, settling basins... were installed'." },
-        { n: 37, type: "blank", label: "Urban distribution tanks were named castella ______.", answer: "aquae", explanation: "'distribution tanks, or castella aquae'." },
-        { n: 38, type: "blank", label: "Water pipes were manufactured from lead and ______.", answer: "terracotta", accept: ["clay"], explanation: "'lead and terracotta pipes'." },
-        { n: 39, type: "blank", label: "Continuous overflow water helped flush the city's ______ network.", answer: "drainage", accept: ["sewer", "drain"], explanation: "'flushing the city's sophisticated subterranean drainage network'." },
-        { n: 40, type: "tfng", label: "Only wealthy citizens had access to aqueduct water.", answer: "FALSE", explanation: "Public fountains provided drinking water for common citizens." },
+        { n: 31, type: "blank", label: "The ancient stone structures were first noticed in the 1930s by a local ______", answer: "teacher", explanation: "Lecturer: 'discovered in the 1930s by a local teacher, Patrick Caulfield'." },
+        { n: 32, type: "blank", label: "Patrick Caulfield recognized that the buried stones formed stone ______", answer: "walls", explanation: "Lecturer: 'He realised that these must be walls'." },
+        { n: 33, type: "blank", label: "Seamus Caulfield mapped the stone alignments using iron ______", answer: "probes", explanation: "Lecturer: 'He inserted iron probes into the bog to map the formation'." },
+        { n: 34, type: "blank", label: "Radiocarbon analysis confirmed the Neolithic settlement was over ______ years old", answer: "5000", accept: ["5,000", "five thousand"], explanation: "Lecturer: 'site was over 5,000 years old'." },
+        { n: 35, type: "blank", label: "Organic remains survive in the peat bog due to high acidity and lack of ______", answer: "oxygen", explanation: "Lecturer: 'acidity of the peat and the deficiency of oxygen'." },
+        { n: 36, type: "blank", label: "Neolithic dwellings were built with a roof opening to release ______", answer: "smoke", explanation: "Lecturer: 'rectangular with a small hole in the roof that allowed smoke to escape'." },
+        { n: 37, type: "blank", label: "Clay vessels fueled with animal fat functioned as early ______", answer: "lamps", accept: ["lights"], explanation: "Lecturer: 'filled with a small amount of fat and when this was set alight, they served as lamps'." },
+        { n: 38, type: "blank", label: "Stone enclosures primarily served as grazing ______ for domestic livestock", answer: "paddocks", accept: ["pastures"], explanation: "Lecturer: 'mainly used as paddocks for animals to graze in'." },
+        { n: 39, type: "blank", label: "Pasture land was preserved through a systematic ______ grazing strategy", answer: "rotational", explanation: "Lecturer: 'used a system of rotational grazing in order to prevent over-grazing'." },
+        { n: 40, type: "blank", label: "The settlement was ultimately abandoned due to soil degradation and increased ______", answer: "rain", accept: ["rainfall"], explanation: "Lecturer: 'conditions became wetter as there was a lot more rain'." },
       ],
     },
   ],

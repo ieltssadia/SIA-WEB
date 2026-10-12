@@ -8,17 +8,26 @@ import { bookSchema } from "@/lib/admin-schemas";
 
 const IMAGE_EXT = [".png", ".jpg", ".jpeg", ".webp"];
 
-/** Cover art available under /public/images/books — offered as a pick-list. */
+/** Cover art available under /public/images/books and /public/uploads/books — offered as a pick-list. */
 function coverOptions(): string[] {
+  const list: string[] = [];
   try {
     const dir = path.join(process.cwd(), "public", "images", "books");
-    return readdirSync(dir)
-      .filter((f) => IMAGE_EXT.includes(path.extname(f).toLowerCase()))
-      .map((f) => `/images/books/${f}`)
-      .sort();
-  } catch {
-    return [];
-  }
+    list.push(
+      ...readdirSync(dir)
+        .filter((f) => IMAGE_EXT.includes(path.extname(f).toLowerCase()))
+        .map((f) => `/images/books/${f}`)
+    );
+  } catch {}
+  try {
+    const uploadDir = path.join(process.cwd(), "public", "uploads", "books");
+    list.push(
+      ...readdirSync(uploadDir)
+        .filter((f) => IMAGE_EXT.includes(path.extname(f).toLowerCase()))
+        .map((f) => `/uploads/books/${f}`)
+    );
+  } catch {}
+  return Array.from(new Set(list)).sort();
 }
 
 /**

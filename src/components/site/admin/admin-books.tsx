@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Library, Pencil, PlusCircle, Search, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Library, Loader2, Pencil, PlusCircle, Search, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import {
@@ -44,6 +44,7 @@ import {
   StatCard,
   ToneBadge,
   formatBDT,
+  uploadAdminFile,
   type Tone,
 } from "@/components/site/admin/admin-shared";
 import { useAdminStore } from "@/lib/admin-store";
@@ -483,6 +484,8 @@ function BookDialog({
   const token = useAdminStore((s) => s.token);
   const [form, setForm] = useState<BookForm>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) setForm(editing ? toForm(editing) : emptyForm());
@@ -490,6 +493,34 @@ function BookDialog({
 
   function setField<K extends keyof BookForm>(key: K, value: BookForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  async function handleCoverFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!token) {
+      toast.error("অনুগ্রহ করে আবার লগইন করুন।");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("ছবির সাইজ ১০MB-এর কম হতে হবে।");
+      return;
+    }
+    setUploadingCover(true);
+    try {
+      const res = await uploadAdminFile(token, file, "books");
+      if (res.ok && res.upload?.url) {
+        setField("cover", res.upload.url);
+        toast.success("বইয়ের কভার আপলোড সফল হয়েছে!");
+      } else {
+        toast.error(res.error || "আপলোড করা যায়নি।");
+      }
+    } catch {
+      toast.error("আপলোডে সমস্যা হয়েছে।");
+    } finally {
+      setUploadingCover(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   }
 
   // Current cover may not exist in the pick-list — keep it selectable anyway.
@@ -516,8 +547,8 @@ function BookDialog({
       toast.error("দাম ০ বা তার বেশি হতে হবে।");
       return;
     }
-    if (!/^\/images\/.+\.(png|jpg|jpeg|webp)$/i.test(form.cover.trim())) {
-      toast.error("কভারটি /images/-এর একটি ছবি হতে হবে।");
+    if (!/^(\/images|\/uploads)\/.+\.(png|jpg|jpeg|webp)$/i.test(form.cover.trim())) {
+      toast.error("কভারটি /images/ বা /uploads/-এর একটি ছবি হতে হবে।");
       return;
     }
 
@@ -671,20 +702,64 @@ function BookDialog({
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="book-cover">Cover · কভার *</Label>
-              <Select value={form.cover} onValueChange={(v) => setField("cover", v)}>
-                <SelectTrigger id="book-cover" className={inputCls}>
-                  <SelectValue placeholder="কভার বাছুন" />
-                </SelectTrigger>
-                <SelectContent>
-                  {coverChoices.map((path) => (
-                    <SelectItem key={path} value={path} className="font-mono text-xs">
-                      {path.replace("/images/books/", "")}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="space-y-2 sm:col-span-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Label htmlFor="book-cover">Cover Image · বইয়ের কভার *</Label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  className="hidden"
+                  onChange={handleCoverFileChange}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={uploadingCover}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="h-8 gap-1.5 rounded-lg border-border text-xs"
+                >
+                  {uploadingCover ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                  ) : (
+                    <Upload className="h-3.5 w-3.5" />
+                  )}
+                  {uploadingCover ? "আপলোড হচ্ছে..." : "নতুন ছবি আপলোড করুন"}
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex-1">
+                  <Select value={form.cover} onValueChange={(v) => setField("cover", v)}>
+                    <SelectTrigger id="book-cover" className={inputCls}>
+                      <SelectValue placeholder="কভার বাছুন বা নতুন আপলোড করুন" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {coverChoices.map((path) => (
+                        <SelectItem key={path} value={path} className="font-mono text-xs">
+                          {path.replace(/^\/(images\/books|uploads\/books)\//, "")}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {form.cover && (
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-border bg-muted shadow-xs">
+                    <Image
+                      src={form.cover}
+                      alt="Cover Preview"
+                      fill
+                      sizes="44px"
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                লিস্ট থেকে কভার সিলেক্ট করতে পারেন অথবা &quot;নতুন ছবি আপলোড করুন&quot; বাটনে ক্লিক করে সরাসরি কম্পিউটার থেকে ফাইল আপলোড করুন।
+              </p>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="book-tag">Tag · ট্যাগ</Label>

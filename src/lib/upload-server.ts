@@ -17,6 +17,7 @@ export const UPLOAD_FOLDERS = [
   "certificates",
   "resources",
   "team",
+  "books",
   "general",
 ] as const;
 export type UploadFolder = (typeof UPLOAD_FOLDERS)[number];

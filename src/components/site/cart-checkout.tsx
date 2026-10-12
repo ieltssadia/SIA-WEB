@@ -62,7 +62,7 @@ const taka = (n: number) => `৳${n.toLocaleString("en-US")}`;
 /* ------------------------------------------------------------------ */
 
 type OrderPayMethod = {
-  id: "Pubali Bank (Bangla QR)" | "Prime Bank" | "bKash" | "Nagad" | "Cash on Delivery";
+  id: "Pubali Bank (Bangla QR)" | "Prime Bank" | "bKash" | "Cash on Delivery";
   label: string;
   note: string;
   icon: LucideIcon;
@@ -75,7 +75,7 @@ const orderPayMethods: OrderPayMethod[] = [
   {
     id: "Pubali Bank (Bangla QR)",
     label: "Pubali Bank Bangla QR (Scan & Pay)",
-    note: "যেকোনো Bank বা বিকাশ/নগদ/রকেট অ্যাপ দিয়ে QR স্ক্যান",
+    note: "যেকোনো Bank বা বিকাশ/রকেট অ্যাপ দিয়ে QR স্ক্যান",
     icon: QrCode,
     logo: "/images/payments/bangla-qr-icon.png",
     color: "#006837",
@@ -97,15 +97,6 @@ const orderPayMethods: OrderPayMethod[] = [
     icon: Smartphone,
     logo: "/images/payments/bkash-icon.png",
     color: "#e2136e",
-    kind: "manual",
-  },
-  {
-    id: "Nagad",
-    label: "Nagad (Send Money)",
-    note: `Send Money · ${PAYMENT_RECEIVER.nagad}`,
-    icon: Wallet,
-    logo: "/images/payments/nagad-icon.png",
-    color: "#f26522",
     kind: "manual",
   },
   {
@@ -621,15 +612,15 @@ function PaymentStep({
                 <div className="flex items-center gap-2.5">
                   <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
-                      src={selected.id === "bKash" ? "/images/payments/bkash-icon.png" : "/images/payments/nagad-icon.png"}
-                      alt={selected.label}
+                      src="/images/payments/bkash-icon.png"
+                      alt="bKash"
                       width={32}
                       height={32}
                       className="h-full w-full object-contain"
                     />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-foreground">{selected.id} Send Money</h4>
+                    <h4 className="text-sm font-bold text-foreground">bKash Send Money</h4>
                     <p className="text-[11px] text-muted-foreground">Personal / Merchant Receiver</p>
                   </div>
                 </div>
@@ -641,7 +632,7 @@ function PaymentStep({
               <CartCopyRow label="রিসিভার নম্বর (Send Money)" value={PAYMENT_RECEIVER.full} displayValue={PAYMENT_RECEIVER.bkash} />
 
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {selected.id} অ্যাপ থেকে <strong className="text-foreground">{PAYMENT_RECEIVER.full}</strong> নম্বরে{" "}
+                bKash অ্যাপ থেকে <strong className="text-foreground">{PAYMENT_RECEIVER.full}</strong> নম্বরে{" "}
                 <strong className="text-foreground">{taka(total)}</strong> Send Money করুন। টাকা পাঠানোর পর প্রাপ্ত TrxID নিচে লিখুন।
               </p>
             </div>
@@ -706,7 +697,7 @@ function PaymentStep({
 
       <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
         <Lock className="h-3.5 w-3.5" aria-hidden />
-        Secure checkout · bKash / Nagad / Cash on Delivery accepted
+        Secure checkout · Pubali Bank / Prime Bank / bKash / Cash on Delivery accepted
       </p>
     </div>
   );

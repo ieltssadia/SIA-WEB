@@ -324,19 +324,22 @@ export function AdminCertificates() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="cert-band">Overall band · ব্যান্ড *</Label>
+                <Label htmlFor="cert-band">Overall Score · ওভারঅল স্কোর *</Label>
                 <Input
                   id="cert-band"
                   required
                   inputMode="decimal"
                   pattern="\d(\.\d)?"
                   title="যেমন 7.5 বা 8"
-                  maxLength={4}
+                  maxLength={5}
                   value={form.band}
                   onChange={(e) => setField("band", e.target.value)}
                   placeholder="7.5"
-                  className="min-h-11 rounded-xl border-border bg-muted/40"
+                  className="min-h-11 rounded-xl border-border bg-muted/40 font-semibold"
                 />
+                <p className="text-[11px] text-muted-foreground">
+                  সার্টিফিকেটের ওভারঅল ব্যান্ড স্কোর (যেমন: 7.5 বা 8.0)
+                </p>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="cert-issued">Issued · ইস্যুর তারিখ *</Label>
@@ -473,7 +476,7 @@ export function AdminCertificates() {
                   <p className="font-mono text-xs font-semibold text-primary">{c.id}</p>
                   <p className="truncate font-semibold text-foreground">{c.name}</p>
                   <p className="truncate text-xs text-muted-foreground">
-                    {c.course} · {c.batch} · Band {c.band} · {c.issued}
+                    {c.course} · {c.batch} · <span className="font-semibold text-foreground">Overall Band {c.band}</span> · {c.issued}
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">

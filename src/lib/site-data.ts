@@ -13,10 +13,11 @@ export const site = {
   whatsapp: "https://wa.me/8801752716238?text=Assalamu%20Alaikum!%20I%20want%20to%20know%20about%20IELTS%20courses.",
   email: "support@sadiasielts.com",
   email2: "ieltsbysadianisha@gmail.com",
-  address:
-    "Syed Mujibur Rahman Market (2nd Floor), Chowmuhona, Sreemangal, Moulvibazar, Sylhet 3210",
-  addressShort: "Sreemangal, Moulvibazar, Sylhet",
+  address: "মুজিবুর রহমান মার্কেট, ২য় তলা, চৌমুহনা, Sreemangal 3210",
+  addressShort: "মুজিবুর রহমান মার্কেট, চৌমুহনা, Sreemangal 3210",
   facebook: "https://www.facebook.com/Sadiasielts",
+  youtube: "https://www.youtube.com/@SadiasIELTS",
+  instagram: "https://www.instagram.com/sadiasieltsacademy/",
   website: "https://sadiasielts.com",
 };
 
@@ -53,7 +54,6 @@ export const paymentMethods = [
   "Pubali Bank (Bangla QR)",
   "Prime Bank",
   "bKash",
-  "Nagad",
   "Rocket",
   "Cash on Delivery",
   "Cash at Office",

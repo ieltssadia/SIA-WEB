@@ -76,7 +76,7 @@ export const bookSchema = z.object({
     .string()
     .trim()
     .max(300)
-    .regex(/^\/images\/.+\.(png|jpg|jpeg|webp)$/i, "কভারটি /images/-এর একটি ছবি হতে হবে।"),
+    .regex(/^(\/images|\/uploads)\/.+\.(png|jpg|jpeg|webp)$/i, "কভারটি একটি বৈধ ছবি হতে হবে (/images/ বা /uploads/)।"),
   tag: z.string().trim().max(40).nullable(),
   pages: z.number().int().min(0).max(5000).default(0),
   highlights: z.array(z.string().trim().min(1).max(140)).max(8).default([]),

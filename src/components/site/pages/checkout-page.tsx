@@ -51,7 +51,7 @@ import { PRIME_BANK_PAYMENT, PUBALI_BANK_QR_PAYMENT, PAYMENT_RECEIVER } from "@/
 /* ------------------------------------------------------------------ */
 
 type PayMethod = {
-  id: "Pubali Bank (Bangla QR)" | "Prime Bank" | "bKash" | "Nagad" | "Cash";
+  id: "Pubali Bank (Bangla QR)" | "Prime Bank" | "bKash" | "Cash";
   label: string;
   note: string;
   icon: LucideIcon;
@@ -64,7 +64,7 @@ const payMethods: PayMethod[] = [
   {
     id: "Pubali Bank (Bangla QR)",
     label: "Pubali Bank Bangla QR (Scan & Pay)",
-    note: "যেকোনো Bank বা বিকাশ/নগদ/রকেট অ্যাপ দিয়ে QR স্ক্যান",
+    note: "যেকোনো Bank বা বিকাশ/রকেট অ্যাপ দিয়ে QR স্ক্যান",
     icon: QrCode,
     logo: "/images/payments/bangla-qr-icon.png",
     color: "#006837",
@@ -82,19 +82,10 @@ const payMethods: PayMethod[] = [
   {
     id: "bKash",
     label: "bKash (Send Money)",
-    note: `Send Money · ${PAYMENT_RECEIVER.bkash} (Merchant)`,
+    note: `Send Money · ${PAYMENT_RECEIVER.bkash}`,
     icon: Smartphone,
     logo: "/images/payments/bkash-icon.png",
     color: "#e2136e",
-    needsTxId: true,
-  },
-  {
-    id: "Nagad",
-    label: "Nagad (Send Money)",
-    note: `Send Money · ${PAYMENT_RECEIVER.nagad} (Merchant)`,
-    icon: Wallet,
-    logo: "/images/payments/nagad-icon.png",
-    color: "#f26522",
     needsTxId: true,
   },
   {
@@ -677,21 +668,21 @@ function PaymentStep({
                 <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> ট্রান্সফার করুন এবং রেফারেন্স বা TrxID নিচে দিন।
               </p>
             </div>
-          ) : selected.id === "bKash" || selected.id === "Nagad" ? (
+          ) : selected.id === "bKash" ? (
             <div className="overflow-hidden rounded-2xl border-2 border-primary/20 bg-card p-4 sm:p-5 space-y-3.5">
               <div className="flex items-center justify-between gap-2 border-b border-border pb-3">
                 <div className="flex items-center gap-2.5">
                   <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-xs border border-zinc-200">
                     <Image
-                      src={selected.id === "bKash" ? "/images/payments/bkash-icon.png" : "/images/payments/nagad-icon.png"}
-                      alt={selected.label}
+                      src="/images/payments/bkash-icon.png"
+                      alt="bKash"
                       width={32}
                       height={32}
                       className="h-full w-full object-contain"
                     />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-foreground">{selected.label} Send Money</h4>
+                    <h4 className="text-sm font-bold text-foreground">bKash Send Money</h4>
                     <p className="text-[11px] text-muted-foreground">Personal / Merchant Receiver</p>
                   </div>
                 </div>
@@ -703,7 +694,7 @@ function PaymentStep({
               <CopyRow label="রিসিভার নম্বর (Send Money)" value={PAYMENT_RECEIVER.full} displayValue={PAYMENT_RECEIVER.bkash} />
 
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {selected.label} অ্যাপ থেকে <strong className="text-foreground">{PAYMENT_RECEIVER.full}</strong> নম্বরে{" "}
+                bKash অ্যাপ থেকে <strong className="text-foreground">{PAYMENT_RECEIVER.full}</strong> নম্বরে{" "}
                 <strong className="text-foreground">{course.price ? taka(course.price) : ""}</strong> Send Money করুন। টাকা পাঠানোর পর পাওয়া TrxID নিচে লিখুন।
               </p>
             </div>
@@ -714,7 +705,7 @@ function PaymentStep({
                 অফিস পেমেন্ট (ক্যাশ)
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                শ্রীমঙ্গল ক্যাম্পাসে (সৈয়দ মুজিবুর রহমান মার্কেট, ২য় তলা, চৌমুহনা) এসে সরাসরি ক্যাশ জমা দিয়ে ভর্তি নিশ্চিত করুন।
+                শ্রীমঙ্গল ক্যাম্পাসে (মুজিবুর রহমান মার্কেট, ২য় তলা, চৌমুহনা) এসে সরাসরি ক্যাশ জমা দিয়ে ভর্তি নিশ্চিত করুন।
               </p>
             </div>
           )}
@@ -774,7 +765,7 @@ function PaymentStep({
 
       <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
         <Lock className="h-3.5 w-3.5" aria-hidden />
-        Secure checkout · Pubali Bank Bangla QR / Prime Bank / bKash / Nagad accepted
+        Secure checkout · Pubali Bank Bangla QR / Prime Bank / bKash accepted
       </p>
     </div>
   );

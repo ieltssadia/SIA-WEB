@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { site } from "@/lib/site-data";
 
@@ -117,8 +117,8 @@ export function SiteFooter() {
                 </li>
                 <li className="flex items-start gap-2.5">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#d9b75c]" aria-hidden />
-                  <span className="max-w-[240px] text-[#c6b995]">
-                    Sreemangal, Moulvi Bazar District, Sylhet Division, Bangladesh, 3210
+                  <span className="max-w-[260px] text-[#c6b995] leading-relaxed">
+                    {site.address}
                   </span>
                 </li>
                 <li>
@@ -133,6 +133,37 @@ export function SiteFooter() {
                   </a>
                 </li>
               </ul>
+
+              {/* Social Channels */}
+              <div className="mt-6 flex items-center gap-3">
+                <a
+                  href={site.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c6b995] transition-all hover:border-[#d9b75c] hover:bg-[#d9b75c]/10 hover:text-white"
+                  aria-label="Sadia's IELTS Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+                <a
+                  href={site.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c6b995] transition-all hover:border-[#d9b75c] hover:bg-[#d9b75c]/10 hover:text-white"
+                  aria-label="Sadia's IELTS YouTube"
+                >
+                  <Youtube className="h-4 w-4" />
+                </a>
+                <a
+                  href={site.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c6b995] transition-all hover:border-[#d9b75c] hover:bg-[#d9b75c]/10 hover:text-white"
+                  aria-label="Sadia's IELTS Instagram"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+              </div>
             </div>
 
             {/* Link columns — Company / Links / Courses / Recommend */}

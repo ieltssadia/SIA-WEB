@@ -444,7 +444,7 @@ const LISTENING_A: ListenPart[] = [
     n: 1,
     title: "Part 1 — Booking a Community Hall",
     scenario: "A phone conversation between a caller and a hall administrator (form completion).",
-    audio: "/audio/cambridge/listening-part1.wav",
+    audio: "/audio/cambridge/listening-part1.mp3",
     transcript:
       "AGENT: Good morning, Riverside Hall, how can I help? CALLER: Hello, I'd like to book the main hall for a charity concert, please. AGENT: Of course. Which date? CALLER: Saturday the 14th, in the evening. AGENT: Let me check... yes, that's free. And how many people are you expecting? CALLER: Around eighty. AGENT: Fine — the hall holds a hundred and twenty. There's a cleaning fee of two thousand taka, payable on the day. CALLER: Does that include the projector? AGENT: The projector is included, but the piano is an extra five hundred. CALLER: We'll take the piano as well. AGENT: Perfect. Can I take a contact name? CALLER: Yes, it's Arif Chowdhury — that's C-H-O-W-D-H-U-R-Y. AGENT: And a phone number? CALLER: 01712 445 902. AGENT: Wonderful, you're booked. Payment is due by bank transfer seven days before.",
     questions: [
@@ -464,7 +464,7 @@ const LISTENING_A: ListenPart[] = [
     n: 2,
     title: "Part 2 — New City Cycling Routes",
     scenario: "A radio announcement about updated cycle routes (multiple choice + notes).",
-    audio: "/audio/cambridge/listening-part2.wav",
+    audio: "/audio/cambridge/listening-part2.mp3",
     transcript:
       "ANNOUNCER: Good news for cyclists — the city has opened three new routes this spring. The River Line runs eleven kilometres along the north bank and is completely flat, ideal for beginners. The Hill Loop, at seven kilometres, climbs through the pine forest and includes the city's first wooden boardwalk. Finally, the Market Route connects the central market to the university and is lit after dark, making it the safest choice for evening rides. Helmets are free to borrow from the new dock on Station Square — you'll need to leave a deposit of three hundred taka, refunded when you return the helmet. Route maps are available at the tourist office for one hundred taka, or free on the city app. And a reminder: the annual Car-Free Sunday returns next month, when the Riverside Road closes to cars from six in the morning until noon.",
     questions: [
@@ -484,7 +484,7 @@ const LISTENING_A: ListenPart[] = [
     n: 3,
     title: "Part 3 — Choosing a Research Topic",
     scenario: "A student and tutor discuss a fieldwork plan (multiple choice + notes).",
-    audio: "/audio/cambridge/listening-part3.wav",
+    audio: "/audio/cambridge/listening-part3.mp3",
     transcript:
       "TUTOR: So, Nadia, your proposal focuses on tea-garden soil erosion. Why that topic? NADIA: Two reasons, really. The estates here lose topsoil every monsoon, and previous studies only looked at large plantations, not smallholder plots. TUTOR: Good gap. But your method worries me. Forty plots is ambitious for one term. NADIA: I could reduce it to twenty-five. TUTOR: Twenty is realistic. And consider pairing soil samples with drone photos — the geography department lends them out. NADIA: That would help with slope data. What about the lab analysis? TUTOR: Book the soil lab early — March is fully committed. Come April there's usually space. NADIA: Then I'll schedule April. Should I still interview the estate managers? TUTOR: Keep five interviews, no more. Depth beats breadth here. And Nadia — submit the ethics form before any fieldwork. No form, no access.",
     questions: [
@@ -504,7 +504,7 @@ const LISTENING_A: ListenPart[] = [
     n: 4,
     title: "Part 4 — The History of Tea Auctions",
     scenario: "A university lecture extract (notes completion).",
-    audio: "/audio/cambridge/listening-part4.wav",
+    audio: "/audio/cambridge/listening-part4.mp3",
     transcript:
       "LECTURER: Today we trace how tea moved from luxury to daily habit — through the auction house. When tea first reached Europe in the seventeenth century, it sold at prices few could afford. The breakthrough was the public auction: buyers competed openly, and prices fell as volumes grew. London's auctions ran for over three centuries, ending only in 1998, when electronic trading took over. Producing regions responded by building their own auction centres — Calcutta in 1861, Chittagong in 1949 — so that growers, not distant brokers, set the rhythm of trade. The auction room itself shaped the product: tasting rounds standardised quality grades, and the famous sound of rapid bidding became a symbol of the trade. Today, online platforms continue the same logic — transparent prices, instant information — though some argue they lack the tactile ritual of the room. What never changed is the underlying principle: the market decides, and the grower who understands quality commands the premium.",
     questions: [
@@ -527,7 +527,7 @@ const LISTENING_B: ListenPart[] = [
     n: 1,
     title: "Part 1 — Joining the Neighbourhood Gym",
     scenario: "A conversation at a gym reception (form completion).",
-    audio: "/audio/cambridge/listening-part1.wav",
+    audio: "/audio/cambridge/listening-part1.mp3",
     transcript:
       "RECEPTIONIST: Hi there! Thinking about joining? VISITOR: Yes, what memberships do you have? RECEPTIONIST: Standard is monthly at two thousand five hundred taka. There's also an off-peak card — twelve hundred — but you can only train before four in the afternoon. VISITOR: Off-peak suits me. Is the pool included? RECEPTIONIST: The pool costs three hundred extra per month. Towels are fifty per visit. VISITOR: OK, add the pool. Do you offer a trial? RECEPTIONIST: Seven days for five hundred, adjustable if you join. Can I get your name? VISITOR: Tanvir Ahmed. RECEPTIONIST: And email? VISITOR: tanvir.ahmed at mail dot example. RECEPTIONIST: Great — your trial starts today. Bring running shoes for the orientation at six.",
     questions: [
@@ -547,7 +547,7 @@ const LISTENING_B: ListenPart[] = [
     n: 2,
     title: "Part 2 — Museum Redevelopment Update",
     scenario: "A recorded talk for visitors about museum changes (multiple choice + notes).",
-    audio: "/audio/cambridge/listening-part2.wav",
+    audio: "/audio/cambridge/listening-part2.mp3",
     transcript:
       "WELCOME VOICE: Thank you for visiting the Maritime Museum. From this Monday, the east wing closes for eighteen months of renovation. The ship models collection moves to the west wing, room twelve — that's straight ahead and to your right. The rooftop café remains open throughout, but the garden entrance will be locked; please use the main door on Harbour Road. Admission is unchanged at one hundred taka, and children under twelve enter free as always. Guided tours now run at eleven and three — booking at the front desk, two hundred taka per group. We apologise for the noise; ear defenders are available free for young visitors. Look out for the new photography exhibition opening next month in room four.",
     questions: [
@@ -567,7 +567,7 @@ const LISTENING_B: ListenPart[] = [
     n: 3,
     title: "Part 3 — Group Presentation Feedback",
     scenario: "A lecturer gives feedback to two students (multiple choice + notes).",
-    audio: "/audio/cambridge/listening-part3.wav",
+    audio: "/audio/cambridge/listening-part3.mp3",
     transcript:
       "LECTURER: Overall, a strong presentation — but let's tighten three things. First, Ravi, your data slides had too many numbers. Pick one chart per message. RAVI: I can rebuild them tonight. LECTURER: Second, the conclusion introduced new information. Conclusions should echo, not surprise. MEERA: That was my section, sorry. LECTURER: No harm — move that part into the findings. Third: timing. You ran four minutes over. In the real defence, that's fatal. Who handled the clock? RAVI: Nobody, honestly. LECTURER: Appoint a timekeeper and rehearse twice with a timer. MEERA: Should we add citations to every slide? LECTURER: Only where statistics appear — and check the required style guide. Otherwise, expect a top-band delivery next week.",
     questions: [
@@ -587,7 +587,7 @@ const LISTENING_B: ListenPart[] = [
     n: 4,
     title: "Part 4 — Urban Heat Islands",
     scenario: "An environmental science lecture (notes completion).",
-    audio: "/audio/cambridge/listening-part4.wav",
+    audio: "/audio/cambridge/listening-part4.mp3",
     transcript:
       "PROFESSOR: Cities are hotter than their surroundings — up to seven degrees warmer on summer nights. We call this the urban heat island. Three forces create it. First, materials: asphalt and concrete store heat all day and release it slowly after sunset. Second, shape: tall streets trap warm air like canyons. Third — and most fixable — the missing green: fewer trees mean less shade and less evaporative cooling. The remedies follow directly. Light-coloured roofing reflects sunlight; studies in Athens showed a two-degree drop after widespread repainting. Green roofs cool the building below by insulation, and street trees lower peak temperatures by up to five degrees in their shade. Cities that combine all three measures report lower electricity demand and fewer heat-related hospital visits. The lesson is practical: the heat island is not a fate, it is a design choice.",
     questions: [

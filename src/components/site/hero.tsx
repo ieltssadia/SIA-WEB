@@ -51,6 +51,22 @@ export function Hero() {
 
       {/* Copy */}
       <div className="relative z-20 mx-auto w-full max-w-5xl px-6 pb-32 pt-20 text-center md:pb-36">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.04, ease }}
+          className="mx-auto mb-6 inline-flex max-w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 shadow-lg backdrop-blur-md"
+        >
+          <span className="flex h-2 w-2 rounded-full bg-[#d9b75c] shadow-[0_0_8px_#d9b75c]" />
+          <span className="text-xs font-semibold tracking-wide text-white/95">
+            British Council &amp; IDP Official IELTS Registration Partner
+          </span>
+          <span className="hidden text-white/30 sm:inline">|</span>
+          <span className="hidden text-xs font-medium text-[#d9b75c] sm:inline">
+            Cambridge 1–19 Authorized Prep
+          </span>
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,6 +87,33 @@ export function Hero() {
           Basic grammar থেকে শুরু করে পরীক্ষার আগের শেষ mock পর্যন্ত প্রতিটি ধাপে থাকছে
           একজন mentor, একটি পরিকল্পনা, আর নিজের খাতায় দেখা অগ্রগতি।
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease }}
+          className="mx-auto mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-white/80"
+        >
+          <span className="text-white/60">Study Abroad Destinations:</span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇬🇧 UK
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇨🇦 Canada
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇦🇺 Australia
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇺🇸 USA
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇸🇪 Sweden
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-white/90">
+            🇩🇪 Germany
+          </span>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

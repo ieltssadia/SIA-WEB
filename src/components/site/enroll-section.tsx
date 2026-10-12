@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import {
   CheckCircle2,
   Facebook,
+  Instagram,
   Loader2,
   Mail,
   MapPin,
@@ -11,6 +12,7 @@ import {
   Send,
   ShieldCheck,
   Timer,
+  Youtube,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -95,6 +97,18 @@ export function EnrollSection() {
       label: "Facebook",
       value: "facebook.com/Sadiasielts",
       href: site.facebook,
+    },
+    {
+      icon: Youtube,
+      label: "YouTube",
+      value: "@SadiasIELTS",
+      href: site.youtube,
+    },
+    {
+      icon: Instagram,
+      label: "Instagram",
+      value: "@sadiasieltsacademy",
+      href: site.instagram,
     },
     { icon: MapPin, label: "Campus", value: site.address, href: undefined },
   ];
