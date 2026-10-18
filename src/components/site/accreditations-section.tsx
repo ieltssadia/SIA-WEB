@@ -12,12 +12,6 @@ const AWARDS = [
     desc: "ব্রিটিশ কাউন্সিল অনুমোদিত অফিসিয়াল টেস্ট বুকিং ও ভেন্যু সহায়তা কেন্দ্র।",
   },
   {
-    image: "/images/badges/ielts-registration-venue.png",
-    title: "Authorized Exam Venue",
-    subtitle: "IDP & British Council Registered",
-    desc: "আন্তর্জাতিক মানের মক টেস্ট ও রিয়েল এক্সাম এনভায়রনমেন্ট প্র্যাকটিস।",
-  },
-  {
     image: "/images/badges/award-of-excellence.png",
     title: "Award of Excellence",
     subtitle: "Excellence in IELTS Mentorship",
@@ -51,7 +45,7 @@ export function AccreditationsSection() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-3 lg:gap-8">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 max-w-4xl mx-auto lg:gap-8">
           {AWARDS.map((item, idx) => (
             <Reveal key={item.title} delay={idx * 0.1}>
               <div className="group relative flex flex-col items-center rounded-3xl border border-white/10 bg-white/[0.03] p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#d9b75c]/40 hover:bg-white/[0.06] hover:shadow-[0_20px_50px_rgba(217,183,92,0.12)]">

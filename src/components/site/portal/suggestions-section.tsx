@@ -3,20 +3,28 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
+  BookOpen,
   ExternalLink,
   FileCode2,
   FileText,
   Hash,
+  Headphones,
   Lightbulb,
   Link2,
   Lock,
+  Mic,
   Music,
+  PenTool,
   Play,
+  Search,
+  Trophy,
   Video,
+  Volume2,
   type LucideIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
 import { PortalSectionHeader } from "@/components/site/portal/portal-shell";
@@ -41,23 +49,35 @@ type LoadState =
   | { phase: "locked" }
   | { phase: "ready"; items: SuggestionItem[] };
 
-/** Serial buckets derived from the test titles — mirrors the DB serial order. */
-type SerialGroup = "all" | "full-test" | "listening" | "other";
+/** Skill buckets: Reading, Listening, Writing, Speaking, and Full Practice Tests */
+export type SkillFilter = "all" | "reading" | "listening" | "writing" | "speaking" | "full-test";
 
-const groupMeta: Record<
-  Exclude<SerialGroup, "all">,
-  { label: string; tile: string }
-> = {
-  "full-test": { label: "ফুল প্র্যাকটিস টেস্ট", tile: "bg-pastel-sky text-[#2c4f8a]" },
-  listening: { label: "লিসেনিং টেস্ট", tile: "bg-pastel-green text-[#1f5c40]" },
-  other: { label: "অন্যান্য প্র্যাকটিস", tile: "bg-pastel-butter text-[#7a5a16]" },
-};
-
-function groupOf(item: SuggestionItem): Exclude<SerialGroup, "all"> {
-  if (/Listening Full Test/i.test(item.title)) return "full-test";
-  if (/Listening Test/i.test(item.title)) return "listening";
+export function skillOf(item: SuggestionItem): "reading" | "listening" | "writing" | "speaking" | "other" {
+  const cat = (item.category || "").toLowerCase();
+  const title = (item.title || "").toLowerCase();
+  if (title.includes("passage") || cat === "reading" || title.includes("reading")) return "reading";
+  if (cat === "writing" || title.includes("writing") || title.includes("task 1") || title.includes("task 2")) return "writing";
+  if (cat === "speaking" || title.includes("speaking") || title.includes("cue card")) return "speaking";
+  if (cat === "listening" || title.includes("listening")) return "listening";
   return "other";
 }
+
+export function isFullTestItem(item: SuggestionItem): boolean {
+  const title = (item.title || "").toLowerCase();
+  const desc = (item.desc || "").toLowerCase();
+  return title.includes("full test") || title.includes("full practice") || desc.includes("ফুল টেস্ট") || desc.includes("ফুল প্র্যাকটিস");
+}
+
+const skillMeta: Record<
+  "reading" | "listening" | "writing" | "speaking" | "other",
+  { label: string; badge: string; icon: LucideIcon; tile: string }
+> = {
+  reading: { label: "রিডিং", badge: "Reading", icon: BookOpen, tile: "bg-pastel-ruby text-[#7a2734]" },
+  listening: { label: "লিসেনিং", badge: "Listening", icon: Headphones, tile: "bg-pastel-green text-[#1f5c40]" },
+  writing: { label: "রাইটিং", badge: "Writing", icon: PenTool, tile: "bg-pastel-sky text-[#2c4f8a]" },
+  speaking: { label: "স্পিকিং", badge: "Speaking", icon: Mic, tile: "bg-pastel-orange text-[#7a4c12]" },
+  other: { label: "অন্যান্য", badge: "Practice", icon: Lightbulb, tile: "bg-pastel-butter text-[#7a5a16]" },
+};
 
 const kindMeta: Record<SuggestionKind, { icon: LucideIcon; label: string; tile: string }> = {
   html: { icon: FileCode2, label: "HTML Test", tile: "bg-pastel-sky text-[#2c4f8a]" },
@@ -126,7 +146,8 @@ function SuggestionWebReader({
 }) {
   const [theme, setTheme] = useState<ReaderTheme>("light");
   const [zoom, setZoom] = useState<number>(100);
-  const [sideTool, setSideTool] = useState<SideTool>("answers");
+  const [sideTool, setSideTool] = useState<SideTool>("none");
+  const [mobileTab, setMobileTab] = useState<"doc" | "tool">("doc");
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Answer Sheet state (Q1 - Q40)
@@ -240,6 +261,9 @@ function SuggestionWebReader({
   const answeredCount = Object.values(answers).filter((a) => a && a.trim().length > 0).length;
 
   const isPdf = item.kind === "pdf" || item.fileUrl.toLowerCase().endsWith(".pdf");
+  const isHtml = item.kind === "html" || item.fileUrl.toLowerCase().endsWith(".html");
+  const isListening = item.category === "Listening" || /listening/i.test(item.title);
+  const skill = skillOf(item);
 
   // PDF iframe source with web flags
   const viewerUrl = useMemo(() => {
@@ -297,14 +321,32 @@ function SuggestionWebReader({
             <h2 className="truncate font-display text-sm font-bold leading-tight">
               {item.title}
             </h2>
-            <p className="truncate text-[10px] text-muted-foreground">
-              {isPdf ? "ওয়েব রিডার (Interactive Document Reader)" : "ইন্টার‍্যাক্টিভ টেস্ট (Web Test)"} · {item.category}
-            </p>
+            <div className="flex items-center gap-2 truncate text-[10px] text-muted-foreground">
+              <span>{isPdf ? "ওয়েব রিডার (PDF)" : "ইন্টারঅ্যাক্টিভ টেস্ট"} · {item.category}</span>
+              {isListening && (
+                <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
+                  <Volume2 className="h-3 w-3 animate-pulse" />
+                  অডিও টেস্ট
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Center/Right: Controls */}
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          {isPdf && (
+            <a
+              href={item.fileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-semibold text-foreground hover:border-[#d9b75c] transition"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              PDF আলাদা ট্যাবে
+            </a>
+          )}
+
           {/* Theme Switcher */}
           <div className="flex items-center rounded-full border border-border/80 bg-muted/40 p-0.5">
             <button
@@ -391,7 +433,15 @@ function SuggestionWebReader({
                 "h-8 rounded-full px-3 text-xs font-semibold gap-1.5",
                 sideTool === "answers" && "bg-ink text-white"
               )}
-              onClick={() => setSideTool(sideTool === "answers" ? "none" : "answers")}
+              onClick={() => {
+                if (sideTool === "answers") {
+                  setSideTool("none");
+                  setMobileTab("doc");
+                } else {
+                  setSideTool("answers");
+                  setMobileTab("tool");
+                }
+              }}
             >
               📝 উত্তরপত্র
               {answeredCount > 0 && (
@@ -410,7 +460,15 @@ function SuggestionWebReader({
                 sideTool === "timer" && "bg-ink text-white",
                 timerRunning && "border-amber-500 text-amber-600 animate-pulse"
               )}
-              onClick={() => setSideTool(sideTool === "timer" ? "none" : "timer")}
+              onClick={() => {
+                if (sideTool === "timer") {
+                  setSideTool("none");
+                  setMobileTab("doc");
+                } else {
+                  setSideTool("timer");
+                  setMobileTab("tool");
+                }
+              }}
             >
               ⏱️ {formatTimer(timerSeconds)}
             </Button>
@@ -423,7 +481,15 @@ function SuggestionWebReader({
                 "h-8 rounded-full px-3 text-xs font-semibold gap-1.5",
                 sideTool === "notes" && "bg-ink text-white"
               )}
-              onClick={() => setSideTool(sideTool === "notes" ? "none" : "notes")}
+              onClick={() => {
+                if (sideTool === "notes") {
+                  setSideTool("none");
+                  setMobileTab("doc");
+                } else {
+                  setSideTool("notes");
+                  setMobileTab("tool");
+                }
+              }}
             >
               🗒️ নোটস
             </Button>
@@ -443,6 +509,56 @@ function SuggestionWebReader({
         </div>
       </header>
 
+      {/* ── Mobile View Switcher (Passage vs Answer Sheet) ── */}
+      <div className="flex sm:hidden items-center justify-between border-b px-3 py-1.5 bg-muted/40 transition-colors z-10">
+        <div className="flex items-center gap-1 rounded-full border border-border bg-card p-0.5">
+          <button
+            type="button"
+            onClick={() => setMobileTab("doc")}
+            className={cn(
+              "h-7 rounded-full px-3 text-xs font-bold transition",
+              mobileTab === "doc"
+                ? "bg-ink text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            📄 {isPdf ? "প্যাসেজ (Passage)" : "টেস্ট ও অডিও"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setSideTool("answers");
+              setMobileTab("tool");
+            }}
+            className={cn(
+              "h-7 rounded-full px-3 text-xs font-bold transition flex items-center gap-1",
+              mobileTab === "tool" && sideTool === "answers"
+                ? "bg-ink text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            📝 উত্তরপত্র
+            {answeredCount > 0 && (
+              <span className="rounded-full bg-emerald-500/20 px-1 text-[10px]">
+                {answeredCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {isPdf && (
+          <a
+            href={item.fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary/20"
+          >
+            <ExternalLink className="h-3 w-3" />
+            PDF খুলুন
+          </a>
+        )}
+      </div>
+
       {/* ── Main Reader Workspace ── */}
       <div className="relative flex flex-1 min-h-0 overflow-hidden">
         {/* Document Pane */}
@@ -450,7 +566,8 @@ function SuggestionWebReader({
           className={cn(
             "flex-1 min-h-0 overflow-auto transition-all relative flex flex-col items-center p-2 sm:p-4",
             theme === "sepia" && "bg-[#f6ebd4]",
-            theme === "dark" && "bg-[#0e0f12]"
+            theme === "dark" && "bg-[#0e0f12]",
+            mobileTab === "tool" && sideTool !== "none" ? "hidden sm:flex" : "flex"
           )}
         >
           <div
@@ -481,7 +598,10 @@ function SuggestionWebReader({
         {sideTool !== "none" && (
           <aside
             className={cn(
-              "w-full sm:w-80 md:w-96 flex flex-col border-l shadow-xl z-20 transition-all duration-300",
+              "flex flex-col border-l shadow-xl z-20 transition-all duration-300",
+              mobileTab === "tool"
+                ? "flex-1 w-full sm:flex-none sm:w-80 md:w-96"
+                : "hidden sm:flex sm:w-80 md:w-96",
               theme === "light" && "border-border bg-card",
               theme === "sepia" && "border-[#e3d3b4] bg-[#f8ecce] text-[#433422]",
               theme === "dark" && "border-[#272a30] bg-[#1a1c21] text-[#e2e4e9]"
@@ -498,7 +618,10 @@ function SuggestionWebReader({
               </div>
               <button
                 type="button"
-                onClick={() => setSideTool("none")}
+                onClick={() => {
+                  setSideTool("none");
+                  setMobileTab("doc");
+                }}
                 className="h-6 w-6 rounded-full hover:bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold"
               >
                 ✕
@@ -680,10 +803,17 @@ function SuggestionCard({
   item: SuggestionItem;
   onOpenViewer: (item: SuggestionItem) => void;
 }) {
-  const group = groupOf(item);
+  const skill = skillOf(item);
+  const meta = skillMeta[skill];
   const date = uploadedDateBn(item.createdAt);
   const hasSerial = typeof item.serial === "number";
-  const isWebReadable = item.kind === "html" || item.kind === "pdf" || item.fileUrl.endsWith(".pdf") || item.fileUrl.endsWith(".html");
+  const isWebReadable =
+    item.kind === "html" ||
+    item.kind === "pdf" ||
+    item.fileUrl.endsWith(".pdf") ||
+    item.fileUrl.endsWith(".html");
+
+  const SkillIcon = meta.icon;
 
   const body = (
     <>
@@ -692,16 +822,25 @@ function SuggestionCard({
           {hasSerial ? (
             <SerialBadge serial={item.serial as number} />
           ) : (
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/70 text-muted-foreground" aria-hidden>
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted/70 text-muted-foreground"
+              aria-hidden
+            >
               <Hash className="h-4 w-4" />
             </span>
           )}
           <div className="min-w-0">
-            <p className="truncate text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a7d5f]">
-              {groupMeta[group].label}
-            </p>
+            <span
+              className={cn(
+                "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-display text-[11px] font-bold tracking-wide",
+                meta.tile
+              )}
+            >
+              <SkillIcon className="h-3 w-3" />
+              {meta.badge} · {meta.label}
+            </span>
             {date ? (
-              <p className="text-[10px] font-semibold text-muted-foreground/70">
+              <p className="mt-1 text-[10px] font-semibold text-muted-foreground/70">
                 আপলোড · {date}
               </p>
             ) : null}
@@ -718,7 +857,11 @@ function SuggestionCard({
                 : "border-border/70 bg-muted/60 text-muted-foreground"
           )}
         >
-          {item.kind === "pdf" ? "ওয়েব রিডার (PDF)" : item.kind === "html" ? "ইন্টার‍্যাক্টিভ টেস্ট" : kindMeta[item.kind]?.label ?? "ফাইল"}
+          {item.kind === "pdf"
+            ? "ওয়েব রিডার (PDF)"
+            : item.kind === "html"
+              ? "ইন্টারঅ্যাক্টিভ টেস্ট"
+              : kindMeta[item.kind]?.label ?? "ফাইল"}
         </Badge>
       </div>
 
@@ -747,7 +890,7 @@ function SuggestionCard({
         {isWebReadable ? (
           <span className={actionPillClass}>
             <Play className="h-3.5 w-3.5" aria-hidden />
-            {item.kind === "pdf" ? "ওয়েব রিডারে পড়ুন" : "টেস্ট শুরু করুন"}
+            {item.kind === "pdf" ? "প্যাসেজ ও টেস্ট পড়ুন" : "টেস্ট শুরু করুন"}
           </span>
         ) : item.kind === "audio" ? (
           <a
@@ -758,7 +901,7 @@ function SuggestionCard({
             onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink className="h-3.5 w-3.5" aria-hidden />
-            নত ট্যাবে খুলুন
+            নতুন ট্যাবে খুলুন
           </a>
         ) : (
           <span className={actionPillClass}>
@@ -802,7 +945,8 @@ export function SuggestionsSection() {
   const phone = user?.phone ?? null;
   const [state, setState] = useState<LoadState>({ phase: "loading" });
   const [active, setActive] = useState<SuggestionItem | null>(null);
-  const [filter, setFilter] = useState<SerialGroup>("all");
+  const [filter, setFilter] = useState<SkillFilter>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const closeViewer = useCallback(() => setActive(null), []);
   const openViewer = useCallback((item: SuggestionItem) => setActive(item), []);
 
@@ -831,21 +975,48 @@ export function SuggestionsSection() {
 
   const items = state.phase === "ready" ? state.items : [];
   const counts = useMemo(() => {
-    const c: Record<SerialGroup, number> = { all: items.length, "full-test": 0, listening: 0, other: 0 };
-    for (const item of items) c[groupOf(item)] += 1;
+    const c: Record<SkillFilter, number> = {
+      all: items.length,
+      reading: 0,
+      listening: 0,
+      writing: 0,
+      speaking: 0,
+      "full-test": 0,
+    };
+    for (const item of items) {
+      const s = skillOf(item);
+      if (s in c) c[s] += 1;
+      if (isFullTestItem(item)) c["full-test"] += 1;
+    }
     return c;
   }, [items]);
 
-  const visible = useMemo(
-    () => (filter === "all" ? items : items.filter((i) => groupOf(i) === filter)),
-    [items, filter]
-  );
+  const visible = useMemo(() => {
+    let list = items;
+    if (filter === "full-test") {
+      list = list.filter(isFullTestItem);
+    } else if (filter !== "all") {
+      list = list.filter((i) => skillOf(i) === filter);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(
+        (i) =>
+          i.title.toLowerCase().includes(q) ||
+          i.desc.toLowerCase().includes(q) ||
+          (i.serial && String(i.serial).includes(q))
+      );
+    }
+    return list;
+  }, [items, filter, searchQuery]);
 
-  const filterChips: { key: SerialGroup; label: string }[] = [
-    { key: "all", label: "সবগুলো" },
-    { key: "full-test", label: groupMeta["full-test"].label },
-    { key: "listening", label: groupMeta["listening"].label },
-    { key: "other", label: groupMeta["other"].label },
+  const filterChips: { key: SkillFilter; label: string; icon: LucideIcon }[] = [
+    { key: "all", label: "সবগুলো", icon: Lightbulb },
+    { key: "reading", label: "Reading · রিডিং", icon: BookOpen },
+    { key: "listening", label: "Listening · লিসেনিং", icon: Headphones },
+    { key: "writing", label: "Writing · রাইটিং", icon: PenTool },
+    { key: "speaking", label: "Speaking · স্পিকিং", icon: Mic },
+    { key: "full-test", label: "ফুল টেস্ট (Full Tests)", icon: Trophy },
   ];
 
   return (
@@ -912,41 +1083,67 @@ export function SuggestionsSection() {
       {state.phase === "ready" ? (
         state.items.length > 0 ? (
           <>
-            {/* Serial-group filter chips */}
+            {/* Search and Filters toolbar */}
             <Reveal y={12} delay={0.02}>
-              <div
-                role="tablist"
-                aria-label="সাজেশন ফিল্টার"
-                className="flex flex-wrap items-center gap-2"
-              >
-                {filterChips.map((chip) => {
-                  const isActive = filter === chip.key;
-                  return (
+              <div className="space-y-3">
+                {/* Search Bar */}
+                <div className="relative max-w-md">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="প্যাসেজ বা টেস্ট সার্চ করুন (যেমন: Bird Migration, Test 1, Passage 2)..."
+                    className="h-10 rounded-full border-border bg-card pl-10 pr-4 text-xs shadow-sm focus:border-primary"
+                  />
+                  {searchQuery && (
                     <button
-                      key={chip.key}
                       type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setFilter(chip.key)}
-                      className={cn(
-                        "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold transition-all",
-                        isActive
-                          ? "border-transparent bg-gradient-to-br from-[#eeda9d] via-[#d9b75c] to-[#b08a2e] text-ink shadow-[0_4px_14px_rgba(176,138,46,0.35)]"
-                          : "border-border bg-card text-muted-foreground hover:border-[#d9b75c]/60 hover:text-foreground"
-                      )}
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
                     >
-                      {chip.label}
-                      <span
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                {/* Skill & Module filter chips */}
+                <div
+                  role="tablist"
+                  aria-label="সাজেশন ফিল্টার"
+                  className="flex flex-wrap items-center gap-2"
+                >
+                  {filterChips.map((chip) => {
+                    const isActive = filter === chip.key;
+                    const ChipIcon = chip.icon;
+                    return (
+                      <button
+                        key={chip.key}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => setFilter(chip.key)}
                         className={cn(
-                          "rounded-full px-1.5 py-0.5 text-[10px] font-extrabold leading-none",
-                          isActive ? "bg-ink/15 text-ink" : "bg-muted/70 text-muted-foreground"
+                          "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold transition-all",
+                          isActive
+                            ? "border-transparent bg-gradient-to-br from-[#eeda9d] via-[#d9b75c] to-[#b08a2e] text-ink shadow-[0_4px_14px_rgba(176,138,46,0.35)]"
+                            : "border-border bg-card text-muted-foreground hover:border-[#d9b75c]/60 hover:text-foreground"
                         )}
                       >
-                        {bnNum(counts[chip.key])}
-                      </span>
-                    </button>
-                  );
-                })}
+                        <ChipIcon className="h-3.5 w-3.5" />
+                        {chip.label}
+                        <span
+                          className={cn(
+                            "rounded-full px-1.5 py-0.5 text-[10px] font-extrabold leading-none",
+                            isActive ? "bg-ink/15 text-ink" : "bg-muted/70 text-muted-foreground"
+                          )}
+                        >
+                          {bnNum(counts[chip.key])}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </Reveal>
 
