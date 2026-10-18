@@ -10,6 +10,7 @@ import type {
   DownloadResource,
   MediaItem,
   Notice,
+  SuccessStory as DbSuccessStory,
 } from "@prisma/client";
 import type {
   AdminBookRow,
@@ -18,6 +19,7 @@ import type {
   AdminNoticeRow,
   AdminResourceRow,
   AdminRole,
+  AdminSuccessStoryRow,
   AdminTeamMember,
 } from "@/lib/admin-types";
 
@@ -70,6 +72,7 @@ export function serializeAdminCourse(row: DbCourse): AdminCourseRow {
     seatsTotal: row.seatsTotal ?? null,
     accessPeriod: row.accessPeriod ?? null,
     syllabus: parseJsonArray(row.syllabus),
+    image: row.image ?? "",
     published: row.published,
     createdAt: row.createdAt.toISOString(),
   };
@@ -159,6 +162,7 @@ type PublicCourse = {
   seatsLeft?: number;
   seatsTotal?: number;
   accessPeriod?: string;
+  image?: string;
 };
 
 export function courseToPublic(row: DbCourse): PublicCourse {
@@ -185,6 +189,7 @@ export function courseToPublic(row: DbCourse): PublicCourse {
   if (row.seatsLeft != null) course.seatsLeft = row.seatsLeft;
   if (row.seatsTotal != null) course.seatsTotal = row.seatsTotal;
   if (row.accessPeriod != null) course.accessPeriod = row.accessPeriod;
+  if (row.image) course.image = row.image;
   return course;
 }
 
@@ -359,5 +364,35 @@ export function routineToPublic(row: DbRoutineSlot) {
     topic: row.topic,
     mode: row.mode,
     type: row.type,
+  };
+}
+
+export function serializeAdminSuccessStory(row: DbSuccessStory): AdminSuccessStoryRow {
+  return {
+    id: row.id,
+    name: row.name,
+    band: row.band,
+    tag: row.tag,
+    caption: row.caption,
+    details: row.details,
+    image: row.image,
+    course: row.course,
+    serial: row.serial,
+    published: row.published,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export function successStoryToPublic(row: DbSuccessStory) {
+  return {
+    id: row.id,
+    name: row.name,
+    band: row.band,
+    tag: row.tag,
+    caption: row.caption,
+    details: row.details,
+    image: row.image,
+    course: row.course,
+    serial: row.serial,
   };
 }

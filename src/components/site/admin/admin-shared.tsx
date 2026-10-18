@@ -25,7 +25,15 @@ import type {
 // ---------------------------------------------------------------------------
 
 /** Folders the server whitelist accepts (mirrors src/lib/upload-server.ts). */
-export type AdminUploadFolder = "suggestions" | "certificates" | "resources" | "team" | "general";
+export type AdminUploadFolder =
+  | "suggestions"
+  | "certificates"
+  | "resources"
+  | "team"
+  | "books"
+  | "courses"
+  | "stories"
+  | "general";
 
 /**
  * Upload one file through POST /api/admin/upload — returns the public URL

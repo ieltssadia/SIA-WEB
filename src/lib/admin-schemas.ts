@@ -40,6 +40,7 @@ export const courseSchema = z.object({
   seatsTotal: z.number().int().min(0).max(999).nullable(),
   accessPeriod: z.string().trim().max(80).nullable(),
   syllabus: z.array(z.string().trim().min(1).max(200)).max(20).default([]),
+  image: z.string().trim().max(500).default(""),
   published: z.boolean().default(true),
 });
 
@@ -218,5 +219,21 @@ export const suggestionSchema = z.object({
     .max(300)
     .regex(/^\//, "লিংকটি সাইটের ভেতরের পাথ হতে হবে (যেমন /uploads/suggestions/...)।"),
   kind: z.enum(["html", "pdf", "audio", "video", "link"]).default("html"),
+  published: z.boolean().default(true),
+});
+
+// ---------------------------------------------------------------------------
+// Success Stories & Scorecards
+// ---------------------------------------------------------------------------
+
+export const successStorySchema = z.object({
+  name: z.string().trim().min(2, "শিক্ষার্থীর নাম বা টাইটেল দিন।").max(120),
+  band: z.string().trim().max(40).default("Band 8.0"),
+  tag: z.string().trim().max(60).default("Overall Band 8.0"),
+  caption: z.string().trim().max(160).default("Official British Council TRF"),
+  details: z.string().trim().max(300).default(""),
+  image: z.string().trim().min(1, "ছবি আপলোড করুন বা লিংক দিন।"),
+  course: z.string().trim().max(100).default("IELTS Preparation"),
+  serial: z.number().int().min(0).max(999).default(0),
   published: z.boolean().default(true),
 });

@@ -198,10 +198,11 @@ const COURSE_FALLBACKS = [
   "/images/courses/mock-test.jpg",
 ];
 
-function getCoursePhoto(slug: string, category: string, index: number) {
-  if (COURSE_PHOTOS[slug]) return COURSE_PHOTOS[slug];
-  if (category === "beginner") return "/images/courses/ielts-beginner.jpg";
-  if (category === "exam") return "/images/courses/ielts-crash.jpg";
+function getCoursePhoto(course: Course, index: number) {
+  if (course.image) return course.image;
+  if (COURSE_PHOTOS[course.slug]) return COURSE_PHOTOS[course.slug];
+  if (course.category === "beginner") return "/images/courses/ielts-beginner.jpg";
+  if (course.category === "exam") return "/images/courses/ielts-crash.jpg";
   return COURSE_FALLBACKS[index % COURSE_FALLBACKS.length];
 }
 
@@ -242,7 +243,7 @@ export function CourseCard({
           }`}
         >
           <Image
-            src={getCoursePhoto(course.slug, course.category, index)}
+            src={getCoursePhoto(course, index)}
             alt={course.title}
             fill
             sizes={isFeatured ? "(max-width: 640px) 100vw, 42vw" : "(max-width: 768px) 100vw, 33vw"}

@@ -157,6 +157,8 @@ export type Course = {
   seatsTotal?: number;
   /** 10MS-style access duration, e.g. "3 মাস" / "আজীবন". */
   accessPeriod?: string;
+  /** Course thumbnail image URL (editable from admin CMS) */
+  image?: string;
 };
 
 export const courseCategories = [
@@ -1382,3 +1384,59 @@ export const enrollCourseOptions = [
   { value: "not-sure", label: "Not sure yet, need counseling" },
   ...courses.map((c) => ({ value: c.slug, label: c.title })),
 ];
+
+export type SuccessScorecard = {
+  id?: string;
+  name: string;
+  band: string;
+  tag: string;
+  caption: string;
+  details: string;
+  image: string;
+  course?: string;
+  serial?: number;
+};
+
+export const defaultScorecards: SuccessScorecard[] = [
+  {
+    id: "sc-1",
+    name: "Halima Akther Juthi",
+    band: "Band 8.5",
+    tag: "Overall Band 8.5",
+    caption: "Certificate of Appreciation · Sadia's IELTS",
+    details: "Listening 8.5 · Reading 9.0 · Speaking 8.0 · Writing 7.5",
+    image: "/images/students/actual-success-1.jpg",
+    course: "IELTS Advanced Preparation",
+  },
+  {
+    id: "sc-2",
+    name: "Khadiza Islam",
+    band: "Band 8.0",
+    tag: "Overall Band 8.0",
+    caption: "Official IELTS Candidate Result",
+    details: "Listening 8.5 · Reading 8.5 · Speaking 7.5 · Writing 7.0",
+    image: "/images/students/actual-success-2.jpg",
+    course: "Basic to IELTS Preparation",
+  },
+  {
+    id: "sc-3",
+    name: "Batch Top Achievers",
+    band: "Band 8.0+",
+    tag: "Award of Excellence",
+    caption: "Sadia's IELTS Academy Achievers",
+    details: "Speaking Club & Intensive Mock Tests · Top Scorers",
+    image: "/images/students/actual-success-3.jpg",
+    course: "Speaking Club & Mock Test",
+  },
+  {
+    id: "sc-4",
+    name: "Academic IELTS Star Batch",
+    band: "Band 8.0+",
+    tag: "Band 8.0+ High Achievers",
+    caption: "Official Candidate Certification",
+    details: "Cambridge Mock Practice · Overall Band 8.0+",
+    image: "/images/students/actual-success-4.jpg",
+    course: "IELTS Crash & Full Preparation",
+  },
+];
+

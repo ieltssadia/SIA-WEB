@@ -241,6 +241,7 @@ export type AdminCourseRow = {
   seatsTotal: number | null;
   accessPeriod: string | null;
   syllabus: string[];
+  image: string;
   published: boolean;
   createdAt: string; // ISO
 };
@@ -434,6 +435,20 @@ export type AdminSuggestionRow = {
   category: string;
   fileUrl: string;
   kind: string;
+  published: boolean;
+  createdAt: string; // ISO
+};
+
+export type AdminSuccessStoryRow = {
+  id: string;
+  name: string;
+  band: string;
+  tag: string;
+  caption: string;
+  details: string;
+  image: string;
+  course: string;
+  serial: number;
   published: boolean;
   createdAt: string; // ISO
 };

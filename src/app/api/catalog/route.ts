@@ -8,6 +8,7 @@ import {
   routineToPublic,
   siteTeamToPublic,
   tipToPublic,
+  successStoryToPublic,
 } from "@/lib/admin-serialize";
 import {
   books,
@@ -17,6 +18,7 @@ import {
   teamMembers,
   tips,
   classRoutine,
+  defaultScorecards,
 } from "@/lib/site-data";
 
 type CachedCatalog = {
@@ -47,7 +49,7 @@ export async function GET() {
   }
 
   try {
-    const [dbCourses, dbBooks, dbResources, dbNotices, dbTips, dbTeam, dbRoutine] =
+    const [dbCourses, dbBooks, dbResources, dbNotices, dbTips, dbTeam, dbRoutine, dbStories] =
       await Promise.all([
         db.course.findMany({ where: { published: true }, orderBy: { createdAt: "asc" } }),
         db.book.findMany({ where: { listed: true }, orderBy: { createdAt: "asc" } }),
@@ -56,6 +58,7 @@ export async function GET() {
         db.tip.findMany({ where: { published: true }, orderBy: { createdAt: "asc" } }),
         db.siteTeamMember.findMany({ where: { published: true }, orderBy: { createdAt: "asc" } }),
         db.routineSlot.findMany({ where: { published: true }, orderBy: { createdAt: "asc" } }),
+        db.successStory.findMany({ where: { published: true }, orderBy: [{ serial: "asc" }, { createdAt: "desc" }] }),
       ]);
 
     const payload = {
@@ -67,6 +70,7 @@ export async function GET() {
       tips: dbTips.length ? dbTips.map(tipToPublic) : tips,
       team: dbTeam.length ? dbTeam.map(siteTeamToPublic) : teamMembers,
       routine: dbRoutine.length ? dbRoutine.map(routineToPublic) : classRoutine,
+      stories: dbStories.length ? dbStories.map(successStoryToPublic) : defaultScorecards,
     };
 
     cachedCatalog = { data: payload, expires: Date.now() + CATALOG_CACHE_TTL_MS };
@@ -88,6 +92,7 @@ export async function GET() {
       tips,
       team: teamMembers,
       routine: classRoutine,
+      stories: defaultScorecards,
     };
     return NextResponse.json(fallback);
   }

@@ -57,6 +57,7 @@ export async function POST(req: Request) {
       seatsTotal: data.seatsTotal,
       accessPeriod: data.accessPeriod,
       syllabus: JSON.stringify(data.syllabus),
+      image: data.image ?? "",
       published: data.published,
     },
   });

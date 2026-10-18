@@ -61,6 +61,7 @@ export async function PATCH(
       ...(data.seatsTotal !== undefined ? { seatsTotal: data.seatsTotal } : {}),
       ...(data.accessPeriod !== undefined ? { accessPeriod: data.accessPeriod } : {}),
       ...(data.syllabus !== undefined ? { syllabus: JSON.stringify(data.syllabus) } : {}),
+      ...(data.image !== undefined ? { image: data.image } : {}),
       ...(data.published !== undefined ? { published: data.published } : {}),
     },
   });

@@ -1,14 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import {
   BookOpen,
   CalendarClock,
+  ImageIcon,
   Layers,
+  Loader2,
   Pencil,
   PlusCircle,
   Search,
   Trash2,
+  Upload,
   Users,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -54,6 +58,7 @@ import {
   StatCard,
   ToneBadge,
   formatBDT,
+  uploadAdminFile,
   type Tone,
 } from "@/components/site/admin/admin-shared";
 import { useAdminStore } from "@/lib/admin-store";
@@ -94,6 +99,7 @@ type CourseForm = {
   students: string;
   features: string; // one per line
   syllabus: string; // one per line
+  image: string;
   published: boolean;
 };
 
@@ -121,6 +127,7 @@ function emptyForm(): CourseForm {
     students: "0",
     features: "",
     syllabus: "",
+    image: "",
     published: true,
   };
 }
@@ -149,6 +156,7 @@ function toForm(c: AdminCourseRow): CourseForm {
     students: String(c.students),
     features: c.features.join("\n"),
     syllabus: c.syllabus.join("\n"),
+    image: c.image ?? "",
     published: c.published,
   };
 }
@@ -195,6 +203,7 @@ function coursePayload(form: CourseForm) {
     seatsTotal: numOrNull(form.seatsTotal),
     accessPeriod: form.accessPeriod.trim() || null,
     syllabus: toLines(form.syllabus).slice(0, 20),
+    image: form.image.trim(),
     published: form.published,
   };
 }
@@ -542,6 +551,8 @@ function CourseDialog({
   const token = useAdminStore((s) => s.token);
   const [form, setForm] = useState<CourseForm>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const courseImageRef = useRef<HTMLInputElement | null>(null);
 
   // Re-seed the form each time the dialog opens (add vs edit).
   useEffect(() => {
@@ -550,6 +561,21 @@ function CourseDialog({
 
   function setField<K extends keyof CourseForm>(key: K, value: CourseForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  async function handleImageFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !token) return;
+    e.target.value = "";
+    setUploadingImage(true);
+    const res = await uploadAdminFile(token, file, "courses");
+    if (res.ok && res.upload) {
+      setField("image", res.upload.url);
+      toast.success("থাম্বনেইল আপলোড হয়েছে!");
+    } else {
+      toast.error(res.error ?? "আপলোড ব্যর্থ হয়েছে।");
+    }
+    setUploadingImage(false);
   }
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -911,6 +937,52 @@ function CourseDialog({
                 className="rounded-xl border-border bg-muted/40"
               />
             </div>
+          </div>
+
+          {/* Course Thumbnail */}
+          <div className="space-y-2 rounded-xl border border-border bg-muted/20 p-3.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <Label htmlFor="course-image">Course Thumbnail · কোর্স থাম্বনেইল</Label>
+              <input
+                ref={courseImageRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={handleImageFileChange}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={uploadingImage}
+                onClick={() => courseImageRef.current?.click()}
+                className="h-8 gap-1.5 rounded-lg border-border text-xs"
+              >
+                {uploadingImage ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                ) : (
+                  <Upload className="h-3.5 w-3.5" />
+                )}
+                {uploadingImage ? "আপলোড হচ্ছে..." : "থাম্বনেইল আপলোড করুন"}
+              </Button>
+            </div>
+            <div className="flex items-center gap-3">
+              <Input
+                id="course-image"
+                value={form.image}
+                onChange={(e) => setField("image", e.target.value)}
+                placeholder="/uploads/courses/xxx.jpg বা আপলোড করুন"
+                className={`${inputCls} flex-1 font-mono text-xs`}
+              />
+              {form.image && (
+                <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+                  <Image src={form.image} alt="Preview" fill sizes="64px" className="object-cover" />
+                </div>
+              )}
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              খালি রাখলে কোর্সের ক্যাটাগরি অনুযায়ী ডিফল্ট ছবি দেখাবে।
+            </p>
           </div>
 
           <label className="flex items-center gap-2 text-sm font-medium text-foreground">

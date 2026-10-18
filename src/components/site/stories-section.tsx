@@ -14,7 +14,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Reveal, SectionHeading } from "@/components/site/reveal";
-import { stories, type Story } from "@/lib/site-data";
+import { stories, defaultScorecards, type Story, type SuccessScorecard } from "@/lib/site-data";
+import { useCatalog } from "@/lib/use-catalog";
 
 function initials(name: string) {
   return name
@@ -24,37 +25,6 @@ function initials(name: string) {
     .join("")
     .toUpperCase();
 }
-
-const SCORECARDS = [
-  {
-    image: "/images/students/success-8.5-1.jpg",
-    band: "Band 8.5",
-    tag: "Overall Band 8.5",
-    details: "Listening 8.5 · Reading 9.0 · Speaking 8.0 · Writing 7.5",
-    caption: "Official British Council TRF",
-  },
-  {
-    image: "/images/students/success-8.0-1.jpg",
-    band: "Band 8.0",
-    tag: "Overall Band 8.0",
-    details: "Listening 8.5 · Reading 8.5 · Speaking 7.5 · Writing 7.0",
-    caption: "IDP IELTS Candidate Result",
-  },
-  {
-    image: "/images/students/success-8.0-2.jpg",
-    band: "Band 8.0",
-    tag: "Overall Band 8.0",
-    details: "Listening 8.0 · Reading 8.5 · Speaking 7.5 · Writing 7.5",
-    caption: "British Council Verified Result",
-  },
-  {
-    image: "/images/students/success-8.0-3.jpg",
-    band: "Band 8.0",
-    tag: "Overall Band 8.0",
-    details: "Listening 9.0 · Reading 8.0 · Speaking 7.5 · Writing 7.0",
-    caption: "Academic IELTS Report Form",
-  },
-];
 
 const CATEGORIES = [
   { id: "all", label: "সব রিভিউ" },
@@ -66,6 +36,8 @@ const CATEGORIES = [
 
 export function StoriesSection() {
   const [filter, setFilter] = useState<string>("all");
+  const catalog = useCatalog();
+  const scorecards = catalog.stories?.length ? catalog.stories : defaultScorecards;
 
   const filteredStories = useMemo(() => {
     if (filter === "band8") return stories.filter((s) => s.score >= 7.5);
@@ -84,36 +56,36 @@ export function StoriesSection() {
               Real Students. <span className="text-brand-gradient">Real IELTS Success.</span>
             </>
           }
-          subtitle="ব্রিটিশ কাউন্সিল ও IDP পরীক্ষায় আমাদের শিক্ষার্থীদের ব্যান্ড স্কোর এবং অফিসিয়াল ফেসবুক রিভিউ।"
+          subtitle="Sadia's IELTS Academy-র শিক্ষার্থীদের অফিসিয়াল ব্যান্ড স্কোর, সার্টিফিকেট ও বাস্তব অভিজ্ঞতা।"
         />
 
-        {/* Verified IELTS TRF Scorecards Showcase (banglayielts style) */}
+        {/* Verified IELTS TRF Scorecards & Certificates Showcase */}
         <div className="mb-14">
           <Reveal y={10}>
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                   <FileCheck className="h-3.5 w-3.5" />
-                  Official Test Report Forms (TRF)
+                  Official Exam Results &amp; Certificates
                 </span>
                 <h3 className="mt-2 font-display text-lg font-bold sm:text-xl text-foreground">
-                  ব্যান্ড ৮.০ ও ৮.৫ অর্জনের <span className="text-brand-gradient">অফিসিয়াল স্কোরকার্ড</span>
+                  ব্যান্ড ৮.০ ও ৮.৫ অর্জনের <span className="text-brand-gradient">অফিসিয়াল স্কোরকার্ড ও ছবি</span>
                 </h3>
               </div>
               <p className="text-xs text-muted-foreground sm:text-sm">
-                সরাসরি ব্রিটিশ কাউন্সিল ও IDP টেস্ট রেজাল্ট
+                Sadia&apos;s IELTS Academy শিক্ষার্থীদের অর্জন
               </p>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6">
-            {SCORECARDS.map((card, i) => (
-              <Reveal key={card.image} delay={i * 0.08}>
+            {scorecards.map((card, i) => (
+              <Reveal key={card.id || card.image} delay={i * 0.08}>
                 <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_15px_30px_rgba(169,127,42,0.12)]">
                   <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
                     <Image
                       src={card.image}
-                      alt={card.tag}
+                      alt={card.name || card.tag}
                       fill
                       sizes="(max-width: 640px) 50vw, 25vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -133,15 +105,22 @@ export function StoriesSection() {
 
                     {/* Bottom info */}
                     <div className="absolute inset-x-0 bottom-0 p-3 sm:p-3.5 text-white">
-                      <p className="font-display text-xs font-bold leading-tight">
+                      {card.name && (
+                        <p className="font-display text-xs font-bold leading-tight text-white line-clamp-1">
+                          {card.name}
+                        </p>
+                      )}
+                      <p className="mt-0.5 text-[11px] font-semibold text-[#f6ecd4] leading-tight line-clamp-1">
                         {card.caption}
                       </p>
-                      <p className="mt-1 text-[10px] sm:text-[11px] font-medium text-[#f6ecd4] opacity-90 line-clamp-1">
-                        {card.details}
-                      </p>
+                      {card.details && (
+                        <p className="mt-1 text-[10px] sm:text-[11px] font-medium text-white/80 line-clamp-1">
+                          {card.details}
+                        </p>
+                      )}
                       <div className="mt-1.5 flex items-center gap-1 text-[10px] font-semibold text-emerald-400">
                         <CheckCircle2 className="h-3 w-3" />
-                        <span>Verified TRF</span>
+                        <span>Verified Achiever</span>
                       </div>
                     </div>
                   </div>

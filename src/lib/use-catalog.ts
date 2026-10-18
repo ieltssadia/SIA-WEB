@@ -12,10 +12,12 @@ import {
   site,
   teamMembers,
   tips,
+  defaultScorecards,
   type Book,
   type Course,
   type RoutineClass,
   type TeamMember,
+  type SuccessScorecard,
 } from "@/lib/site-data";
 
 /**
@@ -48,6 +50,7 @@ export type CatalogState = {
   books: Book[];
   resources: typeof portalDownloads;
   notices: typeof portalNotices;
+  stories: SuccessScorecard[];
   settings: CatalogSettings;
 };
 
@@ -63,6 +66,7 @@ function initialState(): CatalogState {
     books,
     resources: portalDownloads,
     notices: portalNotices,
+    stories: defaultScorecards,
     settings: { ...site, routineNote },
   };
 }
@@ -94,6 +98,7 @@ function ensureFetch() {
         books: Array.isArray(data.books) && data.books.length ? data.books : books,
         resources: Array.isArray(data.resources) && data.resources.length ? data.resources : portalDownloads,
         notices: Array.isArray(data.notices) && data.notices.length ? data.notices : portalNotices,
+        stories: Array.isArray(data.stories) && data.stories.length ? data.stories : defaultScorecards,
         settings: data.settings ?? { ...site, routineNote },
       });
     })

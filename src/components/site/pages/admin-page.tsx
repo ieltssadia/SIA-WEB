@@ -24,6 +24,7 @@ import {
   Radio,
   ShieldCheck,
   ShoppingBag,
+  Trophy,
   UserPlus,
   Users,
 } from "lucide-react";
@@ -59,6 +60,7 @@ import { AdminSiteTeam } from "@/components/site/admin/admin-site-team";
 import { AdminRoutine } from "@/components/site/admin/admin-routine";
 import { AdminSuggestions } from "@/components/site/admin/admin-suggestions";
 import { AdminIeltsRegistrations } from "@/components/site/admin/admin-ielts-registrations";
+import { AdminStories } from "@/components/site/admin/admin-stories";
 
 /** Every switchable panel of the admin shell (nav + section router). */
 export type AdminSectionKey =
@@ -70,6 +72,7 @@ export type AdminSectionKey =
   | "certificates"
   | "courses"
   | "books"
+  | "stories"
   | "resources"
   | "notices"
   | "team"
@@ -101,6 +104,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { key: "courses", label: "Courses · কোর্স", icon: BookOpen, roles: ["owner", "admin"] },
       { key: "books", label: "Shop Books · বই", icon: Library, roles: ["owner", "admin"] },
+      { key: "stories", label: "Success Stories · সাফল্য", icon: Trophy, roles: ["owner", "admin"] },
     ],
   },
   {
@@ -155,6 +159,7 @@ const SECTION_TITLE: Record<AdminSectionKey, string> = {
   certificates: "Certificates · সার্টিফিকেট",
   courses: "Courses · কোর্স",
   books: "Shop Books · বই",
+  stories: "Success Stories · সফলতার গল্প",
   resources: "Resources · রিসোর্স",
   notices: "Notices · নোটিশ",
   team: "Team · টিম",
@@ -473,6 +478,7 @@ function AdminShell({
           {section === "team" ? <AdminTeam /> : null}
           {section === "courses" ? <AdminCourses /> : null}
           {section === "books" ? <AdminBooks /> : null}
+          {section === "stories" ? <AdminStories /> : null}
           {section === "resources" ? <AdminResources /> : null}
           {section === "notices" ? <AdminNotices /> : null}
           {section === "tips" ? <AdminTips /> : null}

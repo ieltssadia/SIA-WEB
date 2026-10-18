@@ -215,6 +215,7 @@ model Course {
   seatsTotal   Int?
   accessPeriod String?
   syllabus     String   @default("[]") // JSON string[]
+  image        String   @default("") // Course thumbnail photo URL (editable from admin)
   published    Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -435,5 +436,24 @@ model IeltsRegistration {
   @@index([email])
   @@index([status])
   @@index([createdAt])
+}
+
+// Student success stories & scorecards shown on the home & stories page (editable from admin)
+model SuccessStory {
+  id        String   @id @default(cuid())
+  name      String   // Student Name, e.g. "Halima Akther Juthi"
+  band      String   @default("Band 8.0") // e.g. "Band 8.5", "Band 8.0"
+  tag       String   @default("Overall Band 8.0") // e.g. "Overall Band 8.5"
+  caption   String   @default("Official British Council TRF")
+  details   String   @default("") // e.g. "Listening 8.5 · Reading 9.0 · Speaking 8.0 · Writing 7.5"
+  image     String   // Uploaded student photo URL
+  course    String   @default("IELTS Preparation")
+  serial    Int      @default(0) // display sort order
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([serial])
+  @@index([published])
 }
 
